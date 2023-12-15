@@ -17,13 +17,16 @@ class Channel(db.Model, UserMixin):
     topic = db.Column(db.String)
 
     # relationship attributes
+    user = db.relationship("User", back_populates="channels_owner")
+    messages = db.relationship("Message", back_populates="channel")
+    server = db.relationsip("Server", back_populates="channels")
+    
     users = db.relationship(
         "Channel",
         secondary=user_channels,
         back_populates="channels"
     )
 
-    user = db.relationship("Server", back_populates="channels_owner")
     
 
     def to_dict(self):

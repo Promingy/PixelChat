@@ -16,7 +16,8 @@ class Server(db.Model, UserMixin):
     description = db.Column(db.String)
 
     # relationship attributes
-    user = db.relationship("User", back_populates="servers_owner")    
+    user = db.relationship("User", back_populates="servers_owner")
+    channels = db.relationship("Channel", back_populates="server")    
 
     users = db.relationship(
         "Server",

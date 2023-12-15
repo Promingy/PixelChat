@@ -27,6 +27,10 @@ class User(db.Model, UserMixin):
 
     channels_owner = db.relationship("Channel", back_populates="user")
 
+    reactions = db.relationship("Reaction", back_populates="user")
+
+    messages = db.relationship("Message", back_populates="user")
+
     servers = db.relationship(
         "User",
         secondary=user_servers,
