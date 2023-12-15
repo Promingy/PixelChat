@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from user_server import user_servers
+from user_channel import user_channels
 
 
 class User(db.Model, UserMixin):
@@ -22,13 +23,23 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     # relationship attributes
-    servers = db.relationship("Server", back_populates="user")
+    servers_owner = db.relationship("Server", back_populates="user")
+
+    channels_owner = db.relationship("Channel", back_populates="user")
 
     servers = db.relationship(
         "User",
         secondary=user_servers,
         back_populates="users"
     )
+
+    channels = db.relationship(
+        "User",
+        secondary=user_channels,
+        back_populates="users"
+    )
+
+
 
     @property
     def password(self):
