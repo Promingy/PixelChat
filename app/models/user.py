@@ -1,8 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from user_server import user_servers
-from user_channel import user_channels
+from .user_server import user_servers
+from .user_channel import user_channels
 
 
 class User(db.Model, UserMixin):
@@ -66,5 +66,8 @@ class User(db.Model, UserMixin):
             'location':self.location,
             'image_url':self.image_url,
             'email':self.email,
-            'theme':self.theme
+            'theme':self.theme,
+            'servers': self.servers.to_dict()
         }
+        
+    

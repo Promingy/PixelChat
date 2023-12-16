@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from user_channel import user_channels
+from .user_channel import user_channels
 
 class Channel(db.Model, UserMixin):
     __tablename__ = 'channels'
@@ -19,7 +19,7 @@ class Channel(db.Model, UserMixin):
     # relationship attributes
     user = db.relationship("User", back_populates="channels_owner")
     messages = db.relationship("Message", back_populates="channel")
-    server = db.relationsip("Server", back_populates="channels")
+    server = db.relationship("Server", back_populates="channels")
     
     users = db.relationship(
         "Channel",
