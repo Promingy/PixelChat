@@ -1,14 +1,14 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from user_server import user_servers
+from .user_server import user_servers
 
 class Server(db.Model, UserMixin):
     __tablename__ = 'servers'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-    
+
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     name = db.Column(db.String, nullable=False)
@@ -17,10 +17,10 @@ class Server(db.Model, UserMixin):
 
     # relationship attributes
     user = db.relationship("User", back_populates="servers_owner")
-    channels = db.relationship("Channel", back_populates="server")    
+    channels = db.relationship("Channel", back_populates="server")
 
     users = db.relationship(
-        "Server",
+        "User",
         secondary=user_servers,
         back_populates="servers"
     )
