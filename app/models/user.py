@@ -54,7 +54,7 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def to_dict(self, servers=False):
+    def to_dict(self):
         dict1 = {
             'id': self.id,
             'first_name':self.first_name,
@@ -65,10 +65,9 @@ class User(db.Model, UserMixin):
             'image_url':self.image_url,
             'email':self.email,
             'theme':self.theme,
+            'servers': [server.to_dict() for server in self.servers]
             # 'servers': dict(self.servers)
             # 'servers': self.servers.to_dict()
                 # get Error (InstrumentedList object has no attribute 'to_dict')
         }
-        if servers:
-            dict1['servers'] = [server.to_dict() for server in self.servers]
         return dict1
