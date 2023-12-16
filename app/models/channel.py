@@ -20,14 +20,14 @@ class Channel(db.Model, UserMixin):
     user = db.relationship("User", back_populates="channels_owner")
     messages = db.relationship("Message", back_populates="channel")
     server = db.relationship("Server", back_populates="channels")
-    
+
     users = db.relationship(
-        "Channel",
+        "User",
         secondary=user_channels,
         back_populates="channels"
     )
 
-    
+
 
     def to_dict(self):
         return {

@@ -65,7 +65,7 @@ def sign_up():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict()
+        return user.to_dict(servers=True)
     return form.errors, 401
 
 
