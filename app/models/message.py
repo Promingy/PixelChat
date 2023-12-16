@@ -13,7 +13,7 @@ class Message(db.Model, UserMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
     body = db.Column(db.String)
-    pinned = db.Column(db.Boolean)
+    pinned = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.Date)
 
     # relationship attributes
