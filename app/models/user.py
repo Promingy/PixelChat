@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     location = db.Column(db.String)
     image_url = db.Column(db.String, default="https://www.wadadaleosmith.com/wp-content/uploads/2017/09/demo-image-user-800x1200.jpg")
     email = db.Column(db.String(255), nullable=False, unique=True)
-    theme = db.Column(db.String)
+    theme = db.Column(db.String, default="default")
     hashed_password = db.Column(db.String(255), nullable=False)
 
     # relationship attributes
@@ -43,8 +43,6 @@ class User(db.Model, UserMixin):
         back_populates="users"
     )
 
-
-
     @property
     def password(self):
         return self.hashed_password
@@ -57,7 +55,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
-        return {
+        dict1 = {
             'id': self.id,
             'first_name':self.first_name,
             'last_name':self.last_name,
@@ -66,5 +64,10 @@ class User(db.Model, UserMixin):
             'location':self.location,
             'image_url':self.image_url,
             'email':self.email,
-            'theme':self.theme
+            'theme':self.theme,
+            'servers': [server.to_dict() for server in self.servers]
+            # 'servers': dict(self.servers)
+            # 'servers': self.servers.to_dict()
+                # get Error (InstrumentedList object has no attribute 'to_dict')
         }
+        return dict1

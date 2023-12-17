@@ -180,9 +180,9 @@ def undo_users():
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
 
         db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
+
+        db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
-        db.session.execute(text("DELETE FROM servers"))
 
-    # commit changes to the database
     db.session.commit()
