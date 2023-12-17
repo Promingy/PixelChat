@@ -7,7 +7,8 @@ import MainPage from '../components/MainPage'
 import LandingPage from '../components/LandingPage'
 import Home from '../components/Home'
 import ServerPage from '../components/ServerPage'
-import ChannelPage from '../components/ChannelPage';
+import ChannelPage from '../components/ChannelPage'
+import ServerCreationForm from '../components/ServerCreationForm';
 
 export const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<Layout />}>
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/login' element={<LoginFormPage />} />
     <Route path='/signup' element={<SignupFormPage />} />
     <Route path='/landing' element={<LandingPage />} />
+    <Route path='new-server' element={<ServerCreationForm />} />
     <Route path='/main' element={<MainPage />}>
       <Route path='servers' element={<Outlet />}>
         <Route path=':serverId' element={<ServerPage />} >
