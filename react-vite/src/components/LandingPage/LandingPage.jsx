@@ -8,8 +8,8 @@ export default function LandingPage() {
                     <img />
                     <div className="login-confirm">Confirmed as <b>_______</b></div>
                 </div>
-                <h1>Create a new _____ server</h1>
-                <h2>_____ gives your team a home — a place where they
+                <h1>Create a new PixelChat server</h1>
+                <h2>PixelChat gives your team a home — a place where they
                     can talk and work together. To create a new
                     server, click the button below.</h2>
                 <Link to='/servers/new' className='create-new-server'>Create a Server</Link>
