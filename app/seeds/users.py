@@ -1,9 +1,17 @@
 from app.models import db, User, Server, environment, SCHEMA
+from .channels import channel_1, channel_2
 from sqlalchemy.sql import text
 
 
 # Adds a demo user, you can add other users here if you want
 def seed_users_servers():
+    """
+    Func to that creates and adds user and server seed data to the data base
+    as well as create the many-to-many relationships with Users & Servers and
+    Users & Channels
+    """
+
+    #lines 15-10 creates the users
     demo = User(
         username = 'Demo',
         first_name = 'Demo',
@@ -92,6 +100,7 @@ def seed_users_servers():
     )
 
 
+    #Lines 104 - 116 creates the server seed data
     server1 = Server(
         owner_id = '1',
         name = "OmniPlay",
@@ -106,9 +115,11 @@ def seed_users_servers():
         description = "Welcome to Unity Universe, the intergalactic gaming fiesta where even the aliens can't resist a round of Among Us! It's the server where Sonic tries to outrun Fortnite dancers, and Geralt of Rivia debates the best potion recipes with Cooking Mama. Join our cosmic carnival where the quests are epic, the banter is legendary, and the respawn points are like mushrooms - they keep popping up when you least expect them. Get ready for a Unity Universe experience that's out of this world and into the realm of hilarity!",
     )
 
+    # compact all users and servers into list comprehensions for easy commiting
     users = [demo, zelda, mario, pikachu, spiderman, kirby, frisk, steve]
     servers = [server1, server2]
 
+    # Set servers/users many-to-many relationship connections
     demo.servers.append(server1)
     zelda.servers.append(server1)
     mario.servers.append(server1)
@@ -127,8 +138,31 @@ def seed_users_servers():
     frisk.servers.append(server2)
     steve.servers.append(server2)
 
+    # Set Users/Channels many-to-many relationship connections
+    demo.channels.append(channel_1)
+    zelda.channels.append(channel_1)
+    mario.channels.append(channel_1)
+    pikachu.channels.append(channel_1)
+    spiderman.channels.append(channel_1)
+    kirby.channels.append(channel_1)
+    frisk.channels.append(channel_1)
+    steve.channels.append(channel_1)
+
+    demo.channels.append(channel_2)
+    zelda.channels.append(channel_2)
+    mario.channels.append(channel_2)
+    pikachu.channels.append(channel_2)
+    spiderman.channels.append(channel_2)
+    kirby.channels.append(channel_2)
+    frisk.channels.append(channel_2)
+    steve.channels.append(channel_2)
+
+
+    # Pre-stages servers and users for commiting to the database
     [db.session.add(server) for server in servers]
     [db.session.add(user) for user in users]
+
+    # commit servers and users and relationships to the databse
     db.session.commit()
 
 
@@ -139,12 +173,16 @@ def seed_users_servers():
 # sqlite3 in development you need to instead use DELETE to remove all data and
 # it will reset the primary keys for you as well.
 def undo_users():
+    """
+    func that undos the data for Servers and Users
+    """
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
 
         db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
+
+        db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
-        db.session.execute(text("DELETE FROM servers"))
 
     db.session.commit()
