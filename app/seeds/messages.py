@@ -1,8 +1,14 @@
 from app.models import db, Message, environment, SCHEMA
+
 from sqlalchemy.sql import text
 
 
 def seed_messages():
+    """
+    Func to create the message seed data for our databse
+    """
+
+    # create all of the seed messages for server1 channel1 aka general-channel
     channel_1_messages = [
         Message(
             user_id = 1,
@@ -113,6 +119,7 @@ def seed_messages():
         ),
     ]
 
+    # create all of the seed messages for server 1 channel 2
     channel_2_messages = [
         Message(
             user_id = 2,
@@ -217,14 +224,22 @@ def seed_messages():
         ),
     ]
 
+    # Pre-stage all of the messages for commit to the database
     [db.session.add(message) for message in channel_1_messages]
     [db.session.add(message) for message in channel_2_messages]
+
+    # commit changes to the database
     db.session.commit()
 
 
 def undo_messages():
+    """
+    func to undo remove messages from the database
+    """
     if environment == 'production':
         db.session.execute(f"TRUNCATE table {SCHEMA}.messages RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text('DELETE FROM messages'))
+
+    # commit changes to the databse
     db.session.commit()

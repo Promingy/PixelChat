@@ -2,6 +2,10 @@ from app.models import db, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_reactions():
+    """
+    function to create seed data for user reactions to messages
+    """
+    #/ needs to be done after implementation of emoji extension
     pass
 
 def undo_reactions():
