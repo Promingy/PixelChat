@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
             'image_url':self.image_url,
             'email':self.email,
             'theme':self.theme,
-            'servers': [server.to_dict() for server in self.servers]
+            'servers': { server.to_dict()['id']: server.to_dict() for server in self.servers }
             # 'servers': dict(self.servers)
             # 'servers': self.servers.to_dict()
                 # get Error (InstrumentedList object has no attribute 'to_dict')

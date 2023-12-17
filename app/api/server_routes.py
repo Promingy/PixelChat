@@ -1,5 +1,5 @@
 from flask import Blueprint
-from ..models import db
+from ..models import db, Server
 from flask_login import login_required
 
 
@@ -8,7 +8,8 @@ server = Blueprint('server', __name__)
 @server.route('', methods=['GET'])
 @login_required
 def get_everything():
-    pass
+    servers = Server.query.all()
+    return { server.to_dict()['id']: server.to_dict() for server in servers }
 
 @server.route('', methods=['POST'])
 @login_required
