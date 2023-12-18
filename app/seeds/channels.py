@@ -9,20 +9,36 @@ from sqlalchemy.sql import text
 channel_1 = Channel(
     server_id = 1,
     owner_id = 1,
-    name = 'General',
-    description = '',
+    name = 'general',
+    description = 'Go ahead and introduce yourself to the members of our community :D',
     topic = 'Introduce yourself!'
 )
 
 channel_2 = Channel(
     server_id = 1,
     owner_id = 1,
-    name = 'Fun Banter Lounge',
+    name = 'fun-banter-lounge',
     description = 'Have some fun, light-hearted, friendly banter with other members of the server!',
     topic = 'Fun, friendly banter!'
 )
 
-channels = [channel_1, channel_2]
+channel_3 = Channel(
+    server_id = 2,
+    owner_id = 2,
+    name = "general",
+    description = 'A friendly place to introduce youself to other server members!',
+    topic = 'Introduce yourself!'
+)
+
+channel_4 = Channel(
+    server_id = 2,
+    owner_id = 2,
+    name = 'pixel-party-hangout',
+    description = "Embark on multidimensional adventures, conquer challenges, and celebrate victories!",
+    topic = 'Multiverse Quests'
+)
+
+channels = [channel_1, channel_2, channel_3, channel_4]
 
 
 def seed_channels():
@@ -30,7 +46,6 @@ def seed_channels():
     Func to add seed data to the database
     - c.a.
     """
-
     # pre-stage all of the previously made channels for commmit
     [db.session.add(channel) for channel in channels]
 

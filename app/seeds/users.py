@@ -1,5 +1,5 @@
 from app.models import db, User, Server, environment, SCHEMA
-from .channels import channel_1, channel_2
+from .channels import channel_1, channel_2, channel_3, channel_4
 from sqlalchemy.sql import text
 
 
@@ -100,7 +100,7 @@ def seed_users_servers():
     )
 
 
-    #Lines 104 - 116 creates the server seed data
+    # Creates the server seed data
     server1 = Server(
         owner_id = '1',
         name = "OmniPlay",
@@ -120,43 +120,14 @@ def seed_users_servers():
     servers = [server1, server2]
 
     # Set servers/users many-to-many relationship connections
-    demo.servers.append(server1)
-    zelda.servers.append(server1)
-    mario.servers.append(server1)
-    pikachu.servers.append(server1)
-    spiderman.servers.append(server1)
-    kirby.servers.append(server1)
-    frisk.servers.append(server1)
-    steve.servers.append(server1)
-
-    demo.servers.append(server2)
-    zelda.servers.append(server2)
-    mario.servers.append(server2)
-    pikachu.servers.append(server2)
-    spiderman.servers.append(server2)
-    kirby.servers.append(server2)
-    frisk.servers.append(server2)
-    steve.servers.append(server2)
-
+    [user.servers.append(server1) for user in users]
+    [user.servers.append(server2) for user in users if user.username not in ['Demo', 'Spiderman']]
+ 
     # Set Users/Channels many-to-many relationship connections
-    demo.channels.append(channel_1)
-    zelda.channels.append(channel_1)
-    mario.channels.append(channel_1)
-    pikachu.channels.append(channel_1)
-    spiderman.channels.append(channel_1)
-    kirby.channels.append(channel_1)
-    frisk.channels.append(channel_1)
-    steve.channels.append(channel_1)
-
-    demo.channels.append(channel_2)
-    zelda.channels.append(channel_2)
-    mario.channels.append(channel_2)
-    pikachu.channels.append(channel_2)
-    spiderman.channels.append(channel_2)
-    kirby.channels.append(channel_2)
-    frisk.channels.append(channel_2)
-    steve.channels.append(channel_2)
-
+    [user.channels.append(channel_1) for user in users]
+    [user.channels.append(channel_2) for user in users]
+    [user.channels.append(channel_3) for user in users if user.username not in ['Demo', 'Spiderman']]
+    [user.channels.append(channel_4) for user in users if user.username not in ['Demo', 'Spiderman', 'Mario']]
 
     # Pre-stages servers and users for commiting to the database
     [db.session.add(server) for server in servers]
