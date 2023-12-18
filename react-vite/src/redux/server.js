@@ -90,8 +90,8 @@ const createReaction = (channelId, reaction) => {
     }
 }
 
-export const loadServer = () => async (dispatch) => {
-    const res = await fetch('/api/servers')
+export const loadServer = (serverId) => async (dispatch) => {
+    const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
     if (res.ok) {
         dispatch(getServer(data))
