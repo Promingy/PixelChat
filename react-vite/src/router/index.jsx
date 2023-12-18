@@ -17,7 +17,7 @@ export const router = createBrowserRouter(
       <Route path="/login" element={<LoginFormPage />} />
       <Route path="/signup" element={<SignupFormPage />} />
       <Route path="/landing" element={<LandingPage />} />
-      <Route path="new-server" element={<ServerCreationForm />} />
+      <Route path="/new-server" element={<ServerCreationForm />} />
       <Route path="/main" element={<MainPage />}>
         <Route path="servers" element={<Outlet />}>
           <Route path=":serverId" element={<ServerPage />}>
