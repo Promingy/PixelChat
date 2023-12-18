@@ -22,7 +22,7 @@ class Message(db.Model, UserMixin):
     channel = db.relationship("Channel", back_populates="messages")
 
 
-    def to_dict(self, reactions=False):
+    def to_dict(self, reactions=True):
         dictionary = {
             'id': self.id,
             'user_id':self.user_id,
@@ -32,6 +32,7 @@ class Message(db.Model, UserMixin):
             'created_at':self.created_at
         }
 
+        # If reactions=True grab all of the reactions for every message and add to dictionary
         if reactions:
             dictionary['reactions'] = [reaction.to_dict() for reaction in self.reactions]
 

@@ -30,7 +30,7 @@ class Channel(db.Model, UserMixin):
 
 
 
-    def to_dict(self, messages=False, limit=25):
+    def to_dict(self, limit=15, messages=False):
         dictionary = {
             'id': self.id,
             'server_id':self.server_id,
@@ -40,7 +40,9 @@ class Channel(db.Model, UserMixin):
             'topic':self.topic
         }
 
+        # if messages=True, add amount of messages equal to 'limit' to dictionary.
         if messages:
-            dictionary['messages'] = sorted([message.to_dict(reactions=True) for message in self.messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second))
+            # runs sorting lambda that sorts by Year, Month, Day, Hour, Minute, Second and adds list of messages to the dictionary
+            dictionary['messages'] = sorted([message.to_dict() for message in self.messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[:limit]
 
         return dictionary

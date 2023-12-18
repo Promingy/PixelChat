@@ -25,7 +25,7 @@ class Server(db.Model, UserMixin):
         back_populates="servers"
     )
 
-    def to_dict(self, channels=False):
+    def to_dict(self, limit, channels=False):
         dictionary = {
             'id': self.id,
             'owner_id':self.owner_id,
@@ -34,7 +34,9 @@ class Server(db.Model, UserMixin):
             'description':self.description
         }
 
+        # if to_dict is called with Channels=True, load all channels
         if channels:
-            dictionary['channels'] = [channel.to_dict(messages = True) for channel in self.channels]
+            # Add all channels to dictionary as a list of dictionaries
+            dictionary['channels'] = [channel.to_dict(limit, messages = True) for channel in self.channels]
 
         return dictionary
