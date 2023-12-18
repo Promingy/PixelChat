@@ -309,3 +309,5 @@ const serverReducer = (state = initialState, action) => {
         }
     }
 }
+
+export default serverReducer
