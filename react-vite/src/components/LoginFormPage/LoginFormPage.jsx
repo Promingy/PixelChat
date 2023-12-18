@@ -7,12 +7,14 @@ import "./LoginForm.css";
 function LoginFormPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  const autoFillCredentials = () => {
+    setEmail("demo@aa.io");
+    setPassword("password");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +29,13 @@ function LoginFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/");
+      navigate("/landing");
     }
   };
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1>Sign in to PixelChat</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
@@ -57,7 +59,13 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
+        
         <button type="submit">Log In</button>
+        <p>
+        <div id="auto-login">
+          <button onClick={autoFillCredentials}> Log in as Demo User </button>
+        </div>
+        </p>
       </form>
     </>
   );
