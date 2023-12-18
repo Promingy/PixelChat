@@ -5,9 +5,10 @@ from flask_login import UserMixin
 user_servers = db.Table(
     "user_servers",
     db.Model.metadata,
+    db.Column('id', db.Integer, primary_key=True),
     db.Column(
-        "user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+        "user_id", db.Integer, db.ForeignKey("users.id")),
     db.Column(
-        "server_id", db.Integer, db.ForeignKey("servers.id"), primary_key=True
+        "server_id", db.Integer, db.ForeignKey("servers.id")
     )
 )

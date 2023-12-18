@@ -5,10 +5,11 @@ from flask_login import UserMixin
 user_channels = db.Table(
     "user_channels",
     db.Model.metadata,
+    db.Column('id', db.Integer, primary_key=True),
     db.Column(
-        "user_id", db.Integer, db.ForeignKey("users.id", primary_key=True)
+        "user_id", db.Integer, db.ForeignKey("users.id")
     ),
     db.Column(
-        "channel_id", db.Integer, db.ForeignKey("channels.id", primary_key=True)
+        "channel_id", db.Integer, db.ForeignKey("channels.id")
     )
 )
