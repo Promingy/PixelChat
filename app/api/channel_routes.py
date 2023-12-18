@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
 from ..models import db, Channel
 from flask_login import login_required
 
@@ -36,7 +36,12 @@ def create_message():
 @channel.route('/<int:channelId>', methods=['DELETE'])
 @login_required
 def delete_channel(channelId):
-    pass
+    channel = Channel.query.get(channelId)
+    if channel and int(session['_user_id']) == channel.to_dict()['owner_id']:
+        db.session.delete(channel)
+        db.session.commit()
+        return {'message': 'Successfully deleted'}
+    return {'errors': {'message': 'Unauthorized'}}, 403
 
 @channel.route('/<int:channelId>', methods=['PUT'])
 @login_required
