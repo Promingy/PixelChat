@@ -14,7 +14,7 @@ class Message(db.Model, UserMixin):
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
     body = db.Column(db.String)
     pinned = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.Date)
+    created_at = db.Column(db.DateTime)
 
     # relationship attributes
     reactions = db.relationship("Reaction", back_populates="message")
@@ -22,8 +22,8 @@ class Message(db.Model, UserMixin):
     channel = db.relationship("Channel", back_populates="messages")
 
 
-    def to_dict(self):
-        return {
+    def to_dict(self, reactions=True):
+        dictionary = {
             'id': self.id,
             'user_id':self.user_id,
             'channel_id':self.channel_id,
@@ -31,3 +31,9 @@ class Message(db.Model, UserMixin):
             'pinned':self.pinned,
             'created_at':self.created_at
         }
+
+        # If reactions=True grab all of the reactions for every message and add to dictionary
+        if reactions:
+            dictionary['reactions'] = [reaction.to_dict() for reaction in self.reactions]
+
+        return dictionary

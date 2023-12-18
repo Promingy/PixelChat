@@ -1,4 +1,4 @@
-from flask import Blueprint, session
+from flask import Blueprint, session, request
 from ..models import db, Server
 from flask_login import login_required
 
@@ -10,6 +10,29 @@ server = Blueprint('server', __name__)
 def get_everything():
     servers = Server.query.all()
     return { server.to_dict()['id']: server.to_dict() for server in servers }
+
+@server.route('/<int:serverId>')
+@login_required
+def get_all_server_info(serverId):
+    """
+    Route that grabs all Server data,
+    all of channels for the server,
+    the first 15 messages for each of the channels
+    all of the reactions for each message
+    """
+
+    # Grab the correct server
+    server = Server.query.get(serverId)
+
+    #/ Identify how many messages to load, default to 15, load more with infinit scroll
+    #/ This might need to be refactored later
+    # if there aren't any queries in the URL, default to limit = 15
+    try:
+        limit = int(request.query_string.decode('utf-8').split('=')[1])
+    except:
+        limit = 15
+
+    return server.to_dict(limit, channels=True)
 
 @server.route('', methods=['POST'])
 @login_required
