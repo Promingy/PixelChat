@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useState } from "react";
 import { useSelector } from 'react-redux'
@@ -16,11 +16,13 @@ export default function OuterNavbar() {
             </div>
             <div className="outer-navbar-bottom">
 
-                <div className="create-new-server">
-
-                </div>
+                <Link to='/new-server' className="create-new-server">
+                    <i class="fa-solid fa-plus"></i>
+                </Link>
                 <div className="open-profile-wrapper">
-
+                    <OpenModalButton >
+                        <div className="user-img-wrapper"><img href={sessionUser.image_url} /></div>
+                    </OpenModalButton>
                 </div>
             </div>
 
