@@ -7,8 +7,8 @@ import MainPage from '../components/MainPage'
 import LandingPage from '../components/LandingPage'
 import Home from '../components/Home'
 import ServerPage from '../components/ServerPage'
-import ChannelPage from '../components/ChannelPage'
-import ServerCreationForm from '../components/ServerCreationForm';
+import ChannelPage from "../components/ChannelPage";
+import ServerCreationForm from "../components/ServerCreationForm";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
