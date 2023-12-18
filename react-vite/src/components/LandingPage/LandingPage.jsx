@@ -1,12 +1,32 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { thunkLogout } from "../../redux/session";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function LandingPage() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const sessionUser = useSelector((state) => state.session.user);
+    const logout = (e) => {
+      e.preventDefault();
+      dispatch(thunkLogout());
+    };
+
+    useEffect(() => {
+      if (!sessionUser) {navigate("/")}
+      }, [sessionUser, navigate]); 
+
     return (
         <>
             <div className="landing-top-half-">
                 <div className="landing-header">
                     <img />
-                    <div className="login-confirm">Confirmed as <b>_______</b></div>
+                    <div className="login-confirm">Confirmed as{" "}<span style={{ fontWeight: "bolder" }}>{sessionUser?.email}</span>
+                      <div className="logout">
+                      <button onClick={logout}>Log Out</button>
+                      </div>
+                    </div>
                 </div>
                 <h1>Create a new PixelChat server</h1>
                 <h2>PixelChat gives your team a home — a place where they
@@ -28,4 +48,4 @@ export default function LandingPage() {
             </div>
         </>
     )
-}
+  }
