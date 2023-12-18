@@ -55,9 +55,9 @@ def edit_server(serverId):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit() and int(session['_user_id']) == server.to_dict()['owner_id']:
         data = form.data
-        server['name'] = data['name']
-        server['description'] = data['description']
-        server['image_url'] = data['image_url']
+        server.name = data['name']
+        server.description = data['description']
+        server.image_url = data['image_url']
         db.session.commit()
         return server.to_dict()
     elif not form.validate_on_submit():
