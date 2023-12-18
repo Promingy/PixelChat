@@ -3,6 +3,7 @@ import { thunkLogout } from "../../redux/session";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import loadAllServers from "../../redux/all_servers"
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -15,7 +16,11 @@ export default function LandingPage() {
 
     useEffect(() => {
       if (!sessionUser) {navigate("/")}
-      }, [sessionUser, navigate]); 
+      }, [sessionUser, navigate]);
+
+    useEffect(() => {
+        dispatch(loadAllServers())
+    }, [dispatch])
 
     return (
         <>
