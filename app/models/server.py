@@ -25,7 +25,7 @@ class Server(db.Model, UserMixin):
         back_populates="servers"
     )
 
-    def to_dict(self, limit=15, channels=False):
+    def to_dict(self, limit, channels=False):
         dictionary = {
             'id': self.id,
             'owner_id':self.owner_id,
