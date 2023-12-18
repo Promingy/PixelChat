@@ -24,15 +24,7 @@ def get_all_server_info(serverId):
     # Grab the correct server
     server = Server.query.get(serverId)
 
-    #/ Identify how many messages to load, default to 15, load more with infinit scroll
-    #/ This might need to be refactored later
-    # if there aren't any queries in the URL, default to limit = 15
-    try:
-        limit = int(request.query_string.decode('utf-8').split('=')[1])
-    except:
-        limit = 15
-
-    return server.to_dict(limit, channels=True)
+    return server.to_dict(channels=True)
 
 @server.route('', methods=['POST'])
 @login_required
