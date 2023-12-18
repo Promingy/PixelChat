@@ -1,4 +1,4 @@
-const LOAD_SERVER = 'server/loadServer'
+const GET_SERVER = 'server/getServer'
 const DELETE_SERVER = 'server/deleteServer'
 const UPDATE_SERVER = 'server/updateServer'
 const CREATE_SERVER = 'server/createServer'
@@ -10,9 +10,9 @@ const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
 
-const loadServer = (server) => {
+const getServer = (server) => {
     return {
-        type: LOAD_SERVER,
+        type: GET_SERVER,
         server
     }
 }
@@ -90,11 +90,11 @@ const createReaction = (channelId, reaction) => {
     }
 }
 
-export const getServer = () => async (dispatch) => {
+export const loadServer = () => async (dispatch) => {
     const res = await fetch('/api/servers')
     const data = await res.json()
     if (res.ok) {
-        dispatch(loadServer(data))
+        dispatch(getServer(data))
     }
     return data
 }
@@ -104,6 +104,7 @@ export const removeServer = (serverId) => async (dispatch) => {
         method: "DELETE"
     })
     if (res.ok) {
+        // TODO edit user state to reflect server deletion
         dispatch(deleteServer(serverId))
     }
     return res
@@ -119,6 +120,7 @@ export const editServer = (server, serverId) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
+        // TODO edit user state to reflect server change
         dispatch(updateServer(data))
     }
     return data
@@ -134,6 +136,7 @@ export const initializeServer = (server) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
+        // TODO edit user state to reflect server creation
         dispatch(createServer(data))
     }
     return data
@@ -233,7 +236,7 @@ const initialState = {}
 
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_SERVER: {
+        case GET_SERVER: {
             const newState = {}
             newState.description = action.description
             newState.id = action.id
@@ -246,9 +249,7 @@ const serverReducer = (state = initialState, action) => {
                     for (let reaction in message.reactions) {
                         newState.channels[channel.id].messages[message.id].reactions[reaction.id] = { ...reaction }
                     }
-
                 }
-
             }
             return newState
         }
@@ -271,40 +272,40 @@ const serverReducer = (state = initialState, action) => {
             return newState
         }
         case DELETE_CHANNEL: {
-            newState = { ...state }
+            const newState = { ...state }
             delete newState[action.channelId]
             return newState
         }
         case UPDATE_CHANNEL: {
-            newState = { ...state }
+            const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             return newState
         }
         case CREATE_CHANNEL: {
-            newState = { ...state }
+            const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             newState.channels[action.channel.id].messages = {}
             return newState
         }
         case DELETE_MESSAGE: {
-            newState = { ...state }
+            const newState = { ...state }
             delete newState.channels[action.channelId].messages[action.messageId]
             return newState
         }
         case CREATE_MESSAGE: {
-            newState = { ...state }
+            const newState = { ...state }
             newState.channels[action.message.channel_id].messages[action.message.id] = { ...action.message }
             newState.channels[action.message.channel_id].messages[action.message.id].reactions = {}
             return newState
         }
         case DELETE_REACTION: {
-            newState = { ...state }
+            const newState = { ...state }
             delete newState.channels[action.channelId].messages[action.messageId].reactions[action.reactionId]
             return newState
         }
         case CREATE_REACTION: {
-            newState = { ...state }
-            newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...reaction }
+            const newState = { ...state }
+            newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
             return newState
         }
     }
