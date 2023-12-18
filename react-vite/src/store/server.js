@@ -147,7 +147,7 @@ export const initializeServer = (server) => async (dispatch) => {
 }
 
 export const removeChannel = (serverId, channelId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}/channels/${channelId}`, {
+    const res = await fetch(`api/channels/${channelId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -184,4 +184,11 @@ export const initializeChannel = (channel) => async (dispatch) => {
         dispatch(createChannel(data))
     }
     return data
+}
+
+export const removeMessage = (serverId, channelId, messageId) => async (dispatch) => {
+    const res = await fetch(`api/messages/${messageId}`, {
+        method: "DELETE"
+    })
+
 }
