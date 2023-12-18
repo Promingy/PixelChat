@@ -38,5 +38,6 @@ class Server(db.Model, UserMixin):
         if channels:
             # Add all channels to dictionary as a list of dictionaries
             dictionary['channels'] = [channel.to_dict(messages = True) for channel in self.channels]
+            dictionary['users'] = [user.to_dict() for user in self.users]
 
         return dictionary

@@ -238,19 +238,28 @@ const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
             const newState = {}
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
             newState.channels = {}
-            for (let channel in action.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {} }
-                for (let message in channel.messages) {
-                    newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
-                    for (let reaction in message.reactions) {
-                        newState.channels[channel.id].messages[message.id].reactions[reaction.id] = { ...reaction }
+            newState.users = {}
+            for (let user in action.server.users){
+                const users = action.server.users
+                newState.users = {...newState.users, [users[user].id]: users[user]}
+            }
+            for (let channel in action.server.channels) {
+                const channels = action.server.channels
+                newState.channels[channels[channel].id] = { ...channels[channel], messages: {} }
+                for (let message in channels[channel].messages) {
+                    const messages = channels[channel].messages
+                    newState.channels[channels[channel].id].messages[messages[message].id] = { ...messages[message], reactions: {} }
+                    for (let reaction in messages[message].reactions) {
+                        const reactions = messages[message].reactions
+                        newState.channels[channels[channel].id].messages[messages[message].id].reactions[reaction[reaction].id] = { ...reactions[reaction] }
                     }
                 }
             }
+
             return newState
         }
         case DELETE_SERVER: {
@@ -258,16 +267,16 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_SERVER: {
             const newState = { ...state }
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
             return newState
         }
         case CREATE_SERVER: {
             const newState = {}
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
             newState.channels = {}
             return newState
         }
