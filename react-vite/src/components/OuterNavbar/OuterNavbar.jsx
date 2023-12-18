@@ -1,6 +1,5 @@
-import { useParams, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
-import { useState } from "react";
 import { useSelector } from 'react-redux'
 
 export default function OuterNavbar() {
