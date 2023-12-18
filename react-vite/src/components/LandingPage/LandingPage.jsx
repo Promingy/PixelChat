@@ -9,13 +9,13 @@ export default function LandingPage() {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
     const logout = (e) => {
-      e.preventDefault();
-      dispatch(thunkLogout());
+        e.preventDefault();
+        dispatch(thunkLogout());
     };
 
     useEffect(() => {
-      if (!sessionUser) {navigate("/")}
-      }, [sessionUser, navigate]); 
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
 
     return (
         <>
@@ -23,16 +23,16 @@ export default function LandingPage() {
                 <div className="landing-header">
                     <img />
                     <div className="login-confirm">Confirmed as{" "}<span style={{ fontWeight: "bolder" }}>{sessionUser?.email}</span>
-                      <div className="logout">
-                      <button onClick={logout}>Log Out</button>
-                      </div>
+                        <div className="logout">
+                            <button onClick={logout}>Log Out</button>
+                        </div>
                     </div>
                 </div>
                 <h1>Create a new PixelChat server</h1>
                 <h2>PixelChat gives your team a home — a place where they
                     can talk and work together. To create a new
                     server, click the button below.</h2>
-                <Link to='/servers/new' className='create-new-server'>Create a Server</Link>
+                <Link to='/new-server' className='create-new-server'>Create a Server</Link>
             </div>
             <div className="or">OR</div>
             <div className="landing-bottom-half">
@@ -48,4 +48,4 @@ export default function LandingPage() {
             </div>
         </>
     )
-  }
+}
