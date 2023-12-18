@@ -16,15 +16,18 @@ def get_everything():
 def get_all_server_info(serverId):
     """
     Route that grabs all Server data,
-    all of channels for the server,
-    the first 15 messages for each of the channels
-    all of the reactions for each message
+     - all of channels for the server,
+     - the first 15 messages for each of the channels
+     - all of the reactions for each message
     """
 
     # Grab the correct server
     server = Server.query.get(serverId)
 
-    return server.to_dict(channels=True)
+    if server:
+        return server.to_dict(channels=True)
+
+    return  {"message": "Server Not Found"}, 404
 
 @server.route('', methods=['POST'])
 @login_required

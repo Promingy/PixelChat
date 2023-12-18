@@ -4,7 +4,7 @@ import "./Navigation.css";
 
 function Navigation() {
   return (
-    <NavLink exact to="/">
+    <NavLink to="/">
       <img
         src="https://svgshare.com/i/10wP.svg"
         alt="Logo"
