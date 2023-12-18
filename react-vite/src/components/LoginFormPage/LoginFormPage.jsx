@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormPage() {
@@ -59,13 +59,11 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        
+
         <button type="submit">Log In</button>
-        <p>
         <div id="auto-login">
           <button onClick={autoFillCredentials}> Log in as Demo User </button>
         </div>
-        </p>
       </form>
     </>
   );
