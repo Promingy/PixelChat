@@ -22,7 +22,7 @@ export default function LandingPage() {
             <div className="landing-top-half-">
                 <div className="landing-header">
                     <img />
-                    <div className="login-confirm">Confirmed as{" "}<span style={{ fontWeight: "bolder" }}>{sessionUser?.email}</span>
+                    <div className="login-confirm">Confirmed as{" "}<b>{sessionUser?.email}</b>
                         <div className="logout">
                             <button onClick={logout}>Log Out</button>
                         </div>
@@ -38,7 +38,7 @@ export default function LandingPage() {
             <div className="landing-bottom-half">
                 <h3>Open a server</h3>
                 <div className="available-servers-wrapper">
-                    <div className="available-servers-header">Servers for _________</div>
+                    <div className="available-servers-header">Servers for {sessionUser?.email}</div>
                     Placeholder for servers
                 </div>
                 <div className="change-email">
