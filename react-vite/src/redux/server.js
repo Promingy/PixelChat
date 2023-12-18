@@ -93,7 +93,6 @@ const createReaction = (channelId, reaction) => {
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
-    console.log('data', data)
     if (res.ok) {
         dispatch(getServer(data))
     }
@@ -243,6 +242,11 @@ const serverReducer = (state = initialState, action) => {
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.channels = {}
+            newState.users = {}
+            for (let user in action.server.users){
+                const users = action.server.users
+                newState.users = {...newState.users, [users[user].id]: users[user]}
+            }
             for (let channel in action.server.channels) {
                 const channels = action.server.channels
                 newState.channels[channels[channel].id] = { ...channels[channel], messages: {} }
@@ -263,16 +267,16 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_SERVER: {
             const newState = { ...state }
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
             return newState
         }
         case CREATE_SERVER: {
             const newState = {}
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
             newState.channels = {}
             return newState
         }
