@@ -11,6 +11,12 @@ def get_everything():
     servers = Server.query.all()
     return { server.to_dict()['id']: server.to_dict() for server in servers }
 
+@server.route('/<int:serverId>')
+@login_required
+def get_all_server_info(serverId):
+    server = Server.query.get(serverId)
+    return server.to_dict(channels=True)
+
 @server.route('', methods=['POST'])
 @login_required
 def create_server():

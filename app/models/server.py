@@ -25,11 +25,16 @@ class Server(db.Model, UserMixin):
         back_populates="servers"
     )
 
-    def to_dict(self):
-        return {
+    def to_dict(self, channels=False):
+        dictionary = {
             'id': self.id,
             'owner_id':self.owner_id,
             'name':self.name,
             'image_url':self.image_url,
             'description':self.description
         }
+
+        if channels:
+            dictionary['channels'] = [channel.to_dict(messages = True) for channel in self.channels]
+
+        return dictionary
