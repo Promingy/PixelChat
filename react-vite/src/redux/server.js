@@ -308,6 +308,9 @@ const serverReducer = (state = initialState, action) => {
             newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
             return newState
         }
+        default: {
+            return state
+        }
     }
 }
 
