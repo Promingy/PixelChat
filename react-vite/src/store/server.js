@@ -5,22 +5,21 @@ const CREATE_SERVER = 'server/createServer'
 const DELETE_CHANNEL = 'channel/deleteChannel'
 const UPDATE_CHANNEL = 'channel/updateChannel'
 const CREATE_CHANNEL = 'channel/createChannel'
-const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_MESSAGE = 'message/deleteMessage'
-const CREATE_REACTION = 'reaction/createReaction'
+const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
+const CREATE_REACTION = 'reaction/createReaction'
 
-const loadServer = (serverId) => {
+const loadServer = (server) => {
     return {
         type: LOAD_SERVER,
-        serverId
+        server
     }
 }
 
-const deleteServer = (serverId) => {
+const deleteServer = () => {
     return {
-        type: DELETE_SERVER,
-        serverId
+        type: DELETE_SERVER
     }
 }
 
@@ -38,18 +37,16 @@ const createServer = (server) => {
     }
 }
 
-const deleteChannel = (serverId, channelId) => {
+const deleteChannel = (channelId) => {
     return {
         type: DELETE_CHANNEL,
-        serverId,
         channelId
     }
 }
 
-const updateChannel = (serverId, channel) => {
+const updateChannel = (channel) => {
     return {
         type: UPDATE_CHANNEL,
-        serverId,
         channel
     }
 }
@@ -61,37 +58,33 @@ const createChannel = (channel) => {
     }
 }
 
-const deleteMessage = (serverId, channelId, messageId) => {
+const deleteMessage = (channelId, messageId) => {
     return {
         type: DELETE_MESSAGE,
-        serverId,
         channelId,
         messageId
     }
 }
 
-const createMessage = (serverId, message) => {
+const createMessage = (message) => {
     return {
         type: CREATE_MESSAGE,
-        serverId,
         message
     }
 }
 
-const deleteReaction = (serverId, channelId, messageId, reactionId) => {
+const deleteReaction = (channelId, messageId, reactionId) => {
     return {
         type: DELETE_REACTION,
-        serverId,
         channelId,
         messageId,
         reactionId
     }
 }
 
-const createReaction = (serverId, channelId, reaction) => {
+const createReaction = (channelId, reaction) => {
     return {
         type: CREATE_REACTION,
-        serverId,
         channelId,
         reaction
     }
@@ -132,7 +125,7 @@ export const editServer = (server, serverId) => async (dispatch) => {
 }
 
 export const initializeServer = (server) => async (dispatch) => {
-    const res = await fetch(`api/servers/`, {
+    const res = await fetch(`api/servers`, {
         method: "POST",
         body: JSON.stringify(server),
         headers: {
@@ -172,7 +165,7 @@ export const editChannel = (channel, channelId) => async (dispatch) => {
 }
 
 export const initializeChannel = (channel) => async (dispatch) => {
-    const res = await fetch(`api/channels/`, {
+    const res = await fetch(`api/channels`, {
         method: "POST",
         body: JSON.stringify(channel),
         headers: {
@@ -190,5 +183,129 @@ export const removeMessage = (serverId, channelId, messageId) => async (dispatch
     const res = await fetch(`api/messages/${messageId}`, {
         method: "DELETE"
     })
+    if (res.ok) {
+        dispatch(deleteMessage(serverId, channelId, messageId))
+    }
+    return res
+}
 
+export const initializeMessage = (serverId, message) => async (dispatch) => {
+    const res = await fetch(`api/messages`, {
+        method: "POST",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(createMessage(serverId, data))
+    }
+    return data
+}
+
+export const removeReaction = (serverId, channelId, messageId, reactionId) => async (dispatch) => {
+    const res = await fetch(`api/reactions/${reactionId}`, {
+        method: "DELETE"
+    })
+    if (res.ok) {
+        dispatch(deleteReaction(serverId, channelId, messageId, reactionId))
+    }
+    return res
+}
+
+export const initializeReaction = (serverId, channelId, message) => async (dispatch) => {
+    const res = await fetch(`api/reactions`, {
+        method: "POST",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(createReaction(serverId, channelId, data))
+    }
+    return data
+}
+
+const initialState = {}
+
+const serverReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case LOAD_SERVER: {
+            const newState = {}
+            newState.description = action.description
+            newState.id = action.id
+            newState.image_url = action.image_url
+            newState.channels = {}
+            for (let channel in action.channels) {
+                newState.channels[channel.id] = { ...channel, messages: {} }
+                for (let message in channel.messages) {
+                    newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
+                    for (let reaction in message.reactions) {
+                        newState.channels[channel.id].messages[message.id].reactions[reaction.id] = { ...reaction }
+                    }
+
+                }
+
+            }
+            return newState
+        }
+        case DELETE_SERVER: {
+            return {}
+        }
+        case UPDATE_SERVER: {
+            const newState = { ...state }
+            newState.description = action.description
+            newState.id = action.id
+            newState.image_url = action.image_url
+            return newState
+        }
+        case CREATE_SERVER: {
+            const newState = {}
+            newState.description = action.description
+            newState.id = action.id
+            newState.image_url = action.image_url
+            newState.channels = {}
+            return newState
+        }
+        case DELETE_CHANNEL: {
+            newState = { ...state }
+            delete newState[action.channelId]
+            return newState
+        }
+        case UPDATE_CHANNEL: {
+            newState = { ...state }
+            newState.channels[action.channel.id] = { ...action.channel }
+            return newState
+        }
+        case CREATE_CHANNEL: {
+            newState = { ...state }
+            newState.channels[action.channel.id] = { ...action.channel }
+            newState.channels[action.channel.id].messages = {}
+            return newState
+        }
+        case DELETE_MESSAGE: {
+            newState = { ...state }
+            delete newState.channels[action.channelId].messages[action.messageId]
+            return newState
+        }
+        case CREATE_MESSAGE: {
+            newState = { ...state }
+            newState.channels[action.message.channel_id].messages[action.message.id] = { ...action.message }
+            newState.channels[action.message.channel_id].messages[action.message.id].reactions = {}
+            return newState
+        }
+        case DELETE_REACTION: {
+            newState = { ...state }
+            delete newState.channels[action.channelId].messages[action.messageId].reactions[action.reactionId]
+            return newState
+        }
+        case CREATE_REACTION: {
+            newState = { ...state }
+            newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...reaction }
+            return newState
+        }
+    }
 }
