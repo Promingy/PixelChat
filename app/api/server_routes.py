@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, session
 from ..models import db, Server
 from flask_login import login_required
 
@@ -24,7 +24,12 @@ def edit_server(serverId):
 @server.route('/<int:serverId>', methods=['DELETE'])
 @login_required
 def delete_server(serverId):
-    pass
+    server = Server.query.get(serverId)
+    if server and int(session['_user_id']) == server.to_dict()['owner_id']:
+        db.session.delete(server)
+        db.session.commit()
+        return {'message': 'Successfully deleted'}
+    return {'errors': {'message': 'Unauthorized'}}, 401
 
 @server.route('/<int:serverId>/channels', methods=["POST"])
 @login_required
