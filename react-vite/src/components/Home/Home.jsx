@@ -17,18 +17,23 @@ export default function HomePage() {
   return (
     <>
       <div className="home-header">
+        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
         <div className="signin-header">
           <h1>Sign in to PixelChat</h1>
-          <p>We suggest using the email address you use at work.</p>
         </div>
         <div className="home-body">
-          <Link to="/signup" className="home-botton">
-            Create An Account
+          <Link to="/signup">
+            <button className="large-white-button">Create An Account</button>
           </Link>
-          <div className="or">OR</div>
-          <Link to="/login" className="home-botton">
-            Log In
+          <div className="home-or">OR</div>
+          <div className="divider" />
+          <Link to="/login">
+            <button className="large-purple-button">Sign In With Email</button>
           </Link>
+          <div className="demo-user-wrapper">
+            <button className="large-white-button">Sign In As Demo User - NEEDS FUNCTIONALITY</button>
+
+          </div>
         </div>
       </div>
     </>
