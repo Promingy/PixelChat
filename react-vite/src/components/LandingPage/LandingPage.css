@@ -1,9 +1,18 @@
+.landing-top-half-background {
+    position: relative;
+    background-color: #FAF6F2;
+    height: 350px;
+    margin: none;
+    margin-bottom: -75px;
+}
+
 .landing-top-half {
     background-color: #FAF6F2;
     height: 350px;
+    width: 500px;
     display: grid;
-    margin: none;
     grid-template-columns: 1fr;
+    margin: auto;
 }
 
 .landing-top-half>img {
@@ -11,7 +20,7 @@
 }
 
 .landing-header {
-    margin-top: -25px;
+    margin-top: -20px;
     height: 0px;
 }
 
@@ -21,7 +30,7 @@
     background-color: white;
     border-radius: 50px;
     width: fit-content;
-    padding: 8px;
+    padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
     margin-top: 10px;
@@ -49,7 +58,8 @@
     border: none;
     margin-left: 10px;
     background-color: white;
-    color: #777
+    color: #777;
+    font-size: 12px;
 }
 
 .logout-button:hover {
@@ -63,5 +73,80 @@
 
 .create-new-server>.large-purple-button {
     margin: auto;
-    border: 2px solid black;
+    margin-bottom: 26px;
+}
+
+.landing-bottom-half {
+    width: 400px;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: auto;
+    margin-top: -30px;
+}
+
+.landing-bottom-half>h3 {
+    text-align: center;
+}
+
+.available-servers-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    box-shadow: 0px 4px 10px #ddd;
+    border-radius: 5px;
+}
+
+.available-servers-header {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.landing-server-link {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 10px;
+}
+
+.landing-server-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+}
+
+.landing-server-name {
+    width: 300px;
+}
+
+.landing-change-email {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #F8F8F8;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.landing-change-email>p {
+    font-size: 14px;
+}
+
+.try-different-email {
+    font-size: 14px;
+    background-color: white;
+    border: 1px solid #bbb;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.try-different-email:hover {
+    background-color: #F8f8f8;
 }
