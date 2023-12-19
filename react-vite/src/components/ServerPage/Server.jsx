@@ -11,7 +11,6 @@ let socket
 export default function ServerPage() {
     const dispatch = useDispatch()
     const { serverId } = useParams()
-    const [messages, setMessages] = useState([])
 
     const server = useSelector(state => state.server)
 
