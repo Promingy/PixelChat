@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from sqlalchemy.sql import func
 
 
 class Message(db.Model, UserMixin):
@@ -14,7 +15,7 @@ class Message(db.Model, UserMixin):
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
     body = db.Column(db.String)
     pinned = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
     # relationship attributes
     reactions = db.relationship("Reaction", back_populates="message")
