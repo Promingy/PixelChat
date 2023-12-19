@@ -35,9 +35,7 @@ export default function ChannelPage() {
     }
 
     // Scroll to bottom of the page on initial load
-    useEffect(() => {
-        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 1)
-    }, [channelId])
+    window.scrollTo(0, document.body.scrollHeight)
 
     return (
         <>
