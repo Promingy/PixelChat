@@ -3,164 +3,165 @@ from sqlalchemy.sql import text
 from datetime import datetime, timedelta
 from random import random
 
+# Logic for generating a random date
+def random_date_generator():
+    start_date = datetime.now()
+    end_date = start_date - timedelta(days=365)
+
+    random_date = start_date + (end_date - start_date) * random()
+
+    return random_date
+
+# create all of the seed messages for server1 channel1 aka general-channel
+channel_1_messages = [
+    Message(
+        user_id = 1,
+        channel_id = 1,
+        body =  "Hey folks! Demo-lition here, ready to break the ice on this digital adventure. 🚀",
+        created_at = random_date_generator()
+    ),
+
+    Message(
+        user_id = 2,
+        channel_id = 1,
+        body =  "Greetings, Demo! Just finished a round of Hyrule Hide and Seek. Ganon never seems to grasp the concept of hiding. 🙄",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 3,
+        channel_id = 1,
+        body = "It's-a me, Mario! Demo, you should try stomping on Goombas for stress relief. Works wonders! 🍄",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 4,
+        channel_id = 1,
+        body = "Pika! Pikachu, pika pi. ⚡",
+        created_at = random_date_generator()
+    ),
+
+    Message(
+        user_id = 5,
+        channel_id = 1,
+        body = "Spidey in the house! Demo, ever tried web-slinging through the demo world? It's a whole new perspective. 🕷️",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 6,
+        channel_id = 1,
+        body =  "Greetings, all! Just survived a Creeper invasion in Minecraft. Who knew those pixelated green guys were so explosive? 💥",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 7,
+        channel_id = 1,
+        body = "Hiya! Kirby here, fresh from inhaling a buffet of power-ups. Ready to float through this chat! 🌈",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 8,
+        channel_id = 1,
+        body = "Hello, everyone! Navigating the Underground with determination. Let's keep it fun and light-hearted! 💙",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 1,
+        channel_id = 1,
+        body = "Speaking of determination, Frisk, ever tried demo-ing your way through the Underground? It's surprisingly therapeutic.",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 2,
+        channel_id = 1,
+        body = "Demo, I've heard you're the expert in breaking barriers. Any advice for my next dungeon exploration?",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 1,
+        channel_id = 1,
+        body = "Zelda, just demo-lish those puzzles with style! Mario, you can jump in for the assist.",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 3,
+        channel_id = 1,
+        body = "Demo-lition and Jumpman unite! Let's-a-go, Zelda!",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 4,
+        channel_id = 1,
+        body = "Pika! Pikachu pi pika ⚡",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 5,
+        channel_id = 1,
+        body = "Demo, ever feel like swinging through Hyrule Castle? I bet it's got a great view.",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 7,
+        channel_id = 1,
+        body = "And I'll float by for an aerial perspective! 🌌",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 6,
+        channel_id = 1,
+        body = "Demo, need any crafting tips? I've got a few tricks for making the ultimate demo tools.",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 1,
+        channel_id = 1,
+        body = "Thanks, Steve! Let's craft the most demo-tastic tools ever!",
+        created_at = random_date_generator()
+
+    ),
+
+    Message(
+        user_id = 8,
+        channel_id = 1,
+        body = "Sounds like a plan! Remember, everyone, friendship is our ultimate power-up. 🌟",
+        created_at = random_date_generator()
+
+    ),
+]
+
 def seed_messages():
     """
     Func to create the message seed data for our databse
     """
 
-    # Logic for generating a random date
-    def random_date_generator():
-        start_date = datetime.now()
-        end_date = start_date - timedelta(days=365)
-
-        random_date = start_date + (end_date - start_date) * random()
-
-        return random_date
-
-    # create all of the seed messages for server1 channel1 aka general-channel
-    channel_1_messages = [
-        Message(
-            user_id = 1,
-            channel_id = 1,
-            body =  "Hey folks! Demo-lition here, ready to break the ice on this digital adventure. 🚀",
-            created_at = random_date_generator()
-        ),
-
-        Message(
-            user_id = 2,
-            channel_id = 1,
-            body =  "Greetings, Demo! Just finished a round of Hyrule Hide and Seek. Ganon never seems to grasp the concept of hiding. 🙄",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 3,
-            channel_id = 1,
-            body = "It's-a me, Mario! Demo, you should try stomping on Goombas for stress relief. Works wonders! 🍄",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 4,
-            channel_id = 1,
-            body = "Pika! Pikachu, pika pi. ⚡",
-            created_at = random_date_generator()
-        ),
-
-        Message(
-            user_id = 5,
-            channel_id = 1,
-            body = "Spidey in the house! Demo, ever tried web-slinging through the demo world? It's a whole new perspective. 🕷️",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 6,
-            channel_id = 1,
-            body =  "Greetings, all! Just survived a Creeper invasion in Minecraft. Who knew those pixelated green guys were so explosive? 💥",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 7,
-            channel_id = 1,
-            body = "Hiya! Kirby here, fresh from inhaling a buffet of power-ups. Ready to float through this chat! 🌈",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 8,
-            channel_id = 1,
-            body = "Hello, everyone! Navigating the Underground with determination. Let's keep it fun and light-hearted! 💙",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 1,
-            channel_id = 1,
-            body = "Speaking of determination, Frisk, ever tried demo-ing your way through the Underground? It's surprisingly therapeutic.",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 2,
-            channel_id = 1,
-            body = "Demo, I've heard you're the expert in breaking barriers. Any advice for my next dungeon exploration?",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 1,
-            channel_id = 1,
-            body = "Zelda, just demo-lish those puzzles with style! Mario, you can jump in for the assist.",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 3,
-            channel_id = 1,
-            body = "Demo-lition and Jumpman unite! Let's-a-go, Zelda!",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 4,
-            channel_id = 1,
-            body = "Pika! Pikachu pi pika ⚡",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 5,
-            channel_id = 1,
-            body = "Demo, ever feel like swinging through Hyrule Castle? I bet it's got a great view.",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 7,
-            channel_id = 1,
-            body = "And I'll float by for an aerial perspective! 🌌",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 6,
-            channel_id = 1,
-            body = "Demo, need any crafting tips? I've got a few tricks for making the ultimate demo tools.",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 1,
-            channel_id = 1,
-            body = "Thanks, Steve! Let's craft the most demo-tastic tools ever!",
-            created_at = random_date_generator()
-
-        ),
-
-        Message(
-            user_id = 8,
-            channel_id = 1,
-            body = "Sounds like a plan! Remember, everyone, friendship is our ultimate power-up. 🌟",
-            created_at = random_date_generator()
-
-        ),
-    ]
 
     # create all of the seed messages for server 1 channel 2
     channel_2_messages = [
