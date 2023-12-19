@@ -38,7 +38,7 @@ export default function LandingPage() {
                     <h2>PixelChat gives your team a home — a place where they
                         can talk and work together. To create a new
                         server, click the button below.</h2>
-                    <Link to='/new-server' className='create-new-server'>
+                    <Link to='/new-server' className='landing-create-new-server'>
                         <button className="large-purple-button">Create a Server</button>
                     </Link>
                 </div>

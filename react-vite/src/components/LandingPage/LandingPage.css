@@ -66,12 +66,12 @@
     color: black;
 }
 
-.create-new-server {
+.landing-create-new-server {
     margin: auto;
     width: fit-content;
 }
 
-.create-new-server>.large-purple-button {
+.landing-create-new-server>.large-purple-button {
     margin: auto;
     margin-bottom: 26px;
 }
