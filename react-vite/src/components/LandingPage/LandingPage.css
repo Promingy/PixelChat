@@ -113,10 +113,11 @@
     height: 40px;
     width: 40px;
     border-radius: 5px;
+    margin-right: 10px;
 }
 
 .landing-server-name {
-    width: 300px;
+    width: 280px;
 }
 
 .landing-change-email {
