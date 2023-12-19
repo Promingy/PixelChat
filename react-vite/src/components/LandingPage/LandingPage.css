@@ -1,9 +1,13 @@
 .landing-top-half {
     background-color: #FAF6F2;
-    height: 320px;
+    height: 350px;
     display: grid;
     margin: none;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+.landing-top-half>img {
+    margin-bottom: 0px;
 }
 
 .landing-header {
@@ -20,7 +24,7 @@
     padding: 8px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: -50px;
+    margin-top: 10px;
     font-size: 12px;
 }
 
@@ -29,6 +33,7 @@
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
     width: 100%;
     text-align: center;
+    margin-bottom: 0px;
 }
 
 .landing-top-half>h2 {
@@ -36,6 +41,7 @@
     font-size: 18px;
     width: 400px;
     margin: auto;
+    margin-top: 0px;
     font-weight: 400;
 }
 
@@ -48,4 +54,14 @@
 
 .logout-button:hover {
     color: black;
+}
+
+.create-new-server {
+    margin: auto;
+    width: fit-content;
+}
+
+.create-new-server>.large-purple-button {
+    margin: auto;
+    border: 2px solid black;
 }

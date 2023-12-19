@@ -30,6 +30,10 @@ export default function HomePage() {
           <Link to="/login">
             <button className="large-purple-button">Sign In With Email</button>
           </Link>
+          <div className="demo-user-wrapper">
+            <button className="large-white-button">Sign In As Demo User - NEEDS FUNCTIONALITY</button>
+
+          </div>
         </div>
       </div>
     </>

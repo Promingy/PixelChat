@@ -105,3 +105,7 @@ button {
 .large-purple-button:hover {
     background-color: #5C2C5D;
 }
+
+.demo-user-wrapper {
+    margin-top: 20px;
+}
