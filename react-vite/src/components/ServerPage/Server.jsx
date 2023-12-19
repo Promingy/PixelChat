@@ -40,7 +40,6 @@ export default function ServerPage() {
         <>
             <ChannelPage socket={socket} />
             <h1>Hi from {serverId}</h1>
-            <button className="large-purple-button" onClick={sendMessage}>Test</button>
         </>
     )
 }
