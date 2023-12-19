@@ -10,7 +10,6 @@ export default function LandingPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const servers = useSelector((state) => (state.allServers))
 
     const logout = (e) => {
         e.preventDefault();
@@ -45,8 +44,8 @@ export default function LandingPage() {
                 <h3>Open a server</h3>
                 <div className="available-servers-wrapper">
                     <div className="available-servers-header">Servers for <b>{sessionUser?.email}</b></div>
-                    {Object.values(servers).map((server) => (
-                        <Link to={`home/servers/${server.id}`} className='landing-server-link' key={server.id}>
+                    {Object.values(sessionUser.servers).map((server) => (
+                        <Link to={`/main/servers/${server.id}`} className='landing-server-link' key={server.id}>
                             <div className="landing-server-image"><img src={server.image_url} /></div>
                             <div className="landing-server-name">{server.name}</div>
                             <i className="fa-solid fa-arrow-right"></i>
