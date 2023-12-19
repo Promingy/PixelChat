@@ -21,6 +21,8 @@ def create_reactions(messageId):
         db.session.add(reaction)
         db.session.commit()
         return reaction.to_dict()
+    if not message:
+        return {'errors': {'message': 'Message does not exist'}}
     return {'errors': form.errors}, 401
 
 @message.route('/<int:messageId>', methods=['DELETE'])
