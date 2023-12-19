@@ -1,3 +1,6 @@
+import { addServers, editServers, removeServers } from "./all_servers"
+import { addUserServer, removeUserServer, editUserServer } from "./session"
+
 const GET_SERVER = 'server/getServer'
 const DELETE_SERVER = 'server/deleteServer'
 const UPDATE_SERVER = 'server/updateServer'
@@ -104,8 +107,9 @@ export const removeServer = (serverId) => async (dispatch) => {
         method: "DELETE"
     })
     if (res.ok) {
-        // TODO edit user state to reflect server deletion
         dispatch(deleteServer(serverId))
+        dispatch(removeServers(serverId))
+        dispatch(removeUserServer(serverId))
     }
     return res
 }
@@ -120,8 +124,10 @@ export const editServer = (server, serverId) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
-        // TODO edit user state to reflect server change
         dispatch(updateServer(data))
+        delete data.channels
+        dispatch(editServers(data))
+        dispatch(editUserServer(data))
     }
     return data
 }
@@ -136,8 +142,10 @@ export const initializeServer = (server) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
-        // TODO edit user state to reflect server creation
         dispatch(createServer(data))
+        delete data.channels
+        dispatch(addServers(data))
+        dispatch(addUserServer(data))
     }
     return data
 }
@@ -243,19 +251,16 @@ const serverReducer = (state = initialState, action) => {
             newState.image_url = action.server.image_url
             newState.channels = {}
             newState.users = {}
-            for (let user in action.server.users){
+            for (let user in action.server.users) {
                 const users = action.server.users
-                newState.users = {...newState.users, [users[user].id]: users[user]}
+                newState.users = { ...newState.users, [users[user].id]: users[user] }
             }
-            for (let channel in action.server.channels) {
-                const channels = action.server.channels
-                newState.channels[channels[channel].id] = { ...channels[channel], messages: {} }
-                for (let message in channels[channel].messages) {
-                    const messages = channels[channel].messages
-                    newState.channels[channels[channel].id].messages[messages[message].id] = { ...messages[message], reactions: {} }
-                    for (let reaction in messages[message].reactions) {
-                        const reactions = messages[message].reactions
-                        newState.channels[channels[channel].id].messages[messages[message].id].reactions[reaction[reaction].id] = { ...reactions[reaction] }
+            for (let channel of action.server.channels) {
+                newState.channels[channel.id] = { ...channel, messages: {} }
+                for (let message of channel.messages) {
+                    newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
+                    for (let reaction of message.reactions) {
+                        newState.channels[channel.id].messages[message.id].reactions[reaction.id] = { ...reaction }
                     }
                 }
             }
