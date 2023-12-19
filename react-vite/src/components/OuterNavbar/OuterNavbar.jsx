@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useSelector } from 'react-redux'
+import './OuterNavbar.css'
 
 export default function OuterNavbar() {
 
@@ -11,17 +12,25 @@ export default function OuterNavbar() {
 
         <div className="outer-navbar-wrapper">
             <div className="outer-navbar-top">
-                <div className="server-img-wrapper"><img href={server.image_url} /></div>
+
+                {Object.values(sessionUser.servers).map((server) => (
+                    <Link to={`/main/servers/${server.id}`} key={server.id}>
+                        <div className="server-img-wrapper"><img src={server.image_url} /></div>
+                    </Link>
+
+                ))}
+
             </div>
             <div className="outer-navbar-bottom">
 
                 <Link to='/new-server' className="create-new-server">
-                    <i class="fa-solid fa-plus"></i>
+                    <div className="create-new-server">
+                        <i className="fa-solid fa-plus"></i>
+                    </div>
                 </Link>
                 <div className="open-profile-wrapper">
-                    <OpenModalButton >
-                        <div className="user-img-wrapper"><img href={sessionUser.image_url} /></div>
-                    </OpenModalButton>
+                    <OpenModalButton buttonText={<img src={sessionUser.imgae_url} />
+                    } />
                 </div>
             </div>
 

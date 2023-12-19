@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom"
+import OuterNavbar from "../OuterNavbar"
+
 export default function MainPage() {
-    return(
-    <>
-        <Outlet />
-        <h1>Hi from MainPage</h1>
-    </>
+    return (
+        <>
+            <Outlet />
+            <OuterNavbar />
+        </>
     )
 }
