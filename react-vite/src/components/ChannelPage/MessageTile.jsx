@@ -2,6 +2,7 @@ import { useState } from 'react'
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import EmojiPicker from 'emoji-picker-react'
 import './ChannelPage.css'
+import ReactionTile from './ReactionTile'
 
 
 export default function MessageTile({ message, user }) {
@@ -15,7 +16,17 @@ export default function MessageTile({ message, user }) {
     hours = hours % 12 ? hours % 12 : 12
     minutes = minutes < 10 ? `0${minutes}` : minutes
 
+
+    // set object with a count of each emoji
+    const reactions = {}
+
+   // iterate over every reaction and add them to the reactions counter / increment
+    for (let reaction of Object.values(message.reactions)){
+        reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
+    }
+
     return (
+        <>
         <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => setReactBar(false)}>
 
             <div className="message-body-header-container">
@@ -29,6 +40,7 @@ export default function MessageTile({ message, user }) {
                     </div>
                     <p className="message-body">{message.body}</p>
                 </div>
+
             </div>
 
            { reactBar && <div className={reactBar ? '' : 'hidden'}>
@@ -37,8 +49,15 @@ export default function MessageTile({ message, user }) {
                     modalComponent={<EmojiPicker />}
                 />
             </div>}
-
         </div>
+
+        <div className='message-reactions-container'>
+                {Object.keys(reactions).map(key => {
+                    return <ReactionTile key={key} className='test' reaction={key} count = {reactions[key]} messageId={message.id}/>
+                })}
+            </div>
+        </>
+
     )
 
 }
