@@ -17,9 +17,9 @@ export default function LandingPage() {
         dispatch(thunkLogout());
     };
 
-    // useEffect(() => {
-    //     if (!sessionUser) { navigate("/") }
-    // }, [sessionUser, navigate]);
+    useEffect(() => {
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
 
     return (
         <>
