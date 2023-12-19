@@ -17,6 +17,7 @@ export const addServers = (server) => {
   }
 }
 
+
 export const editServers = (server) => {
   return {
     type: EDIT_SERVER,
@@ -30,7 +31,6 @@ export const removeServers = (serverId) => {
     serverId
   }
 }
-
 
 export const loadAllServers = () => async (dispatch) => {
   const res = await fetch('/api/servers')
