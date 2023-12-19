@@ -20,6 +20,10 @@ export default function LandingPage() {
         if (!sessionUser) { navigate("/") }
     }, [sessionUser, navigate]);
 
+    if (!sessionUser) {
+        return null
+    }
+
     return (
         <>
             <div className="landing-top-half-background">

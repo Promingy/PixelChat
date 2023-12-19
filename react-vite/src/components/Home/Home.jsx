@@ -1,18 +1,38 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { thunkLogin } from "../../redux/session";
 import "./Home.css";
 
 export default function HomePage() {
   const sessionUser = useSelector((state) => state.session.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (sessionUser) {
       navigate("/landing");
     }
   }, [sessionUser, navigate]);
+
+  const demoUserLogin = async () => {
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io',
+        password: 'password',
+      })
+    );
+
+    if (serverResponse) {
+      setErrors(serverResponse);
+    } else {
+      navigate("/landing");
+    }
+
+
+  }
+
 
   return (
     <>
@@ -31,7 +51,7 @@ export default function HomePage() {
             <button className="large-purple-button">Sign In With Email</button>
           </Link>
           <div className="demo-user-wrapper">
-            <button className="large-white-button">Sign In As Demo User - NEEDS FUNCTIONALITY</button>
+            <button className="large-white-button" onClick={demoUserLogin}>Sign In As Demo User</button>
 
           </div>
         </div>
