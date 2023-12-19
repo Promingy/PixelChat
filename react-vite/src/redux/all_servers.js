@@ -10,24 +10,25 @@ export const getAllServers = (server) => {
   }
 }
 
-export const addServer = (server) => {
+export const addServers = (server) => {
   return {
     type: ADD_SERVER,
     server
   }
 }
 
-export const editServer = (server) => {
+
+export const editServers = (server) => {
   return {
     type: EDIT_SERVER,
     server
   }
 }
 
-export const removeServer = (server) => {
+export const removeServers = (serverId) => {
   return {
     type: REMOVE_SERVER,
-    server
+    serverId
   }
 }
 
@@ -53,13 +54,17 @@ const allServersReducer = (state = initialState, action) => {
       return { ...state, servers: { ...state.servers, ...action.server } };
     }
     case ADD_SERVER: {
-      return { ...state, servers: action.server }
+      const newState = { ...state }
+      newState.servers[action.server.id] = action.server
+      return newState
     }
     case EDIT_SERVER: {
-      return { ...state, servers: action.server }
+      const newState = { ...state }
+      newState.servers[action.server.id] = action.server
+      return newState
     }
     case REMOVE_SERVER: {
-      delete state[server.id]
+      delete state.servers[action.serverId]
       return { ...state }
     }
     default:
