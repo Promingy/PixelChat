@@ -1,6 +1,7 @@
 from flask import Blueprint, request, session
 from ..models import db, Channel
 from flask_login import login_required
+from ..forms import ChannelForm
 
 
 channel = Blueprint('channel', __name__)
@@ -45,5 +46,17 @@ def delete_channel(channelId):
 
 @channel.route('/<int:channelId>', methods=['PUT'])
 @login_required
-def edit_channel(channelId):
-    pass
+def edit_server(channelId):
+    form = ChannelForm()
+    channel = Channel.query.get(channelId)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit() and int(session['_user_id']) == channel.to_dict()['owner_id']:
+        data = form.data
+        channel.name = data['name']
+        channel.description = data['description']
+        channel.topic = data['topic']
+        db.session.commit()
+        return channel.to_dict()
+    elif not form.validate_on_submit():
+        return {'errors': form.errors}, 401
+    return {'errors': {'message': 'Unauthorized'}}, 403
