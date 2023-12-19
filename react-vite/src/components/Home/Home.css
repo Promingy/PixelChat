@@ -1,0 +1,101 @@
+body {
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.home-header {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: auto;
+    grid-template-rows: 1fr;
+
+}
+
+.home-logo {
+    width: 150px;
+    height: 40px;
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.signin-header {
+    width: 400px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.signin-header>h1 {
+    font-size: 42px;
+    font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
+}
+
+.signin-header>p {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 28px;
+}
+
+.large-white-button {
+    width: 400px;
+    height: 44px;
+    text-decoration: none;
+    margin: auto;
+    box-sizing: border-box;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    border: 2px solid #BBBABB;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.large-white-button:hover {
+    box-shadow: 0px 2px 5px #ddd;
+}
+
+.home-or {
+    position: relative;
+    text-align: center;
+    margin: 50px;
+    width: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    z-index: 2;
+}
+
+button {
+    cursor: pointer;
+}
+
+.divider {
+    position: relative;
+    border-top: 1px solid #ddd;
+    margin-top: -60px;
+    margin-bottom: 60px;
+    height: 0px;
+    z-index: -5;
+}
+
+.large-purple-button {
+    width: 400px;
+    height: 44px;
+    text-decoration: none;
+    margin: auto;
+    box-sizing: border-box;
+    background-color: #4A154B;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.large-purple-button:hover {
+    background-color: #5C2C5D;
+}

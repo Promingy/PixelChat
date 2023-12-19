@@ -1,24 +1,27 @@
-.login-form {
+.signup-form {
     display: flex;
     justify-content: center;
     width: 400px;
     flex-wrap: wrap;
     margin: auto;
     gap: 20px;
+    margin-bottom: 50px;
 }
 
-.login-form>h1 {
+.signup-form>h1 {
     font-size: 42px;
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
-    margin-top: 8px;
+    width: 100%;
+    text-align: center;
+    margin: auto;
 }
 
-.login-form>label {
+.signup-form>label {
     width: 100%;
     box-sizing: border-box;
 }
 
-.login-form>label>input {
+.signup-form>label>input {
     width: 100%;
     box-sizing: border-box;
     height: 44px;
@@ -29,4 +32,8 @@
     font-size: 18px;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
     font-weight: 400;
+}
+
+.signup-form>button {
+    margin-top: 10px;
 }
