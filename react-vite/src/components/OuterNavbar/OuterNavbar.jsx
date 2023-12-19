@@ -23,7 +23,7 @@ export default function OuterNavbar() {
             </div>
             <div className="outer-navbar-bottom">
 
-                <Link to='/new-server' className="create-new-server">
+                <Link to='/new-server'>
                     <div className="create-new-server">
                         <i className="fa-solid fa-plus"></i>
                     </div>
