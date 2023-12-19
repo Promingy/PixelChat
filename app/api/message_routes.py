@@ -1,22 +1,27 @@
-from flask import Blueprint, session
+from flask import Blueprint, session, request
 from ..models import db, Message, Reaction
 from flask_login import login_required
+from app.forms import ReactionForm
 
 message = Blueprint('message', __name__)
 
 @message.route('/<int:messageId>/reactions', methods=["POST"])
 @login_required
 def create_reactions(messageId):
+    form = ReactionForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     message = Message.query.get(messageId)
-    # get reaction code from emojiPicker Modal
-    # csrf protect the data
-    # if res.ok:
-        # create new Reaction based on received code
-        # add new Reaction to db
-        # return new Reaction dictionary (to_dict)
-    # else:
-        # return errors dictionary w/ 401 status code
-    pass
+    if message and form.validate_on_submit():
+        data = form.data
+        reaction = Reaction(
+            user_id = int(session['_user_id']),
+            message_id = messageId,
+            emoji = data["emoji"]
+        )
+        db.session.add(reaction)
+        db.session.commit()
+        return reaction.to_dict()
+    return {'errors': form.errors}, 401
 
 @message.route('/<int:messageId>', methods=['DELETE'])
 @login_required
