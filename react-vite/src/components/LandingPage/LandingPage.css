@@ -1,0 +1,51 @@
+.landing-top-half {
+    background-color: #FAF6F2;
+    height: 320px;
+    display: grid;
+    margin: none;
+    grid-template-rows: 1fr;
+}
+
+.landing-header {
+    margin-top: -25px;
+    height: 0px;
+}
+
+.login-confirm {
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 50px;
+    width: fit-content;
+    padding: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: -50px;
+    font-size: 12px;
+}
+
+.landing-top-half>h1 {
+    font-size: 30px;
+    font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
+    width: 100%;
+    text-align: center;
+}
+
+.landing-top-half>h2 {
+    text-align: center;
+    font-size: 18px;
+    width: 400px;
+    margin: auto;
+    font-weight: 400;
+}
+
+.logout-button {
+    border: none;
+    margin-left: 10px;
+    background-color: white;
+    color: #777
+}
+
+.logout-button:hover {
+    color: black;
+}

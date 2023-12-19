@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadAllServers } from "../../redux/all_servers"
+import './LandingPage.css'
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -20,13 +21,11 @@ export default function LandingPage() {
 
     return (
         <>
-            <div className="landing-top-half-">
+            <div className="landing-top-half">
+                <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
                 <div className="landing-header">
-                    <img />
                     <div className="login-confirm">Confirmed as{" "}<b>{sessionUser?.email}</b>
-                        <div className="logout">
-                            <button onClick={logout}>Log Out</button>
-                        </div>
+                        <button onClick={logout} className="logout-button">Change</button>
                     </div>
                 </div>
                 <h1>Create a new PixelChat server</h1>
@@ -35,7 +34,8 @@ export default function LandingPage() {
                     server, click the button below.</h2>
                 <Link to='/new-server' className='create-new-server'>Create a Server</Link>
             </div>
-            <div className="or">OR</div>
+            <div className="home-or">OR</div>
+            <div className="divider" />
             <div className="landing-bottom-half">
                 <h3>Open a server</h3>
                 <div className="available-servers-wrapper">
