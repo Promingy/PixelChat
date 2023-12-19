@@ -9,9 +9,6 @@ export default function MessageTile({ message, user }) {
 
     // format date
     const date = new Date(message.created_at)
-    let year = date.getFullYear()
-    let month = date.getMonth()
-    let day = date.getDate()
     let hours = date.getHours()
     let minutes = date.getMinutes()
     const amPm = hours >= 12 ? 'PM' : 'AM'
@@ -28,7 +25,7 @@ export default function MessageTile({ message, user }) {
 
                     <div className='date-name-container'>
                         <span className="message-owner">{user.username}</span>
-                        <span className="message-post-time">{ month }-{ day }-{ year } { hours }:{ minutes } { amPm }</span>
+                        <span className="message-post-time">{ hours }:{ minutes } { amPm }</span>
                     </div>
                     <p className="message-body">{message.body}</p>
                 </div>

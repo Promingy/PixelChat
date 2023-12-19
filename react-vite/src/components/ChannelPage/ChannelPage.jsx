@@ -17,14 +17,15 @@ export default function ChannelPage() {
         // func to iterate over all messages for a channel
         // and create a tile component
 
+        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(a.created_at) - new Date (b.created_at))
         const result = []
-
         // iterate over messages and grab the key as index
-        for (let index in messages){
-            const message = messages[index]
-            const user = users[message.user_id]
+        if (sortedMessages){
+            for (let message of sortedMessages){
+                const user = users[message.user_id]
 
-            result.push(<MessageTile key={message.id} message={message} user={user}/>)
+                result.push(<MessageTile key={message.id} message={message} user={user}/>)
+            }
         }
         return result
     }
