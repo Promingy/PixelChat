@@ -13,3 +13,6 @@ user_servers = db.Table(
         "server_id", db.Integer, db.ForeignKey(add_prefix_for_prod("servers.id"))
     )
 )
+
+if environment == "production":
+    user_servers.schema = SCHEMA

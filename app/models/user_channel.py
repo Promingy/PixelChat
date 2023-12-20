@@ -14,3 +14,5 @@ user_channels = db.Table(
         "channel_id", db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id"))
     )
 )
+if environment == "production":
+    user_channels.schema = SCHEMA
