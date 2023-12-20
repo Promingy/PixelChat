@@ -4,7 +4,7 @@ import { VscChromeClose } from "react-icons/vsc";
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
 
-import "./Profile.css"
+import "./ProfileModal.css"
 
 export default function Profile() {
   const { closeModal } = useModal();

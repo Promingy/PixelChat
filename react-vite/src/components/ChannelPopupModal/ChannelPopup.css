@@ -1,0 +1,27 @@
+.channel-popup {
+    height: 500px;
+    width: 500px;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.channel-popup-tab-container {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.channel-popup-tab:hover {
+    cursor: pointer;
+}
+
+.popup-profile-pic {
+    object-fit: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.channel-popup-delete-button {
+    margin-top: 20px;
+}

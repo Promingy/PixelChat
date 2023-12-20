@@ -1,32 +1,48 @@
 import { useState } from 'react';
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom"
-// import { useModal } from "../../context/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom"
+import { useModal } from "../../context/Modal";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import TopicFormModal from '../TopicFormModal';
 import DescriptionFormModal from '../DescriptionFormModal';
+import { removeChannel } from '../../redux/server'
+import './ChannelPopup.css'
 
-function ChannelPopupModal() {
+function ChannelPopupModal(activeProp) {
     const { channelId } = useParams()
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const store = useSelector(state => state.server)
     const channel = store?.channels?.[+channelId]
     const users = store?.users
-    const [active, setActive] = useState(1)
-    // const { closeModal } = useModal();
+    const session = useSelector(state => state.session)
+    const sessionUser = session?.user
+    const [active, setActive] = useState(activeProp.activeProp)
+    const [errors, setErrors] = useState({});
+    const { closeModal } = useModal();
+
+    const handleDelete = () => {
+        dispatch(removeChannel(channelId)).then(() => {
+            navigate(`/landing`)
+        }).then(closeModal()).catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+                setErrors(data.errors)
+            }
+        })
+    }
 
     return (
-        <>
+        <div className='channel-popup'>
             <h1>{channel.name}</h1>
-            <div>
-                <h3 onClick={() => setActive(1)}>About</h3>
-                <h3 onClick={() => setActive(2)}>Members {Object.keys(users).length}</h3>
-                <h3 onClick={() => setActive(3)}>Integrations</h3>
-                <h3 onClick={() => setActive(4)}>Settings</h3>
+            <div className='channel-popup-tab-container'>
+                <h3 className='channel-popup-tab' onClick={() => setActive(1)}>About</h3>
+                <h3 className='channel-popup-tab' onClick={() => setActive(2)}>Members {Object.keys(users).length}</h3>
+                <h3 className='channel-popup-tab' onClick={() => setActive(3)}>Integrations</h3>
+                <h3 className='channel-popup-tab' onClick={() => setActive(4)}>Settings</h3>
             </div>
             {active === 1 ?
                 <div>
-                    {/* Own component? */}
                     <h2>Topic</h2>
                     <p>{channel.topic}</p>
                     <OpenModalButton
@@ -42,6 +58,12 @@ function ChannelPopupModal() {
                     <h2>Created by</h2>
                     <p>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
                 </div> : null}
+            {active === 2 ? Object.values(users).map((user) => (
+                <div key={user.id}>
+                    <img className='popup-profile-pic' src={user.image_url} />
+                    <p>{user.first_name} {user.last_name}</p>
+                </div>
+            )) : null}
             {active === 3 ?
             <div>
                 <div>
@@ -74,7 +96,12 @@ function ChannelPopupModal() {
                 <button onClick={() => (alert(`Feature Coming Soon...`))}>Start huddle</button>
                 <button onClick={() => (alert(`Feature Coming Soon...`))}>Copy huddle Link</button>
             </div> : null}
-        </>
+            {active === 4 && sessionUser.id === channel.owner_id ?
+            <div className='channel-popup-delete-button'>
+                <button onClick={handleDelete}>Delete this channel</button>
+                {errors.message && <p>{errors.message}</p>}
+            </div> : null}
+        </div>
     )
 }
 

@@ -8,7 +8,7 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 
 
-export default function ChannelPage({ socket }) {
+export default function ChannelPage({ socket, serverId }) {
     const { channelId } = useParams()
     const store = useSelector(state => state.server)
     const channel = store?.channels?.[+channelId]
@@ -42,13 +42,13 @@ export default function ChannelPage({ socket }) {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId}/>
+                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={serverId}/>
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId}/></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={serverId}/></div>)
             }
         }
         return result
@@ -64,15 +64,30 @@ export default function ChannelPage({ socket }) {
         <>
             <OpenModalButton
                     buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal />}
+                    modalComponent={<ChannelPopupModal activeProp={1} />}
                     />
             <div className="channel-page-wrapper">
 
-                <div className="all-messages-container">
+                {users && <OpenModalButton
+                    buttonText={`${Object.keys(users).length} Members`}
+                    modalComponent={<ChannelPopupModal activeProp={2} />}
+                />}
+
+            <div className="all-messages-container">
                     {generate_message_layout()}
                 </div>
-                <MessageBox socket={socket} channelName={channel?.name} channelId={channelId}/>
+                <MessageBox socket={socket} serverId={serverId}channelName={channel?.name} channelId={channelId}/>
             </div>
+
+            {/* <OpenModalButton
+                    buttonText={channel?.name}
+                    modalComponent={<ChannelPopupModal activeProp={1} />}
+                /> */}
+
+            {/* {users && <OpenModalButton
+                    buttonText={`${Object.keys(users).length} Members`}
+                    modalComponent={<ChannelPopupModal activeProp={2} />}
+                />} */}
         </>
     )
 }
