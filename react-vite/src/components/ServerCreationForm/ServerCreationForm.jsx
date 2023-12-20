@@ -10,7 +10,13 @@ export default function ServerCreationForm() {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
+<<<<<<< Updated upstream
     const [image_url, setImage_url] = useState('')
+=======
+    const [image_url] = useState('')
+    const [channelName, setChannelName] = useState('')
+    const [channelDescription, setChannelDescription] = useState('')
+>>>>>>> Stashed changes
     const [errors, setErrors] = useState('')
 
     const onSubmit = (e) => {
@@ -22,6 +28,11 @@ export default function ServerCreationForm() {
             description,
             image_url
             // TODO: add owner_id from user state slice
+        }
+
+        if (!channelName) {
+            setErrors({ channel: "Channel name is required" })
+            return
         }
 
         const handleServerCreation = async (server) => {
@@ -50,6 +61,13 @@ export default function ServerCreationForm() {
             <h2 className="server-creation-subheader">Choose an image to represent your server (optional)</h2>
             <span>{errors.image_url}</span>
             --Placeholder for file upload--
+            <h1 className="server-creation-header">Create a channel for your new server</h1>
+            <h2 className="server-creation-subheader">Name a channel so users have a place to communicate</h2>
+            <span>{errors.channel}</span>
+            <input type='text' value={channelName} onChange={e => setChannelName(e.target.value)} className="server-creation-input" placeholder="Ex: General Questions" />
+            <h1 className="server-creation-header">Add a description for your new channel</h1>
+            <h2 className="server-creation-subheader">Provide a helpful channel description (optional)</h2>
+            <input type='text' value={channelDescription} onChange={e => setChannelDescription(e.target.value)} className="server-creation-input" placeholder="Ex: All general questions go here" />
             <input type='submit' className="submit-server" value="Create New Server" />
         </form>
     )
