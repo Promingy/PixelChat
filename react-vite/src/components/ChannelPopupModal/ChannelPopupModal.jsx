@@ -9,7 +9,6 @@ import { removeChannel } from '../../redux/server'
 import './ChannelPopup.css'
 
 function ChannelPopupModal(activeProp) {
-    // pass in prop, set useState to value for member pop up
     const { channelId } = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
