@@ -120,7 +120,6 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                             }}/>
                         </div>}
             </div>}
-        </div>
 
         <div className='message-reactions-container'>
                 {Object.keys(reactions).map(key => {
