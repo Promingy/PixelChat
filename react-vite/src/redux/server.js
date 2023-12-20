@@ -12,6 +12,8 @@ const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
+const BOLD_CHANNEL = 'channel/bold'
+const UNBOLD_CHANNEL = 'channel/unbold'
 
 const getServer = (server) => {
     return {
@@ -58,6 +60,20 @@ export const createChannel = (channel) => {
     return {
         type: CREATE_CHANNEL,
         channel
+    }
+}
+
+export const boldChannel = (channelId) => {
+    return {
+        type: BOLD_CHANNEL,
+        channelId
+    }
+}
+
+export const unboldChannel = (channelId) => {
+    return {
+        type: UNBOLD_CHANNEL,
+        channelId
     }
 }
 
@@ -257,7 +273,7 @@ const serverReducer = (state = initialState, action) => {
                 newState.users = { ...newState.users, [users[user].id]: users[user] }
             }
             for (let channel of action.server.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {} }
+                newState.channels[channel.id] = { ...channel, messages: {}, bold: false }
                 for (let message of channel.messages) {
                     newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
@@ -303,6 +319,7 @@ const serverReducer = (state = initialState, action) => {
             const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             newState.channels[action.channel.id].messages = {}
+            newState.channels[action.channel.id].bold = false
             return newState
         }
         case DELETE_MESSAGE: {
@@ -324,6 +341,17 @@ const serverReducer = (state = initialState, action) => {
         case CREATE_REACTION: {
             const newState = { ...state }
             newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
+            return newState
+        }
+        case BOLD_CHANNEL: {
+            const newState = { ...state }
+            console.log("HERE")
+            newState.channels[action.channelId].bold = true
+            return newState
+        }
+        case UNBOLD_CHANNEL: {
+            const newState = { ...state }
+            newState.channels[action.channelId].bold = false
             return newState
         }
         default: {

@@ -74,17 +74,30 @@
 }
 
 .inner-navbar-content>li>a {
+    text-decoration: none;
+}
+
+.bold-channel>a>div {
+    font-weight: 700;
+}
+
+.navbar-content {
     display: flex;
     width: 100%;
     align-items: center;
     gap: 10px;
     text-decoration: none;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 300;
+}
+
+.navbar-content>i {
+    font-weight: 300;
 }
 
 .not-selected-channel>a {
     color: black;
+    width: 100%;
 }
 
 .not-selected-channel:hover {

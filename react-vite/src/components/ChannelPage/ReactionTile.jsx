@@ -11,14 +11,14 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         e.preventDefault()
 
         const newReaction = {
-            user_id: user.id,
+            user_id: sessionUser.id,
             message_id: messageId,
             emoji: reaction
         }
         // check if the user has already used this reaction, if so, remove it!
         for (let reaction of Object.values(allReactions)) {
-            if (reaction.user_id == user.id && reaction.emoji == newReaction.emoji) {
-                data = await dispatch(removeReaction(channelId, messageId, reaction.id))
+            if (reaction.user_id == sessionUser.id && reaction.emoji == newReaction.emoji) {
+                const data = await dispatch(removeReaction(channelId, messageId, reaction.id))
                 if (data.ok) {
                     socket.emit("server", {
                         userId: sessionUser.id,
@@ -35,7 +35,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         }
 
         // if user hasn't used this reaction already, add reaction
-        data = await dispatch(initializeReaction(channelId, newReaction))
+        const data = await dispatch(initializeReaction(channelId, newReaction))
         if (!data.errors) {
             socket.emit("server", {
                 userId: sessionUser.id,
