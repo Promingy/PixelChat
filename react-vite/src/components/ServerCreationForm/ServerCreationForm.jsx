@@ -31,12 +31,12 @@ export default function ServerCreationForm() {
         if (!channelName) {
             setErrors({ channel: "Channel name is required" })
             return
+
         }
 
         const handleServerCreation = async (server) => {
             const serverData = await dispatch(initializeServer(server))
             if (!serverData.errors) {
-
                 const channelForm = {
                     name: channelName,
                     description: channelDescription,

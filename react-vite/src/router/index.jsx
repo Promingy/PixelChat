@@ -1,4 +1,4 @@
-import { Route, createBrowserRouter, createRoutesFromElements, Outlet } from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
@@ -7,7 +7,7 @@ import MainPage from '../components/MainPage'
 import LandingPage from '../components/LandingPage'
 import Home from '../components/Home'
 import ServerPage from '../components/ServerPage'
-import ChannelPage from "../components/ChannelPage";
+// import ChannelPage from "../components/ChannelPage";
 import ServerCreationForm from "../components/ServerCreationForm";
 
 export const router = createBrowserRouter(
@@ -19,12 +19,7 @@ export const router = createBrowserRouter(
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/new-server" element={<ServerCreationForm />} />
       <Route path="/main" element={<MainPage />}>
-        <Route path="servers" element={<Outlet />}>
-          <Route path=":serverId" element={<ServerPage />}>
-            <Route path="channels" element={<Outlet />}>
-              <Route path=":channelId" element={<ChannelPage />} />
-            </Route>
-          </Route>
+        <Route path="servers/:serverId/channels/:channelId" element={<ServerPage />}>
         </Route>
       </Route>
       <Route path="*" element={<h1>Error 404 Not Found </h1>} />

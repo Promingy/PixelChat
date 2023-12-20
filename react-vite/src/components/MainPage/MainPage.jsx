@@ -1,9 +1,13 @@
 import { Outlet } from "react-router-dom"
+import OuterNavbar from "../OuterNavbar"
+import InnerNavbar from "../InnerNavbar/InnerNavbar"
+
 export default function MainPage() {
-    return(
-    <>
-        <Outlet />
-        <h1>Hi from MainPage</h1>
-    </>
+    return (
+        <>
+            <Outlet />
+            <OuterNavbar />
+            <InnerNavbar />
+        </>
     )
 }

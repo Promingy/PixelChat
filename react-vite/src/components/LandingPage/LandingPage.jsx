@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadAllServers } from "../../redux/all_servers"
+// import { loadAllServers } from "../../redux/all_servers"
 import './LandingPage.css'
+import { loadServer } from "../../redux/server";
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -19,6 +20,16 @@ export default function LandingPage() {
     useEffect(() => {
         if (!sessionUser) { navigate("/") }
     }, [sessionUser, navigate]);
+
+    const navigateToServer = async (serverId) => {
+        const preloadServer = async (servId) => {
+            const serv = await dispatch(loadServer(servId))
+            return serv
+        }
+        const server = await preloadServer(serverId)
+        const channelId = Object.values(server.channels)[0].id
+        return navigate(`/main/servers/${server.id}/channels/${channelId}`)
+    }
 
     if (!sessionUser) {
         return null
@@ -38,7 +49,7 @@ export default function LandingPage() {
                     <h2>PixelChat gives your team a home — a place where they
                         can talk and work together. To create a new
                         server, click the button below.</h2>
-                    <Link to='/new-server' className='create-new-server'>
+                    <Link to='/new-server' className='landing-create-new-server'>
                         <button className="large-purple-button">Create a Server</button>
                     </Link>
                 </div>
@@ -49,11 +60,11 @@ export default function LandingPage() {
                 <div className="available-servers-wrapper">
                     <div className="available-servers-header">Servers for <b>{sessionUser?.email}</b></div>
                     {Object.values(sessionUser.servers).map((server) => (
-                        <Link to={`/main/servers/${server.id}`} className='landing-server-link' key={server.id}>
+                        <div className='landing-server-link' onClick={(() => navigateToServer(server.id))} key={server.id}>
                             <div className="landing-server-image"><img src={server.image_url} /></div>
                             <div className="landing-server-name">{server.name}</div>
                             <i className="fa-solid fa-arrow-right"></i>
-                        </Link>
+                        </div>
 
                     ))}
                 </div>
