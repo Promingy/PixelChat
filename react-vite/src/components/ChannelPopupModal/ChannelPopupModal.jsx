@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { useModal } from "../../context/Modal";
+// import { useModal } from "../../context/Modal";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import TopicFormModal from '../TopicFormModal';
 import DescriptionFormModal from '../DescriptionFormModal';
 
 function ChannelPopupModal() {
     const { channelId } = useParams()
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const store = useSelector(state => state.server)
     const channel = store?.channels?.[+channelId]
     const users = store?.users
     const [active, setActive] = useState(1)
-    const { closeModal } = useModal();
+    // const { closeModal } = useModal();
 
     return (
         <>

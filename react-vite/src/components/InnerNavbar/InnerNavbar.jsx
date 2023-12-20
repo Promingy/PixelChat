@@ -5,7 +5,7 @@ import "./InnerNavbar.css"
 
 export default function InnerNavbar() {
     const { channelId } = useParams()
-    const sessionUser = useSelector((state) => state.session.user)
+    // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
     if (!server.channels) return null
     console.log(server)
