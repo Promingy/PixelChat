@@ -6,6 +6,7 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import TopicFormModal from '../TopicFormModal';
 import DescriptionFormModal from '../DescriptionFormModal';
 import { removeChannel } from '../../redux/server'
+import { FaRegTrashAlt } from "react-icons/fa";
 import './ChannelPopup.css'
 
 function ChannelPopupModal(activeProp) {
@@ -22,7 +23,13 @@ function ChannelPopupModal(activeProp) {
     const { closeModal } = useModal();
 
     const handleDelete = () => {
-        dispatch(removeChannel(channelId)).then(() => {
+        dispatch(removeChannel(channelId)).then(() => {socket.emit("server", {
+            userId: sessionUser.id,
+            type: "channel",
+            method: "DELETE",
+            room: store.id,
+            channelId
+        })}).then(() => {
             navigate(`/landing`)
         }).then(closeModal()).catch(async (res) => {
             const data = await res.json();
@@ -98,7 +105,7 @@ function ChannelPopupModal(activeProp) {
             </div> : null}
             {active === 4 && sessionUser.id === channel.owner_id ?
             <div className='channel-popup-delete-button'>
-                <button onClick={handleDelete}>Delete this channel</button>
+                <button onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
                 {errors.message && <p>{errors.message}</p>}
             </div> : null}
         </div>

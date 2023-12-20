@@ -1,25 +1,27 @@
 import { useParams } from "react-router-dom"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import './ChannelPage.css'
 import MessageTile from "./MessageTile";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
+import MessageBox from '../MessageBox'
 
 
-export default function ChannelPage() {
+export default function ChannelPage({ socket }) {
     const { channelId } = useParams()
-    const store = useSelector(state => state.server)
-    const channel = store?.channels?.[+channelId]
-    const messages = store?.channels?.[+channelId]?.messages
-    const users = store?.users
+    const server = useSelector(state => state.server)
+    const channel = server?.channels?.[+channelId]
+    const messages = server?.channels?.[+channelId]?.messages
+    const users = server?.users
     const [message, setMessage] = useState();
+
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
         // and create a tile component
 
-        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         const result = []
 
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -40,61 +42,52 @@ export default function ChannelPage() {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId}/>
+                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/>
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId}/></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/></div>)
             }
         }
         return result
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
-    }
 
     // Scroll to bottom of the page on initial load
-    window.scrollTo(0, document.body.scrollHeight)
+    useEffect(() => {
+        window.scrollTo(0, document.body.scrollHeight)
+    }, [messages, channelId])
 
     return (
         <>
-            <h1>hi from channel {channelId}</h1>
             <OpenModalButton
                     buttonText={channel?.name}
                     modalComponent={<ChannelPopupModal activeProp={1} />}
-                />
+                    />
+            <div className="channel-page-wrapper">
 
-            {users && <OpenModalButton
+                {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
                     modalComponent={<ChannelPopupModal activeProp={2} />}
                 />}
 
             <div className="all-messages-container">
-                {generate_message_layout()}
+                    {generate_message_layout()}
+                </div>
+                <MessageBox socket={socket} serverId={server.id}channelName={channel?.name} channelId={channelId}/>
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <textarea
-                    placeholder={`Message #${channel?.name}`}
-                    onChange={e => setMessage(e.target.value)}
-                    value={message}
-                />
-
-                <button>send</button>
-            </form>
-
-            <OpenModalButton
+            {/* <OpenModalButton
                     buttonText={channel?.name}
                     modalComponent={<ChannelPopupModal activeProp={1} />}
-                />
+                /> */}
 
-            {users && <OpenModalButton
+            {/* {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
                     modalComponent={<ChannelPopupModal activeProp={2} />}
-                />}
+                />} */}
         </>
     )
 }
