@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useSelector } from "react-redux";
@@ -7,10 +7,11 @@ import * as sessionActions from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import ProfileModal from "../ProfileModal";
 import "./OuterNavbar.css";
+import { loadServer } from "../../redux/server";
 
 export default function OuterNavbar() {
+  const navigate = useNavigate()
   const sessionUser = useSelector((state) => state.session.user);
-  // const server = useSelector((state) => state.server)
 
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -44,6 +45,7 @@ export default function OuterNavbar() {
   };
 
   const navigateToServer = async (serverId) => {
+    console.log(serverId)
     const preloadServer = async (servId) => {
       const serv = await dispatch(loadServer(servId))
       return serv
