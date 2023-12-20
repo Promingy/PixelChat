@@ -41,7 +41,7 @@ export default function ServerPage() {
         // })
 
         socket.on("server", obj => {
-            console.log(obj)
+            console.log('im the object', obj)
             if (obj.userId == sessionUser.id) {
                 return
             }
@@ -111,7 +111,6 @@ export default function ServerPage() {
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
-            <h1>Hi from {serverId}</h1>
         </>
     )
 }

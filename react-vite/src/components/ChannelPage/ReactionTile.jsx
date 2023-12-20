@@ -11,8 +11,6 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         e.preventDefault()
 
         const newReaction = {
-            user_id: user.id,
-            message_id: messageId,
             emoji: reaction
         }
         // check if the user has already used this reaction, if so, remove it!
@@ -47,6 +45,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
             })
             return
         }
+
     }
 
     return (
