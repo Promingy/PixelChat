@@ -216,7 +216,7 @@ export const initializeMessage = (channelId, message) => async (dispatch) => {
 }
 
 export const removeReaction = (channelId, messageId, reactionId) => async (dispatch) => {
-    const res = await fetch(`api/reactions/${reactionId}`, {
+    const res = await fetch(`/api/reactions/${reactionId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -225,8 +225,8 @@ export const removeReaction = (channelId, messageId, reactionId) => async (dispa
     return res
 }
 
-export const initializeReaction = (channelId, messageId, reaction) => async (dispatch) => {
-    const res = await fetch(`api/messages/${messageId}/reactions`, {
+export const initializeReaction = (channelId, reaction) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${reaction.message_id}/reactions`, {
         method: "POST",
         body: JSON.stringify(reaction),
         headers: {

@@ -6,13 +6,13 @@ import MessageTile from "./MessageTile";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 
+
 export default function ChannelPage() {
     const { channelId } = useParams()
     const store = useSelector(state => state.server)
     const channel = store?.channels?.[+channelId]
     const messages = store?.channels?.[+channelId]?.messages
     const users = store?.users
-
     const [message, setMessage] = useState();
 
     function generate_message_layout() {
@@ -40,13 +40,13 @@ export default function ChannelPage() {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} />
+                            <MessageTile message={message} user={user} channelId={channelId}/>
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} /></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId}/></div>)
             }
         }
         return result
