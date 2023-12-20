@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ServerCreationForm.css'
-import { initializeServer } from '../../redux/server'
+import { initializeServer, initializeChannel } from '../../redux/server'
 
 export default function ServerCreationForm() {
     const dispatch = useDispatch()
@@ -36,7 +36,14 @@ export default function ServerCreationForm() {
         const handleServerCreation = async (server) => {
             const serverData = await dispatch(initializeServer(server))
             if (!serverData.errors) {
-                navigateToServer(serverData.id)
+
+                const channelForm = {
+                    name: channelName,
+                    description: channelDescription,
+                    owner_id: sessionUser.id
+                }
+                const channelData = await dispatch(initializeChannel(serverData.id, channelForm))
+                return navigate(`main/server/${serverData.id}/channels/${channelData.id}`)
             } else {
                 setErrors(serverData.errors)
             }
