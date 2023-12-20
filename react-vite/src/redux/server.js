@@ -161,7 +161,7 @@ export const removeChannel = (channelId) => async (dispatch) => {
 }
 
 export const editChannel = (channel, channelId) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}`, {
+    const res = await fetch(`/api/channels/${channelId}`, {
         method: "PUT",
         body: JSON.stringify(channel),
         headers: {
@@ -249,6 +249,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
             newState.users = {}
             for (let user in action.server.users) {
@@ -275,6 +276,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             return newState
         }
         case CREATE_SERVER: {
@@ -282,6 +284,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
             return newState
         }
@@ -292,6 +295,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_CHANNEL: {
             const newState = { ...state }
+            console.log(action.channel)
             newState.channels[action.channel.id] = { ...action.channel }
             return newState
         }
