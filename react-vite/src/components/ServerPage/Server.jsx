@@ -6,6 +6,8 @@ import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
 import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction } from "../../redux/server"
 import ChannelPage from "../ChannelPage"
+import InnerNavbar from "../InnerNavbar/InnerNavbar"
+import OuterNavbar from "../OuterNavbar"
 
 let socket
 
@@ -106,7 +108,10 @@ export default function ServerPage() {
 
     return (
         <>
+            <OuterNavbar socket={socket} />
+            <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
+            <h1>Hi from {serverId}</h1>
         </>
     )
 }
