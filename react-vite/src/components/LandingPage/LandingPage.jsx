@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadAllServers } from "../../redux/all_servers"
+// import { loadAllServers } from "../../redux/all_servers"
 import './LandingPage.css'
 
 export default function LandingPage() {

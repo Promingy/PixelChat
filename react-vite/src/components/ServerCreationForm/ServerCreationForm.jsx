@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ServerCreationForm.css'
@@ -10,7 +10,7 @@ export default function ServerCreationForm() {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [image_url, setImage_url] = useState('')
+    const [image_url] = useState('')
     const [errors, setErrors] = useState('')
 
     const onSubmit = (e) => {

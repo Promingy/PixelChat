@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import OpenModalButton from '../OpenModalButton/OpenModalButton'
+// import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useSelector } from 'react-redux'
 import './OuterNavbar.css'
-import Profile from '../Profile'
+// import Profile from '../Profile'
 
 export default function OuterNavbar() {
 
@@ -30,8 +30,8 @@ export default function OuterNavbar() {
                     </div>
                 </Link>
                 <div className="open-profile-wrapper">
-                    <OpenModalButton buttonText={<img src={sessionUser.image_url} modalComponent={<Profile />} />
-                    } />
+                    {/* <OpenModalButton buttonText={<img src={sessionUser.image_url} modalComponent={<Profile />} />
+                    } /> */}
                 </div>
             </div>
 

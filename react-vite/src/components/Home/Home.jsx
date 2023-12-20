@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { thunkLogin } from "../../redux/session";
 import "./Home.css";
@@ -25,7 +25,7 @@ export default function HomePage() {
     );
 
     if (serverResponse) {
-      setErrors(serverResponse);
+      // setErrors(serverResponse);
     } else {
       navigate("/landing");
     }

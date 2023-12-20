@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Outlet, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { loadServer } from "../../redux/server"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
@@ -34,7 +34,7 @@ export default function ServerPage() {
         return (() => {
             socket.disconnect()
         })
-    }, [])
+    }, [server.id])
 
     return (
         <>
