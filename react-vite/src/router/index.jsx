@@ -1,4 +1,4 @@
-import { Route, createBrowserRouter, createRoutesFromElements, Outlet } from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
@@ -7,7 +7,7 @@ import MainPage from '../components/MainPage'
 import LandingPage from '../components/LandingPage'
 import Home from '../components/Home'
 import ServerPage from '../components/ServerPage'
-import ChannelPage from "../components/ChannelPage";
+// import ChannelPage from "../components/ChannelPage";
 import ServerCreationForm from "../components/ServerCreationForm";
 
 export const router = createBrowserRouter(
