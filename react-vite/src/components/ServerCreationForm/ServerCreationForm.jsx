@@ -8,15 +8,13 @@ export default function ServerCreationForm() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const sessionUser = useSelector(state => state.session.user)
+
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-<<<<<<< Updated upstream
     const [image_url, setImage_url] = useState('')
-=======
-    const [image_url] = useState('')
     const [channelName, setChannelName] = useState('')
     const [channelDescription, setChannelDescription] = useState('')
->>>>>>> Stashed changes
     const [errors, setErrors] = useState('')
 
     const onSubmit = (e) => {
@@ -26,8 +24,8 @@ export default function ServerCreationForm() {
         const form = {
             name,
             description,
-            image_url
-            // TODO: add owner_id from user state slice
+            image_url,
+            owner_id: sessionUser.id
         }
 
         if (!channelName) {
@@ -38,13 +36,23 @@ export default function ServerCreationForm() {
         const handleServerCreation = async (server) => {
             const serverData = await dispatch(initializeServer(server))
             if (!serverData.errors) {
-                navigate(`/main/servers/${serverData.id}`)
+                navigateToServer(serverData.id)
             } else {
                 setErrors(serverData.errors)
             }
         }
 
         handleServerCreation(form)
+    }
+
+    const navigateToServer = async (serverId) => {
+        const preloadServer = async (servId) => {
+            const serv = await dispatch(loadServer(servId))
+            return serv
+        }
+        const server = await preloadServer(serverId)
+        const channelId = Object.values(server.channels)[0].id
+        return navigate(`/main/servers/${server.id}/channels/${channelId}`)
     }
 
     return (
