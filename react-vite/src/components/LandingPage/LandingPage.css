@@ -66,12 +66,12 @@
     color: black;
 }
 
-.create-new-server {
+.landing-create-new-server {
     margin: auto;
     width: fit-content;
 }
 
-.create-new-server>.large-purple-button {
+.landing-create-new-server>.large-purple-button {
     margin: auto;
     margin-bottom: 26px;
 }
@@ -107,6 +107,11 @@
     align-items: center;
     height: 60px;
     padding: 10px;
+    cursor: pointer;
+}
+
+.landing-server-link:hover {
+    background-color: #eee;
 }
 
 .landing-server-image {

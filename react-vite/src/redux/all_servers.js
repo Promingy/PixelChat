@@ -35,7 +35,6 @@ export const removeServers = (serverId) => {
 export const loadAllServers = () => async (dispatch) => {
   const res = await fetch('/api/servers')
   const data = await res.json()
-  console.log(data)
   if (res.ok) {
     dispatch(getAllServers(data))
   }

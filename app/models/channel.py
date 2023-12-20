@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .user_channel import user_channels
 from datetime import datetime
+from .db import add_prefix_for_prod
 
 class Channel(db.Model, UserMixin):
     __tablename__ = 'channels'
@@ -11,8 +12,8 @@ class Channel(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey("servers.id"))
-    owner_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("servers.id")))
+    owner_id = db.Column(db.Integer,db.ForeignKey(add_prefix_for_prod("users.id")))
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
     topic = db.Column(db.String)
