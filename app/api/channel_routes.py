@@ -72,7 +72,7 @@ def edit_server(channelId):
         channel.description = data['description']
         channel.topic = data['topic']
         db.session.commit()
-        return channel.to_dict()
+        return channel.to_dict(messages=True)
     elif not form.validate_on_submit():
         return {'errors': form.errors}, 401
     return {'errors': {'message': 'Unauthorized'}}, 403

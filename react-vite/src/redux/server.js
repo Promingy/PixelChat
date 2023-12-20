@@ -161,7 +161,7 @@ export const removeChannel = (channelId) => async (dispatch) => {
 }
 
 export const editChannel = (channel, channelId) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}`, {
+    const res = await fetch(`/api/channels/${channelId}`, {
         method: "PUT",
         body: JSON.stringify(channel),
         headers: {
@@ -292,6 +292,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_CHANNEL: {
             const newState = { ...state }
+            console.log(action.channel)
             newState.channels[action.channel.id] = { ...action.channel }
             return newState
         }
