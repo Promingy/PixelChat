@@ -111,7 +111,6 @@ export default function ServerPage() {
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
-            <h1>Hi from {serverId}</h1>
         </>
     )
 }
