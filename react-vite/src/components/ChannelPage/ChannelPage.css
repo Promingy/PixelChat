@@ -13,7 +13,7 @@
 
 .all-messages-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 72.2%;
     overflow-y: scroll;
 }
@@ -81,4 +81,30 @@
     height: 20vh;
     width: 70.5vw;
     padding: 10px;
+}
+
+.react-bar {
+    display: flex;
+    height: 20px;
+    gap: 10px;
+}
+
+.react-bar > *:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.react-bar > * {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+}
+
+
+.remove-message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 5px;
+    padding-bottom: 5px;;
 }

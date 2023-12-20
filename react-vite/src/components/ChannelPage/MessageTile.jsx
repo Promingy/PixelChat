@@ -4,7 +4,7 @@ import EmojiPicker from 'emoji-picker-react'
 import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeReaction, removeReaction } from '../../redux/server'
+import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 
 export default function MessageTile({ message, user, channelId }) {
     const dispatch = useDispatch()
@@ -44,23 +44,30 @@ export default function MessageTile({ message, user, channelId }) {
 
             </div>
 
-           { reactBar && <div className={reactBar ? '' : 'hidden'}>
-                <OpenModalButton
-                    buttonText={'react'}
-                    modalComponent={<EmojiPicker
-                    //if an emoji is selected through the picker, add it to the database!
-                    onEmojiClick={(e) => {
-                        //remove the reaction if user has already used it
-                        for (let reaction of Object.values(message.reactions)){
-                            if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                return dispatch(removeReaction(channelId, message.id, reaction.id))
-                            }
-                        }
-                        // if user hasn't used this reaction already, add reaction
-                        return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji}))
-                        }}
-                    />}
-                />
+           { reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
+           {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
+                    <div className='reaction-button-container'>
+                        <OpenModalButton
+                            buttonText={''}
+                            modalComponent={<EmojiPicker
+                            //if an emoji is selected through the picker, add it to the database!
+                            onEmojiClick={(e) => {
+                                //remove the reaction if user has already used it
+                                for (let reaction of Object.values(message.reactions)){
+                                    if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
+                                        return dispatch(removeReaction(channelId, message.id, reaction.id))
+                                    }
+                                }
+                                // if user hasn't used this reaction already, add reaction
+                                return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji}))
+                                }}
+                            />}/>
+                    </div>
+                        {sessionUser.id === message.user_id && <div>
+                            <i className='fa-regular fa-trash-can remove-message' onClick={() => {
+                                dispatch(removeMessage(channelId, message.id))
+                            }}/>
+                        </div>}
             </div>}
         </div>
 

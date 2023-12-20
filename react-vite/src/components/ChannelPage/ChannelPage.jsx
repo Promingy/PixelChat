@@ -21,7 +21,7 @@ export default function ChannelPage({ socket }) {
         // func to iterate over all messages for a channel
         // and create a tile component
 
-        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         const result = []
 
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
