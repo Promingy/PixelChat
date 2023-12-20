@@ -14,7 +14,7 @@ export default function ServerPage() {
     const { serverId } = useParams()
 
     const server = useSelector(state => state.server)
-    const sessionUser = useSelector(state => state.session)
+    const sessionUser = useSelector(state => state.session.user)
 
     // Eager load all data for the server
     useEffect(() => {
