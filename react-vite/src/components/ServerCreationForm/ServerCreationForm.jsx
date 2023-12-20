@@ -43,7 +43,7 @@ export default function ServerCreationForm() {
                     owner_id: sessionUser.id
                 }
                 const channelData = await dispatch(initializeChannel(serverData.id, channelForm))
-                return navigate(`main/server/${serverData.id}/channels/${channelData.id}`)
+                return navigate(`main/servers/${serverData.id}/channels/${channelData.id}`)
             } else {
                 setErrors(serverData.errors)
             }
