@@ -63,7 +63,7 @@ export default function OuterNavbar() {
         {Object.values(sessionUser.servers).map((server) => (
           <div onClick={() => navigateToServer(server.id)} key={server.id}>
             <div className="server-img-wrapper">
-              <img src={server.image_url} />
+              <img src={server.image_url} title={server.name} />
             </div>
           </div>
         ))}

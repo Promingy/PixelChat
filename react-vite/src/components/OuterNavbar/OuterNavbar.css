@@ -30,6 +30,7 @@
 
 .server-img-wrapper>img {
   width: 100%;
+  font-size: 10px;
 }
 
 .create-new-server {
