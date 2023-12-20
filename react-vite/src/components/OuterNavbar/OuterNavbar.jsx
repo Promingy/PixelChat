@@ -6,7 +6,7 @@ import './OuterNavbar.css'
 export default function OuterNavbar() {
 
     const sessionUser = useSelector((state) => state.session.user)
-    const server = useSelector((state) => state.server)
+    // const server = useSelector((state) => state.server)
 
     return (
 
