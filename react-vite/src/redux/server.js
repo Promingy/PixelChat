@@ -225,8 +225,8 @@ export const removeReaction = (channelId, messageId, reactionId) => async (dispa
     return res
 }
 
-export const initializeReaction = (channelId, reaction) => async (dispatch) => {
-    const res = await fetch(`/api/messages/${reaction.message_id}/reactions`, {
+export const initializeReaction = (channelId, messageId, reaction) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${messageId}/reactions`, {
         method: "POST",
         body: JSON.stringify(reaction),
         headers: {

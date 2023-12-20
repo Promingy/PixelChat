@@ -57,7 +57,7 @@ export default function MessageTile({ message, user, channelId }) {
                             }
                         }
                         // if user hasn't used this reaction already, add reaction
-                        return dispatch(initializeReaction(channelId, {user_id: sessionUser.id, message_id: message.id, emoji: e.emoji}))
+                        return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji}))
                         }}
                     />}
                 />
