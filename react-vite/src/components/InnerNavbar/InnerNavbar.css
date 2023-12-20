@@ -1,0 +1,102 @@
+.inner-navbar-wrapper {
+    width: 22%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 75px;
+    box-sizing: border-box;
+    background-color: #DAC3DA;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 0;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.inner-navbar-header {
+    height: 49px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #aaa;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    padding-left: 16px;
+}
+
+.inner-navbar-header>button {
+    background-color: #DAC3DA;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.inner-navbar-header>button>p {
+    display: flex;
+    justify-content: space-between;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.inner-navbar-header>button>p>i {
+    font-size: 10px;
+}
+
+.inner-navbar-header>button:hover {
+    background-color: #C9AECB;
+}
+
+.inner-navbar-content {
+    padding: 0px;
+    width: 100%;
+}
+
+.inner-navbar-content>li {
+    width: 94%;
+    margin-left: 3%;
+    list-style-type: none;
+    padding: 10px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.inner-navbar-content>li>a {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.not-selected-channel>a {
+    color: black;
+}
+
+.not-selected-channel:hover {
+    background-color: #C7ACC8;
+}
+
+.selected-channel {
+    color: white;
+    background-color: #621E69;
+}
+
+.selected-channel>a>p,
+.selected-channel>a {
+    color: white;
+}

@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import "./LoginForm.css";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import "./LoginFormPage.css";
 
 function LoginFormPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  const autoFillCredentials = () => {
+    setEmail("demo@aa.io");
+    setPassword("password");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,22 +29,25 @@ function LoginFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/");
+      navigate("/landing");
     }
   };
 
   return (
     <>
-      <h1>Log In</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-form">
+        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+        <h1>Sign in to PixelChat</h1>
+
         <label>
           Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="name@work-email.com"
             required
           />
         </label>
@@ -57,7 +62,11 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+
+        <button type="submit" className="large-purple-button">Log In</button>
+        <div id="auto-login">
+          <button onClick={autoFillCredentials} className="large-white-button"> Log in as Demo User </button>
+        </div>
       </form>
     </>
   );
