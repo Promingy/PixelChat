@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { initializeMessage } from '../../redux/server'
 import { useDispatch } from 'react-redux'
 
-export default function MessageBox({ socket, channelName, channelId}) {
+export default function MessageBox({ socket, channelName, channelId, serverId}) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
-    const sendSocket = () => {
-        socket.emit("chat", { message: "Chat message!" })
+
+    const sendSocket = (message) => {
+        socket.emit("server", message)
     }
 
     function handleSubmit(e){
@@ -21,6 +22,19 @@ export default function MessageBox({ socket, channelName, channelId}) {
         setMessage('')
 
         dispatch(initializeMessage(channelId, newMessage))
+        .then(res => {
+            const messageToEmit = {
+                userId: res.user_id,
+                type: 'message',
+                method: "POST",
+                room: +serverId,
+                channelId,
+                message: res
+            }
+
+            sendSocket(messageToEmit)
+        })
+
 
     }
 

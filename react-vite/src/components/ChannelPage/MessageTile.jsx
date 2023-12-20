@@ -6,7 +6,7 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 
-export default function MessageTile({ message, user, channelId }) {
+export default function MessageTile({ message, user, channelId, socket, serverId }) {
     const dispatch = useDispatch()
     const [ reactBar, setReactBar ] = useState(false)
     const sessionUser = useSelector(state => state.session.user)
@@ -55,17 +55,48 @@ export default function MessageTile({ message, user, channelId }) {
                                 //remove the reaction if user has already used it
                                 for (let reaction of Object.values(message.reactions)){
                                     if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                        return dispatch(removeReaction(channelId, message.id, reaction.id))
+                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(res => {
+                                            const payload = {
+                                                type: 'reaction',
+                                                method:'DELETE',
+                                                room: +serverId,
+                                                channelId,
+                                                messageId: message.id,
+                                                reactionId: reaction.id
+                                            }
+
+                                            socket.emit("server", payload)
+                                        })
                                     }
                                 }
                                 // if user hasn't used this reaction already, add reaction
-                                return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji}))
+                                return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji})).then(res => {
+                                    const payload = {
+                                        type: 'reaction',
+                                        method: 'POST',
+                                        room: +serverId,
+                                        channelId,
+                                        reaction: res
+                                    }
+                                    socket.emit("server", payload)
+                                })
                                 }}
                             />}/>
                     </div>
                         {sessionUser.id === message.user_id && <div>
                             <i className='fa-regular fa-trash-can remove-message' onClick={() => {
-                                dispatch(removeMessage(channelId, message.id))
+                                dispatch(removeMessage(channelId, message.id)).then(res => {
+                                    const payload = {
+                                        userId: sessionUser.id,
+                                        type: 'message',
+                                        method: 'DELETE',
+                                        room: +serverId,
+                                        channelId,
+                                        messageId: message.id
+                                    }
+
+                                    socket.emit("server", payload)
+                                })
                             }}/>
                         </div>}
             </div>}
@@ -73,7 +104,7 @@ export default function MessageTile({ message, user, channelId }) {
 
         <div className='message-reactions-container'>
                 {Object.keys(reactions).map(key => {
-                    return <ReactionTile key={key} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                    return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
                 })}
             </div>
         </>
