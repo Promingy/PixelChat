@@ -103,7 +103,7 @@ export const loadServer = (serverId) => async (dispatch) => {
 }
 
 export const removeServer = (serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -115,7 +115,7 @@ export const removeServer = (serverId) => async (dispatch) => {
 }
 
 export const editServer = (server, serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "PUT",
         body: JSON.stringify(server),
         headers: {
@@ -133,7 +133,7 @@ export const editServer = (server, serverId) => async (dispatch) => {
 }
 
 export const initializeServer = (server) => async (dispatch) => {
-    const res = await fetch(`api/servers`, {
+    const res = await fetch(`/api/servers`, {
         method: "POST",
         body: JSON.stringify(server),
         headers: {
@@ -176,7 +176,7 @@ export const editChannel = (channel, channelId) => async (dispatch) => {
 }
 
 export const initializeChannel = (serverId, channel) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}/channels`, {
+    const res = await fetch(`/api/servers/${serverId}/channels`, {
         method: "POST",
         body: JSON.stringify(channel),
         headers: {
@@ -295,7 +295,6 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_CHANNEL: {
             const newState = { ...state }
-            console.log(action.channel)
             newState.channels[action.channel.id] = { ...action.channel }
             return newState
         }
