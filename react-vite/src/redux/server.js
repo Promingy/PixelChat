@@ -40,28 +40,28 @@ const createServer = (server) => {
     }
 }
 
-const deleteChannel = (channelId) => {
+export const deleteChannel = (channelId) => {
     return {
         type: DELETE_CHANNEL,
         channelId
     }
 }
 
-const updateChannel = (channel) => {
+export const updateChannel = (channel) => {
     return {
         type: UPDATE_CHANNEL,
         channel
     }
 }
 
-const createChannel = (channel) => {
+export const createChannel = (channel) => {
     return {
         type: CREATE_CHANNEL,
         channel
     }
 }
 
-const deleteMessage = (channelId, messageId) => {
+export const deleteMessage = (channelId, messageId) => {
     return {
         type: DELETE_MESSAGE,
         channelId,
@@ -69,14 +69,14 @@ const deleteMessage = (channelId, messageId) => {
     }
 }
 
-const createMessage = (message) => {
+export const createMessage = (message) => {
     return {
         type: CREATE_MESSAGE,
         message
     }
 }
 
-const deleteReaction = (channelId, messageId, reactionId) => {
+export const deleteReaction = (channelId, messageId, reactionId) => {
     return {
         type: DELETE_REACTION,
         channelId,
@@ -85,7 +85,7 @@ const deleteReaction = (channelId, messageId, reactionId) => {
     }
 }
 
-const createReaction = (channelId, reaction) => {
+export const createReaction = (channelId, reaction) => {
     return {
         type: CREATE_REACTION,
         channelId,
@@ -103,7 +103,7 @@ export const loadServer = (serverId) => async (dispatch) => {
 }
 
 export const removeServer = (serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -115,7 +115,7 @@ export const removeServer = (serverId) => async (dispatch) => {
 }
 
 export const editServer = (server, serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "PUT",
         body: JSON.stringify(server),
         headers: {
@@ -133,7 +133,7 @@ export const editServer = (server, serverId) => async (dispatch) => {
 }
 
 export const initializeServer = (server) => async (dispatch) => {
-    const res = await fetch(`api/servers`, {
+    const res = await fetch(`/api/servers`, {
         method: "POST",
         body: JSON.stringify(server),
         headers: {
@@ -151,7 +151,7 @@ export const initializeServer = (server) => async (dispatch) => {
 }
 
 export const removeChannel = (channelId) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}`, {
+    const res = await fetch(`/api/channels/${channelId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -176,7 +176,7 @@ export const editChannel = (channel, channelId) => async (dispatch) => {
 }
 
 export const initializeChannel = (serverId, channel) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}/channels`, {
+    const res = await fetch(`/api/servers/${serverId}/channels`, {
         method: "POST",
         body: JSON.stringify(channel),
         headers: {
@@ -191,7 +191,7 @@ export const initializeChannel = (serverId, channel) => async (dispatch) => {
 }
 
 export const removeMessage = (channelId, messageId) => async (dispatch) => {
-    const res = await fetch(`api/messages/${messageId}`, {
+    const res = await fetch(`/api/messages/${messageId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -201,7 +201,7 @@ export const removeMessage = (channelId, messageId) => async (dispatch) => {
 }
 
 export const initializeMessage = (channelId, message) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}/messages`, {
+    const res = await fetch(`/api/channels/${channelId}/messages`, {
         method: "POST",
         body: JSON.stringify(message),
         headers: {
@@ -225,8 +225,8 @@ export const removeReaction = (channelId, messageId, reactionId) => async (dispa
     return res
 }
 
-export const initializeReaction = (channelId, reaction) => async (dispatch) => {
-    const res = await fetch(`/api/messages/${reaction.message_id}/reactions`, {
+export const initializeReaction = (channelId, messageId, reaction) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${messageId}/reactions`, {
         method: "POST",
         body: JSON.stringify(reaction),
         headers: {
@@ -295,7 +295,6 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_CHANNEL: {
             const newState = { ...state }
-            console.log(action.channel)
             newState.channels[action.channel.id] = { ...action.channel }
             return newState
         }

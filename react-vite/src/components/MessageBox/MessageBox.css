@@ -1,0 +1,33 @@
+.send-message-form {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid grey;
+    border-radius: 10px;
+    margin-right: 10px;
+    z-index: 0;
+    align-items: flex-end;
+}
+
+.message-box {
+    resize: none;
+    width: 68vw;
+    height: 3vh;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    z-index: 1;
+    outline: transparent;
+}
+
+.send-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007A5A;
+    color: white;
+    border: none;
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 5px;
+}
