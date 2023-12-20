@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import './ChannelPage.css'
 import MessageTile from "./MessageTile";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 
 export default function ChannelPage() {
     const { channelId } = useParams()
@@ -42,6 +44,10 @@ export default function ChannelPage() {
     return (
         <>
             <h1>hi from channel {channelId}</h1>
+            <OpenModalButton
+                    buttonText={channel?.name}
+                    modalComponent={<ChannelPopupModal />}
+                />
 
             <div className="all-messages-container">
                 {generate_message_layout()}

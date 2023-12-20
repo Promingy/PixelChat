@@ -59,7 +59,7 @@ def edit_server(serverId):
         server.description = data['description']
         server.image_url = data['image_url']
         db.session.commit()
-        return server.to_dict()
+        return server.to_dict(channels=True)
     elif not form.validate_on_submit():
         return {'errors': form.errors}, 401
     return {'errors': {'message': 'Unauthorized'}}, 403
