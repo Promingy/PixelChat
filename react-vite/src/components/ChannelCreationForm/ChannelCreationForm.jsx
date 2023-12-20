@@ -10,7 +10,7 @@ export default function ChannelCreationForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
-
+  const sessionUser = useSelector((state) => state.session.user);
   const serverId = useSelector((state) => state.server.id);
   const [name, setName] = useState("");
   const [topic, setTopic] = useState("");
@@ -27,7 +27,16 @@ export default function ChannelCreationForm() {
     };
 
     const channelData = await dispatch(initializeChannel(serverId, channel));
-    return navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+    if (!channelData.errors) {
+      socket.emit("server", {
+        userId: sessionUser.id,
+        type: "channel",
+        method: "POST",
+        room: serverId,
+        channel: channelData
+      });
+      return navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+    }
   };
 
   return (
