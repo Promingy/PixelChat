@@ -30,8 +30,7 @@ export default function OuterNavbar() {
                     </div>
                 </Link>
                 <div className="open-profile-wrapper">
-                    <OpenModalButton buttonText={<img src={sessionUser.image_url} modalComponent={<Profile />} />
-                    } />
+                    <OpenModalButton buttonText={<img src={sessionUser.image_url} />} modalComponent={<Profile />} />
                 </div>
             </div>
 
