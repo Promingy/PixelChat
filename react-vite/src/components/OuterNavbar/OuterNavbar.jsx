@@ -43,17 +43,27 @@ export default function OuterNavbar() {
     closeMenu();
   };
 
+  const navigateToServer = async (serverId) => {
+    const preloadServer = async (servId) => {
+      const serv = await dispatch(loadServer(servId))
+      return serv
+    }
+    const server = await preloadServer(serverId)
+    const channelId = Object.values(server.channels)[0].id
+    return navigate(`/main/servers/${server.id}/channels/${channelId}`)
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div className="outer-navbar-wrapper">
       <div className="outer-navbar-top">
         {Object.values(sessionUser.servers).map((server) => (
-          <Link to={`/main/servers/${server.id}`} key={server.id}>
+          <div onClick={() => navigateToServer(server.id)} key={server.id}>
             <div className="server-img-wrapper">
               <img src={server.image_url} />
             </div>
-          </Link>
+          </div>
         ))}
       </div>
       <div className="outer-navbar-bottom">
@@ -79,11 +89,11 @@ export default function OuterNavbar() {
             onItemClick={closeMenu}
             modalComponent={<ProfileModal />}
           />
-           <button onClick={logout} >
-                <NavLink to="/" style={{ textDecoration: "none" }}>
-                  Log out
-                </NavLink>
-              </button>
+          <button onClick={logout} >
+            <NavLink to="/" style={{ textDecoration: "none" }}>
+              Log out
+            </NavLink>
+          </button>
         </div>
       </div>
     </div>
