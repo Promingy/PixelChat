@@ -52,16 +52,6 @@ export default function ServerCreationForm() {
         handleServerCreation(form)
     }
 
-    const navigateToServer = async (serverId) => {
-        const preloadServer = async (servId) => {
-            const serv = await dispatch(loadServer(servId))
-            return serv
-        }
-        const server = await preloadServer(serverId)
-        const channelId = Object.values(server.channels)[0].id
-        return navigate(`/main/servers/${server.id}/channels/${channelId}`)
-    }
-
     return (
         <form className="server-creation-form" onSubmit={onSubmit}>
             <h1 className="server-creation-header">{`What's the name of your server?`}</h1>
