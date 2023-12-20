@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
+from .db import add_prefix_for_prod
 
 class Message(db.Model, UserMixin):
     __tablename__ = 'messages'
@@ -11,8 +12,8 @@ class Message(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id")))
     body = db.Column(db.String)
     pinned = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
