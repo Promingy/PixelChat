@@ -33,8 +33,29 @@
 }
 .message-owner,
 .message-post-time,
-.message-body {
+.message-body,
+.message-reaction {
     height: fit-content;
     margin: 0;
     padding: 0;
+}
+
+.message-reactions-container {
+    display: flex;
+}
+
+.message-reaction {
+    display: flex;
+    gap: 5px;
+    border-radius: 15px;
+    border: 2px solid blue;
+    width: 50px;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+}
+.message-reaction:hover {
+    background-color: black;
+    cursor: pointer;
+    border: 2px solid blue;
 }

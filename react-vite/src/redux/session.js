@@ -90,17 +90,17 @@ function sessionReducer(state = initialState, action) {
     case REMOVE_USER:
       return { ...state, user: null };
     case ADD_SERVER: {
-      newState = { ...state }
+      const newState = { ...state }
       newState.user.servers[action.server.id] = action.server
       return newState
     }
     case EDIT_SERVER: {
-      newState = { ...state }
+      const newState = { ...state }
       newState.user.servers[action.server.id] = action.server
       return newState
     }
     case REMOVE_SERVER: {
-      newState = { ...state }
+      const newState = { ...state }
       delete newState.user.servers[action.serverId]
       return newState
     }

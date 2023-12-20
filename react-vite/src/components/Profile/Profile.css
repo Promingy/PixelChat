@@ -1,0 +1,64 @@
+/* Assuming you have a container for the entire modal */
+.profile-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: auto; 
+  max-width: 25%; 
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the top section */
+.profile-top {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-header {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style for the middle section */
+.profile-middle {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style for the bottom section */
+.profile-bottom {
+  padding: 10px;
+}
+
+/* Style for flex containers */
+.flex-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+/* Style for flex items */
+.flex-item {
+  /* flex: 1; */
+  /* margin: 0 10px; */
+}
+
+/* Additional styling for the close button */
+.profile-top button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+}
+
+.profile-top button:hover {
+  color: #333;
+}
