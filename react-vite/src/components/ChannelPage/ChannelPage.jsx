@@ -64,8 +64,13 @@ export default function ChannelPage() {
             <h1>hi from channel {channelId}</h1>
             <OpenModalButton
                     buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal />}
+                    modalComponent={<ChannelPopupModal activeProp={1} />}
                 />
+
+            {users && <OpenModalButton
+                    buttonText={`${Object.keys(users).length} Members`}
+                    modalComponent={<ChannelPopupModal activeProp={2} />}
+                />}
 
             <div className="all-messages-container">
                 {generate_message_layout()}
@@ -80,6 +85,16 @@ export default function ChannelPage() {
 
                 <button>send</button>
             </form>
+
+            <OpenModalButton
+                    buttonText={channel?.name}
+                    modalComponent={<ChannelPopupModal activeProp={1} />}
+                />
+
+            {users && <OpenModalButton
+                    buttonText={`${Object.keys(users).length} Members`}
+                    modalComponent={<ChannelPopupModal activeProp={2} />}
+                />}
         </>
     )
 }
