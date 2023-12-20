@@ -2,6 +2,22 @@
     display: none
 }
 
+.channel-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 96vh;
+
+}
+
+.all-messages-container {
+    display: flex;
+    flex-direction: column;
+    width: 72.2%;
+    overflow-y: scroll;
+}
+
 .user-message-container {
     display: flex;
     margin: 20px;
@@ -58,4 +74,11 @@
     background-color: black;
     cursor: pointer;
     border: 2px solid blue;
+}
+
+.message-box-container{
+    border: 1px solid red;
+    height: 20vh;
+    width: 70.5vw;
+    padding: 10px;
 }

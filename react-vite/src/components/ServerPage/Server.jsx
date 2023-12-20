@@ -39,7 +39,6 @@ export default function ServerPage() {
     return (
         <>
             <ChannelPage socket={socket} />
-            <h1>Hi from {serverId}</h1>
         </>
     )
 }

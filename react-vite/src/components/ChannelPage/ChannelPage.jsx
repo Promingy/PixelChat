@@ -1,19 +1,21 @@
 import { useParams } from "react-router-dom"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import './ChannelPage.css'
 import MessageTile from "./MessageTile";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
+import MessageBox from '../MessageBox'
 
 
-export default function ChannelPage() {
+export default function ChannelPage({ socket }) {
     const { channelId } = useParams()
     const store = useSelector(state => state.server)
     const channel = store?.channels?.[+channelId]
     const messages = store?.channels?.[+channelId]?.messages
     const users = store?.users
     const [message, setMessage] = useState();
+
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -52,34 +54,25 @@ export default function ChannelPage() {
         return result
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
-    }
 
     // Scroll to bottom of the page on initial load
-    window.scrollTo(0, document.body.scrollHeight)
+    useEffect(() => {
+        window.scrollTo(0, document.body.scrollHeight)
+    }, [messages, channelId])
 
     return (
         <>
-            <h1>hi from channel {channelId}</h1>
             <OpenModalButton
                     buttonText={channel?.name}
                     modalComponent={<ChannelPopupModal />}
-                />
+                    />
+            <div className="channel-page-wrapper">
 
-            <div className="all-messages-container">
-                {generate_message_layout()}
+                <div className="all-messages-container">
+                    {generate_message_layout()}
+                </div>
+                <MessageBox socket={socket} channelName={channel?.name} channelId={channelId}/>
             </div>
-
-            <form onSubmit={handleSubmit}>
-                <textarea
-                    placeholder={`Message #${channel?.name}`}
-                    onChange={e => setMessage(e.target.value)}
-                    value={message}
-                />
-
-                <button>send</button>
-            </form>
         </>
     )
 }
