@@ -94,7 +94,7 @@
   left: 80px;
 }
 
-.profile-dropdown button{
+.profile-dropdown > button{
     border:none;
     background-color: white;
     font-size: 16px;

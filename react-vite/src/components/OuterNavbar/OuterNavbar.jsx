@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import * as sessionActions from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import ProfileModal from "../ProfileModal";
+import PreferenceFormModal from "../PreferenceFormModal/preferenceFormModal";
 import "./OuterNavbar.css";
 
 export default function OuterNavbar() {
@@ -77,7 +78,7 @@ export default function OuterNavbar() {
           <OpenModalButton
             buttonText="Preference"
             onItemClick={closeMenu}
-            modalComponent={<ProfileModal />}
+            modalComponent={<PreferenceFormModal />}
           />
            <button onClick={logout} >
                 <NavLink to="/" style={{ textDecoration: "none" }}>
