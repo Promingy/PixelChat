@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ServerCreationForm.css'
@@ -7,6 +7,8 @@ import { initializeServer } from '../../redux/server'
 export default function ServerCreationForm() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const sessionUser = useSelector(state => state.session.user)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -20,20 +22,30 @@ export default function ServerCreationForm() {
         const form = {
             name,
             description,
-            image_url
-            // TODO: add owner_id from user state slice
+            image_url,
+            owner_id: sessionUser.id
         }
 
         const handleServerCreation = async (server) => {
             const serverData = await dispatch(initializeServer(server))
             if (!serverData.errors) {
-                navigate(`/main/servers/${serverData.id}`)
+                navigateToServer(serverData.id)
             } else {
                 setErrors(serverData.errors)
             }
         }
 
         handleServerCreation(form)
+    }
+
+    const navigateToServer = async (serverId) => {
+        const preloadServer = async (servId) => {
+            const serv = await dispatch(loadServer(servId))
+            return serv
+        }
+        const server = await preloadServer(serverId)
+        const channelId = Object.values(server.channels)[0].id
+        return navigate(`/main/servers/${server.id}/channels/${channelId}`)
     }
 
     return (

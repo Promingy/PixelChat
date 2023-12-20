@@ -107,6 +107,11 @@
     align-items: center;
     height: 60px;
     padding: 10px;
+    cursor: pointer;
+}
+
+.landing-server-link:hover {
+    background-color: #eee;
 }
 
 .landing-server-image {
