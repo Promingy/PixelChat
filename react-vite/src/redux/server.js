@@ -249,6 +249,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
             newState.users = {}
             for (let user in action.server.users) {
@@ -275,6 +276,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             return newState
         }
         case CREATE_SERVER: {
@@ -282,6 +284,7 @@ const serverReducer = (state = initialState, action) => {
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
             return newState
         }
