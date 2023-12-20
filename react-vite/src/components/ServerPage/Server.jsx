@@ -106,7 +106,7 @@ export default function ServerPage() {
 
     return (
         <>
-            <ChannelPage socket={socket} serverId={serverId}/>
+            <ChannelPage socket={socket} />
         </>
     )
 }

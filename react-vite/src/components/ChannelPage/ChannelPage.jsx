@@ -8,12 +8,12 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 
 
-export default function ChannelPage({ socket, serverId }) {
+export default function ChannelPage({ socket }) {
     const { channelId } = useParams()
-    const store = useSelector(state => state.server)
-    const channel = store?.channels?.[+channelId]
-    const messages = store?.channels?.[+channelId]?.messages
-    const users = store?.users
+    const server = useSelector(state => state.server)
+    const channel = server?.channels?.[+channelId]
+    const messages = server?.channels?.[+channelId]?.messages
+    const users = server?.users
     const [message, setMessage] = useState();
 
 
@@ -42,13 +42,13 @@ export default function ChannelPage({ socket, serverId }) {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={serverId}/>
+                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/>
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={serverId}/></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/></div>)
             }
         }
         return result
@@ -76,7 +76,7 @@ export default function ChannelPage({ socket, serverId }) {
             <div className="all-messages-container">
                     {generate_message_layout()}
                 </div>
-                <MessageBox socket={socket} serverId={serverId}channelName={channel?.name} channelId={channelId}/>
+                <MessageBox socket={socket} serverId={server.id}channelName={channel?.name} channelId={channelId}/>
             </div>
 
             {/* <OpenModalButton
