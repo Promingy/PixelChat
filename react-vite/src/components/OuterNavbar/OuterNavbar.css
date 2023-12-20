@@ -67,3 +67,7 @@
 .open-profile-wrapper>button>img {
     width: 100%;
 }
+
+.outer-navbar-bottom>a {
+    text-decoration: none;
+}
