@@ -60,7 +60,7 @@ export default function ServerPage() {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            if (checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
+                            if (!checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
                             break
                         }
                         case "DELETE": {
@@ -98,7 +98,7 @@ export default function ServerPage() {
                             dispatch(deleteChannel(obj.channelId))
                             break
                         }
-                        case "UPDATE": {
+                        case "PUT": {
                             //Handle channel create
                             dispatch(updateChannel(obj.channel))
                             break

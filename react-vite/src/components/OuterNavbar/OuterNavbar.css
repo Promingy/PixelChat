@@ -98,18 +98,18 @@
   left: 80px;
 }
 
-.profile-dropdown > button{
-    border:none;
-    background-color: white;
-    font-size: 16px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #ddd;
-     
-.profile-dropdown button {
+.profile-dropdown>button {
   border: none;
   background-color: white;
   font-size: 16px;
   margin-bottom: 5px;
   border-bottom: 1px solid #ddd;
 
-}
+  .profile-dropdown button {
+    border: none;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+
+  }

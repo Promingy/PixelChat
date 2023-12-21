@@ -4,7 +4,7 @@ import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 
-function TopicFormModal(socket) {
+function TopicFormModal({ socket }) {
   const { serverId, channelId } = useParams()
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,26 +18,27 @@ function TopicFormModal(socket) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(
+    const data = await dispatch(
       editChannel({
         name: channel.name,
         topic,
         description: channel.description
       }, +channelId)
-    ).then((data) => socket.emit("server", {
-      userId: sessionUser.id,
-      type: "channel",
-      method: "PUT",
-      room: store.id,
-      channel: data
-    })).then(() => {
+    )
+    if (!data.errors) {
+      socket.emit("server", {
+        userId: sessionUser.id,
+        type: "channel",
+        method: "PUT",
+        room: store.id,
+        channel: data
+      })
       navigate(`/main/servers/${serverId}/channels/${channelId}`)
-    }).then(closeModal()).catch(async (res) => {
-      const data = await res.json();
-      if (data && data.errors) {
-        setErrors(data.errors)
-      }
-    })
+      closeModal()
+    }
+    else {
+      setErrors(data.errors)
+    }
   };
 
   return (

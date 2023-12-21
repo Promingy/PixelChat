@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
 import "./InnerNavbar.css"
 
 export default function InnerNavbar() {
     const { channelId } = useParams()
+    const dispatch = useDispatch()
     // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
 
@@ -20,7 +21,7 @@ export default function InnerNavbar() {
             <ul className="inner-navbar-content">
 
                 {Object.values(server.channels).map((channel) => (
-                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => dispatchEvent(unboldChannel(channel.id))} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel.bold ? " bold-channel" : ""}`}>
+                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => dispatch(unboldChannel(channel.id))} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel.bold ? " bold-channel" : ""}`}>
                         <Link to={`/main/servers/${server.id}/channels/${channel.id}`}>
                             <div className="navbar-content"><i className="fa-solid fa-hashtag"></i>{channel.name}</div>
                         </Link>
