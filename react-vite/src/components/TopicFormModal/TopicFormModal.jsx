@@ -10,6 +10,7 @@ function TopicFormModal() {
   const dispatch = useDispatch();
   const store = useSelector(state => state.server)
   const channel = store?.channels?.[+channelId]
+  const sessionUser = useSelector(state => state.session.user)
   const [topic, setTopic] = useState(channel.topic);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
@@ -23,7 +24,13 @@ function TopicFormModal() {
             topic,
             description: channel.description
           }, +channelId)
-    ).then(() => {
+    ).then((data) => socket.emit("server", {
+      userId: sessionUser.id,
+      type: "channel",
+      method: "PUT",
+      room: store.id,
+      channel: data
+    })).then(() => {
         navigate(`/main/servers/${serverId}/channels/${channelId}`)
     }).then(closeModal()).catch(async (res) => {
         const data = await res.json();

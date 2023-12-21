@@ -1,0 +1,53 @@
+.channel-popup {
+    height: 500px;
+    width: 500px;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.channel-popup-header {
+    border-bottom: 1px solid gray;
+}
+
+.channel-popup-members-container {
+    display: flex;
+    gap: 10px;
+    font-size: 15px;
+}
+
+.channel-popup-tab-container {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.channel-popup-tab:hover {
+    cursor: pointer;
+}
+
+.channel-popup-details-container {
+    border: 1px solid gray;
+    border-radius: 3%;
+    margin: 10px 20px;
+    font-size: 15px;
+}
+
+.channel-popup-details-border {
+    border-bottom: 1px solid gray;
+}
+
+.channel-popup-details {
+    font-size: 15px;
+    margin: 15px
+}
+
+.popup-profile-pic {
+    object-fit: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.channel-popup-delete-button {
+    margin-top: 20px;
+}

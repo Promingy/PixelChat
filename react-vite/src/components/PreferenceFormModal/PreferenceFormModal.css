@@ -1,0 +1,51 @@
+.preference-container{
+ display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.preference-container > button{
+  background: white;
+  border: none;
+  font-size: 20px;
+}
+
+.theme-option{
+  display: flex;
+  justify-content: space-around;
+  
+}
+
+.theme-option > button{
+  border-radius: 5px;
+  justify-content: space-around;
+  font-size: 16px;
+  border-color: lightgray;
+  border-width: 1px;
+  background-color: white;
+  width:180px;
+  height:30px;
+  align-items: center;
+  font-weight: bold;
+
+}
+
+.theme-light {
+    --color-dark: #556052;
+    --color-light: #ececec;
+    --color-accent: #c1a57b;
+}
+
+.theme-dark {
+    --color-dark: #810000;
+    --color-light: #eeebdd;
+    --color-accent: #1b1717;
+}
+
+body {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
