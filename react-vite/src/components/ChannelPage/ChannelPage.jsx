@@ -65,12 +65,11 @@ export default function ChannelPage({ socket }) {
 
     return (
         <>
-            <OpenModalButton
-                buttonText={channel?.name}
-                modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
-            />
             <div className="channel-page-wrapper">
-
+                <OpenModalButton
+                    buttonText={channel?.name}
+                    modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+                />
                 {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
                     modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}

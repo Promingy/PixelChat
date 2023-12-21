@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import * as sessionActions from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import ProfileModal from "../ProfileModal";
-import PreferenceFormModal from "../PreferenceFormModal/preferenceFormModal";
+import PreferenceFormModal from "../PreferenceFormModal/PreferenceFormModal";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
