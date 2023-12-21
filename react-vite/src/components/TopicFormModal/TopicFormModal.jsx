@@ -8,8 +8,8 @@ function TopicFormModal({ socket }) {
   const { serverId, channelId } = useParams()
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const store = useSelector(state => state.server)
-  const channel = store?.channels?.[+channelId]
+  const server = useSelector(state => state.server)
+  const channel = server?.channels?.[+channelId]
   const sessionUser = useSelector(state => state.session.user)
   const [topic, setTopic] = useState(channel.topic);
   const [errors, setErrors] = useState({});
@@ -30,7 +30,7 @@ function TopicFormModal({ socket }) {
         userId: sessionUser.id,
         type: "channel",
         method: "PUT",
-        room: store.id,
+        room: server.id,
         channel: data
       })
       navigate(`/main/servers/${serverId}/channels/${channelId}`)
