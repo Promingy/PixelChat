@@ -2,10 +2,11 @@ import { Link, useParams } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
+import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
 import { useState, useEffect } from "react";
 import "./InnerNavbar.css"
 
-export default function InnerNavbar() {
+export default function InnerNavbar({ socket }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
     // const sessionUser = useSelector((state) => state.session.user)
@@ -27,7 +28,7 @@ export default function InnerNavbar() {
 
         <div className="inner-navbar-wrapper">
             <div className="inner-navbar-header">
-                <OpenModalButton buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
+                <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
             </div>
             <ul className="inner-navbar-content">
 
