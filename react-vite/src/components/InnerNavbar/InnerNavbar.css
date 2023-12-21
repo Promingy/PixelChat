@@ -125,3 +125,26 @@
   --inner-background: #350d36;
   --inner-font-color:#e8e8e8;
 }
+
+.channel-dropdown.hidden {
+  display: none;
+}
+
+.channel-dropdown {
+  border-radius: 5px;
+  list-style-type: none;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  position: relative;
+  left: 10px;
+  border-radius: 5px;
+  width: 94%;
+}
+
+.channel-dropdown > button {
+  border: none;
+  background-color: white;
+  font-size: 13px;
+
+  }
