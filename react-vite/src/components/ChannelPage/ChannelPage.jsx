@@ -26,6 +26,7 @@ export default function ChannelPage({ socket }) {
         const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         const result = []
 
+        // set params for the days, month, and dateSuffixes for proper formatting
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const dateSuffix = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd' }
@@ -36,21 +37,41 @@ export default function ChannelPage({ socket }) {
                 const message = sortedMessages[i]
                 const user = users[message.user_id]
 
-                const prev_date = new Date(sortedMessages[i - 1]?.created_at)
+                const next_date = new Date(sortedMessages[i + 1]?.created_at)
                 const curr_date = new Date(sortedMessages[i].created_at)
 
                 // add a seperator for a messages posted on different days
-                if (prev_date.getDate() !== curr_date.getDate()) {
+                if ((next_date.getDate() !== curr_date.getDate())) {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} />
+                            <MessageTile
+                                message={message}
+                                user={user}
+                                channelId={channelId}
+                                socket={socket}
+                                serverId={server.id}
+                                bottom={i < 3}
+                                />
                         </div>
                     )
                     continue
+                } else {
+                    result.push(
+                    <div key={message.id}>
+                        <MessageTile
+                            message={message}
+                            user={user}
+                            channelId={channelId}
+                            socket={socket}
+                            serverId={server.id}
+                            bottom={i < 3}
+
+                            />
+                    </div>
+                    )
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} /></div>)
             }
         }
         return result
@@ -62,6 +83,12 @@ export default function ChannelPage({ socket }) {
         const element = document.querySelector('.all-messages-container')
         element.scrollTo(0, element.scrollHeight)
     }, [messages, channelId])
+
+    // reset offset on channelId switch, for infinite scroll!
+    useEffect(() => {
+        setOffset(15)
+    }, [channelId])
+
 
     return (
         <>
@@ -75,18 +102,18 @@ export default function ChannelPage({ socket }) {
                     modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
                 />}
             <div className="all-messages-container" id='all-messages-container'>
-                    {generate_message_layout()}
+                {generate_message_layout()}
+
                 {messages && <InfiniteScroll
                     dataLength={Object.values(messages).length}
-                    hasMore={true}
-                    // hasMore={!(Object.values(messages).length % 15)}
+                    hasMore={!(Object.values(messages).length % 15)}
                     next={() => {
                         dispatch(getMessages(channelId, `offset=${offset}`))
                         setOffset(prevOffset => prevOffset += 15)
                     }}
                     inverse={true}
                     scrollableTarget='all-messages-container'
-
+                    endMessage={<h3 style={{textAlign: 'center'}}>No more messages.</h3>}
                     />}
                 </div>
                 <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />

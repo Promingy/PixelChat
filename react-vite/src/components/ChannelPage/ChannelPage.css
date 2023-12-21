@@ -16,6 +16,18 @@
     flex-direction: column-reverse;
     width: 72.2%;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.emoji-box {
+    position: absolute;
+    right: 33vw;
+}
+
+.bottom-emoji {
+    position: absolute;
+    right: 33vw;
+    bottom: 45vh;
 }
 
 .user-message-container {
@@ -89,7 +101,7 @@
     justify-content: center;
     align-items: center;;
     height: 20px;
-    gap: 10px;
+    gap: 5px;
     border: 1px solid lightgray;
     border-radius: 10px;;
     padding: 5px;
@@ -111,6 +123,12 @@
  display: flex;
  justify-content: center;
  padding-top: 5px;
+}
+
+.reaction-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;;
 }
 
 

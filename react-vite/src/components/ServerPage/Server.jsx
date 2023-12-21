@@ -114,10 +114,10 @@ export default function ServerPage() {
 
 
         return (() => {
-            socket.emit("leave", { room: server.id })
+            socket.emit("leave", { room: server?.id })
             socket.disconnect()
         })
-    }, [server.id, dispatch, sessionUser.id])
+    }, [server?.id, dispatch, sessionUser.id])
 
     return (
         <>
