@@ -65,7 +65,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                 //remove the reaction if user has already used it
                                 for (let reaction of Object.values(message.reactions)){
                                     if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(res => {
+                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
                                             const payload = {
                                                 type: 'reaction',
                                                 method:'DELETE',
@@ -96,7 +96,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                     </div>
                         {sessionUser.id === message.user_id && <div>
                             <i className='fa-regular fa-trash-can remove-message' onClick={() => {
-                                dispatch(removeMessage(channelId, message.id)).then(res => {
+                                dispatch(removeMessage(channelId, message.id)).then(() => {
                                     const payload = {
                                         userId: sessionUser.id,
                                         type: 'message',
