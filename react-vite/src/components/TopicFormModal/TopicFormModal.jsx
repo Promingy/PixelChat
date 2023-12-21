@@ -18,6 +18,7 @@ function TopicFormModal({ socket }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     const data = await dispatch(
       editChannel({
         name: channel.name,
@@ -33,7 +34,6 @@ function TopicFormModal({ socket }) {
         room: store.id,
         channel: data
       })
-      navigate(`/main/servers/${serverId}/channels/${channelId}`)
       closeModal()
     }
     else {

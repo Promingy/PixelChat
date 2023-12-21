@@ -24,8 +24,6 @@ function ChannelPopupModal({ activeProp, socket }) {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    console.log(activeProp)
-
     const handleDelete = () => {
         dispatch(removeChannel(channelId)).then(() => {
             socket.emit("server", {
@@ -55,8 +53,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                     <h3 className={`channel-popup-tab${active == 3 ? " channel-popup-selected-tab" : ""}`} onClick={() => setActive(3)}>Settings</h3>
                 </div>
             </div>
-            {active === 1 ?
-                <div className='channel-popup-details-container'>
+            {active === 1 ? active === 1 && sessionUser.id === channel.owner_id ? <div className='channel-popup-details-container'>
                     <div className='channel-popup-details-border'>
                         <div className='topic-modal-wrapper'>
                             <OpenModalButton
@@ -69,7 +66,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                     Edit
                                 </div>
                                 </div>}
-                            modalComponent={<TopicFormModal />}
+                            modalComponent={<TopicFormModal socket={socket} />}
                         />
                         </div>
                     </div>
@@ -85,8 +82,25 @@ function ChannelPopupModal({ activeProp, socket }) {
                                         Edit
                                     </div>
                                     </div>}
-                                modalComponent={<DescriptionFormModal />}
+                                modalComponent={<DescriptionFormModal socket={socket} />}
                             />
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className='channel-popup-details'>Created by</h2>
+                        <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                    </div>
+                </div> : <div className='channel-popup-details-container'>
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                            <h2 className='channel-popup-details'>Topic</h2>
+                            <p className='channel-popup-details'>{channel.topic}</p>
+                        </div>
+                    </div>
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                                <h2 className='channel-popup-details'>Description</h2>
+                                <p className='channel-popup-details'>{channel.description}</p>
                         </div>
                     </div>
                     <div>
@@ -113,7 +127,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                     </div>
                 </div>
             </div> : null}
-            {active === 3 && sessionUser.id === channel.owner_id ?
+            {active === 3 && sessionUser.id === channel.owner_id && Object.values(store.channels).length > 1 ?
             <div className='channel-popup-details-container'>
                 <button className='channel-popup-delete-button' onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
                 {errors.message && <p>{errors.message}</p>}
