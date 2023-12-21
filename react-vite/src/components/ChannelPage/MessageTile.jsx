@@ -7,9 +7,10 @@ import { initializeReaction, removeReaction, removeMessage } from '../../redux/s
 
 export default function MessageTile({ message, user, channelId, socket, serverId, bottom }) {
     const dispatch = useDispatch()
-    const [reactBar, setReactBar] = useState(false)
     const sessionUser = useSelector(state => state.session.user)
+    const [reactBar, setReactBar] = useState(false)
     const [emojiBox, setEmojiBox ] = useState(false)
+    const [confirmMsgDel, setConfirmMsgDel] = useState(false)
 
     // format date
     const date = new Date(message.created_at)
@@ -25,7 +26,6 @@ export default function MessageTile({ message, user, channelId, socket, serverId
     for (let reaction of Object.values(message.reactions)) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
-    console.log(bottom)
     return (
         <>
             <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => setReactBar(false)}>
@@ -98,21 +98,26 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                       }} />
                             </div>}
                         {sessionUser.id === message.user_id && <div>
-                            <i className='fa-regular fa-trash-can remove-message' onClick={() => {
+                            <i className='fa-regular fa-trash-can remove-message' onClick={() => setConfirmMsgDel(!confirmMsgDel)} />
+                        {confirmMsgDel && <div
+                            className='confirm-message-delete'
+                            onMouseLeave={() => setConfirmMsgDel(false)}
+                            onClick={() => {
+                                setConfirmMsgDel(false)
                                 dispatch(removeMessage(channelId, message.id)).then(() => {
-                                    const payload = {
-                                        userId: sessionUser.id,
-                                        type: 'message',
-                                        method: 'DELETE',
-                                        room: +serverId,
-                                        channelId,
-                                        messageId: message.id
-                                    }
+                                const payload = {
+                                    userId: sessionUser.id,
+                                    type: 'message',
+                                    method: 'DELETE',
+                                    room: +serverId,
+                                    channelId,
+                                    messageId: message.id
+                                }
 
 
-                                socket.emit("server", payload)
-                            })
-                        }} />
+                            socket.emit("server", payload)
+                        })}}
+                            >Confirm Delete</div>}
                     </div>}
                 </div>}
 
