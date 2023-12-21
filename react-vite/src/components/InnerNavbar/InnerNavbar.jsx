@@ -20,7 +20,7 @@ export default function InnerNavbar() {
             <ul className="inner-navbar-content">
 
                 {Object.values(server.channels).map((channel) => (
-                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => unboldChannel(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel.bold ? " bold-channel" : ""}`}>
+                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => dispatchEvent(unboldChannel(channel.id))} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel.bold ? " bold-channel" : ""}`}>
                         <Link to={`/main/servers/${server.id}/channels/${channel.id}`}>
                             <div className="navbar-content"><i className="fa-solid fa-hashtag"></i>{channel.name}</div>
                         </Link>

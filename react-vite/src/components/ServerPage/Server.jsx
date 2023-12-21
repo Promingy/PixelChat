@@ -60,7 +60,7 @@ export default function ServerPage() {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            if (checkChannelIfSelected(obj.message.channel_id)) boldChannel(obj.message.channel_id)
+                            if (checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
                             break
                         }
                         case "DELETE": {
@@ -121,13 +121,9 @@ export default function ServerPage() {
 
     return (
         <>
-
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
-            <h1>Hi from {serverId}</h1>
-            <button onClick={() => boldChannel(1)}>BOLD TEST</button>
-
         </>
     )
 }
