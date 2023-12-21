@@ -65,12 +65,13 @@
   background: white;
   border: none;
   margin: auto;
+  box-sizing: border-box;
 }
 
 
 
 .open-profile-wrapper>button>img {
-  width: 100%;
+  height: 105%;
 }
 
 .outer-navbar-bottom {
@@ -104,12 +105,13 @@
   font-size: 16px;
   margin-bottom: 5px;
   border-bottom: 1px solid #ddd;
+}
 
-  .profile-dropdown button {
-    border: none;
-    background-color: white;
-    font-size: 16px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #ddd;
+.profile-dropdown button {
+  border: none;
+  background-color: white;
+  font-size: 16px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #ddd;
 
-  }
+}

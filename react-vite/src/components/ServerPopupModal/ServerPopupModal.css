@@ -1,0 +1,145 @@
+.server-popup {
+    width: 500px;
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+    background-color: #F8F8F8;
+}
+
+.server-popup-header {
+    border-bottom: 1px solid #ddd;
+    margin: 0px padding 20px;
+    background-color: white;
+}
+
+.server-popup-header>h1 {
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 10px;
+}
+
+
+.server-popup-details-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 10px 20px;
+    font-size: 15px;
+    box-sizing: border-box;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.server-modal-wrapper {
+    border-bottom: 1px solid #ddd;
+}
+
+.server-popup-details {
+    font-size: 15px;
+    margin: 15px
+}
+
+.server-popup-delete-button {
+    margin-top: 20px;
+}
+
+.server-modal-wrapper>button {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    border: none;
+    background: none;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.server-popup-name>button {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.server-popup-delete {
+    border-bottom: none;
+}
+
+.server-popup-delete>button {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.server-popup-description>.server-modal-wrapper {
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.server-popup-description>button>.server-popup-about-div>.server-popup-about-div-left {
+    font-size: 12px;
+    text-align: left;
+    max-height: 100px;
+}
+
+.server-popup-description>button>.server-popup-about-div>.server-popup-about-div-left>p {
+    font-size: 16px;
+}
+
+.server-popup-delete>button>.server-popup-about-div {
+    height: 24px;
+}
+
+.server-popup-delete>button>.server-popup-about-div>.server-popup-about-div-left>p {
+    color: #E01E5A;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.server-modal-wrapper>button:hover {
+    background-color: #F6F6F6
+}
+
+.server-popup-about-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.server-popup-about-div-left {
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: 16px;
+    margin-top: 0px;
+    color: #666
+}
+
+.server-popup-about-div-left>p {
+    text-align: left;
+    font-weight: 600;
+    margin-top: 0px;
+    color: black;
+}
+
+.server-popup-about-div-right {
+    color: #1064A3;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.server-popup-about-div-right:hover {
+    text-decoration: underline;
+}
+
+.server-popup-huddle-buttons>button:hover {
+    background-color: #F6F6F6
+}
+
+.server-popup-delete-button {
+    height: 100px;
+    width: 100%;
+    margin-top: 0px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: red;
+}
+
+.server-popup-delete-button>button:hover {
+    background-color: #F6F6F6
+}
