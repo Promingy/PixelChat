@@ -12,6 +12,7 @@ const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
+const GET_MESSAGES = 'reaction/getMessages'
 
 const getServer = (server) => {
     return {
@@ -90,6 +91,14 @@ export const createReaction = (channelId, reaction) => {
         type: CREATE_REACTION,
         channelId,
         reaction
+    }
+}
+
+export const getMoreMessages = (messages, channelId) => {
+    return {
+        type: GET_MESSAGES,
+        messages,
+        channelId
     }
 }
 
@@ -240,6 +249,16 @@ export const initializeReaction = (channelId, messageId, reaction) => async (dis
     return data
 }
 
+export const getMessages = (channelId, query) => async (dispatch) => {
+    const res = await fetch(`/api/channels/${channelId}?${query}`)
+
+    if (res.ok) {
+        const data = await res.json()
+        dispatch(getMoreMessages(data.messages, channelId))
+        return data.messages
+    }
+}
+
 const initialState = {}
 
 const serverReducer = (state = initialState, action) => {
@@ -323,6 +342,15 @@ const serverReducer = (state = initialState, action) => {
         case CREATE_REACTION: {
             const newState = { ...state }
             newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
+            return newState
+        }
+        case GET_MESSAGES: {
+            const newState = { ...state }
+
+            for (let message of action.messages){
+                newState.channels[action.channelId].messages[message.id] = message
+            }
+
             return newState
         }
         default: {

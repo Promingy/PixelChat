@@ -30,39 +30,29 @@ export default function MessageTile({ message, user, channelId, socket, serverId
         <>
             <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => setReactBar(false)}>
 
-                <div className="message-body-header-container">
-                    <img className='message-profile-pic' src={user.image_url} />
+                <div className='message-body-reactions-container'>
+                    <div className="message-body-header-container">
+                        <img className='message-profile-pic' src={user.image_url} />
 
-                    <div className="message-owner-date-container">
+                        <div className="message-owner-date-container">
 
-                        <div className='date-name-container'>
-                            <span className="message-owner">{user.username}</span>
-                            <span className="message-post-time">{hours}:{minutes} {amPm}</span>
+                            <div className='date-name-container'>
+                                <span className="message-owner">{user.username}</span>
+                                <span className="message-post-time">{hours}:{minutes} {amPm}</span>
+                            </div>
+                            <p className="message-body">{message.body}</p>
                         </div>
-                        <p className="message-body">{message.body}</p>
+
                     </div>
+
+                    <div className='message-reactions-container'>
+                    {Object.keys(reactions).map(key => {
+                        return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                    })}
+                </div>
 
                 </div>
 
-                {reactBar && <div className={reactBar ? '' : 'hidden'}>
-                    <OpenModalButton
-                        buttonText={'react'}
-                        modalComponent={<EmojiPicker
-                            //if an emoji is selected through the picker, add it to the database!
-                            onEmojiClick={(e) => {
-                                //remove the reaction if user has already used it
-                                for (let reaction of Object.values(message.reactions)) {
-                                    if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                        return dispatch(removeReaction(channelId, message.id, reaction.id))
-                                    }
-                                }
-                                // if user hasn't used this reaction already, add reaction
-                                return dispatch(initializeReaction(channelId, { user_id: sessionUser.id, message_id: message.id, emoji: e.emoji }))
-                            }}
-                        />}
-                    />
-                </div>}
-            </div>
 
            { reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
            {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
@@ -101,7 +91,8 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                     socket.emit("server", payload)
                                 })
                                 }}
-                            />}/>
+                            />
+                            }/>
                     </div>
                         {sessionUser.id === message.user_id && <div>
                             <i className='fa-regular fa-trash-can remove-message' onClick={() => {
@@ -121,11 +112,8 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                         </div>}
             </div>}
 
-        <div className='message-reactions-container'>
-                {Object.keys(reactions).map(key => {
-                    return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
-                })}
-            </div>
+        </div>
+
         </>
 
     )
