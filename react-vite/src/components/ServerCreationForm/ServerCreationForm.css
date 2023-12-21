@@ -7,6 +7,10 @@
     margin-bottom: 50px;
 }
 
+.server-creation-form > div > span {
+    color: red;
+}
+
 .server-creation-header {
     font-size: 30px;
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
