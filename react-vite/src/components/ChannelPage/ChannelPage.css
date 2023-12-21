@@ -70,6 +70,7 @@
     align-items: center;
     height: 25px;
     background-color: lightgray;
+    border: 1px solid transparent;
 }
 .message-reaction:hover {
     background-color: white;
@@ -78,7 +79,6 @@
 }
 
 .message-box-container{
-    border: 1px solid red;
     height: 20vh;
     width: 70.5vw;
     padding: 10px;
