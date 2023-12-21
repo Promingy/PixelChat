@@ -44,7 +44,12 @@ export default function MessageBox({ socket, channelName, channelId, serverId}) 
                 className="message-box"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder={`Message #${channelName}`}/>
+                placeholder={`Message #${channelName}`}
+                onKeyUp={(e) => {
+                    if (e.key === 'Enter'){
+                        return handleSubmit(e)
+                    }
+                }}/>
             <button onClick={handleSubmit} className='fa-regular fa-paper-plane fa-lg send-message' />
         </form>
     )
