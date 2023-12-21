@@ -42,31 +42,40 @@ function ChannelPopupModal(activeProp) {
     return (
         <div className='channel-popup'>
             <div className='channel-popup-header'>
-                <h1># {channel.name}</h1>
+                <h1><i className="fa-solid fa-hashtag"></i> {channel.name}</h1>
                 <div className='channel-popup-tab-container'>
-                    <h3 className='channel-popup-tab' onClick={() => setActive(1)}>About</h3>
-                    <h3 className='channel-popup-tab' onClick={() => setActive(2)}>Members {Object.keys(users).length}</h3>
-                    <h3 className='channel-popup-tab' onClick={() => setActive(3)}>Integrations</h3>
-                    <h3 className='channel-popup-tab' onClick={() => setActive(4)}>Settings</h3>
+                    <h3 className={`channel-popup-tab${active == 1 ? " channel-popup-selected-tab" : ""}`} onClick={() => setActive(1)}>About</h3>
+                    <h3 className={`channel-popup-tab${active == 2 ? " channel-popup-selected-tab" : ""}`} onClick={() => setActive(2)}>Members {Object.keys(users).length}</h3>
+                    <h3 className={`channel-popup-tab${active == 3 ? " channel-popup-selected-tab" : ""}`} onClick={() => setActive(3)}>Settings</h3>
                 </div>
             </div>
             {active === 1 ?
                 <div className='channel-popup-details-container'>
                     <div className='channel-popup-details-border'>
-                        <h2 className='channel-popup-details'>Topic</h2>
-                        <p className='channel-popup-details'>{channel.topic}</p>
-                        <OpenModalButton
-                        buttonText={'edit'}
-                        modalComponent={<TopicFormModal />}
-                    />
+                        <div className='topic-modal-wrapper'>
+                            <OpenModalButton
+                            buttonText={<div className='channel-popup-about-div'>
+                                <div className='channel-popup-about-div-left'>
+                                    <p>Topic</p>
+                                    {channel.topic}
+                                </div>
+                                <div className='channel-popup-about-div-right'>
+                                    Edit
+                                </div>
+                                </div>}
+                            modalComponent={<TopicFormModal />}
+                        />
+                        </div>
                     </div>
                     <div className='channel-popup-details-border'>
                         <h2 className='channel-popup-details'>Description</h2>
                         <p className='channel-popup-details'>{channel.description}</p>
-                        <OpenModalButton
-                        buttonText={'edit'}
-                        modalComponent={<DescriptionFormModal />}
-                    />
+                        <div className='description-modal-wrapper'>
+                            <OpenModalButton
+                            buttonText={'edit'}
+                            modalComponent={<DescriptionFormModal />}
+                        />
+                        </div>
                     </div>
                     <div>
                         <h2 className='channel-popup-details'>Created by</h2>
@@ -80,24 +89,6 @@ function ChannelPopupModal(activeProp) {
                 </div>
             )) : null}
             {active === 3 ?
-            <div>
-                <div className='channel-popup-details-container'>
-                    <h2 className='channel-popup-details'>Supercharge your channel PRO</h2>
-                    <p className='channel-popup-details'>There&apos;s a few automations that will make your life easier. Set them up in a flash.</p>
-                    <button onClick={() => (alert(`Feature Coming Soon...`))}>See Upgrade Options</button>
-                </div>
-                <div className='channel-popup-details-container'>
-                    <h2 className='channel-popup-details'>Apps</h2>
-                    <p className='channel-popup-details'>Bring the tools you need into this channel to pull reports, start calls, file tickets and more.</p>
-                    <button onClick={() => (alert(`Feature Coming Soon...`))}>Add an App</button>
-                </div>
-                <div className='channel-popup-details-container'>
-                    <h2 className='channel-popup-details'>Send emails to this channel PRO</h2>
-                    <p className='channel-popup-details'>Get an email address that posts incoming emails in this channel.</p>
-                    <button onClick={() => (alert(`Feature Coming Soon...`))}>See Upgrade Options</button>
-                </div>
-            </div> : null}
-            {active === 4 ?
             <div>
                 <div className='channel-popup-details-container'>
                     <h2 className='channel-popup-details'>Posting Permissions</h2>
@@ -115,7 +106,7 @@ function ChannelPopupModal(activeProp) {
                     <button onClick={() => (alert(`Feature Coming Soon...`))}>Copy huddle Link</button>
                 </div>
             </div> : null}
-            {active === 4 && sessionUser.id === channel.owner_id ?
+            {active === 3 && sessionUser.id === channel.owner_id ?
             <div className='channel-popup-delete-button'>
                 <button onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
                 {errors.message && <p>{errors.message}</p>}

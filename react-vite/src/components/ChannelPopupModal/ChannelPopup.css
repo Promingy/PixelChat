@@ -2,11 +2,18 @@
     height: 500px;
     width: 500px;
     padding: 20px;
-    overflow: scroll;
+    overflow: hidden;
+    position: relative;
+    z-index: 50;
 }
 
 .channel-popup-header {
     border-bottom: 1px solid gray;
+    margin-bottom: 0;
+}
+
+.channel-popup-header > h1 {
+    margin: 0
 }
 
 .channel-popup-members-container {
@@ -17,19 +24,33 @@
 
 .channel-popup-tab-container {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     font-size: 12px;
+    margin-bottom: 0;
+}
+
+.channel-popup-tab-container > .channel-popup-selected-tab {
+    border-bottom: 2px solid #5e2262;
+    color: black;
+}
+
+.channel-popup-tab {
+    color: #616061;
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-bottom: 8px;
 }
 
 .channel-popup-tab:hover {
-    cursor: pointer;
+    color: black;
 }
 
 .channel-popup-details-container {
     border: 1px solid gray;
-    border-radius: 3%;
+    border-radius: 5px;
     margin: 10px 20px;
     font-size: 15px;
+    box-sizing: border-box;
 }
 
 .channel-popup-details-border {
@@ -51,3 +72,60 @@
 .channel-popup-delete-button {
     margin-top: 20px;
 }
+
+.topic-modal-wrapper > button {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    border: none;
+    background: none;
+    border-radius: 5px;
+}
+
+.topic-modal-wrapper {
+    height: 100px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.topic-modal-wrapper > button:hover {
+    background-color: #F6F6F6
+}
+
+.channel-popup-about-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.channel-popup-about-div-left {
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: 16px;
+    margin-top: 0px;
+    color: #666
+}
+
+.channel-popup-about-div-left > p {
+    text-align: left;
+    font-weight: 600;
+    margin-top: 0px;
+    color: black;
+}
+
+.channel-popup-about-div-right {
+    color: #1064A3;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.channel-popup-about-div-right:hover {
+    text-decoration: underline;
+}
+
+/* .description-modal-wrapper {
+
+} */
