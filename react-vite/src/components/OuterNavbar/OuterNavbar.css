@@ -28,7 +28,7 @@
   cursor: pointer;
 }
 
-.server-img-wrapper>img {
+.server-img-wrapper > img {
   width: 100%;
   font-size: 10px;
 }
@@ -54,7 +54,7 @@
   margin-bottom: 16px;
 }
 
-.open-profile-wrapper>button {
+.open-profile-wrapper > button {
   width: 36px;
   height: 36px;
   border-radius: 3px;
@@ -68,8 +68,6 @@
   box-sizing: border-box;
 }
 
-
-
 .open-profile-wrapper>button>img {
   height: 105%;
 }
@@ -80,9 +78,8 @@
   flex-direction: column;
 }
 
-.outer-navbar-bottom>a {
+.outer-navbar-bottom > a {
   text-decoration: none;
-
 }
 
 .profile-dropdown.hidden {
@@ -99,19 +96,10 @@
   left: 80px;
 }
 
-.profile-dropdown>button {
+.profile-dropdown > button {
   border: none;
   background-color: white;
-  font-size: 16px;
+  font-size: 10x;
   margin-bottom: 5px;
   border-bottom: 1px solid #ddd;
-}
-
-.profile-dropdown button {
-  border: none;
-  background-color: white;
-  font-size: 16px;
-  margin-bottom: 5px;
-  border-bottom: 1px solid #ddd;
-
 }
