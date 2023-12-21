@@ -7,6 +7,8 @@ import TopicFormModal from '../TopicFormModal';
 import DescriptionFormModal from '../DescriptionFormModal';
 import { removeChannel } from '../../redux/server'
 import { FaRegTrashAlt } from "react-icons/fa";
+import { LuHeadphones } from "react-icons/lu";
+import { IoIosLink } from "react-icons/io";
 import './ChannelPopup.css'
 
 function ChannelPopupModal(activeProp) {
@@ -68,13 +70,19 @@ function ChannelPopupModal(activeProp) {
                         </div>
                     </div>
                     <div className='channel-popup-details-border'>
-                        <h2 className='channel-popup-details'>Description</h2>
-                        <p className='channel-popup-details'>{channel.description}</p>
-                        <div className='description-modal-wrapper'>
-                            <OpenModalButton
-                            buttonText={'edit'}
-                            modalComponent={<DescriptionFormModal />}
-                        />
+                        <div className='topic-modal-wrapper'>
+                                <OpenModalButton
+                                buttonText={<div className='channel-popup-about-div'>
+                                    <div className='channel-popup-about-div-left'>
+                                        <p>Description</p>
+                                        {channel.description}
+                                    </div>
+                                    <div className='channel-popup-about-div-right'>
+                                        Edit
+                                    </div>
+                                    </div>}
+                                modalComponent={<DescriptionFormModal />}
+                            />
                         </div>
                     </div>
                     <div>
@@ -91,24 +99,19 @@ function ChannelPopupModal(activeProp) {
             {active === 3 ?
             <div>
                 <div className='channel-popup-details-container'>
-                    <h2 className='channel-popup-details'>Posting Permissions</h2>
-                    <ul>
-                        <li>Everyone except guests can post</li>
-                        <li>No one can reply to messages</li>
-                        <li>Only Server Owners can use @everyone mentions</li>
-                    </ul>
-                    <p className='channel-popup-details'>Learn more</p>
-                </div>
-                <div className='channel-popup-details-container'>
                     <h2 className='channel-popup-details'>Huddles</h2>
                     <p className='channel-popup-details'>Members can start and join huddles in this channel. Learn more</p>
-                    <button onClick={() => (alert(`Feature Coming Soon...`))}>Start huddle</button>
-                    <button onClick={() => (alert(`Feature Coming Soon...`))}>Copy huddle Link</button>
+                    <div className='channel-popup-huddle-buttons'>
+                        <button onClick={() => (alert(`Feature Coming Soon...`))}><LuHeadphones />
+ Start huddle</button>
+                        <button onClick={() => (alert(`Feature Coming Soon...`))}><IoIosLink />
+ Copy huddle Link</button>
+                    </div>
                 </div>
             </div> : null}
             {active === 3 && sessionUser.id === channel.owner_id ?
-            <div className='channel-popup-delete-button'>
-                <button onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
+            <div className='channel-popup-details-container'>
+                <button className='channel-popup-delete-button' onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
                 {errors.message && <p>{errors.message}</p>}
             </div> : null}
         </div>

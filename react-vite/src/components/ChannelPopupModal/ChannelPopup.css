@@ -20,6 +20,11 @@
     display: flex;
     gap: 10px;
     font-size: 15px;
+    cursor: pointer;
+}
+
+.channel-popup-members-container:hover {
+    background-color: #F6F6F6;
 }
 
 .channel-popup-tab-container {
@@ -126,6 +131,34 @@
     text-decoration: underline;
 }
 
-/* .description-modal-wrapper {
+.channel-popup-huddle-buttons {
+    font-size: 15px;
+    margin: 15px;
+    display: flex;
+    gap: 10px;
+}
 
-} */
+.channel-popup-huddle-buttons > button {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    gap: 3px;
+    border: 1px solid gray;
+}
+
+.channel-popup-huddle-buttons > button:hover {
+    background-color: #F6F6F6
+}
+
+.channel-popup-delete-button {
+    height: 100px;
+    width: 100%;
+    margin-top: 0px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: red;
+}
+
+.channel-popup-delete-button > button:hover {
+    background-color: #F6F6F6
+}
