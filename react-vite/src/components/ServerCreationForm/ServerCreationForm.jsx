@@ -27,7 +27,6 @@ export default function ServerCreationForm() {
         // aws uploads can be a bit slow—displaying
         // some sort of loading message is a good idea
         const returnImage = await dispatch(uploadImage(formData))
-        console.log(returnImage)
 
         const form = {
             name,
