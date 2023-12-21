@@ -1,6 +1,5 @@
 .server-creation-form {
     display: flex;
-    justify-content: center;
     width: 400px;
     flex-wrap: wrap;
     margin: auto;
@@ -9,10 +8,10 @@
 }
 
 .server-creation-header {
-    font-size: 42px;
+    font-size: 30px;
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
     width: 100%;
-    text-align: center;
+    text-align: left;
     margin: auto;
 }
 
@@ -22,7 +21,7 @@
 }
 
 .server-creation-input {
-    width: 100%;
+    width: 400px;
     box-sizing: border-box;
     height: 44px;
     border-radius: 5px;
