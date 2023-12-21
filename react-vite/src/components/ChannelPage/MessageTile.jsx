@@ -46,16 +46,16 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                     </div>
 
                     <div className='message-reactions-container'>
-                    {Object.keys(reactions).map(key => {
-                        return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
-                    })}
-                </div>
+                        {Object.keys(reactions).map(key => {
+                            return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                        })}
+                    </div>
 
                 </div>
 
 
-           { reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
-           {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
+                {reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
+                    {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
                     <div className='reaction-button-container'>
                         <OpenModalButton
                             buttonText={''}
@@ -79,20 +79,20 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                         })
                                     }
                                 }
-                                // if user hasn't used this reaction already, add reaction
-                                return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji})).then(res => {
-                                    const payload = {
-                                        type: 'reaction',
-                                        method: 'POST',
-                                        room: +serverId,
-                                        channelId,
-                                        reaction: res
-                                    }
-                                    socket.emit("server", payload)
-                                })
+                                    // if user hasn't used this reaction already, add reaction
+                                    return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                        const payload = {
+                                            type: 'reaction',
+                                            method: 'POST',
+                                            room: +serverId,
+                                            channelId,
+                                            reaction: res
+                                        }
+                                        socket.emit("server", payload)
+                                    })
                                 }}
                             />
-                            }/>
+                            } />
                     </div>
                         {sessionUser.id === message.user_id && <div>
                             <i className='fa-regular fa-trash-can remove-message' onClick={() => {
@@ -106,13 +106,14 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                         messageId: message.id
                                     }
 
-                                    socket.emit("server", payload)
-                                })
-                            }}/>
-                        </div>}
-            </div>}
 
-        </div>
+                                socket.emit("server", payload)
+                            })
+                        }} />
+                    </div>}
+                </div>}
+
+            </div>
 
         </>
 
