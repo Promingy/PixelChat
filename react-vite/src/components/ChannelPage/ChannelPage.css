@@ -1,132 +1,132 @@
 .hidden {
-    display: none
+  display: none;
 }
 
 .channel-page-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-    height: 96vh;
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 96vh;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
 .all-messages-container {
-    display: flex;
-    flex-direction: column-reverse;
-    width: 72.2%;
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 72.2%;
+  overflow-y: auto;
 }
 
 .user-message-container {
-    display: flex;
-    margin: 20px;
+  display: flex;
+  margin: 20px;
 }
 
 .message-profile-pic {
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
 }
 
 .message-body-header-container {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    width: 69vw;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 69vw;
 }
 
 .message-owner-date-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.date-name-container{
-    display: flex;
-    gap: 5px;
-    height: fit-content;
+.date-name-container {
+  display: flex;
+  gap: 5px;
+  height: fit-content;
 }
 .message-owner,
 .message-post-time,
 .message-body,
 .message-reaction {
-    height: fit-content;
-    margin: 0;
-    padding: 0;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
 }
 
 .message-reactions-container {
-    display: flex;
+  display: flex;
 }
 
 .message-reaction {
-    display: flex;
-    gap: 5px;
-    border-radius: 15px;
-    width: 50px;
-    justify-content: center;
-    align-items: center;
-    height: 25px;
-    background-color: lightgray;
-    border: 1px solid transparent;
+  display: flex;
+  gap: 5px;
+  border-radius: 15px;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  background-color: lightgray;
+  border: 1px solid transparent;
 }
 .message-reaction:hover {
-    background-color: white;
-    border: 1px solid grey;
-    cursor: pointer;
+  background-color: white;
+  border: 1px solid grey;
+  cursor: pointer;
 }
 
-.message-box-container{
-    height: 20vh;
-    width: 70.5vw;
-    padding: 10px;
+.message-box-container {
+  height: 20vh;
+  width: 70.5vw;
+  padding: 10px;
 }
 
 .react-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;;
-    height: 20px;
-    gap: 10px;
-    border: 1px solid lightgray;
-    border-radius: 10px;;
-    padding: 5px;
-    position: sticky;
-    right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  gap: 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 5px;
+  position: sticky;
+  right: 10px;
 }
 
 .react-bar > * {
-    border-radius: 5px;
-    width: 25px;
-    height: 25px;
+  border-radius: 5px;
+  width: 25px;
+  height: 25px;
 }
 
 .react-bar > *:hover {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 .remove-message {
- display: flex;
- justify-content: center;
- padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
 }
-
 
 .message-date-seperator {
-    border: 1px solid grey;
-    text-align: center;
-    width: fit-content;
-    border-radius: 15px;
-    padding: 5px;
-    margin: 0 auto;
+  border: 1px solid grey;
+  text-align: center;
+  width: fit-content;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 0 auto;
 }
 
-.message-body-reactions-container{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.message-body-reactions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .theme-light {
@@ -135,11 +135,7 @@
 }
 
 .theme-dark {
-  --color-background: #1D1D1D;
+  --color-background: #1d1d1d;
   --color-font: #e8e8e8;
 }
 
-.channel-page-container {
-  background-color: var(--color-background);
-  color: var(--color-font);
-}
