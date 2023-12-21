@@ -29,14 +29,13 @@ export default function Profile() {
           {sessionUser.first_name}&nbsp;{sessionUser.last_name}
         </h2>
 
-        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;{sessionUser.location}</p>
-        <p></p>
+        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{sessionUser.location}</p>
       </div>
       <div className="profile-middle">
         <h4>Contact Information</h4>
         <div className="flex-container">
           <div className="flex-item">
-            <p><TfiEmail />&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <p><TfiEmail />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
           </div>
           <div className="flex-item">
             <p>Email Address</p>
@@ -45,7 +44,7 @@ export default function Profile() {
         </div>
       </div>
       <div className="profile-bottom">
-        <h4>About me</h4>
+        <h4>About Me</h4>
         <p>{sessionUser.bio}</p>
       </div>
     </div>
