@@ -25,10 +25,12 @@
   align-items: center;
   background: white;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .server-img-wrapper>img {
   width: 100%;
+  font-size: 10px;
 }
 
 .create-new-server {
