@@ -111,7 +111,7 @@
 }
 
 .landing-server-link:hover {
-    background-color: #eee;
+    background-color: #F8F8F8;
 }
 
 .landing-server-image {
@@ -121,7 +121,7 @@
     margin-right: 10px;
 }
 
-.landing-server-image > img {
+.landing-server-image>img {
     height: 40px;
     width: 40px;
 }

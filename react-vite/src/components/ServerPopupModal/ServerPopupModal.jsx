@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import OpenModalButton from "../OpenModalButton/OpenModalButton"
 import ServerPopupFormModal from "../ServerPopupFormModal"
+import ServerDeletionModal from "../ServerDeletionModal"
 import "./ServerPopupModal.css"
 
 export default function ServerPopupModal() {
@@ -63,7 +64,7 @@ export default function ServerPopupModal() {
                             <div className='server-popup-about-div-right'>
                             </div>
                         </div>}
-                        modalComponent={<ServerPopupFormModal />}
+                        modalComponent={(sessionUser.id == server.owner_id) && <ServerDeletionModal server={server} />}
                     />
                 </div>}
             </div>
