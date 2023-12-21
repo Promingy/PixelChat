@@ -1,7 +1,7 @@
 from flask import Blueprint, session, request
-from ..models import db, Server, Channel
+from ..models import db, Server, Channel, User
 from flask_login import login_required
-from ..forms import ServerForm, ChannelForm
+from ..forms import ServerForm, ChannelForm, UserServerForm
 
 server = Blueprint('server', __name__)
 
@@ -92,3 +92,31 @@ def create_channel(serverId):
         db.session.commit()
         return new_channel.to_dict()
     return {'errors': form.errors}, 401
+
+@server.route('/<int:serverId>/users/add', methods=["POST"])
+@login_required
+def add_user_to_server(serverId):
+    form = UserServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        user = User.query.get(data["id"])
+        server = Server.query.get(serverId)
+        user.servers.append(server)
+        db.session.commit()
+        return server.to_dict()
+    return {'errors': form.errors}
+
+@server.route('/<int:serverId>/users/<int:userId>', methods=["DELETE"])
+@login_required
+def remove_user_from_server(serverId, userId):
+    user = User.query.get(userId)
+    server = Server.query.get(serverId)
+    if user and server:
+        filtered_servers = [serv for serv in user.servers if serv.id != server.id]
+        user.servers = filtered_servers
+        db.session.commit()
+        return server.to_dict()
+    elif not user:
+        return {"errors": {"user": "User could not be found"}}
+    return {"errors": {"server": "Server could not be found"}}

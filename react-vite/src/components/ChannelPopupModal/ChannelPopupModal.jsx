@@ -11,7 +11,7 @@ import { LuHeadphones } from "react-icons/lu";
 import { IoIosLink } from "react-icons/io";
 import './ChannelPopup.css'
 
-function ChannelPopupModal(activeProp) {
+function ChannelPopupModal({ activeProp, socket }) {
     const { channelId } = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,13 +25,15 @@ function ChannelPopupModal(activeProp) {
     const { closeModal } = useModal();
 
     const handleDelete = () => {
-        dispatch(removeChannel(channelId)).then(() => {socket.emit("server", {
-            userId: sessionUser.id,
-            type: "channel",
-            method: "DELETE",
-            room: store.id,
-            channelId
-        })}).then(() => {
+        dispatch(removeChannel(channelId)).then(() => {
+            socket.emit("server", {
+                userId: sessionUser.id,
+                type: "channel",
+                method: "DELETE",
+                room: store.id,
+                channelId
+            })
+        }).then(() => {
             navigate(`/landing`)
         }).then(closeModal()).catch(async (res) => {
             const data = await res.json();

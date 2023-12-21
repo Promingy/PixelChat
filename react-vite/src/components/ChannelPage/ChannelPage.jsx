@@ -1,21 +1,23 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import './ChannelPage.css'
 import MessageTile from "./MessageTile";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { getMessages } from "../../redux/server";
 
 
 export default function ChannelPage({ socket }) {
+    const dispatch = useDispatch()
     const { channelId } = useParams()
     const server = useSelector(state => state.server)
     const channel = server?.channels?.[+channelId]
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
-    const [message, setMessage] = useState();
-
+    const [ offset, setOffset ] = useState(15)
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -42,13 +44,13 @@ export default function ChannelPage({ socket }) {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/>
+                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} />
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} /></div>)
             }
         }
         return result
@@ -57,37 +59,38 @@ export default function ChannelPage({ socket }) {
 
     // Scroll to bottom of the page on initial load
     useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight)
+        const element = document.querySelector('.all-messages-container')
+        element.scrollTo(0, element.scrollHeight)
     }, [messages, channelId])
 
     return (
         <>
             <OpenModalButton
-                    buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal activeProp={1} />}
-                    />
+                buttonText={channel?.name}
+                modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+            />
             <div className="channel-page-wrapper">
 
                 {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} />}
+                    modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
                 />}
-
-            <div className="all-messages-container">
+            <div className="all-messages-container" id='all-messages-container'>
                     {generate_message_layout()}
+                {messages && <InfiniteScroll
+                    dataLength={Object.values(messages).length}
+                    hasMore={!(Object.values(messages).length % 15)}
+                    next={() => {
+                        dispatch(getMessages(channelId, `offset=${offset}`))
+                        setOffset(prevOffset => prevOffset += 15)
+                    }}
+                    inverse={true}
+                    scrollableTarget='all-messages-container'
+
+                    />}
                 </div>
-                <MessageBox socket={socket} serverId={server.id}channelName={channel?.name} channelId={channelId}/>
+                <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />
             </div>
-
-            {/* <OpenModalButton
-                    buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal activeProp={1} />}
-                /> */}
-
-            {/* {users && <OpenModalButton
-                    buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} />}
-                />} */}
         </>
     )
 }
