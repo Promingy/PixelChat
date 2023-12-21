@@ -4,7 +4,7 @@ import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 
-function TopicFormModal() {
+function TopicFormModal(socket) {
   const { serverId, channelId } = useParams()
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,11 +19,11 @@ function TopicFormModal() {
     e.preventDefault();
 
     dispatch(
-        editChannel({
-            name: channel.name,
-            topic,
-            description: channel.description
-          }, +channelId)
+      editChannel({
+        name: channel.name,
+        topic,
+        description: channel.description
+      }, +channelId)
     ).then((data) => socket.emit("server", {
       userId: sessionUser.id,
       type: "channel",
@@ -31,12 +31,12 @@ function TopicFormModal() {
       room: store.id,
       channel: data
     })).then(() => {
-        navigate(`/main/servers/${serverId}/channels/${channelId}`)
+      navigate(`/main/servers/${serverId}/channels/${channelId}`)
     }).then(closeModal()).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-            setErrors(data.errors)
-        }
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors)
+      }
     })
   };
 
@@ -44,13 +44,13 @@ function TopicFormModal() {
     <>
       <h1>Edit Topic</h1>
       <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="Add a topic"
-            required
-          />
+        <input
+          type="text"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          placeholder="Add a topic"
+          required
+        />
         <p>{`Let people know what your channel is focused on right now (ex. a project milestone). Topics are always visible in the header.`}</p>
         {errors.topic && <p>{errors.topic}</p>}
         <button onClick={() => closeModal()}>Cancel</button>
