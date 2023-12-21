@@ -8,16 +8,15 @@ import "./InnerNavbar.css"
 export default function InnerNavbar() {
     const { channelId } = useParams()
     const dispatch = useDispatch()
-    // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
         if (storedTheme) {
-          setTheme(storedTheme);
+            setTheme(storedTheme);
         }
-      }, []);
+    }, []);
 
     document.documentElement.className = `theme-${theme}`;
 
