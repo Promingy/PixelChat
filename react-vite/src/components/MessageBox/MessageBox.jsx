@@ -44,6 +44,9 @@ export default function MessageBox({ socket, channelName, channelId, serverId}) 
             }
 
             sendSocket(messageToEmit)
+
+            const element = document.querySelector('.all-messages-container')
+            element.scrollTo(0, element.scrollHeight)
         })
 
 
@@ -55,8 +58,13 @@ export default function MessageBox({ socket, channelName, channelId, serverId}) 
                 className="message-box"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder={`Message #${channelName}`}/>
-            <button onClick={handleSubmit} className='fa-regular fa-paper-plane fa-lg send-message' />
+                placeholder={`Message #${channelName}`}
+                onKeyUp={(e) => {
+                    if (e.key === 'Enter' && !!message.match(/[A-Za-z0-9]/g)){
+                        return handleSubmit(e)
+                    }
+                }}/>
+            <button disabled={!message.match(/[A-Za-z0-9]/g)} onClick={handleSubmit} className='fa-regular fa-paper-plane fa-lg send-message' />
         </form>
     )
 }
