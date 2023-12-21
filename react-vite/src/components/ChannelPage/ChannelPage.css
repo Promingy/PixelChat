@@ -34,7 +34,11 @@
 
 .user-message-container {
     display: flex;
-    margin: 20px;
+    padding: 20px
+}
+
+.user-message-container:hover {
+    background-color: #F8F8F8;
 }
 
 .message-profile-pic {
@@ -109,6 +113,9 @@
     padding: 5px;
     position: sticky;
     right: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 10px lightgrey;
+    cursor: pointer;
 }
 
 .react-bar > * {
@@ -127,6 +134,24 @@
  padding-top: 5px;
 }
 
+.confirm-message-delete {
+    position: absolute;
+    right: 1px;
+    bottom: 4vh;
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 5px lightgrey;
+    text-align: center;
+    color: red;
+}
+
+.confirm-message-delete:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .reaction-icon {
     display: flex;
     align-items: center;
@@ -140,13 +165,23 @@
     width: fit-content;
     border-radius: 15px;
     padding: 5px;
-    margin: 0 auto;
+    margin: 5px auto;
+    background-color: white;
+    z-index: 1;
+    position: relative;
 }
 
 .message-body-reactions-container{
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.date-seperator-bar {
+    position: relative;
+    border-bottom: 1px solid lightgrey;
+    bottom: 21px;
+    z-index: 0;
 }
 
 .theme-light {
