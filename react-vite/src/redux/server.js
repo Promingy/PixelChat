@@ -370,9 +370,10 @@ const serverReducer = (state = initialState, action) => {
         case UNBOLD_CHANNEL: {
             const newState = { ...state }
             newState.channels[action.channelId].bold = false
+            return newState
+        }
         case GET_MESSAGES: {
             const newState = { ...state }
-
             for (let message of action.messages) {
                 newState.channels[action.channelId].messages[message.id] = message
             }
