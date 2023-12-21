@@ -29,6 +29,7 @@ importlib-metadata = "==6.9.0"
 zipp = "==3.17.0"
 flask-socketio = "*"
 eventlet = "==0.30.2"
+boto3 = "*"
 
 [dev-packages]
 

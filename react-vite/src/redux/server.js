@@ -118,6 +118,15 @@ export const getMoreMessages = (messages, channelId) => {
     }
 }
 
+export const uploadImage = (image) => async () => {
+    const res = await fetch(`/api/servers/images`, {
+        method: "POST",
+        body: image
+    })
+    const data = await res.json()
+    return data
+}
+
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
