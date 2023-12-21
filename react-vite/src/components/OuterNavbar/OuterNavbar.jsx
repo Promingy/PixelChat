@@ -93,7 +93,7 @@ export default function OuterNavbar() {
             modalComponent={<PreferenceFormModal />}
           />
           <button onClick={logout} >
-            <NavLink to="/" style={{ textDecoration: "none" }}>
+            <NavLink to="/" style={{ textDecoration: "none", color:"black" }}>
               Log out
             </NavLink>
           </button>
