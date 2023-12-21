@@ -3,6 +3,7 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
 import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
+import { useState, useEffect } from "react";
 import "./InnerNavbar.css"
 
 export default function InnerNavbar({ socket }) {
@@ -10,6 +11,16 @@ export default function InnerNavbar({ socket }) {
     const dispatch = useDispatch()
     // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          setTheme(storedTheme);
+        }
+      }, []);
+
+    document.documentElement.className = `theme-${theme}`;
 
 
     if (!server.channels) return null
