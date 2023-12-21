@@ -33,7 +33,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         }
 
         // if user hasn't used this reaction already, add reaction
-        const data = await dispatch(initializeReaction(channelId, newReaction))
+        const data = await dispatch(initializeReaction(channelId, messageId, newReaction))
         if (!data.errors) {
             socket.emit("server", {
                 userId: sessionUser.id,
