@@ -59,7 +59,8 @@ export default function ChannelPage({ socket }) {
 
     // Scroll to bottom of the page on initial load
     useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight)
+        const element = document.querySelector('.all-messages-container')
+        element.scrollTo(0, element.scrollHeight)
     }, [messages, channelId])
 
     return (
