@@ -79,7 +79,8 @@ export default function ChannelPage({ socket }) {
                     {generate_message_layout()}
                 {messages && <InfiniteScroll
                     dataLength={Object.values(messages).length}
-                    hasMore={!(Object.values(messages).length % 15)}
+                    hasMore={true}
+                    // hasMore={!(Object.values(messages).length % 15)}
                     next={() => {
                         dispatch(getMessages(channelId, `offset=${offset}`))
                         setOffset(prevOffset => prevOffset += 15)

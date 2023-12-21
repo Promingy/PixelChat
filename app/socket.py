@@ -2,9 +2,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 
 if os.environ.get("FLASK_ENV") == "production":
-    origins = [
-        "https://slack-deploy.onrender.com"
-    ]
+    origins = "https://slack-deploy.onrender.com"
 else:
     origins = "*"
 
