@@ -18,6 +18,16 @@ export default function ChannelPage({ socket }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [ offset, setOffset ] = useState(15)
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          setTheme(storedTheme);
+        }
+      }, []);
+
+    document.documentElement.className = `theme-${theme}`;
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -64,34 +74,43 @@ export default function ChannelPage({ socket }) {
     }, [messages, channelId])
 
     return (
-        <>
+      <div className="channel-page-container">
+        <OpenModalButton
+          buttonText={channel?.name}
+          modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+        />
+        <div className="channel-page-wrapper">
+          {users && (
             <OpenModalButton
-                buttonText={channel?.name}
-                modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+              buttonText={`${Object.keys(users).length} Members`}
+              modalComponent={
+                <ChannelPopupModal activeProp={2} socket={socket} />
+              }
             />
-            <div className="channel-page-wrapper">
-
-                {users && <OpenModalButton
-                    buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
-                />}
-            <div className="all-messages-container" id='all-messages-container'>
-                    {generate_message_layout()}
-                {messages && <InfiniteScroll
-                    dataLength={Object.values(messages).length}
-                    hasMore={true}
-                    // hasMore={!(Object.values(messages).length % 15)}
-                    next={() => {
-                        dispatch(getMessages(channelId, `offset=${offset}`))
-                        setOffset(prevOffset => prevOffset += 15)
-                    }}
-                    inverse={true}
-                    scrollableTarget='all-messages-container'
-
-                    />}
-                </div>
-                <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />
-            </div>
-        </>
-    )
+          )}
+          <div className="all-messages-container" id="all-messages-container">
+            {generate_message_layout()}
+            {messages && (
+              <InfiniteScroll
+                dataLength={Object.values(messages).length}
+                hasMore={true}
+                // hasMore={!(Object.values(messages).length % 15)}
+                next={() => {
+                  dispatch(getMessages(channelId, `offset=${offset}`));
+                  setOffset((prevOffset) => (prevOffset += 15));
+                }}
+                inverse={true}
+                scrollableTarget="all-messages-container"
+              />
+            )}
+          </div>
+          <MessageBox
+            socket={socket}
+            serverId={server.id}
+            channelName={channel?.name}
+            channelId={channelId}
+          />
+        </div>
+      </div>
+    );
 }

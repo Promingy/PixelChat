@@ -128,3 +128,18 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.theme-light {
+  --color-background: white;
+  --color-font: black;
+}
+
+.theme-dark {
+  --color-background: #1D1D1D;
+  --color-font: #e8e8e8;
+}
+
+.channel-page-container {
+  background-color: var(--color-background);
+  color: var(--color-font);
+}
