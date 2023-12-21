@@ -10,12 +10,13 @@ export default function PreferenceFormModal() {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    // Restore user's previous theme selection, if it exists
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       setTheme(storedTheme);
     }
   }, []);
+
+  document.documentElement.className = `theme-${theme}`;
 
   const handleThemeChange = (selectedTheme) => {
     setTheme(selectedTheme);
@@ -25,13 +26,13 @@ export default function PreferenceFormModal() {
   return (
     <>
       <div className="preference-modal">
-        <div className="preference-container">
+        <div className="preference-container-top">
           <h2>Preference</h2>
           <button onClick={closeModal}>
             <VscChromeClose />
           </button>
         </div>
-        <div className="preference-container">
+        <div className="preference-container-bottom">
           <div className="preference-left">
             <p>
               <IoColorWandOutline />
@@ -41,19 +42,16 @@ export default function PreferenceFormModal() {
           <div className="preference-right">
             <p style={{ fontWeight: "bold" }}>Color Mode</p>
             <p>
-              Choose if PixcelChat&rsquo;s appearance should be light or dark,
-              or follow your computer&rsquo;s settings.
+              Choose if PixcelChat&rsquo;s appearance should be light or dark.
             </p>
             <div className="theme-option">
-              <button
-                className={`theme-light ${theme === "light" ? "selected" : ""}`}
-                onClick={() => handleThemeChange("light")}
+              <button onClick={() => handleThemeChange("light")}
               >
                 <PiSunBold />
                 &nbsp;&nbsp;&nbsp;Light
               </button>
               <button
-                className={`theme-dark ${theme === "dark" ? "selected" : ""}`}
+               
                 onClick={() => handleThemeChange("dark")}
               >
                 <PiMoonBold />

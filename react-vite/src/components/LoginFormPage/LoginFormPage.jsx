@@ -11,10 +11,41 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const autoFillCredentials = () => {
-    setEmail("demo@aa.io");
-    setPassword("password");
-  };
+  const demoUserLogin = async (e) => {
+    e.preventDefault();
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io',
+        password: 'password',
+      })
+    );
+
+    if (serverResponse) {
+      // setErrors(serverResponse);
+    } else {
+      navigate("/landing");
+    }
+
+
+  }
+
+  const demoUser2Login = async (e) => {
+    e.preventDefault();
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'zelda@aa.io',
+        password: 'password',
+      })
+    );
+
+    if (serverResponse) {
+      // setErrors(serverResponse);
+    } else {
+      navigate("/landing");
+    }
+
+
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +96,10 @@ function LoginFormPage() {
 
         <button type="submit" className="large-purple-button">Log In</button>
         <div id="auto-login">
-          <button onClick={autoFillCredentials} className="large-white-button"> Log in as Demo User </button>
+          <button onClick={demoUserLogin} className="large-white-button"> Log in as Demo User </button>
+        </div>
+        <div>
+          <button className="large-white-button" onClick={demoUser2Login}>Log in as Demo User 2</button>
         </div>
       </form>
     </>

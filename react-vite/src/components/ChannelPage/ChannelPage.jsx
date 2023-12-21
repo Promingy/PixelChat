@@ -18,6 +18,16 @@ export default function ChannelPage({ socket }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [ offset, setOffset ] = useState(15)
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme) {
+        setTheme(storedTheme);
+      }
+    }, []);
+
+    document.documentElement.className = `theme-${theme}`;
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -94,12 +104,11 @@ export default function ChannelPage({ socket }) {
 
     return (
         <>
-            <OpenModalButton
-                buttonText={channel?.name}
-                modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
-            />
             <div className="channel-page-wrapper">
-
+                <OpenModalButton
+                    buttonText={channel?.name}
+                    modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+                />
                 {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
                     modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}

@@ -8,6 +8,8 @@
     align-items: flex-end;
     justify-content: space-between;
     height: 96vh;
+    background-color: var(--color-background);
+    color: var(--color-font);
 
 }
 
@@ -180,4 +182,12 @@
     bottom: 21px;
     z-index: -1;
 
+.theme-light {
+  --color-background: white;
+  --color-font: black;
+}
+
+.theme-dark {
+  --color-background: #1d1d1d;
+  --color-font: #e8e8e8;
 }

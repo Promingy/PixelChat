@@ -20,9 +20,11 @@ function ChannelPopupModal({ activeProp, socket }) {
     const users = store?.users
     const session = useSelector(state => state.session)
     const sessionUser = session?.user
-    const [active, setActive] = useState(activeProp.activeProp)
+    const [active, setActive] = useState(activeProp)
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
+
+    console.log(activeProp)
 
     const handleDelete = () => {
         dispatch(removeChannel(channelId)).then(() => {

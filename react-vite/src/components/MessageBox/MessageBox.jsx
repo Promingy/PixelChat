@@ -1,12 +1,23 @@
 import TextareaAutoSize from 'react-textarea-autosize'
 import './MessageBox.css'
-import { useState } from 'react'
+import { useState, useEffect } from "react";
 import { initializeMessage } from '../../redux/server'
 import { useDispatch } from 'react-redux'
 
 export default function MessageBox({ socket, channelName, channelId, serverId}) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
+
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          setTheme(storedTheme);
+        }
+    }, [theme]);
+
+    document.documentElement.className = `theme-${theme}`;
 
     const sendSocket = (message) => {
         socket.emit("server", message)

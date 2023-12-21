@@ -19,10 +19,10 @@ export default function Profile() {
       </div>
       <div className="profile-header">
         <div style={{ textAlign: "center" }}>
-          <img
+          <img 
             src={sessionUser.image_url}
             alt="Profile Image"
-            style={{ width: "250px", height: "250px" }}
+            style={{ width: "250px", height: "250px" , borderRadius:"10px"}}
           ></img>
         </div>
         <h2>

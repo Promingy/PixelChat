@@ -17,6 +17,8 @@
     border-radius: 10px;
     z-index: 1;
     outline: transparent;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .send-message {
@@ -35,4 +37,13 @@
 .send-message:disabled {
     background-color: lightgray;
     cursor: default;
+}
+.theme-light {
+    --color-background: white;
+    --color-font: black;
+}
+
+.theme-dark {
+    --color-background: #1D1C1D;
+    --color-font: #E8E8E8;
 }
