@@ -31,3 +31,8 @@
     border-radius: 5px;
     margin: 5px;
 }
+
+.send-message:disabled {
+    background-color: lightgray;
+    cursor: default;
+}

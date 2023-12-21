@@ -37,14 +37,16 @@ export default function ChannelPage({ socket }) {
                 const message = sortedMessages[i]
                 const user = users[message.user_id]
 
-                const next_date = new Date(sortedMessages[i + 1]?.created_at)
+                // ordered backwards. So i + 1 should be an older date
+                const prev_date = new Date(sortedMessages[i + 1]?.created_at)
                 const curr_date = new Date(sortedMessages[i].created_at)
 
                 // add a seperator for a messages posted on different days
-                if ((next_date.getDate() !== curr_date.getDate())) {
+                if ((prev_date.getDate() !== curr_date.getDate())) {
                     result.push(
                         <div key={message.id}>
-                            <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <div className="date-seperator-bar"/>
                             <MessageTile
                                 message={message}
                                 user={user}
