@@ -280,11 +280,13 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
+            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             newState.users = {}
             for (let user in action.server.users) {
@@ -320,6 +322,7 @@ const serverReducer = (state = initialState, action) => {
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             return newState
         }

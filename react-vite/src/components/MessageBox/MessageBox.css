@@ -34,6 +34,10 @@
     margin: 5px;
 }
 
+.send-message:disabled {
+    background-color: lightgray;
+    cursor: default;
+}
 .theme-light {
     --color-background: white;
     --color-font: black;

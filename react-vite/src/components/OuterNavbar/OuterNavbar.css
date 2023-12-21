@@ -65,10 +65,11 @@
   background: white;
   border: none;
   margin: auto;
+  box-sizing: border-box;
 }
 
-.open-profile-wrapper > button > img {
-  width: 100%;
+.open-profile-wrapper>button>img {
+  height: 105%;
 }
 
 .outer-navbar-bottom {
