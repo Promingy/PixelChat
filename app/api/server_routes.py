@@ -1,7 +1,8 @@
 from flask import Blueprint, session, request
 from ..models import db, Server, Channel, User
 from flask_login import login_required
-from ..forms import ServerForm, ChannelForm, UserServerForm
+from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm
+from ..aws import (upload_file_to_s3, get_unique_filename, remove_file_from_s3)
 
 server = Blueprint('server', __name__)
 
@@ -28,6 +29,32 @@ def get_all_server_info(serverId):
         return server.to_dict(channels=True)
 
     return  {"message": "Server Not Found"}, 404
+
+
+@server.route("images", methods=["POST"])
+def upload_image():
+    form = ImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+          
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        print(upload)
+
+        if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when we tried to upload
+        # so we send back that error message (and we printed it above)
+            return {"errors":[upload]}, 401
+
+        url = upload["url"]
+        return {"url": url}
+
+    if form.errors:
+        print(form.errors)
+        return {"errors": form.errors}, 401
+
 
 @server.route('', methods=['POST'])
 @login_required

@@ -5,3 +5,4 @@ from .channel_form import ChannelForm
 from .reaction_form import ReactionForm
 from .message_form import MessageForm
 from .user_server_form import UserServerForm
+from .aws_form import ImageForm
