@@ -4,7 +4,7 @@
   gap: 20px;
   padding: 10px;
   display:flex;
-  border-bottom: 0.5px solid #ddd;
+  border-bottom: 0.5px solid grey;
 }
 
 .preference-container-bottom{
