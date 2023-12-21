@@ -1,0 +1,71 @@
+.join-server-page-wrapper {
+    position: absolute;
+    background-color: #FAF6F2;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100px 100px 1fr;
+}
+
+.join-server-page-wrapper>img {
+    margin-bottom: 0px;
+}
+
+.join-server-page-wrapper>h1 {
+    width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.servers-to-join-wrapper {
+    width: 400px;
+    margin: auto;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    box-shadow: 0px 4px 10px #ddd;
+    border-radius: 5px;
+    background-color: white;
+    max-height: 700px;
+    overflow-y: scroll
+}
+
+.server-to-join-header {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.server-to-join {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.server-to-join-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.server-to-join-name {
+    width: 270px;
+}
+
+.add-server-button {
+    border: none;
+    background-color: #2DB67D;
+    color: white;
+    height: 36px;
+    width: 36px;
+    border-radius: 100px;
+    font-size: 18px;
+}
+
+.add-server-button:hover {
+    background-color: #23AB73;
+}

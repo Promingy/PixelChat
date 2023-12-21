@@ -1,3 +1,6 @@
+import { addServers, editServers, removeServers } from "./all_servers"
+import { addUserServer, removeUserServer, editUserServer } from "./session"
+
 const GET_SERVER = 'server/getServer'
 const DELETE_SERVER = 'server/deleteServer'
 const UPDATE_SERVER = 'server/updateServer'
@@ -9,6 +12,9 @@ const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
+const BOLD_CHANNEL = 'channel/bold'
+const UNBOLD_CHANNEL = 'channel/unbold'
+const GET_MESSAGES = 'reaction/getMessages'
 
 const getServer = (server) => {
     return {
@@ -37,28 +43,42 @@ const createServer = (server) => {
     }
 }
 
-const deleteChannel = (channelId) => {
+export const deleteChannel = (channelId) => {
     return {
         type: DELETE_CHANNEL,
         channelId
     }
 }
 
-const updateChannel = (channel) => {
+export const updateChannel = (channel) => {
     return {
         type: UPDATE_CHANNEL,
         channel
     }
 }
 
-const createChannel = (channel) => {
+export const createChannel = (channel) => {
     return {
         type: CREATE_CHANNEL,
         channel
     }
 }
 
-const deleteMessage = (channelId, messageId) => {
+export const boldChannel = (channelId) => {
+    return {
+        type: BOLD_CHANNEL,
+        channelId
+    }
+}
+
+export const unboldChannel = (channelId) => {
+    return {
+        type: UNBOLD_CHANNEL,
+        channelId
+    }
+}
+
+export const deleteMessage = (channelId, messageId) => {
     return {
         type: DELETE_MESSAGE,
         channelId,
@@ -66,14 +86,14 @@ const deleteMessage = (channelId, messageId) => {
     }
 }
 
-const createMessage = (message) => {
+export const createMessage = (message) => {
     return {
         type: CREATE_MESSAGE,
         message
     }
 }
 
-const deleteReaction = (channelId, messageId, reactionId) => {
+export const deleteReaction = (channelId, messageId, reactionId) => {
     return {
         type: DELETE_REACTION,
         channelId,
@@ -82,11 +102,19 @@ const deleteReaction = (channelId, messageId, reactionId) => {
     }
 }
 
-const createReaction = (channelId, reaction) => {
+export const createReaction = (channelId, reaction) => {
     return {
         type: CREATE_REACTION,
         channelId,
         reaction
+    }
+}
+
+export const getMoreMessages = (messages, channelId) => {
+    return {
+        type: GET_MESSAGES,
+        messages,
+        channelId
     }
 }
 
@@ -100,18 +128,19 @@ export const loadServer = (serverId) => async (dispatch) => {
 }
 
 export const removeServer = (serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "DELETE"
     })
     if (res.ok) {
-        // TODO edit user state to reflect server deletion
         dispatch(deleteServer(serverId))
+        dispatch(removeServers(serverId))
+        dispatch(removeUserServer(serverId))
     }
     return res
 }
 
 export const editServer = (server, serverId) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}`, {
+    const res = await fetch(`/api/servers/${serverId}`, {
         method: "PUT",
         body: JSON.stringify(server),
         headers: {
@@ -120,14 +149,16 @@ export const editServer = (server, serverId) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
-        // TODO edit user state to reflect server change
         dispatch(updateServer(data))
+        delete data.channels
+        dispatch(editServers(data))
+        dispatch(editUserServer(data))
     }
     return data
 }
 
 export const initializeServer = (server) => async (dispatch) => {
-    const res = await fetch(`api/servers`, {
+    const res = await fetch(`/api/servers`, {
         method: "POST",
         body: JSON.stringify(server),
         headers: {
@@ -136,14 +167,16 @@ export const initializeServer = (server) => async (dispatch) => {
     })
     const data = await res.json()
     if (res.ok) {
-        // TODO edit user state to reflect server creation
         dispatch(createServer(data))
+        delete data.channels
+        dispatch(addServers(data))
+        dispatch(addUserServer(data))
     }
     return data
 }
 
 export const removeChannel = (channelId) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}`, {
+    const res = await fetch(`/api/channels/${channelId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -153,7 +186,7 @@ export const removeChannel = (channelId) => async (dispatch) => {
 }
 
 export const editChannel = (channel, channelId) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}`, {
+    const res = await fetch(`/api/channels/${channelId}`, {
         method: "PUT",
         body: JSON.stringify(channel),
         headers: {
@@ -168,7 +201,7 @@ export const editChannel = (channel, channelId) => async (dispatch) => {
 }
 
 export const initializeChannel = (serverId, channel) => async (dispatch) => {
-    const res = await fetch(`api/servers/${serverId}/channels`, {
+    const res = await fetch(`/api/servers/${serverId}/channels`, {
         method: "POST",
         body: JSON.stringify(channel),
         headers: {
@@ -183,7 +216,7 @@ export const initializeChannel = (serverId, channel) => async (dispatch) => {
 }
 
 export const removeMessage = (channelId, messageId) => async (dispatch) => {
-    const res = await fetch(`api/messages/${messageId}`, {
+    const res = await fetch(`/api/messages/${messageId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -193,7 +226,7 @@ export const removeMessage = (channelId, messageId) => async (dispatch) => {
 }
 
 export const initializeMessage = (channelId, message) => async (dispatch) => {
-    const res = await fetch(`api/channels/${channelId}/messages`, {
+    const res = await fetch(`/api/channels/${channelId}/messages`, {
         method: "POST",
         body: JSON.stringify(message),
         headers: {
@@ -208,7 +241,7 @@ export const initializeMessage = (channelId, message) => async (dispatch) => {
 }
 
 export const removeReaction = (channelId, messageId, reactionId) => async (dispatch) => {
-    const res = await fetch(`api/reactions/${reactionId}`, {
+    const res = await fetch(`/api/reactions/${reactionId}`, {
         method: "DELETE"
     })
     if (res.ok) {
@@ -218,7 +251,7 @@ export const removeReaction = (channelId, messageId, reactionId) => async (dispa
 }
 
 export const initializeReaction = (channelId, messageId, reaction) => async (dispatch) => {
-    const res = await fetch(`api/messages/${messageId}/reactions`, {
+    const res = await fetch(`/api/messages/${messageId}/reactions`, {
         method: "POST",
         body: JSON.stringify(reaction),
         headers: {
@@ -232,25 +265,42 @@ export const initializeReaction = (channelId, messageId, reaction) => async (dis
     return data
 }
 
+export const getMessages = (channelId, query) => async (dispatch) => {
+    const res = await fetch(`/api/channels/${channelId}?${query}`)
+
+    if (res.ok) {
+        const data = await res.json()
+        dispatch(getMoreMessages(data.messages, channelId))
+        return data.messages
+    }
+}
+
 const initialState = {}
 
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
             const newState = {}
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
-            for (let channel in action.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {} }
-                for (let message in channel.messages) {
+            newState.users = {}
+            for (let user in action.server.users) {
+                const users = action.server.users
+                newState.users = { ...newState.users, [users[user].id]: users[user] }
+            }
+            for (let channel of action.server.channels) {
+                newState.channels[channel.id] = { ...channel, messages: {}, bold: false }
+                for (let message of channel.messages) {
                     newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
-                    for (let reaction in message.reactions) {
+                    for (let reaction of message.reactions) {
                         newState.channels[channel.id].messages[message.id].reactions[reaction.id] = { ...reaction }
                     }
                 }
             }
+
             return newState
         }
         case DELETE_SERVER: {
@@ -258,16 +308,18 @@ const serverReducer = (state = initialState, action) => {
         }
         case UPDATE_SERVER: {
             const newState = { ...state }
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
+            newState.name = action.server.name
             return newState
         }
         case CREATE_SERVER: {
             const newState = {}
-            newState.description = action.description
-            newState.id = action.id
-            newState.image_url = action.image_url
+            newState.description = action.server.description
+            newState.id = action.server.id
+            newState.image_url = action.server.image_url
+            newState.name = action.server.name
             newState.channels = {}
             return newState
         }
@@ -285,6 +337,7 @@ const serverReducer = (state = initialState, action) => {
             const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             newState.channels[action.channel.id].messages = {}
+            newState.channels[action.channel.id].bold = false
             return newState
         }
         case DELETE_MESSAGE: {
@@ -306,6 +359,24 @@ const serverReducer = (state = initialState, action) => {
         case CREATE_REACTION: {
             const newState = { ...state }
             newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
+            return newState
+        }
+        case BOLD_CHANNEL: {
+            const newState = { ...state }
+            console.log("HERE")
+            newState.channels[action.channelId].bold = true
+            return newState
+        }
+        case UNBOLD_CHANNEL: {
+            const newState = { ...state }
+            newState.channels[action.channelId].bold = false
+            return newState
+        }
+        case GET_MESSAGES: {
+            const newState = { ...state }
+            for (let message of action.messages) {
+                newState.channels[action.channelId].messages[message.id] = message
+            }
             return newState
         }
         default: {

@@ -1,0 +1,28 @@
+from flask_socketio import SocketIO, emit, join_room, leave_room
+import os
+
+if os.environ.get("FLASK_ENV") == "production":
+    origins = "https://slack-deploy.onrender.com"
+else:
+    origins = "*"
+
+socketio = SocketIO(cors_allowed_origins=origins)
+
+
+@socketio.on("server")
+def handle_socket(data):
+    room = data["room"]
+    print("~~~~~", data)
+    emit("server", data, room=room)
+
+@socketio.on("join")
+def handle_join(data):
+    print("------", data)
+    room = data["room"]
+    join_room(room)
+
+@socketio.on("leave")
+def handle_leave(data):
+    print("*******", data)
+    room = data["room"]
+    leave_room(room)

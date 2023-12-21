@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { thunkLogin } from "../../redux/session";
 import "./Home.css";
 
 export default function HomePage() {
   const sessionUser = useSelector((state) => state.session.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (sessionUser) {
@@ -14,21 +16,44 @@ export default function HomePage() {
     }
   }, [sessionUser, navigate]);
 
+  const demoUserLogin = async () => {
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io',
+        password: 'password',
+      })
+    );
+
+    if (serverResponse) {
+      // setErrors(serverResponse);
+    } else {
+      navigate("/landing");
+    }
+
+
+  }
+
+
   return (
     <>
       <div className="home-header">
+        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
         <div className="signin-header">
           <h1>Sign in to PixelChat</h1>
-          <p>We suggest using the email address you use at work.</p>
         </div>
         <div className="home-body">
-          <Link to="/signup" className="home-botton">
-            Create An Account
+          <Link to="/signup">
+            <button className="large-white-button">Create An Account</button>
           </Link>
-          <div className="or">OR</div>
-          <Link to="/login" className="home-botton">
-            Log In
+          <div className="home-or">OR</div>
+          <div className="divider" />
+          <Link to="/login">
+            <button className="large-purple-button">Sign In With Email</button>
           </Link>
+          <div className="demo-user-wrapper">
+            <button className="large-white-button" onClick={demoUserLogin}>Sign In As Demo User</button>
+
+          </div>
         </div>
       </div>
     </>

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 068260d836b2
+Revision ID: 3f8a67caa574
 Revises: 
-Create Date: 2023-12-17 18:15:24.894882
+Create Date: 2023-12-20 22:04:17.207729
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '068260d836b2'
+revision = '3f8a67caa574'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -54,11 +54,12 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user_servers',
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('server_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('server_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['server_id'], ['servers.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('user_id', 'server_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('messages',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -66,16 +67,18 @@ def upgrade():
     sa.Column('channel_id', sa.Integer(), nullable=True),
     sa.Column('body', sa.String(), nullable=True),
     sa.Column('pinned', sa.Boolean(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['channel_id'], ['channels.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user_channels',
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('channel_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['channel_id'], ['channels.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], )
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reactions',
     sa.Column('id', sa.Integer(), nullable=False),

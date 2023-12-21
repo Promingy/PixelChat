@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .user_server import user_servers
+from .db import add_prefix_for_prod
 
 class Server(db.Model, UserMixin):
     __tablename__ = 'servers'
@@ -10,9 +11,9 @@ class Server(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String)
+    image_url = db.Column(db.String, default="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png")
     description = db.Column(db.String)
 
     # relationship attributes
@@ -38,5 +39,6 @@ class Server(db.Model, UserMixin):
         if channels:
             # Add all channels to dictionary as a list of dictionaries
             dictionary['channels'] = [channel.to_dict(messages = True) for channel in self.channels]
+            dictionary['users'] = [user.to_dict() for user in self.users]
 
         return dictionary
