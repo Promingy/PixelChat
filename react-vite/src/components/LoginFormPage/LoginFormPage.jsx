@@ -16,6 +16,11 @@ function LoginFormPage() {
     setPassword("password");
   };
 
+  const autoFillCredentials2 = () => {
+    setEmail("zelda@aa.io");
+    setPassword("password");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -66,6 +71,9 @@ function LoginFormPage() {
         <button type="submit" className="large-purple-button">Log In</button>
         <div id="auto-login">
           <button onClick={autoFillCredentials} className="large-white-button"> Log in as Demo User </button>
+        </div>
+        <div>
+          <button className="large-white-button" onClick={autoFillCredentials2}>Log in as Demo User 2</button>
         </div>
       </form>
     </>

@@ -33,6 +33,23 @@ export default function HomePage() {
 
   }
 
+  const demoUser2Login = async () => {
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'zelda@aa.io',
+        password: 'password',
+      })
+    );
+
+    if (serverResponse) {
+      // setErrors(serverResponse);
+    } else {
+      navigate("/landing");
+    }
+
+
+  }
+
 
   return (
     <>
@@ -52,7 +69,9 @@ export default function HomePage() {
           </Link>
           <div className="demo-user-wrapper">
             <button className="large-white-button" onClick={demoUserLogin}>Sign In As Demo User</button>
-
+          </div>
+          <div className="demo-user-wrapper">
+            <button className="large-white-button" onClick={demoUser2Login}>Sign In As Demo User 2</button>
           </div>
         </div>
       </div>
