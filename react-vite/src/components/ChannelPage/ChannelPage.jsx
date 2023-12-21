@@ -56,7 +56,7 @@ export default function ChannelPage({ socket }) {
                     result.push(
                         <div key={message.id}>
                                 <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                <div className="date-seperator-bar"/>
+                                {/* <div className="date-seperator-bar"/> */}
                             <MessageTile
                                 message={message}
                                 user={user}

@@ -5,7 +5,6 @@ import { unboldChannel } from "../../redux/server"
 import { useState, useEffect, useRef } from "react";
 import ChannelCreationForm from '../ChannelCreationForm'
 import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
-import { useState, useEffect } from "react";
 import "./InnerNavbar.css"
 
 export default function InnerNavbar({ socket }) {
