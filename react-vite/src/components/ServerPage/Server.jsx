@@ -8,6 +8,7 @@ import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessa
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
+import "./Server.css"
 
 let socket
 
@@ -120,10 +121,10 @@ export default function ServerPage() {
     }, [server?.id, dispatch, sessionUser.id])
 
     return (
-        <>
+        <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
-        </>
+        </div>
     )
 }

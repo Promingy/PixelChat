@@ -1,11 +1,9 @@
 .outer-navbar-wrapper {
   width: 75px;
   height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
   box-sizing: border-box;
   background-color: #5e2262;
+  background: linear-gradient(#7F3686, #49154A);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -1,11 +1,9 @@
 .inner-navbar-wrapper {
     width: 22%;
     height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 75px;
+    min-width: 210px;
     box-sizing: border-box;
-    background-color:var(--inner-background);
+    background-color: var(--inner-background);
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -46,7 +44,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    color:var(--inner-font-color)
+    color: var(--inner-font-color)
 }
 
 .inner-navbar-header>button>p>i {
@@ -116,12 +114,12 @@
 }
 
 .theme-light {
-  --inner-background: #DAC3DA;
-  --inner-font-color:black;
-    
+    --inner-background: #DAC3DA;
+    --inner-font-color: black;
+
 }
 
 .theme-dark {
-  --inner-background: #350d36;
-  --inner-font-color:#e8e8e8;
+    --inner-background: #350d36;
+    --inner-font-color: #e8e8e8;
 }
