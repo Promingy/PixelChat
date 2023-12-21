@@ -81,6 +81,21 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch(removeUser());
 };
 
+export const thunkAddUserServer = (server, user) => async (dispatch) => {
+  const res = await fetch(`/api/servers/${server.id}/users/add`, {
+    method: "POST",
+    body: JSON.stringify(user),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  const data = await res.json()
+  if (res.ok) {
+    dispatch(addUserServer(server))
+  }
+  return data
+}
+
 const initialState = { user: null };
 
 function sessionReducer(state = initialState, action) {

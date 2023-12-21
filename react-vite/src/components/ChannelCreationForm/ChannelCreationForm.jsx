@@ -6,7 +6,7 @@ import { initializeChannel } from "../../redux/server";
 import { VscChromeClose } from "react-icons/vsc";
 import "./ChannelCreationForm.css";
 
-export default function ChannelCreationForm() {
+export default function ChannelCreationForm(socket) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
@@ -36,6 +36,8 @@ export default function ChannelCreationForm() {
         channel: channelData
       });
       return navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+    } else {
+      setErrors(channelData.errors)
     }
   };
 

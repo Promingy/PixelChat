@@ -46,73 +46,73 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                     </div>
 
                     <div className='message-reactions-container'>
-                    {Object.keys(reactions).map(key => {
-                        return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
-                    })}
-                </div>
+                        {Object.keys(reactions).map(key => {
+                            return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                        })}
+                    </div>
 
                 </div>
 
 
-           { reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
-           {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
+                {reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
+                    {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
                     <div className='reaction-button-container'>
                         <OpenModalButton
                             buttonText={''}
                             modalComponent={<EmojiPicker
-                            //if an emoji is selected through the picker, add it to the database!
-                            onEmojiClick={(e) => {
-                                //remove the reaction if user has already used it
-                                for (let reaction of Object.values(message.reactions)){
-                                    if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(res => {
-                                            const payload = {
-                                                type: 'reaction',
-                                                method:'DELETE',
-                                                room: +serverId,
-                                                channelId,
-                                                messageId: message.id,
-                                                reactionId: reaction.id
-                                            }
+                                //if an emoji is selected through the picker, add it to the database!
+                                onEmojiClick={(e) => {
+                                    //remove the reaction if user has already used it
+                                    for (let reaction of Object.values(message.reactions)) {
+                                        if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
+                                            return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
+                                                const payload = {
+                                                    type: 'reaction',
+                                                    method: 'DELETE',
+                                                    room: +serverId,
+                                                    channelId,
+                                                    messageId: message.id,
+                                                    reactionId: reaction.id
+                                                }
 
-                                            socket.emit("server", payload)
-                                        })
+                                                socket.emit("server", payload)
+                                            })
+                                        }
                                     }
-                                }
-                                // if user hasn't used this reaction already, add reaction
-                                return dispatch(initializeReaction(channelId, message.id, {emoji: e.emoji})).then(res => {
-                                    const payload = {
-                                        type: 'reaction',
-                                        method: 'POST',
-                                        room: +serverId,
-                                        channelId,
-                                        reaction: res
-                                    }
-                                    socket.emit("server", payload)
-                                })
+                                    // if user hasn't used this reaction already, add reaction
+                                    return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                        const payload = {
+                                            type: 'reaction',
+                                            method: 'POST',
+                                            room: +serverId,
+                                            channelId,
+                                            reaction: res
+                                        }
+                                        socket.emit("server", payload)
+                                    })
                                 }}
                             />
-                            }/>
+                            } />
                     </div>
-                        {sessionUser.id === message.user_id && <div>
-                            <i className='fa-regular fa-trash-can remove-message' onClick={() => {
-                                dispatch(removeMessage(channelId, message.id)).then(res => {
-                                    const payload = {
-                                        userId: sessionUser.id,
-                                        type: 'message',
-                                        method: 'DELETE',
-                                        room: +serverId,
-                                        channelId,
-                                        messageId: message.id
-                                    }
+                    {sessionUser.id === message.user_id && <div>
+                        <i className='fa-regular fa-trash-can remove-message' onClick={() => {
+                            dispatch(removeMessage(channelId, message.id)).then(() => {
+                                const payload = {
+                                    userId: sessionUser.id,
+                                    type: 'message',
+                                    method: 'DELETE',
+                                    room: +serverId,
+                                    channelId,
+                                    messageId: message.id
+                                }
 
-                                    socket.emit("server", payload)
-                                })
-                            }}/>
-                        </div>}
-            </div>}
+                                socket.emit("server", payload)
+                            })
+                        }} />
+                    </div>}
+                </div>}
 
-        </div>
+            </div>
 
         </>
 

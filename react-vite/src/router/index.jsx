@@ -9,6 +9,7 @@ import Home from '../components/Home'
 import ServerPage from '../components/ServerPage'
 // import ChannelPage from "../components/ChannelPage";
 import ServerCreationForm from "../components/ServerCreationForm";
+import JoinServer from '../components/JoinServer';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ export const router = createBrowserRouter(
       <Route path="/signup" element={<SignupFormPage />} />
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/new-server" element={<ServerCreationForm />} />
+      <Route path="/join-server" element={<JoinServer />} />
       <Route path="/main" element={<MainPage />}>
         <Route path="servers/:serverId/channels/:channelId" element={<ServerPage />}>
         </Route>

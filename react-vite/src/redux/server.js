@@ -374,8 +374,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case GET_MESSAGES: {
             const newState = { ...state }
-
-            for (let message of action.messages){
+            for (let message of action.messages) {
                 newState.channels[action.channelId].messages[message.id] = message
             }
             return newState
