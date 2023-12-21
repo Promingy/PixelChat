@@ -44,13 +44,13 @@ export default function ChannelPage({ socket }) {
                     result.push(
                         <div key={message.id}>
                             <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/>
+                            <MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} />
                         </div>
                     )
                     continue
                 }
 
-                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id}/></div>)
+                result.push(<div key={message.id}><MessageTile message={message} user={user} channelId={channelId} socket={socket} serverId={server.id} /></div>)
             }
         }
         return result
@@ -66,16 +66,15 @@ export default function ChannelPage({ socket }) {
     return (
         <>
             <OpenModalButton
-                    buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal activeProp={1} />}
-                    />
+                buttonText={channel?.name}
+                modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+            />
             <div className="channel-page-wrapper">
 
                 {users && <OpenModalButton
                     buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} />}
-                    />}
-
+                    modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
+                />}
             <div className="all-messages-container" id='all-messages-container'>
                     {generate_message_layout()}
                 {messages && <InfiniteScroll
@@ -90,7 +89,7 @@ export default function ChannelPage({ socket }) {
 
                     />}
                 </div>
-                <MessageBox socket={socket} serverId={server.id}channelName={channel?.name} channelId={channelId}/>
+                <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />
             </div>
         </>
     )
