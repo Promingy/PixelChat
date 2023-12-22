@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
@@ -72,6 +72,10 @@ export default function ServerPage() {
                         case "DELETE": {
                             // Handle message delete
                             dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            break
+                        }
+                        case "PUT": {
+                            dispatch(pinMessage(obj.message))
                             break
                         }
                     }
