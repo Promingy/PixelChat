@@ -56,8 +56,9 @@ export default function InnerNavbar({ socket }) {
                 <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
             </div>
             <ul className="inner-navbar-content">
-                <div className="creat-channel-container">
-                <button onClick={toggleMenu}>Channels</button>
+                <div className="create-channel-container" onClick={toggleMenu}>
+                <button type='button' className="channels-button" >Channels</button>
+                <i className={`${showMenu ? 'fa-solid fa-chevron-up fa-2xs' : `fa-solid fa-chevron-down fa-2xs`}`}/>
                 </div>
                 <div className={ulClassName} ref={ulRef}>
                     <OpenModalButton

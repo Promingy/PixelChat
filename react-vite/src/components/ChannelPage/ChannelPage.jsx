@@ -63,7 +63,8 @@ export default function ChannelPage({ socket }) {
                                 channelId={channelId}
                                 socket={socket}
                                 serverId={server.id}
-                                bottom={i < 3}
+                                bottom={i < 2}
+                                center={i === 2}
                                 />
                         </div>
                     )
@@ -77,8 +78,8 @@ export default function ChannelPage({ socket }) {
                             channelId={channelId}
                             socket={socket}
                             serverId={server.id}
-                            bottom={i < 3}
-
+                            bottom={i < 2}
+                            center={i === 2}
                             />
                     </div>
                     )
