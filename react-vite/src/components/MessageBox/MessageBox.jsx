@@ -60,11 +60,16 @@ export default function MessageBox({ socket, channelName, channelId, serverId}) 
                 onChange={e => setMessage(e.target.value)}
                 placeholder={`Message #${channelName}`}
                 onKeyUp={(e) => {
-                    if (e.key === 'Enter' && !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g)){
+                    if (e.key === 'Enter' &&
+                        !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
+                        message.length <= 2000){
                         return handleSubmit(e)
                     }
                 }}/>
-            <button disabled={!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g)} onClick={handleSubmit} className='fa-regular fa-paper-plane fa-lg send-message' />
+            <div className='char-count-and-submit'>
+                <span className={message.length >= 1800 ? message.length >= 2000 ? 'over-message-limit' : 'nearing-message-limit' : ''}>{message.length}/2000</span>
+                <button disabled={!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) || message.length > 2000} onClick={handleSubmit} className='fa-regular fa-paper-plane fa-lg send-message' />
+            </div>
         </form>
     )
 }
