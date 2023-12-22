@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { loadServer } from "../../redux/server"
@@ -24,9 +24,25 @@ function checkChannelIfSelected(channelId) {
 export default function ServerPage() {
     const dispatch = useDispatch()
     const { serverId } = useParams()
+    const [boldObj, setBoldObj] = useState({})
+
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
+
+
+    const boldChannelStorage = (channelId) => {
+        const newObj = { ...boldObj }
+        if (newObj[channelId]) {
+            newObj[channelId]++
+        } else {
+            newObj[channelId] = 1
+        }
+        console.log("~~~~~~", newObj)
+        setBoldObj(newObj)
+        const newJSON = JSON.stringify(newObj)
+        localStorage.setItem("boldValues", newJSON)
+    }
 
     // Eager load all data for the server
     useEffect(() => {
@@ -35,11 +51,20 @@ export default function ServerPage() {
     }, [dispatch, serverId])
 
     useEffect(() => {
+        const storedBoldValues = localStorage.getItem("boldValues")
+        const storedBoldValuesObj = JSON.parse(storedBoldValues)
+        if (storedBoldValues) setBoldObj(storedBoldValuesObj)
+    }, []);
+
+
+    useEffect(() => {
         if (import.meta.env.MODE !== "production") {
             socket = io("localhost:8000")
         } else {
             socket = io('https://slack-deploy.onrender.com')
         }
+
+
 
         // sampleEmit = socket.emit("server", {
         //     userId: sessionUser.id,
@@ -61,7 +86,8 @@ export default function ServerPage() {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            if (!checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
+                            console.log("should bold")
+                            if (!checkChannelIfSelected(obj.message.channel_id)) (boldChannelStorage(obj.message.channel_id))
                             break
                         }
                         case "DELETE": {
@@ -113,17 +139,16 @@ export default function ServerPage() {
 
         socket.emit("join", { room: server.id })
 
-
         return (() => {
-            socket.emit("leave", { room: server?.id })
+            socket.emit("leave", { room: server.id })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser.id])
+    }, [server?.id, dispatch, sessionUser.id, boldChannelStorage])
 
     return (
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
-            <InnerNavbar socket={socket} />
+            <InnerNavbar socket={socket} boldObj={boldObj} setBoldObj={setBoldObj} />
             <ChannelPage socket={socket} />
         </div>
     )

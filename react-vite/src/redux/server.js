@@ -289,7 +289,6 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
-            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
