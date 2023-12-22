@@ -14,6 +14,45 @@
     margin: 0 10px;
 }
 
+.channel-page-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 60px;
+}
+
+.channel-page-button-container > button {
+    background: none;
+}
+
+.channel-page-button-container > button:first-child {
+    font-weight: 600;
+    font-size: 20px;
+    border: none;
+}
+
+.channel-page-button-container > button:hover {
+    background-color: #F8F8F8;
+}
+
+.channel-page-first-button {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.channel-page-button-arrow {
+    font-size: 12px;
+}
+
+.channel-page-button-container > button:last-child {
+    border-radius: 5px;
+    border: 1px solid #EAEAEA;
+    color: #606060;
+}
+
+.channel-page-button-container > button:last-child:hover {
+    color: black;
+}
 
 .all-messages-container {
     display: flex;
