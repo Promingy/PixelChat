@@ -3,66 +3,58 @@ import { useParams, useNavigate } from "react-router-dom"
 import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import "./TopicForm.css"
 import TextareaAutoSize from 'react-textarea-autosize'
 
-function TopicFormModal({ socket }) {
+
+function DescriptionFormModal({ socket }) {
   const { serverId, channelId } = useParams()
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const server = useSelector(state => state.server)
   const channel = server?.channels?.[+channelId]
   const sessionUser = useSelector(state => state.session.user)
-  const [topic, setTopic] = useState(channel.topic);
+  const [description, setDescription] = useState(channel.description);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const data = await dispatch(
+    dispatch(
       editChannel({
         name: channel.name,
-        topic,
-        description: channel.description
+        topic: channel.topic,
+        description
       }, +channelId)
-    )
-    if (!data.errors) {
-      socket.emit("server", {
-        userId: sessionUser.id,
-        type: "channel",
-        method: "PUT",
-        room: server.id,
-        channel: data
-      })
-      closeModal()
-    }
-    else {
-      setErrors(data.errors)
-    }
+    ).then((data) => socket.emit("server", {
+      userId: sessionUser.id,
+      type: "channel",
+      method: "PUT",
+      room: server.id,
+      channel: data
+    })).then(() => {
+      navigate(`/main/servers/${serverId}/channels/${channelId}`)
+    }).then(closeModal()).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors)
+      }
+    })
   };
 
   return (
     <div className="topic-popup-form-wrapper">
-      <h1>Edit Topic</h1>
+      <h1>Edit description</h1>
       <form onSubmit={handleSubmit} className="topic-popup-form">
-        <div className="channel-modal-form-input-wrapper">
-
-          <TextareaAutoSize
-            type="text"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="Add a topic"
-            maxLength={50}
-            required
-          />
-          <div className="character-count">{topic.length}/50</div>
-
-
-        </div>
-        <p>{`Let people know what your channel is focused on right now (ex. a project milestone). Topics are always visible in the header.`}</p>
-        {errors.topic && <p>{errors.topic}</p>}
+        <TextareaAutoSize
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Add a description"
+          required
+        />
+        <p>{`Let people know what this channel is for.`}</p>
+        {errors.description && <p>{errors.description}</p>}
         <div className="topic-popup-form-button-wrapper">
           <button onClick={() => closeModal()} className="topic-popup-form-button topic-popup-form-cancel">Cancel</button>
           <button type="submit" className="topic-popup-form-button topic-popup-form-submit">Save</button>
@@ -72,4 +64,4 @@ function TopicFormModal({ socket }) {
   );
 }
 
-export default TopicFormModal
+export default DescriptionFormModal

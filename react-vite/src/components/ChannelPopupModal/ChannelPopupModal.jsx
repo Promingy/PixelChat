@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"
 import { useModal } from "../../context/Modal";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
-import TopicFormModal from '../TopicFormModal';
-import DescriptionFormModal from '../DescriptionFormModal';
+import PutPopupFormModal from '../PutPopupFormModal';
 import ChannelDeletionModal from '../ChannelDeletionModal';
 import { removeChannel } from '../../redux/server'
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -36,60 +35,60 @@ function ChannelPopupModal({ activeProp, socket }) {
                 </div>
             </div>
             {active === 1 ? active === 1 && sessionUser.id === channel.owner_id ? <div className='channel-popup-details-container'>
-                    <div className='channel-popup-details-border'>
-                        <div className='topic-modal-wrapper'>
-                            <OpenModalButton
-                                buttonText={<div className='channel-popup-about-div'>
-                                    <div className='channel-popup-about-div-left'>
-                                        <p>Topic</p>
-                                        {channel.topic}
-                                    </div>
-                                    <div className='channel-popup-about-div-right'>
-                                        Edit
-                                    </div>
-                                </div>}
-                            modalComponent={<TopicFormModal socket={socket} />}
+                <div className='channel-popup-details-border'>
+                    <div className='topic-modal-wrapper'>
+                        <OpenModalButton
+                            buttonText={<div className='channel-popup-about-div'>
+                                <div className='channel-popup-about-div-left'>
+                                    <p>Topic</p>
+                                    {channel.topic}
+                                </div>
+                                <div className='channel-popup-about-div-right'>
+                                    Edit
+                                </div>
+                            </div>}
+                            modalComponent={<PutPopupFormModal socket={socket} inputType="topic" target="channel" />}
                         />
-                        </div>
                     </div>
-                    <div className='channel-popup-details-border'>
-                        <div className='topic-modal-wrapper'>
-                            <OpenModalButton
-                                buttonText={<div className='channel-popup-about-div'>
-                                    <div className='channel-popup-about-div-left'>
-                                        <p>Description</p>
-                                        {channel.description}
-                                    </div>
-                                    <div className='channel-popup-about-div-right'>
-                                        Edit
-                                    </div>
-                                    </div>}
-                                modalComponent={<DescriptionFormModal socket={socket} />}
-                            />
-                        </div>
+                </div>
+                <div className='channel-popup-details-border'>
+                    <div className='topic-modal-wrapper'>
+                        <OpenModalButton
+                            buttonText={<div className='channel-popup-about-div'>
+                                <div className='channel-popup-about-div-left'>
+                                    <p>Description</p>
+                                    {channel.description}
+                                </div>
+                                <div className='channel-popup-about-div-right'>
+                                    Edit
+                                </div>
+                            </div>}
+                            modalComponent={<PutPopupFormModal socket={socket} inputType="description" target="channel" />}
+                        />
                     </div>
-                    <div>
-                        <h2 className='channel-popup-details'>Created by</h2>
-                        <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                </div>
+                <div>
+                    <h2 className='channel-popup-details'>Created by</h2>
+                    <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                </div>
+            </div> : <div className='channel-popup-details-container'>
+                <div className='channel-popup-details-border'>
+                    <div className='topic-modal-wrapper'>
+                        <h2 className='channel-popup-details'>Topic</h2>
+                        <p className='channel-popup-details'>{channel.topic}</p>
                     </div>
-                </div> : <div className='channel-popup-details-container'>
-                    <div className='channel-popup-details-border'>
-                        <div className='topic-modal-wrapper'>
-                            <h2 className='channel-popup-details'>Topic</h2>
-                            <p className='channel-popup-details'>{channel.topic}</p>
-                        </div>
+                </div>
+                <div className='channel-popup-details-border'>
+                    <div className='topic-modal-wrapper'>
+                        <h2 className='channel-popup-details'>Description</h2>
+                        <p className='channel-popup-details'>{channel.description}</p>
                     </div>
-                    <div className='channel-popup-details-border'>
-                        <div className='topic-modal-wrapper'>
-                                <h2 className='channel-popup-details'>Description</h2>
-                                <p className='channel-popup-details'>{channel.description}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 className='channel-popup-details'>Created by</h2>
-                        <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
-                    </div>
-                </div> : null}
+                </div>
+                <div>
+                    <h2 className='channel-popup-details'>Created by</h2>
+                    <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                </div>
+            </div> : null}
             {active === 2 ? Object.values(users).map((user) => (
                 <div key={user.id} className='channel-popup-members-container'>
                     <img className='popup-profile-pic' src={user.image_url} />
@@ -109,15 +108,15 @@ function ChannelPopupModal({ activeProp, socket }) {
                         </div>
                     </div>
                 </div>
-            : null}
+                : null}
             {active === 3 && sessionUser.id === channel.owner_id && Object.values(server.channels).length > 1 ?
-            <div className='channel-popup-details-container channel-popup-delete-modal'>
-                <OpenModalButton
-                    buttonText={<p><FaRegTrashAlt /> Delete this channel</p>}
-                    modalComponent={<ChannelDeletionModal socket={socket} channel={channel} />}
-                />
-                {errors.message && <p>{errors.message}</p>}
-            </div> : null}
+                <div className='channel-popup-details-container channel-popup-delete-modal'>
+                    <OpenModalButton
+                        buttonText={<p><FaRegTrashAlt /> Delete this channel</p>}
+                        modalComponent={<ChannelDeletionModal socket={socket} channel={channel} />}
+                    />
+                    {errors.message && <p>{errors.message}</p>}
+                </div> : null}
         </div>
     )
 }

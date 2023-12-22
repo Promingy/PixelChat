@@ -12,7 +12,17 @@
     width: 100%;
 }
 
-.topic-popup-form>textarea {
+.channel-modal-form-input-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: baseline;
+    justify-content: end;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.channel-modal-form-input-wrapper>textarea {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #868686;
