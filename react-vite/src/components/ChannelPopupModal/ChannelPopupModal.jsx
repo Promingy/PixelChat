@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import TopicFormModal from '../TopicFormModal';
 import DescriptionFormModal from '../DescriptionFormModal';
+import ChannelDeletionModal from '../ChannelDeletionModal';
 import { removeChannel } from '../../redux/server'
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuHeadphones } from "react-icons/lu";
@@ -13,8 +14,8 @@ import './ChannelPopup.css'
 
 function ChannelPopupModal({ activeProp, socket }) {
     const { channelId } = useParams()
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const dispatch = useDispatch();
+    // const navigate = useNavigate();
     const server = useSelector(state => state.server)
     const channel = server?.channels?.[+channelId]
     const users = server?.users
@@ -22,26 +23,7 @@ function ChannelPopupModal({ activeProp, socket }) {
     const sessionUser = session?.user
     const [active, setActive] = useState(activeProp)
     const [errors, setErrors] = useState({});
-    const { closeModal } = useModal();
-
-    const handleDelete = () => {
-        dispatch(removeChannel(channelId)).then(() => {
-            socket.emit("server", {
-                userId: sessionUser.id,
-                type: "channel",
-                method: "DELETE",
-                room: server.id,
-                channelId
-            })
-        }).then(() => {
-            navigate(`/landing`)
-        }).then(closeModal()).catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-                setErrors(data.errors)
-            }
-        })
-    }
+    // const { closeModal } = useModal();
 
     return (
         <div className='channel-popup'>
@@ -129,8 +111,11 @@ function ChannelPopupModal({ activeProp, socket }) {
                 </div>
             : null}
             {active === 3 && sessionUser.id === channel.owner_id && Object.values(server.channels).length > 1 ?
-            <div className='channel-popup-details-container'>
-                <button className='channel-popup-delete-button' onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
+            <div className='channel-popup-details-container channel-popup-delete-modal'>
+                <OpenModalButton
+                    buttonText={<p><FaRegTrashAlt /> Delete this channel</p>}
+                    modalComponent={<ChannelDeletionModal socket={socket} channel={channel} />}
+                />
                 {errors.message && <p>{errors.message}</p>}
             </div> : null}
         </div>
