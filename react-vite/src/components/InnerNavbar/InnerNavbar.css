@@ -1,10 +1,8 @@
 .inner-navbar-wrapper {
     width: 22%;
-    min-width: 210px;
+    max-width: 250px;
     height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 75px;
+    min-width: 210px;
     box-sizing: border-box;
     background-color: var(--inner-background);
     display: flex;
@@ -126,3 +124,39 @@
     --inner-background: #350d36;
     --inner-font-color: #e8e8e8;
 }
+
+.channel-dropdown.hidden {
+  display: none;
+}
+
+.creat-channel-container{
+  margin-bottom: 5px;
+}
+.creat-channel-container > button{
+    font-weight: 300;
+    background-color: var(--inner-background);
+    border: none;
+    align-items: center;
+    font-size: 15px;
+    padding-left: 17px;
+}
+
+.channel-dropdown {
+  border-radius: 5px;
+  list-style-type: none;
+  padding: 4px;
+  background-color: #F6F6F6;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  position: relative;
+  left: 9px;
+  border-radius: 5px;
+  width: 90%;
+  
+}
+
+.channel-dropdown > button {
+  border: none;
+  background-color: white;
+  font-size: 15px;
+  font-weight: 300;
+  }

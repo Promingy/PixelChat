@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: auto; 
-  max-width: 25%; 
+  width: auto;
+  max-width: 25%;
   height: 100%;
    background-color: var(--color-background);
     color: var(--color-font);

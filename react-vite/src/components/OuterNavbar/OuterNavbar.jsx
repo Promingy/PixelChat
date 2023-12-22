@@ -78,7 +78,7 @@ export default function OuterNavbar() {
         <div className="open-profile-wrapper">
           {/* <OpenModalButton buttonText={<img src={sessionUser.image_url} />} modalComponent={<ProfileModal />} /> */}
           <button className="icon-button" onClick={toggleMenu}>
-            <img src={sessionUser.image_url} />
+            <img className="profile-button-img" src={sessionUser.image_url} />
           </button>
         </div>
         <div className={ulClassName} ref={ulRef}>
@@ -93,7 +93,7 @@ export default function OuterNavbar() {
             modalComponent={<PreferenceFormModal />}
           />
           <button onClick={logout} >
-            <NavLink to="/" style={{ textDecoration: "none" }}>
+            <NavLink to="/" style={{ textDecoration: "none", color:"black" }}>
               Log out
             </NavLink>
           </button>

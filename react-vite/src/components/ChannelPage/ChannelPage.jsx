@@ -56,14 +56,15 @@ export default function ChannelPage({ socket }) {
                     result.push(
                         <div key={message.id}>
                                 <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                <div className="date-seperator-bar"/>
+                                {/* <div className="date-seperator-bar"/> */}
                             <MessageTile
                                 message={message}
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
                                 serverId={server.id}
-                                bottom={i < 3}
+                                bottom={i < 2}
+                                center={i === 2}
                                 />
                         </div>
                     )
@@ -77,8 +78,8 @@ export default function ChannelPage({ socket }) {
                             channelId={channelId}
                             socket={socket}
                             serverId={server.id}
-                            bottom={i < 3}
-
+                            bottom={i < 2}
+                            center={i === 2}
                             />
                     </div>
                     )

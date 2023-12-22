@@ -7,6 +7,23 @@
     grid-template-rows: 100px 100px 1fr;
 }
 
+.back-to-landing {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    text-decoration: none;
+    color: #0066CC;
+    font-size: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.back-to-landing>p:hover {
+    text-decoration: underline;
+}
+
+
 .join-server-page-wrapper>img {
     margin-bottom: 0px;
 }
@@ -42,7 +59,6 @@
     align-items: center;
     height: 60px;
     padding: 10px;
-    cursor: pointer;
 }
 
 .server-to-join-image {
@@ -50,6 +66,10 @@
     width: 40px;
     border-radius: 5px;
     margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .server-to-join-name {
@@ -60,9 +80,9 @@
     border: none;
     background-color: #2DB67D;
     color: white;
-    height: 36px;
-    width: 36px;
-    border-radius: 100px;
+    height: 28px;
+    width: 28px;
+    border-radius: 4px;
     font-size: 18px;
 }
 

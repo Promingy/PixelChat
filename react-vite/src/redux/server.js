@@ -118,6 +118,15 @@ export const getMoreMessages = (messages, channelId) => {
     }
 }
 
+export const uploadImage = (image) => async () => {
+    const res = await fetch(`/api/servers/images`, {
+        method: "POST",
+        body: image
+    })
+    const data = await res.json()
+    return data
+}
+
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
@@ -280,11 +289,13 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
+            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             newState.users = {}
             for (let user in action.server.users) {
@@ -320,6 +331,7 @@ const serverReducer = (state = initialState, action) => {
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             return newState
         }

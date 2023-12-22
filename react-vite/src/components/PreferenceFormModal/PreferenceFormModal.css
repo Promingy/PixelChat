@@ -52,11 +52,6 @@
   --color-font: #e8e8e8;
 }
 
-/* body {
-  background-color: var(--color-background);
-  color: var(--color-font);
-} */
-
 .preference-modal {
   background-color: var(--color-background);
   color: var(--color-font);

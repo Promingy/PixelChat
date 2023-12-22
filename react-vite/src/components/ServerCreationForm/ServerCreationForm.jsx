@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ServerCreationForm.css'
-import { initializeServer, initializeChannel } from '../../redux/server'
+import { initializeServer, initializeChannel, uploadImage } from '../../redux/server'
 
 export default function ServerCreationForm() {
     const dispatch = useDispatch()
@@ -12,19 +12,26 @@ export default function ServerCreationForm() {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [image_url, setImage_url] = useState('')
+    const [image, setImage] = useState('')
     const [channelName, setChannelName] = useState('')
     const [channelDescription, setChannelDescription] = useState('')
     const [errors, setErrors] = useState('')
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
         setErrors({})
         // TODO: assign AWS url to image_url
+
+        const formData = new FormData();
+        formData.append("image", image);
+        // aws uploads can be a bit slow—displaying
+        // some sort of loading message is a good idea
+        const returnImage = await dispatch(uploadImage(formData))
+
         const form = {
             name,
             description,
-            image_url,
+            image_url: returnImage.url,
             owner_id: sessionUser.id
         }
 
@@ -43,7 +50,7 @@ export default function ServerCreationForm() {
                     owner_id: sessionUser.id
                 }
                 const channelData = await dispatch(initializeChannel(serverData.id, channelForm))
-                return navigate(`main/servers/${serverData.id}/channels/${channelData.id}`)
+                return navigate(`/main/servers/${serverData.id}/channels/${channelData.id}`)
             } else {
                 setErrors(serverData.errors)
             }
@@ -53,7 +60,7 @@ export default function ServerCreationForm() {
     }
 
     return (
-        <form className="server-creation-form" onSubmit={onSubmit}>
+        <form className="server-creation-form" onSubmit={onSubmit} encType="multipart/form-data">
             <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
             <div>
                 <h1 className="server-creation-header">{`What's the name of your server?`}</h1>
@@ -70,8 +77,8 @@ export default function ServerCreationForm() {
             <div>
                 <h1 className="server-creation-header">Upload an icon for your server</h1>
                 <h2 className="server-creation-subheader">Choose an image to represent your server (optional)</h2>
-                <span>{errors.image_url}</span>
-                --Placeholder for file upload--
+                <span>{errors.image}</span>
+                <input type="file" className='server-creation-file-upload' accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
             </div>
             <div>
                 <h1 className="server-creation-header">Create a channel for your new server</h1>

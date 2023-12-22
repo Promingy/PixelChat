@@ -5,7 +5,7 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 
-export default function MessageTile({ message, user, channelId, socket, serverId, bottom }) {
+export default function MessageTile({ message, user, channelId, socket, serverId, bottom, center }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const [reactBar, setReactBar] = useState(false)
@@ -28,7 +28,11 @@ export default function MessageTile({ message, user, channelId, socket, serverId
     }
     return (
         <>
-            <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => setReactBar(false)}>
+            <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
+                setReactBar(false)
+                setEmojiBox(false)
+                setConfirmMsgDel(false)
+            }}>
 
                 <div className='message-body-reactions-container'>
                     <div className="message-body-header-container">
@@ -61,7 +65,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                             onClick={() => {
                                 setEmojiBox(!emojiBox)
                         }}/>
-                    {emojiBox && <div className={bottom ? 'bottom-emoji' : 'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
+                    {emojiBox && <div className={bottom ? 'bottom-emoji' : center ? 'center-emoji ':'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
                                 <EmojiPicker
 
                                     //if an emoji is selected through the picker, add it to the database!
