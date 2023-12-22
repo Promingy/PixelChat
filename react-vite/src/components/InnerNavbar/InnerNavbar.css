@@ -1,7 +1,8 @@
 .inner-navbar-wrapper {
     width: 22%;
+    max-width: 270px;
     height: 100%;
-    min-width: 210px;
+    min-width: 230px;
     box-sizing: border-box;
     background-color: var(--inner-background);
     display: flex;
@@ -64,16 +65,21 @@
     width: 94%;
     margin-left: 3%;
     list-style-type: none;
-    padding: 10px;
     height: 28px;
     display: flex;
     align-items: center;
     border-radius: 8px;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
 }
 
-.inner-navbar-content>li>a {
+.inner-navbar-link {
     text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .bold-channel>a>div {
@@ -88,11 +94,23 @@
     text-decoration: none;
     font-size: 15px;
     font-weight: 300;
+    justify-content: space-between;
+    padding: 10px;
 }
 
-.navbar-content>i {
-    font-weight: 300;
+.navbar-content-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 100px;
 }
+
+.navbar-content-left>i {
+    font-size: 13px;
+}
+
 
 .not-selected-channel>a {
     color: var(--inner-font-color);
@@ -113,6 +131,19 @@
     color: white;
 }
 
+.unread-message-count {
+    border-radius: 100px;
+    color: white;
+    height: 18px;
+    width: 25px;
+    background-color: #83388A;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
 .theme-light {
     --inner-background: #DAC3DA;
     --inner-font-color: black;
@@ -125,24 +156,38 @@
 }
 
 .channel-dropdown.hidden {
-  display: none;
+    display: none;
+}
+
+.creat-channel-container {
+    margin-bottom: 5px;
+}
+
+.creat-channel-container>button {
+    font-weight: 300;
+    background-color: var(--inner-background);
+    border: none;
+    align-items: center;
+    font-size: 15px;
+    padding-left: 17px;
 }
 
 .channel-dropdown {
-  border-radius: 5px;
-  list-style-type: none;
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  position: relative;
-  left: 10px;
-  border-radius: 5px;
-  width: 94%;
+    border-radius: 5px;
+    list-style-type: none;
+    padding: 4px;
+    background-color: #F6F6F6;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    position: relative;
+    left: 9px;
+    border-radius: 5px;
+    width: 90%;
+
 }
 
-.channel-dropdown > button {
-  border: none;
-  background-color: white;
-  font-size: 13px;
-
-  }
+.channel-dropdown>button {
+    border: none;
+    background-color: white;
+    font-size: 15px;
+    font-weight: 300;
+}

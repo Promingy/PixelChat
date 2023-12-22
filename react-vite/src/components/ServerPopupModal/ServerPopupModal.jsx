@@ -46,7 +46,10 @@ export default function ServerPopupModal() {
                         buttonText={<div className='server-popup-about-div'>
                             <div className='server-popup-about-div-left'>
                                 <p>Server image</p>
-                                {server.image_url}
+                                <div className="server-img-wrapper">
+
+                                    <img src={server.image_url} />
+                                </div>
                             </div>
                             <div className='server-popup-about-div-right'>
                                 {(sessionUser.id == server.owner_id) && "Edit"}
