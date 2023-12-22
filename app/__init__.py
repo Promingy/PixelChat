@@ -42,7 +42,6 @@ app.register_blueprint(reaction, url_prefix='/api/reactions')
 app.register_blueprint(server, url_prefix='/api/servers')
 db.init_app(app)
 Migrate(app, db)
-socketio.init_app(app, async_mode='gevent')
 
 # Application Security
 CORS(app)
