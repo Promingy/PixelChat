@@ -36,7 +36,7 @@ def upload_image():
     form = ImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-          
+
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
@@ -54,6 +54,12 @@ def upload_image():
     if form.errors:
         print(form.errors)
         return {"errors": form.errors}, 401
+
+@server.route("images/:image_url", methods=["DELETE"])
+def delete_image(image_url):
+    removed = remove_file_from_s3(image_url)
+    print(removed)
+    return {"removed": removed}
 
 
 @server.route('', methods=['POST'])
