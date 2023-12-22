@@ -128,21 +128,34 @@
   display: none;
 }
 
+.creat-channel-container{
+  margin-bottom: 5px;
+}
+.creat-channel-container > button{
+    font-weight: 300;
+    background-color: var(--inner-background);
+    border: none;
+    align-items: center;
+    font-size: 15px;
+    padding-left: 17px;
+}
+
 .channel-dropdown {
   border-radius: 5px;
   list-style-type: none;
-  padding: 10px;
-  background-color: #fff;
+  padding: 4px;
+  background-color: #F6F6F6;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   position: relative;
-  left: 10px;
+  left: 9px;
   border-radius: 5px;
-  width: 94%;
+  width: 90%;
+  
 }
 
 .channel-dropdown > button {
   border: none;
   background-color: white;
-  font-size: 13px;
-
+  font-size: 15px;
+  font-weight: 300;
   }
