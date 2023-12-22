@@ -8,7 +8,6 @@ else:
 
 socketio = SocketIO(cors_allowed_origins=origins)
 
-
 @socketio.on("server")
 def handle_socket(data):
     room = data["room"]

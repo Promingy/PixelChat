@@ -1,0 +1,71 @@
+.create-channel-wrapper {
+  padding: 20px;
+}
+.create-channel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.create-channel-header > button {
+  border: none;
+  font-size: 20px;
+  background-color: var(--color-background);
+  color: var(--color-font);
+}
+
+.channel-creation-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  flex-wrap: wrap;
+  margin: auto;
+  gap: 20px;
+}
+
+.channel-creation-form > label {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.channel-creation-form > label > input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  border-radius: 5px;
+  border: 1px solid #bbbabb;
+  margin-top: 8px;
+  padding-left: 12px;
+  font-size: 18px;
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+  font-weight: 400;
+}
+
+.create-channel-bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.create-channel-bottom > button {
+  background-color: 	#2e8b57;
+  color: white;
+  border: none;
+  width: 25%;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 5px;
+   align-items: center;
+}
+
+.theme-light {
+  --color-background: white;
+  --color-font: black;
+}
+
+.theme-dark {
+  --color-background: #1d1d1d;
+  --color-font: #e8e8e8;
+}

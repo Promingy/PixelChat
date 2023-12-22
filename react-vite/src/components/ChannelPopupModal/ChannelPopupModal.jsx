@@ -127,8 +127,8 @@ function ChannelPopupModal({ activeProp, socket }) {
                         </div>
                     </div>
                 </div>
-            </div> : null}
-            {active === 3 && sessionUser.id === channel.owner_id && Object.values(store.channels).length > 1 ?
+            : null}
+            {active === 3 && sessionUser.id === channel.owner_id && Object.values(server.channels).length > 1 ?
             <div className='channel-popup-details-container'>
                 <button className='channel-popup-delete-button' onClick={handleDelete}><FaRegTrashAlt />Delete this channel</button>
                 {errors.message && <p>{errors.message}</p>}

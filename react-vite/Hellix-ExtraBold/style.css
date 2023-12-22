@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Hellix';
+    src: local('Hellix Extra Bold'), local('Hellix-Extra-Bold'),
+        url('Hellix-ExtraBold.woff2') format('woff2'),
+        url('Hellix-ExtraBold.woff') format('woff'),
+        url('Hellix-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+  }

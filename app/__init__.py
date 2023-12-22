@@ -29,6 +29,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+socketio.init_app(app, async_mode='gevent') 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 

@@ -127,6 +127,13 @@ export const uploadImage = (image) => async () => {
     return data
 }
 
+export const deleteImage = (image_url) => async () => {
+    const res = await fetch(`/api/servers/images/${image_url}`, {
+        method: "DELETE"
+    })
+    return res 
+}
+
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
@@ -179,7 +186,6 @@ export const initializeServer = (server) => async (dispatch) => {
         dispatch(createServer(data))
         delete data.channels
         dispatch(addServers(data))
-        dispatch(addUserServer(data))
     }
     return data
 }
@@ -289,7 +295,6 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
-            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
@@ -375,7 +380,6 @@ const serverReducer = (state = initialState, action) => {
         }
         case BOLD_CHANNEL: {
             const newState = { ...state }
-            console.log("HERE")
             newState.channels[action.channelId].bold = true
             return newState
         }

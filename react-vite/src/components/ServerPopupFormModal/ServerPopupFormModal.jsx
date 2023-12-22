@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal"
-import { editServer } from "../../redux/server"
+import { editServer, uploadImage } from "../../redux/server"
 import "./ServerPopupFormModal.css"
+import TextareaAutoSize from 'react-textarea-autosize'
 
 export default function ServerPopupFormModal({ type }) {
     const server = useSelector(state => state.server)
@@ -15,12 +16,21 @@ export default function ServerPopupFormModal({ type }) {
         document.getElementById('mainInput').focus()
     }, [])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        setErrors({})
+
+        let returnImage
+        if (type === "image") {
+            const formData = new FormData()
+            formData.append("image", content)
+            returnImage = await dispatch(uploadImage(formData))
+        }
+
         const form = {
             name: (type === "name" ? content : server.name),
             description: (type === "description" ? content : server.description),
-            image_url: (type === "image" ? content : server.image_url)
+            image_url: (type === "image" ? returnImage.url : server.image_url)
         }
 
         const handleSubmission = async (serv, servId) => {
@@ -49,11 +59,19 @@ export default function ServerPopupFormModal({ type }) {
                     required
                 />}
 
-                {(type === "description") && <textarea
+                {(type === "description") && <TextareaAutoSize
                     id="mainInput"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Add text here"
+                    required
+                />}
+
+                {(type === "image") && <input
+                    id="mainInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setContent(e.target.files[0])}
                     required
                 />}
 

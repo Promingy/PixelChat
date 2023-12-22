@@ -34,6 +34,7 @@ class Server(db.Model, UserMixin):
             'image_url':self.image_url,
             'description':self.description
         }
+        print("8888888", dictionary)
 
         # if to_dict is called with Channels=True, load all channels
         if channels:
