@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
@@ -6,7 +6,7 @@ import { initializeChannel } from "../../redux/server";
 import { VscChromeClose } from "react-icons/vsc";
 import "./ChannelCreationForm.css";
 
-export default function ChannelCreationForm() {
+export default function ChannelCreationForm(socket) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
@@ -16,6 +16,17 @@ export default function ChannelCreationForm() {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
+
+  const [theme, setTheme] = useState("light");
+
+   useEffect(() => {
+     const storedTheme = localStorage.getItem("theme");
+     if (storedTheme) {
+       setTheme(storedTheme);
+     }
+   }, []);
+
+   document.documentElement.className = `theme-${theme}`;
 
   const handleChannelCreation = async (e) => {
     e.preventDefault();
@@ -36,14 +47,16 @@ export default function ChannelCreationForm() {
         channel: channelData
       });
       return navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+    } else {
+      setErrors(channelData.errors)
     }
   };
 
   return (
-    <>
-      <div>
-        <h1>Create a channel</h1>
-        <button type="button" onClick={closeModal}>
+    <div className="create-channel-wrapper">
+      <div className="create-channel-header">
+        <h2>Create a channel</h2>
+        <button onClick={closeModal}>
           <VscChromeClose />
         </button>
       </div>
@@ -78,10 +91,10 @@ export default function ChannelCreationForm() {
           />
         </label>
         {errors.topic && <p>{errors.topic}</p>}
-        <button type="submit" className="create-button">
-          Create
-        </button>
       </form>
-    </>
+      <div className="create-channel-bottom">
+      <button type="submit" className="create-button"> Create </button>
+      </div>
+    </div>
   );
 }

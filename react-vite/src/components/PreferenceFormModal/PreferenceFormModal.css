@@ -1,51 +1,58 @@
-.preference-container{
- display: flex;
+.preference-container-top{
   justify-content: space-between;
   align-items: center;
   gap: 20px;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  display:flex;
+  border-bottom: 0.5px solid grey;
 }
 
-.preference-container > button{
-  background: white;
+.preference-container-bottom{
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 20px;
+  display: flex;
+}
+
+.preference-container-top > button {
   border: none;
   font-size: 20px;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
-.theme-option{
+.theme-option {
   display: flex;
   justify-content: space-around;
-  
 }
 
-.theme-option > button{
+.theme-option > button {
   border-radius: 5px;
   justify-content: space-around;
   font-size: 16px;
   border-color: lightgray;
   border-width: 1px;
-  background-color: white;
-  width:180px;
-  height:30px;
+  width: 180px;
+  height: 30px;
   align-items: center;
   font-weight: bold;
-
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
+
 .theme-light {
-    --color-dark: #556052;
-    --color-light: #ececec;
-    --color-accent: #c1a57b;
+  --color-background: white;
+  --color-font: black;
 }
 
 .theme-dark {
-    --color-dark: #810000;
-    --color-light: #eeebdd;
-    --color-accent: #1b1717;
+  --color-background: #1D1D1D;
+  --color-font: #e8e8e8;
 }
 
-body {
-    background-color: var(--color-light);
-    color: var(--color-dark);
+.preference-modal {
+  background-color: var(--color-background);
+  color: var(--color-font);
 }

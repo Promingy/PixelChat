@@ -5,22 +5,47 @@
 .channel-page-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     justify-content: space-between;
     height: 96vh;
-
+    background-color: var(--color-background);
+    color: var(--color-font);
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0 10px;
 }
+
 
 .all-messages-container {
     display: flex;
     flex-direction: column-reverse;
-    width: 72.2%;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.emoji-box {
+    position: absolute;
+    right: 30vw;
+}
+
+.center-emoji {
+   position: absolute;
+   right: 30vw;
+   bottom: 20vh;
+}
+
+.bottom-emoji {
+    position: absolute;
+    right: 30vw;
+    bottom: 45vh;
 }
 
 .user-message-container {
     display: flex;
-    margin: 20px;
+    padding: 20px;
+}
+
+.user-message-container:hover {
+    background-color: #F8F8F8;
 }
 
 .message-profile-pic {
@@ -78,23 +103,20 @@
     cursor: pointer;
 }
 
-.message-box-container{
-    height: 20vh;
-    width: 70.5vw;
-    padding: 10px;
-}
-
 .react-bar {
     display: flex;
     justify-content: center;
     align-items: center;;
     height: 20px;
-    gap: 10px;
+    gap: 5px;
     border: 1px solid lightgray;
     border-radius: 10px;;
     padding: 5px;
-    position: sticky;
+    position: relative;
     right: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 10px lightgrey;
+    cursor: pointer;
 }
 
 .react-bar > * {
@@ -113,6 +135,30 @@
  padding-top: 5px;
 }
 
+.confirm-message-delete {
+    position: absolute;
+    right: 1px;
+    bottom: 4vh;
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 5px lightgrey;
+    text-align: center;
+    color: red;
+}
+
+.confirm-message-delete:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.reaction-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+}
+
 
 .message-date-seperator {
     border: 1px solid grey;
@@ -120,11 +166,31 @@
     width: fit-content;
     border-radius: 15px;
     padding: 5px;
-    margin: 0 auto;
+    margin: 5px auto;
+    background-color: white;
+    /* z-index: 1;
+    position: relative; */
 }
 
 .message-body-reactions-container{
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.date-seperator-bar {
+    position: relative;
+    border-bottom: 1px solid lightgrey;
+    bottom: 21px;
+    z-index: 0;
+}
+
+.theme-light {
+  --color-background: white;
+  --color-font: black;
+}
+
+.theme-dark {
+  --color-background: #1d1d1d;
+  --color-font: #e8e8e8;
 }

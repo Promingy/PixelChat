@@ -4,12 +4,22 @@ import { useParams } from "react-router-dom"
 import { loadServer } from "../../redux/server"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction } from "../../redux/server"
+import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
+import "./Server.css"
 
 let socket
+
+function checkChannelIfSelected(channelId) {
+    const fullId = `channel${channelId}`
+    let channelToBold = document.getElementById(fullId)
+    if (channelToBold.classList.contains("not-selected-channel")) {
+        return false
+    }
+    return true
+}
 
 export default function ServerPage() {
     const dispatch = useDispatch()
@@ -41,7 +51,7 @@ export default function ServerPage() {
         // })
 
         socket.on("server", obj => {
-            console.log('im the object', obj)
+            console.log(obj)
             if (obj.userId == sessionUser.id) {
                 return
             }
@@ -51,47 +61,51 @@ export default function ServerPage() {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            return
+                            if (!checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
+                            break
                         }
                         case "DELETE": {
                             // Handle message delete
                             dispatch(deleteMessage(obj.channelId, obj.messageId))
-                            return
+                            break
                         }
                     }
+                    break
                 }
                 case "reaction": {
                     switch (obj.method) {
                         case "POST": {
                             // Handle reaction post
                             dispatch(createReaction(obj.channelId, obj.reaction))
-                            return
+                            break
                         }
                         case "DELETE": {
                             // Handle reaction delete
                             dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
-                            return
+                            break
                         }
                     }
+                    break
                 }
                 case "channel": {
                     switch (obj.method) {
                         case "POST": {
                             // Handle channel post
                             dispatch(createChannel(obj.channel))
-                            return
+                            break
                         }
                         case "DELETE": {
                             // Handle channel delete
                             dispatch(deleteChannel(obj.channelId))
-                            return
+                            break
                         }
-                        case "UPDATE": {
+                        case "PUT": {
                             //Handle channel create
                             dispatch(updateChannel(obj.channel))
-                            return
+                            break
                         }
                     }
+                    break
                 }
             }
 
@@ -101,16 +115,16 @@ export default function ServerPage() {
 
 
         return (() => {
-            socket.emit("leave", { room: server.id })
+            socket.emit("leave", { room: server?.id })
             socket.disconnect()
         })
-    }, [server.id])
+    }, [server?.id, dispatch, sessionUser.id])
 
     return (
-        <>
+        <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
-        </>
+        </div>
     )
 }

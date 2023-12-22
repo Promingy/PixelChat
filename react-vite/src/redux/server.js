@@ -12,6 +12,8 @@ const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
+const BOLD_CHANNEL = 'channel/bold'
+const UNBOLD_CHANNEL = 'channel/unbold'
 const GET_MESSAGES = 'reaction/getMessages'
 
 const getServer = (server) => {
@@ -62,6 +64,20 @@ export const createChannel = (channel) => {
     }
 }
 
+export const boldChannel = (channelId) => {
+    return {
+        type: BOLD_CHANNEL,
+        channelId
+    }
+}
+
+export const unboldChannel = (channelId) => {
+    return {
+        type: UNBOLD_CHANNEL,
+        channelId
+    }
+}
+
 export const deleteMessage = (channelId, messageId) => {
     return {
         type: DELETE_MESSAGE,
@@ -100,6 +116,15 @@ export const getMoreMessages = (messages, channelId) => {
         messages,
         channelId
     }
+}
+
+export const uploadImage = (image) => async () => {
+    const res = await fetch(`/api/servers/images`, {
+        method: "POST",
+        body: image
+    })
+    const data = await res.json()
+    return data
 }
 
 export const loadServer = (serverId) => async (dispatch) => {
@@ -264,11 +289,13 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
+            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             newState.users = {}
             for (let user in action.server.users) {
@@ -276,7 +303,7 @@ const serverReducer = (state = initialState, action) => {
                 newState.users = { ...newState.users, [users[user].id]: users[user] }
             }
             for (let channel of action.server.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {} }
+                newState.channels[channel.id] = { ...channel, messages: {}, bold: false }
                 for (let message of channel.messages) {
                     newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
@@ -304,6 +331,7 @@ const serverReducer = (state = initialState, action) => {
             newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
+            newState.owner_id = action.server.owner_id
             newState.channels = {}
             return newState
         }
@@ -321,6 +349,7 @@ const serverReducer = (state = initialState, action) => {
             const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             newState.channels[action.channel.id].messages = {}
+            newState.channels[action.channel.id].bold = false
             return newState
         }
         case DELETE_MESSAGE: {
@@ -344,13 +373,22 @@ const serverReducer = (state = initialState, action) => {
             newState.channels[action.channelId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
             return newState
         }
+        case BOLD_CHANNEL: {
+            const newState = { ...state }
+            console.log("HERE")
+            newState.channels[action.channelId].bold = true
+            return newState
+        }
+        case UNBOLD_CHANNEL: {
+            const newState = { ...state }
+            newState.channels[action.channelId].bold = false
+            return newState
+        }
         case GET_MESSAGES: {
             const newState = { ...state }
-
-            for (let message of action.messages){
+            for (let message of action.messages) {
                 newState.channels[action.channelId].messages[message.id] = message
             }
-
             return newState
         }
         default: {

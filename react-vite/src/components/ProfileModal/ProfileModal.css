@@ -2,10 +2,11 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: auto; 
-  max-width: 25%; 
+  width: auto;
+  max-width: 25%;
   height: 100%;
-  background-color: #fff;
+   background-color: var(--color-background);
+    color: var(--color-font);
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -13,7 +14,7 @@
 
 .profile-top {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.5px solid grey;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,13 +22,12 @@
 
 .profile-header {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.5px solid grey;
 }
-
 
 .profile-middle {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.5px solid grey;
 }
 
 
@@ -53,4 +53,14 @@
 
 .profile-top button:hover {
   color: #333;
+}
+
+.theme-light {
+  --color-background: white;
+  --color-font: black;
+}
+
+.theme-dark {
+  --color-background: #1d1d1d;
+  --color-font: #e8e8e8;
 }

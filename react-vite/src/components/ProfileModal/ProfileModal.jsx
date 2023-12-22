@@ -22,7 +22,7 @@ export default function Profile() {
           <img
             src={sessionUser.image_url}
             alt="Profile Image"
-            style={{ width: "250px", height: "250px" }}
+            style={{ width: "250px", height: "250px" , borderRadius:"10px", objectFit: "cover"}}
           ></img>
         </div>
         <h2>

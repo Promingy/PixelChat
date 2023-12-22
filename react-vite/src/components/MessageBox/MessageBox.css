@@ -3,20 +3,22 @@
     flex-direction: column;
     border: 2px solid grey;
     border-radius: 10px;
-    margin-right: 10px;
+    margin: 0 10px;
     z-index: 0;
     align-items: flex-end;
 }
 
 .message-box {
     resize: none;
-    width: 68vw;
+    width: 98%;
     height: 3vh;
     padding: 10px;
     border: none;
     border-radius: 10px;
     z-index: 1;
     outline: transparent;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .send-message {
@@ -30,4 +32,18 @@
     height: 30px;
     border-radius: 5px;
     margin: 5px;
+}
+
+.send-message:disabled {
+    background-color: lightgray;
+    cursor: default;
+}
+.theme-light {
+    --color-background: white;
+    --color-font: black;
+}
+
+.theme-dark {
+    --color-background: #1D1C1D;
+    --color-font: #E8E8E8;
 }
