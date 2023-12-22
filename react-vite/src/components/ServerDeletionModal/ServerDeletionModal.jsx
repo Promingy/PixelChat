@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useModal } from "../../context/Modal"
-import { removeServer } from "../../redux/server"
+import { deleteImage, removeServer } from "../../redux/server"
 import { useState } from "react"
 import "./ServerDeletionModal.css"
 import { useNavigate } from "react-router-dom"
@@ -17,8 +17,10 @@ export default function ServerDeletionModal({ server }) {
 
         const handleServerDelete = async (serverId) => {
             const res = await dispatch(removeServer(serverId))
-            console.log(res)
+            console.log("res", res)
             if (res.ok) {
+                const data = await dispatch(deleteImage(server.image_url))
+                console.log("data", data)
                 closeModal()
                 navigate('/landing')
             }
@@ -40,4 +42,4 @@ export default function ServerDeletionModal({ server }) {
             </form>
         </div>
     )
-} 
+}

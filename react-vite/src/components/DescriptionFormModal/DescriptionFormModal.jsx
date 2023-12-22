@@ -41,10 +41,10 @@ function DescriptionFormModal({ socket }) {
   };
 
   return (
-    <>
+    <div className="topic-popup-form-wrapper">
       <h1>Edit description</h1>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit} className="topic-popup-form">
+        <textarea
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -53,10 +53,12 @@ function DescriptionFormModal({ socket }) {
         />
         <p>{`Let people know what this channel is for.`}</p>
         {errors.description && <p>{errors.description}</p>}
-        <button onClick={() => closeModal()}>Cancel</button>
-        <button type="submit">Save</button>
+        <div className="topic-popup-form-button-wrapper">
+          <button onClick={() => closeModal()} className="topic-popup-form-button topic-popup-form-cancel">Cancel</button>
+          <button type="submit" className="topic-popup-form-button topic-popup-form-submit">Save</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 
