@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { thunkAddUserServer } from "../../redux/session"
 import { useEffect, useState } from "react"
 import { loadAllServers } from "../../redux/all_servers"
+import { Link } from "react-router-dom"
 import "./JoinServer.css"
 
 export default function JoinServer() {
@@ -41,6 +42,7 @@ export default function JoinServer() {
 
     return (
         <div className="join-server-page-wrapper">
+            <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
             <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
             <h1>Join a Server</h1>
             <div className="servers-to-join-wrapper">
@@ -49,7 +51,7 @@ export default function JoinServer() {
                     <div className='server-to-join' key={server.id}>
                         <div className="server-to-join-image"><img src={server.image_url} /></div>
                         <div className="server-to-join-name">{server.name}</div>
-                        <button className="add-server-button" onClick={() => addServer(server)}><i className="fa-solid fa-plus"></i></button>
+                        <button className="add-server-button" onClick={() => addServer(server)} title={`join ${server.name}`}><i className="fa-solid fa-plus"></i></button>
                     </div>
                 )
                 )}
