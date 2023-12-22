@@ -25,18 +25,18 @@
 
 .emoji-box {
     position: absolute;
-    right: 30vw;
+    right: 33vw;
 }
 
 .center-emoji {
    position: absolute;
-   right: 30vw;
+   right: 33vw;
    bottom: 20vh;
 }
 
 .bottom-emoji {
     position: absolute;
-    right: 30vw;
+    right: 33vw;
     bottom: 45vh;
 }
 
@@ -83,8 +83,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 95%;
-    border: 1px solid red
+    width: 93%;
+    max-width: 93%;
 }
 
 .date-name-container{
