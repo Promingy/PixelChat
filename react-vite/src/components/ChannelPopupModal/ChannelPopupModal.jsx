@@ -34,89 +34,103 @@ function ChannelPopupModal({ activeProp, socket }) {
                     <h3 className={`channel-popup-tab${active == 3 ? " channel-popup-selected-tab" : ""}`} onClick={() => setActive(3)}>Settings</h3>
                 </div>
             </div>
-            {active === 1 ? active === 1 && sessionUser.id === channel.owner_id ? <div className='channel-popup-details-container'>
-                <div className='channel-popup-details-border'>
-                    <div className='topic-modal-wrapper'>
-                        <OpenModalButton
-                            buttonText={<div className='channel-popup-about-div'>
-                                <div className='channel-popup-about-div-left'>
-                                    <p>Topic</p>
-                                    {channel.topic}
-                                </div>
-                                <div className='channel-popup-about-div-right'>
-                                    Edit
-                                </div>
-                            </div>}
-                            modalComponent={<PutPopupFormModal socket={socket} inputType="topic" target="channel" />}
-                        />
-                    </div>
-                </div>
-                <div className='channel-popup-details-border'>
-                    <div className='topic-modal-wrapper'>
-                        <OpenModalButton
-                            buttonText={<div className='channel-popup-about-div'>
-                                <div className='channel-popup-about-div-left'>
-                                    <p>Description</p>
-                                    {channel.description}
-                                </div>
-                                <div className='channel-popup-about-div-right'>
-                                    Edit
-                                </div>
-                            </div>}
-                            modalComponent={<PutPopupFormModal socket={socket} inputType="description" target="channel" />}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <h2 className='channel-popup-details'>Created by</h2>
-                    <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
-                </div>
-            </div> : <div className='channel-popup-details-container'>
-                <div className='channel-popup-details-border'>
-                    <div className='topic-modal-wrapper'>
-                        <h2 className='channel-popup-details'>Topic</h2>
-                        <p className='channel-popup-details'>{channel.topic}</p>
-                    </div>
-                </div>
-                <div className='channel-popup-details-border'>
-                    <div className='topic-modal-wrapper'>
-                        <h2 className='channel-popup-details'>Description</h2>
-                        <p className='channel-popup-details'>{channel.description}</p>
-                    </div>
-                </div>
-                <div>
-                    <h2 className='channel-popup-details'>Created by</h2>
-                    <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
-                </div>
-            </div> : null}
-            {active === 2 ? Object.values(users).map((user) => (
-                <div key={user.id} className='channel-popup-members-container'>
-                    <img className='popup-profile-pic' src={user.image_url} />
-                    <p>{user.first_name} {user.last_name}</p>
-                </div>
-            )) : null}
-            {active === 3 ?
-                <div>
-                    <div className='channel-popup-details-container'>
-                        <h2 className='channel-popup-details'>Huddles</h2>
-                        <p className='channel-popup-details'>Members can start and join huddles in this channel. Learn more</p>
-                        <div className='channel-popup-huddle-buttons'>
-                            <button onClick={() => (alert(`Feature Coming Soon...`))}><LuHeadphones />
-                                Start huddle</button>
-                            <button onClick={() => (alert(`Feature Coming Soon...`))}><IoIosLink />
-                                Copy huddle Link</button>
+            <div className='channel-popup-content-wrapper'>
+                {active === 1 ? active === 1 && sessionUser.id === channel.owner_id ? <div className='channel-popup-details-container'>
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                            <OpenModalButton
+                                buttonText={<div className='channel-popup-about-div'>
+                                    <div className='channel-popup-about-div-left'>
+                                        <p>Topic</p>
+                                        {channel.topic}
+                                    </div>
+                                    <div className='channel-popup-about-div-right'>
+                                        Edit
+                                    </div>
+                                </div>}
+                                modalComponent={<PutPopupFormModal socket={socket} inputType="topic" target="channel" />}
+                            />
                         </div>
                     </div>
-                </div>
-                : null}
-            {active === 3 && sessionUser.id === channel.owner_id && Object.values(server.channels).length > 1 ?
-                <div className='channel-popup-details-container channel-popup-delete-modal'>
-                    <OpenModalButton
-                        buttonText={<p><FaRegTrashAlt /> Delete this channel</p>}
-                        modalComponent={<ChannelDeletionModal socket={socket} channel={channel} />}
-                    />
-                    {errors.message && <p>{errors.message}</p>}
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                            <OpenModalButton
+                                buttonText={<div className='channel-popup-about-div'>
+                                    <div className='channel-popup-about-div-left'>
+                                        <p>Description</p>
+                                        {channel.description}
+                                    </div>
+                                    <div className='channel-popup-about-div-right'>
+                                        Edit
+                                    </div>
+                                </div>}
+                                modalComponent={<PutPopupFormModal socket={socket} inputType="description" target="channel" />}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className='channel-popup-details'>Created by</h2>
+                        <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                    </div>
+                </div> : <div className='channel-popup-details-container'>
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                            <h2 className='channel-popup-details'>Topic</h2>
+                            <p className='channel-popup-details'>{channel.topic}</p>
+                        </div>
+                    </div>
+                    <div className='channel-popup-details-border'>
+                        <div className='topic-modal-wrapper'>
+                            <h2 className='channel-popup-details'>Description</h2>
+                            <p className='channel-popup-details'>{channel.description}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className='channel-popup-details'>Created by</h2>
+                        <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
+                    </div>
                 </div> : null}
+                {active === 2 ?
+                    <div className='channel-members-wrapper'>
+                        {Object.values(users).map((user) => (
+                            <div key={user.id} className='channel-popup-member'>
+                                <img className='popup-profile-pic' src={user.image_url} />
+                                <p>{user.first_name} {user.last_name}</p>
+                            </div>
+                        ))}
+                    </div>
+                    : null}
+                {active === 3 ?
+                    <div>
+                        <div className='channel-popup-details-container'>
+                            <div className='channel-popup-details-border'>
+                                <h2 className='channel-popup-details'>Huddles</h2>
+                                <p className='channel-popup-details'>Members can start and join huddles in this channel. Learn more</p>
+                                <div className='channel-popup-huddle-buttons'>
+                                    <button onClick={() => (alert(`Feature Coming Soon...`))}><LuHeadphones />
+                                        Start huddle</button>
+                                    <button onClick={() => (alert(`Feature Coming Soon...`))}><IoIosLink />
+                                        Copy huddle Link</button>
+                                </div>
+                            </div>
+                            <div className='channel-popup-details-border'>
+                                {(sessionUser.id == server.owner_id) && <div className='server-modal-wrapper server-popup-delete'>
+                                    <OpenModalButton
+                                        buttonText={<div className='server-popup-about-div'>
+                                            <div className='server-popup-about-div-left'>
+                                                <p><FaRegTrashAlt />  Delete this channel</p>
+                                            </div>
+                                            <div className='server-popup-about-div-right'>
+                                            </div>
+                                        </div>}
+                                        modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} />}
+                                    />
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+            </div>
         </div>
     )
 }
