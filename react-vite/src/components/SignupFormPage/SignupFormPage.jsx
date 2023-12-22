@@ -20,6 +20,18 @@ function SignupFormPage() {
   const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
   const [errors, setErrors] = useState({});
+
+  const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
+  const rootElement = document.documentElement
+  function scrollToTop() {
+    // Scroll to top logic
+    rootElement.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+  scrollToTopBtn[0].addEventListener("click", scrollToTop)
+
   const validateEmail = (email) => {
     const atPos = email.indexOf("@");
     const dotPos = email.lastIndexOf(".");
