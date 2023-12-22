@@ -68,29 +68,14 @@ export default function MessageTile({ message, user, channelId, socket, server, 
                                 setEmojiBox(!emojiBox)
                         }}/>
                     {emojiBox && <div className={bottom ? 'bottom-emoji' : center ? 'center-emoji ':'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
-                                <EmojiPicker
+                            <EmojiPicker
 
-                                    //if an emoji is selected through the picker, add it to the database!
-                                    onEmojiClick={(e) => {
-                                        //remove the reaction if user has already used it
-                                        setEmojiBox(!emojiBox)
-                                        for (let reaction of Object.values(message.reactions)){
-                                            if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                                return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
-                                                    const payload = {
-                                                        method:'DELETE',
-                                                        room: +serverId,
-                                                        channelId,
-                                                        messageId: message.id,
-                                                        reactionId: reaction.id
-                                                    }
-
-                                                    socket.emit("server", payload)
-                                                })
-                                            }
-                                        }
-                                            // if user hasn't used this reaction already, add reaction
-                                            return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                //if an emoji is selected through the picker, add it to the database!
+                                onEmojiClick={(e) => {
+                                    //remove the reaction if user has already used it
+                                    setEmojiBox(!emojiBox)
+                                    for (let reaction of Object.values(message.reactions)){
+                                        if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
                                             return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
                                                 const payload = {
                                                     type: 'reaction',
