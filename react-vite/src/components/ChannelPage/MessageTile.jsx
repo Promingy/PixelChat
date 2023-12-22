@@ -4,8 +4,9 @@ import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
+import { thunkPinMessage } from '../../redux/server'
 
-export default function MessageTile({ message, user, channelId, socket, serverId, bottom, center }) {
+export default function MessageTile({ message, user, channelId, socket, server, bottom, center }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const [reactBar, setReactBar] = useState(false)
@@ -28,18 +29,19 @@ export default function MessageTile({ message, user, channelId, socket, serverId
     }
     return (
         <>
-            <div className="user-message-container" onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
+            <div className={ message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
-                setEmojiBox(false)
                 setConfirmMsgDel(false)
             }}>
 
                 <div className='message-body-reactions-container'>
+                    {message.pinned &&
+                        <i className='fa-sharp fa-solid fa-thumbtack fa-xs pin-message pinned-icon-on-message'/>
+                    }
                     <div className="message-body-header-container">
                         <img className='message-profile-pic' src={user.image_url} />
 
                         <div className="message-owner-date-container">
-
                             <div className='date-name-container'>
                                 <span className="message-owner">{user.username}</span>
                                 <span className="message-post-time">{hours}:{minutes} {amPm}</span>
@@ -51,7 +53,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
 
                     <div className='message-reactions-container'>
                         {Object.keys(reactions).map(key => {
-                            return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
                         })}
                     </div>
 
@@ -76,7 +78,6 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                             if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
                                                 return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
                                                     const payload = {
-                                                        type: 'reaction',
                                                         method:'DELETE',
                                                         room: +serverId,
                                                         channelId,
@@ -90,17 +91,55 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                         }
                                             // if user hasn't used this reaction already, add reaction
                                             return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                            return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
                                                 const payload = {
                                                     type: 'reaction',
-                                                    method: 'POST',
-                                                    room: +serverId,
+                                                    method:'DELETE',
+                                                    room: +server?.id,
                                                     channelId,
-                                                    reaction: res
+                                                    messageId: message.id,
+                                                    reactionId: reaction.id
                                                 }
+
                                                 socket.emit("server", payload)
-                                             })
-                                      }} />
-                            </div>}
+                                            })
+                                        }
+                                    }
+                                        // if user hasn't used this reaction already, add reaction
+                                        return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                            const payload = {
+                                                type: 'reaction',
+                                                method: 'POST',
+                                                room: +server?.id,
+                                                channelId,
+                                                reaction: res
+                                            }
+                                            socket.emit("server", payload)
+                                            })
+                                    }} />
+                        </div>}
+
+                        {server.owner_id === sessionUser.id &&
+                            <i
+                                className='fa-sharp fa-solid fa-thumbtack pin-message'
+                                onClick={() => {
+                                    const updatedMessage = {...message}
+                                    updatedMessage.pinned = !updatedMessage.pinned
+                                    dispatch(thunkPinMessage(updatedMessage)).then(res => {
+                                        const payload = {
+                                            type: 'message',
+                                            method: 'PUT',
+                                            room: +server?.id,
+                                            channelId,
+                                            message: res
+                                        }
+                                        console.log('~~~~~~payload', payload)
+                                        socket.emit("server", payload)
+                                    })
+                                }} />
+                        }
+
+
                         {sessionUser.id === message.user_id && <div>
                             <i className='fa-regular fa-trash-can remove-message' onClick={() => setConfirmMsgDel(!confirmMsgDel)} />
                         {confirmMsgDel && <div
@@ -113,7 +152,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
                                     userId: sessionUser.id,
                                     type: 'message',
                                     method: 'DELETE',
-                                    room: +serverId,
+                                    room: +server?.id,
                                     channelId,
                                     messageId: message.id
                                 }
