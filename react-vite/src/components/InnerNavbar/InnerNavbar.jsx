@@ -99,6 +99,11 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
         <div className="creator-container">
             <ul style={{listStyle: "none"}}>
                 <p className="creator-header">Creator Githubs</p>
+                <li className="repo-link-container">
+                    <a className="repo-link" target='_blank' href="https://github.com/Promingy/SlackProject">
+                        Github Repo
+                    </a>
+                </li>
                 <li className="creators">
                     <a className="creator-links" target="_blank" href="https://github.com/regdes721">
                         <i className="fa-brands fa-github"/>
