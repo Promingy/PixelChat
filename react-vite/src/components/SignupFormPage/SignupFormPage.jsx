@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
-import './SignupFormPage.css'
+import { uploadImage } from "../../redux/server";
+import "./SignupFormPage.css";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -16,12 +17,14 @@ function SignupFormPage() {
   const [last_name, setLast_name] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
-  const [image_url, setImage_url] = useState("");
+  const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
-
   const [errors, setErrors] = useState({});
-
-  // if (sessionUser) return <Navigate to="/" replace={true} />;
+  const validateEmail = (email) => {
+    const atPos = email.indexOf("@");
+    const dotPos = email.lastIndexOf(".");
+    return atPos > 0 && dotPos > atPos + 1 && dotPos < email.length - 1;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +41,19 @@ function SignupFormPage() {
       });
     }
 
+    if (!validateEmail(email)) {
+      return setErrors({
+        email:
+          "Invalid Email Address",
+      });
+    }
+
+    const formData = new FormData();
+    formData.append("image", image);
+    // aws uploads can be a bit slow—displaying
+    // some sort of loading message is a good idea
+    const returnImage = await dispatch(uploadImage(formData));
+
     const userData = {
       first_name,
       last_name,
@@ -52,8 +68,8 @@ function SignupFormPage() {
       userData.theme = theme;
     }
 
-    if (image_url !== "") {
-      userData.image_url = image_url;
+    if (image !== "") {
+      userData.image_url = returnImage.url;
     }
 
     const serverResponse = await dispatch(thunkSignup(userData));
@@ -67,11 +83,17 @@ function SignupFormPage() {
 
   return (
     <>
-      {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit} className="signup-form">
-        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+      {errors.server && <p className="error-message">{errors.server}</p>}
+      <form
+        onSubmit={handleSubmit}
+        className="signup-form"
+        encType="multipart/form-data"
+      >
+        <img className="home-logo" src="https://svgshare.com/i/10wP.svg" />
         <h1>Sign Up</h1>
-        <p>We suggest using the email address you <b>use at work</b>.</p>
+        <p>
+          We suggest using the email address you <b>use at work</b>.
+        </p>
         <label>
           Email*
           <input
@@ -82,7 +104,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
         <label>
           Username*
           <input
@@ -92,7 +114,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
 
         <label>
           First Name*
@@ -103,7 +125,9 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.first_name && <p>{errors.first_name}</p>}
+        {errors.first_name && (
+          <p className="error-message">{errors.first_name}</p>
+        )}
 
         <label>
           Last Name*
@@ -114,17 +138,9 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.last_name && <p>{errors.last_name}</p>}
-
-        <label>
-          Bio
-          <input
-            type="text"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </label>
-        {errors.bio && <p>{errors.bio}</p>}
+        {errors.last_name && (
+          <p className="error-message">{errors.last_name}</p>
+        )}
 
         <label>
           Location
@@ -134,17 +150,27 @@ function SignupFormPage() {
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
-        {errors.location && <p>{errors.location}</p>}
+        {errors.location && <p className="error-message">{errors.location}</p>}
 
         <label>
-          Image Url
-          <input
+          Bio
+          <textarea
             type="text"
-            value={image_url}
-            onChange={(e) => setImage_url(e.target.value)}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </label>
-        {errors.image_url && <p>{errors.image_url}</p>}
+        {errors.bio && <p className="error-message">{errors.bio}</p>}
+
+        <div className="signup-file-upload">
+          <p>Profile Photo </p>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+        {errors.image && <p className="error-message">{errors.image}</p>}
 
         <label>
           Theme
@@ -154,7 +180,7 @@ function SignupFormPage() {
             onChange={(e) => setTheme(e.target.value)}
           />
         </label>
-        {errors.theme && <p>{errors.theme}</p>}
+        {errors.theme && <p className="error-message">{errors.theme}</p>}
         <label>
           Password*
           <input
@@ -164,7 +190,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
         <label>
           Confirm Password*
           <input
@@ -174,9 +200,13 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && (
+          <p className="error-message">{errors.confirmPassword}</p>
+        )}
 
-        <button type="submit" className="large-purple-button">Sign Up</button>
+        <button type="submit" className="large-purple-button">
+          Sign Up
+        </button>
       </form>
     </>
   );

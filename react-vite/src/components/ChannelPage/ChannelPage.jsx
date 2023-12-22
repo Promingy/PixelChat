@@ -106,14 +106,20 @@ export default function ChannelPage({ socket }) {
     return (
         <>
             <div className="channel-page-wrapper">
-                <OpenModalButton
-                    buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
-                />
-                {users && <OpenModalButton
-                    buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
-                />}
+                <div className="channel-page-button-container">
+                    <OpenModalButton
+                        buttonText={<div className="channel-page-first-button">
+                            <i className="fa-solid fa-hashtag"></i>
+                            {channel?.name}
+                            <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+                        </div>}
+                        modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+                    />
+                    {users && <OpenModalButton
+                        buttonText={`${Object.keys(users).length} Members`}
+                        modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
+                    />}
+                </div>
             <div className="all-messages-container" id='all-messages-container'>
                 {generate_message_layout()}
 

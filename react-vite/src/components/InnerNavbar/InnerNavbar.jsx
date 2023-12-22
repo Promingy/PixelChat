@@ -53,10 +53,16 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
         }
     }, []);
 
+    const handleChannelUnbold = (channelId) => {
+        dispatch(unboldChannel(channelId))
+        const storedBoldValues = localStorage.getItem("boldValues")
+        const storedBoldValuesObj = JSON.parse(storedBoldValues)
+        storedBoldValuesObj[channelId] = 0
+        const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+        localStorage.setItem("boldValues", storedBoldValuesJSON)
+    }
+
     document.documentElement.className = `theme-${theme}`;
-
-
-    if (!boldObj) return null
 
     if (!server.channels) return null
     return (
@@ -77,13 +83,13 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
                     />
                 </div>
                 {Object.values(server.channels).map((channel) => (
-                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => unboldChannelStorage(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${boldObj[channel.id] ? " bold-channel" : ""}`}>
+                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
                         <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                             <div className="navbar-content">
                                 <div className="navbar-content-left">
                                     <i className="fa-solid fa-hashtag"></i>{channel.name}
                                 </div>
-                                {boldObj[channel.id] ? <div className="unread-message-count">{boldObj[channel.id]}</div> : ""}
+                                {channel?.bold ? <div className="unread-message-count">{channel?.bold}</div> : ""}
                             </div>
                         </Link>
                     </li>

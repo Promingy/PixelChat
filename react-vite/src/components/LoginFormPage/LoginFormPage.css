@@ -30,3 +30,7 @@
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
     font-weight: 400;
 }
+
+.error-message {
+  color: red;
+}
