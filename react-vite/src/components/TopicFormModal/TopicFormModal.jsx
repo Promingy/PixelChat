@@ -4,6 +4,7 @@ import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./TopicForm.css"
+import TextareaAutoSize from 'react-textarea-autosize'
 
 function TopicFormModal({ socket }) {
   const { serverId, channelId } = useParams()
@@ -46,7 +47,7 @@ function TopicFormModal({ socket }) {
     <div className="topic-popup-form-wrapper">
       <h1>Edit Topic</h1>
       <form onSubmit={handleSubmit} className="topic-popup-form">
-        <textarea
+        <TextareaAutoSize
           type="text"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}

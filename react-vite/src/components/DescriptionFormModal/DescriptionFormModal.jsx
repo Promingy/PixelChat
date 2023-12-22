@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import TextareaAutoSize from 'react-textarea-autosize'
+
 
 function DescriptionFormModal({ socket }) {
   const { serverId, channelId } = useParams()
@@ -44,7 +46,7 @@ function DescriptionFormModal({ socket }) {
     <div className="topic-popup-form-wrapper">
       <h1>Edit description</h1>
       <form onSubmit={handleSubmit} className="topic-popup-form">
-        <textarea
+        <TextareaAutoSize
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
