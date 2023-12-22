@@ -43,7 +43,7 @@ export default function JoinServer() {
     return (
         <div className="join-server-page-wrapper">
             <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
-            <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+            <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
             <h1>Join a Server</h1>
             <div className="servers-to-join-wrapper">
                 <div className="server-to-join-header">Available servers for <b>{sessionUser.email}</b></div>

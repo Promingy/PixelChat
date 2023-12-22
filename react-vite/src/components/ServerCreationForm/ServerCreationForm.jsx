@@ -66,7 +66,7 @@ export default function ServerCreationForm() {
     return (
         <form className="server-creation-form" onSubmit={onSubmit} encType="multipart/form-data">
             <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
-            <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+            <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
             <div>
                 <h1 className="server-creation-header">{`What's the name of your server?`}</h1>
                 <h2 className="server-creation-subheader">This will be the name of your PixelChat server - choose something that your team will recognize</h2>

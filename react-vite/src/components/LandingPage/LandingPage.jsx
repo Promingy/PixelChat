@@ -39,7 +39,7 @@ export default function LandingPage() {
         <>
             <div className="landing-top-half-background">
                 <div className="landing-top-half">
-                    <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+                    <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
                     <div className="landing-header">
                         <div className="login-confirm">Confirmed as{" "}<b>{sessionUser?.email}</b>
                             <button onClick={logout} className="logout-button">Change</button>

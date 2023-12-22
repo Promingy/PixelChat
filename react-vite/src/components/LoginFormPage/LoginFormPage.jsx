@@ -75,7 +75,7 @@ function LoginFormPage() {
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit} className="login-form">
-        <img className="home-logo" src="https://svgshare.com/i/10wP.svg" />
+        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" />
         <h1>Sign in to PixelChat</h1>
 
         <label>
@@ -88,7 +88,7 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.email && <p className="error-message">{errors.email}</p>}
+        {errors.email && <span>{errors.email}</span>}
         <label>
           Password
           <input
@@ -98,7 +98,7 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.password && <p className="error-message">{errors.password}</p>}
+        {errors.password && <span>{errors.password}</span>}
 
         <button type="submit" className="large-purple-button">
           Log In

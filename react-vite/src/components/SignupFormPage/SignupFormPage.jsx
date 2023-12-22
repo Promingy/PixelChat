@@ -20,6 +20,18 @@ function SignupFormPage() {
   const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
   const [errors, setErrors] = useState({});
+
+  const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
+  const rootElement = document.documentElement
+  function scrollToTop() {
+    // Scroll to top logic
+    rootElement.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+  scrollToTopBtn[0].addEventListener("click", scrollToTop)
+
   const validateEmail = (email) => {
     const atPos = email.indexOf("@");
     const dotPos = email.lastIndexOf(".");
@@ -83,13 +95,13 @@ function SignupFormPage() {
 
   return (
     <>
-      {errors.server && <p className="error-message">{errors.server}</p>}
+      {errors.server && <span>{errors.server}</span>}
       <form
         onSubmit={handleSubmit}
         className="signup-form"
         encType="multipart/form-data"
       >
-        <img className="home-logo" src="https://svgshare.com/i/10wP.svg" />
+        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" />
         <h1>Sign Up</h1>
         <p>
           We suggest using the email address you <b>use at work</b>.
@@ -104,7 +116,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.email && <p className="error-message">{errors.email}</p>}
+        {errors.email && <span>{errors.email}</span>}
         <label>
           Username*
           <input
@@ -114,7 +126,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.username && <p className="error-message">{errors.username}</p>}
+        {errors.username && <span>{errors.username}</span>}
 
         <label>
           First Name*
@@ -125,9 +137,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.first_name && (
-          <p className="error-message">{errors.first_name}</p>
-        )}
+        {errors.first_name && <span>{errors.first_name}</span>}
 
         <label>
           Last Name*
@@ -138,9 +148,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.last_name && (
-          <p className="error-message">{errors.last_name}</p>
-        )}
+        {errors.last_name && <span>{errors.last_name}</span>}
 
         <label>
           Location
@@ -150,7 +158,7 @@ function SignupFormPage() {
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
-        {errors.location && <p className="error-message">{errors.location}</p>}
+        {errors.location && <span>{errors.location}</span>}
 
         <label>
           Bio
@@ -160,7 +168,7 @@ function SignupFormPage() {
             onChange={(e) => setBio(e.target.value)}
           />
         </label>
-        {errors.bio && <p className="error-message">{errors.bio}</p>}
+        {errors.bio && <span>{errors.bio}</span>}
 
         <div className="signup-file-upload">
           <p>Profile Photo </p>
@@ -170,7 +178,7 @@ function SignupFormPage() {
             onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
-        {errors.image && <p className="error-message">{errors.image}</p>}
+        {errors.image && <span>{errors.image}</span>}
 
         <label>
           Theme
@@ -180,7 +188,7 @@ function SignupFormPage() {
             onChange={(e) => setTheme(e.target.value)}
           />
         </label>
-        {errors.theme && <p className="error-message">{errors.theme}</p>}
+        {errors.theme && <span>{errors.theme}</span>}
         <label>
           Password*
           <input
@@ -190,7 +198,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.password && <p className="error-message">{errors.password}</p>}
+        {errors.password && <span>{errors.password}</span>}
         <label>
           Confirm Password*
           <input
@@ -200,9 +208,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && (
-          <p className="error-message">{errors.confirmPassword}</p>
-        )}
+        {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
 
         <button type="submit" className="large-purple-button">
           Sign Up
