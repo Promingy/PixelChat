@@ -20,6 +20,11 @@ function SignupFormPage() {
   const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
   const [errors, setErrors] = useState({});
+  const validateEmail = (email) => {
+    const atPos = email.indexOf("@");
+    const dotPos = email.lastIndexOf(".");
+    return atPos > 0 && dotPos > atPos + 1 && dotPos < email.length - 1;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +41,13 @@ function SignupFormPage() {
       });
     }
 
+    if (!validateEmail(email)) {
+      return setErrors({
+        email:
+          "Invalid Email Address",
+      });
+    }
+
     const formData = new FormData();
     formData.append("image", image);
     // aws uploads can be a bit slow—displaying
@@ -49,7 +61,7 @@ function SignupFormPage() {
       email,
       password,
       bio,
-      location
+      location,
     };
 
     if (theme !== "") {
@@ -71,7 +83,7 @@ function SignupFormPage() {
 
   return (
     <>
-      {errors.server && <p>{errors.server}</p>}
+      {errors.server && <p className="error-message">{errors.server}</p>}
       <form
         onSubmit={handleSubmit}
         className="signup-form"
@@ -92,7 +104,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
         <label>
           Username*
           <input
@@ -102,7 +114,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
 
         <label>
           First Name*
@@ -113,7 +125,9 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.first_name && <p>{errors.first_name}</p>}
+        {errors.first_name && (
+          <p className="error-message">{errors.first_name}</p>
+        )}
 
         <label>
           Last Name*
@@ -124,7 +138,9 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.last_name && <p>{errors.last_name}</p>}
+        {errors.last_name && (
+          <p className="error-message">{errors.last_name}</p>
+        )}
 
         <label>
           Location
@@ -134,7 +150,7 @@ function SignupFormPage() {
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
-        {errors.location && <p>{errors.location}</p>}
+        {errors.location && <p className="error-message">{errors.location}</p>}
 
         <label>
           Bio
@@ -144,7 +160,7 @@ function SignupFormPage() {
             onChange={(e) => setBio(e.target.value)}
           />
         </label>
-        {errors.bio && <p>{errors.bio}</p>}
+        {errors.bio && <p className="error-message">{errors.bio}</p>}
 
         <div className="signup-file-upload">
           <p>Profile Photo </p>
@@ -154,7 +170,7 @@ function SignupFormPage() {
             onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
-        {errors.image && <p>{errors.image}</p>}
+        {errors.image && <p className="error-message">{errors.image}</p>}
 
         <label>
           Theme
@@ -164,7 +180,7 @@ function SignupFormPage() {
             onChange={(e) => setTheme(e.target.value)}
           />
         </label>
-        {errors.theme && <p>{errors.theme}</p>}
+        {errors.theme && <p className="error-message">{errors.theme}</p>}
         <label>
           Password*
           <input
@@ -174,7 +190,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
         <label>
           Confirm Password*
           <input
@@ -184,7 +200,9 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && (
+          <p className="error-message">{errors.confirmPassword}</p>
+        )}
 
         <button type="submit" className="large-purple-button">
           Sign Up

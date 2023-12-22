@@ -10,46 +10,52 @@ function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const validateEmail = (email) => {
+    const atPos = email.indexOf("@");
+    const dotPos = email.lastIndexOf(".");
+    return atPos > 0 && dotPos > atPos + 1 && dotPos < email.length - 1;
+  };
 
   const demoUserLogin = async (e) => {
     e.preventDefault();
+
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'demo@aa.io',
-        password: 'password',
+        email: "demo@aa.io",
+        password: "password",
       })
     );
 
     if (serverResponse) {
-      // setErrors(serverResponse);
     } else {
       navigate("/landing");
     }
-
-
-  }
+  };
 
   const demoUser2Login = async (e) => {
     e.preventDefault();
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'zelda@aa.io',
-        password: 'password',
+        email: "zelda@aa.io",
+        password: "password",
       })
     );
 
     if (serverResponse) {
-      // setErrors(serverResponse);
     } else {
       navigate("/landing");
     }
-
-
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateEmail(email)) {
+      console.log("error");
+      return setErrors({
+        email: "Invalid Email Address",
+      });
+    }
     const serverResponse = await dispatch(
       thunkLogin({
         email,
@@ -69,7 +75,7 @@ function LoginFormPage() {
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit} className="login-form">
-        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+        <img className="home-logo" src="https://svgshare.com/i/10wP.svg" />
         <h1>Sign in to PixelChat</h1>
 
         <label>
@@ -82,7 +88,7 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
         <label>
           Password
           <input
@@ -92,14 +98,21 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
 
-        <button type="submit" className="large-purple-button">Log In</button>
+        <button type="submit" className="large-purple-button">
+          Log In
+        </button>
         <div id="auto-login">
-          <button onClick={demoUserLogin} className="large-white-button"> Log in as Demo User </button>
+          <button onClick={demoUserLogin} className="large-white-button">
+            {" "}
+            Log in as Demo User{" "}
+          </button>
         </div>
         <div>
-          <button className="large-white-button" onClick={demoUser2Login}>Log in as Demo User 2</button>
+          <button className="large-white-button" onClick={demoUser2Login}>
+            Log in as Demo User 2
+          </button>
         </div>
       </form>
     </>
