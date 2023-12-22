@@ -29,9 +29,12 @@
 }
 
 .char-count-and-submit > span {
-    font-size: 13px;;
+    font-size: 13px;
 }
 
+.clear-message-limit {
+    color: black;
+}
 .over-message-limit {
     color: red;
 }

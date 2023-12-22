@@ -46,9 +46,7 @@ export default function ServerPage() {
 
         socket.on("server", obj => {
             console.log(obj)
-            if (obj.userId == sessionUser.id) {
-                return
-            }
+
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
