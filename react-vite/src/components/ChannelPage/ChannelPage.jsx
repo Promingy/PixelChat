@@ -62,7 +62,7 @@ export default function ChannelPage({ socket }) {
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                serverId={server.id}
+                                server={server}
                                 bottom={i < 2}
                                 center={i === 2}
                                 />
@@ -77,7 +77,7 @@ export default function ChannelPage({ socket }) {
                             user={user}
                             channelId={channelId}
                             socket={socket}
-                            serverId={server.id}
+                            server={server}
                             bottom={i < 2}
                             center={i === 2}
                             />

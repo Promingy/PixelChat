@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import { loadServer, pinMessage } from "../../redux/server"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
 import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
@@ -72,6 +73,10 @@ export default function ServerPage() {
                         case "DELETE": {
                             // Handle message delete
                             dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            break
+                        }
+                        case "PUT": {
+                            dispatch(pinMessage(obj.message))
                             break
                         }
                     }

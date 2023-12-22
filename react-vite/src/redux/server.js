@@ -10,6 +10,7 @@ const UPDATE_CHANNEL = 'channel/updateChannel'
 const CREATE_CHANNEL = 'channel/createChannel'
 const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
+const PIN_MESSAGE = 'message/pin/pinMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
 const BOLD_CHANNEL = 'channel/bold'
@@ -95,6 +96,13 @@ export const createMessage = (message) => {
     }
 }
 
+export const pinMessage = (message) => {
+    return {
+        type: PIN_MESSAGE,
+        message
+    }
+}
+
 export const deleteReaction = (channelId, messageId, reactionId) => {
     return {
         type: DELETE_REACTION,
@@ -133,7 +141,7 @@ export const deleteImage = (image_url) => async () => {
     const res = await fetch(`/api/servers/images/${image_url}`, {
         method: "DELETE"
     })
-    return res 
+    return res
 }
 
 export const loadServer = (serverId) => async (dispatch) => {
@@ -255,6 +263,22 @@ export const initializeMessage = (channelId, message) => async (dispatch) => {
     const data = await res.json()
     if (res.ok) {
         dispatch(createMessage(data))
+    }
+    return data
+}
+
+export const thunkPinMessage = (message) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${message.id}`, {
+        method: "PUT",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(pinMessage(data))
     }
     return data
 }
@@ -402,6 +426,11 @@ const serverReducer = (state = initialState, action) => {
             for (let message of action.messages) {
                 newState.channels[action.channelId].messages[message.id] = message
             }
+            return newState
+        }
+        case PIN_MESSAGE: {
+            const newState = { ...state }
+            newState.channels[action.message.channel_id].messages[action.message.id].pinned = action.message.pinned
             return newState
         }
         default: {
