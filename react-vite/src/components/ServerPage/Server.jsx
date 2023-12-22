@@ -31,19 +31,6 @@ export default function ServerPage() {
     const sessionUser = useSelector(state => state.session.user)
 
 
-    const boldChannelStorage = (channelId) => {
-        const newObj = { ...boldObj }
-        if (newObj[channelId]) {
-            newObj[channelId]++
-        } else {
-            newObj[channelId] = 1
-        }
-        console.log("~~~~~~", newObj)
-        setBoldObj(newObj)
-        const newJSON = JSON.stringify(newObj)
-        localStorage.setItem("boldValues", newJSON)
-    }
-
     // Eager load all data for the server
     useEffect(() => {
         dispatch(loadServer(serverId))
@@ -65,15 +52,20 @@ export default function ServerPage() {
         }
 
 
-
-        // sampleEmit = socket.emit("server", {
-        //     userId: sessionUser.id,
-        //     type: "Message",
-        //     method: "DELETE",
-        //     room: server.id,
-        //     channelId,
-        //     messageId
-        // })
+        const boldChannelStorage = (channelId) => {
+            const newObj = { ...boldObj }
+            console.log("_____", boldObj)
+            if (newObj[channelId]) {
+                newObj[channelId] = newObj[channelId] + 1
+            } else {
+                newObj[channelId] = 1
+            }
+            console.log("~~~~~~", newObj)
+            setBoldObj({ ...newObj })
+            console.log(boldObj)
+            const newJSON = JSON.stringify(newObj)
+            localStorage.setItem("boldValues", newJSON)
+        }
 
         socket.on("server", obj => {
             console.log(obj)
@@ -143,7 +135,7 @@ export default function ServerPage() {
             socket.emit("leave", { room: server.id })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser.id, boldChannelStorage])
+    }, [server?.id, dispatch, sessionUser.id])
 
     return (
         <div className="main-page-wrapper">

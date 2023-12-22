@@ -57,7 +57,6 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
     document.documentElement.className = `theme-${theme}`;
 
 
-    console.log(boldObj)
     if (!boldObj) return null
 
     if (!server.channels) return null
@@ -80,8 +79,13 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
                 </div>
                 {Object.values(server.channels).map((channel) => (
                     <li id={`channel${channel.id}`} key={channel.id} onClick={() => unboldChannelStorage(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${boldObj[channel.id] ? " bold-channel" : ""}`}>
-                        <Link to={`/main/servers/${server.id}/channels/${channel.id}`}>
-                            <div className="navbar-content"><i className="fa-solid fa-hashtag"></i>{channel.name}</div>
+                        <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
+                            <div className="navbar-content">
+                                <div className="navbar-content-left">
+                                    <i className="fa-solid fa-hashtag"></i>{channel.name}
+                                </div>
+                                {boldObj[channel.id] ? <div className="unread-message-count">{boldObj[channel.id]}</div> : ""}
+                            </div>
                         </Link>
                     </li>
                 ))}
