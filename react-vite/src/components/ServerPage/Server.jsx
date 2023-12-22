@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { loadServer, pinMessage } from "../../redux/server"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
@@ -24,7 +24,7 @@ function checkChannelIfSelected(channelId) {
 export default function ServerPage() {
     const dispatch = useDispatch()
     const { serverId } = useParams()
-    const [boldObj, setBoldObj] = useState({})
+    // const [boldObj, setBoldObj] = useState({})
 
 
     const server = useSelector(state => state.server)
@@ -37,34 +37,12 @@ export default function ServerPage() {
         dispatch(loadAllServers())
     }, [dispatch, serverId])
 
-    useEffect(() => {
-        const storedBoldValues = localStorage.getItem("boldValues")
-        const storedBoldValuesObj = JSON.parse(storedBoldValues)
-        if (storedBoldValues) setBoldObj(storedBoldValuesObj)
-    }, []);
-
 
     useEffect(() => {
         if (import.meta.env.MODE !== "production") {
             socket = io("localhost:8000")
         } else {
             socket = io('https://slack-deploy.onrender.com')
-        }
-
-
-        const boldChannelStorage = (channelId) => {
-            const newObj = { ...boldObj }
-            console.log("_____", boldObj)
-            if (newObj[channelId]) {
-                newObj[channelId] = newObj[channelId] + 1
-            } else {
-                newObj[channelId] = 1
-            }
-            console.log("~~~~~~", newObj)
-            setBoldObj({ ...newObj })
-            console.log(boldObj)
-            const newJSON = JSON.stringify(newObj)
-            localStorage.setItem("boldValues", newJSON)
         }
 
         socket.on("server", obj => {
@@ -78,8 +56,18 @@ export default function ServerPage() {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            console.log("should bold")
-                            if (!checkChannelIfSelected(obj.message.channel_id)) (boldChannelStorage(obj.message.channel_id))
+                            if (!checkChannelIfSelected(obj.message.channel_id)) {
+                                dispatch(boldChannel(obj.message.channel_id))
+                                const storedBoldValues = localStorage.getItem("boldValues")
+                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
+                                if (storedBoldValuesObj[obj.message.channel_id]) {
+                                    storedBoldValuesObj[obj.message.channel_id]++
+                                } else {
+                                    storedBoldValuesObj[obj.message.channel_id] = 1
+                                }
+                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                localStorage.setItem("boldValues", storedBoldValuesJSON)
+                            }
                             break
                         }
                         case "DELETE": {
@@ -144,7 +132,7 @@ export default function ServerPage() {
     return (
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
-            <InnerNavbar socket={socket} boldObj={boldObj} setBoldObj={setBoldObj} />
+            <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
         </div>
     )
