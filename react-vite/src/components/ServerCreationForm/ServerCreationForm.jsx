@@ -3,6 +3,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ServerCreationForm.css'
 import { initializeServer, initializeChannel, uploadImage } from '../../redux/server'
+import { Link } from "react-router-dom"
+import { thunkAddUserServer } from '../../redux/session'
+
 
 export default function ServerCreationForm() {
     const dispatch = useDispatch()
@@ -50,6 +53,7 @@ export default function ServerCreationForm() {
                     owner_id: sessionUser.id
                 }
                 const channelData = await dispatch(initializeChannel(serverData.id, channelForm))
+                await dispatch(thunkAddUserServer(serverData, sessionUser))
                 return navigate(`/main/servers/${serverData.id}/channels/${channelData.id}`)
             } else {
                 setErrors(serverData.errors)
@@ -61,6 +65,7 @@ export default function ServerCreationForm() {
 
     return (
         <form className="server-creation-form" onSubmit={onSubmit} encType="multipart/form-data">
+            <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
             <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
             <div>
                 <h1 className="server-creation-header">{`What's the name of your server?`}</h1>
