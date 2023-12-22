@@ -66,7 +66,7 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
 
     if (!server.channels) return null
     return (
-
+        <>
         <div className="inner-navbar-wrapper">
             <div className="inner-navbar-header">
                 <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
@@ -96,6 +96,36 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
                 ))}
 
             </ul>
+        <div className="creator-container">
+            <ul style={{listStyle: "none"}}>
+                <p className="creator-header">Creator Githubs</p>
+                <li className="creators">
+                    <a className="creator-links" target="_blank" href="https://github.com/regdes721">
+                        <i className="fa-brands fa-github"/>
+                        Reginald
+                    </a>
+                {/* </li>
+                <li className="creators"> */}
+                    <a className="creator-links" target='_blank' href="https://github.com/NickBrooks188">
+                        <i className="fa-brands fa-github"/>
+                        Nick
+                    </a>
+                </li>
+                <li className="creators">
+                    <a className="creator-links" target='_blank' href="https://github.com/Promingy">
+                        <i className="fa-brands fa-github"/>
+                        Corbin
+                    </a>
+                {/* </li>
+                <li className="creators"> */}
+                    <a className="creator-links" target="_blank" href="https://github.com/lovelyyun024">
+                        <i className="fa-brands fa-github"/>
+                        Esther
+                    </a>
+                </li>
+            </ul>
         </div>
+        </div>
+        </>
     )
 }
