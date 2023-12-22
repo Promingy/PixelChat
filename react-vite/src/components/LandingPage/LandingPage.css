@@ -1,14 +1,14 @@
 .landing-top-half-background {
     position: relative;
     background-color: #FAF6F2;
-    height: 350px;
+    height: 400px;
     margin: none;
     margin-bottom: -75px;
 }
 
 .landing-top-half {
     background-color: #FAF6F2;
-    height: 350px;
+    height: 370px;
     width: 500px;
     display: grid;
     grid-template-columns: 1fr;
@@ -69,12 +69,15 @@
 .landing-create-new-server {
     margin: auto;
     width: fit-content;
+    padding: 0px;
 }
 
-.landing-create-new-server>.large-purple-button {
+.landing-join-server {
     margin: auto;
-    margin-bottom: 26px;
+    width: fit-content;
+    margin-top: 0px;
 }
+
 
 .landing-bottom-half {
     width: 400px;
