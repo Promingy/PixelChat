@@ -68,3 +68,16 @@
 .server-popup-form-submit:hover {
     background-color: #138567;
 }
+
+input::file-selector-button {
+    border: none;
+    background-color: #e0e0e0;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 120px;
+}
+
+input::file-selector-button:hover {
+    background-color: #ccc;
+}
