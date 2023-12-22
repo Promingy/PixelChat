@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal"
 import { editServer, uploadImage } from "../../redux/server"
 import "./ServerPopupFormModal.css"
+import TextareaAutoSize from 'react-textarea-autosize'
 
 export default function ServerPopupFormModal({ type }) {
     const server = useSelector(state => state.server)
@@ -58,7 +59,7 @@ export default function ServerPopupFormModal({ type }) {
                     required
                 />}
 
-                {(type === "description") && <textarea
+                {(type === "description") && <TextareaAutoSize
                     id="mainInput"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}

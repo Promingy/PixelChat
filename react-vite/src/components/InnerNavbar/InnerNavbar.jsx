@@ -10,7 +10,6 @@ import "./InnerNavbar.css"
 export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
-    // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
