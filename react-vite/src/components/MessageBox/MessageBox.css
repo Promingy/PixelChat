@@ -3,14 +3,14 @@
     flex-direction: column;
     border: 2px solid grey;
     border-radius: 10px;
-    margin-right: 10px;
+    margin: 0 10px;
     z-index: 0;
     align-items: flex-end;
 }
 
 .message-box {
     resize: none;
-    width: 68vw;
+    width: 98%;
     height: 3vh;
     padding: 10px;
     border: none;
