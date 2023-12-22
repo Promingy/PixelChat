@@ -10,6 +10,7 @@
 
 .message-box {
     resize: none;
+    box-sizing: border-box;
     width: 98%;
     height: 3vh;
     padding: 10px;
@@ -19,6 +20,24 @@
     outline: transparent;
     background-color: var(--color-background);
     color: var(--color-font);
+}
+
+.char-count-and-submit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.char-count-and-submit > span {
+    font-size: 13px;;
+}
+
+.over-message-limit {
+    color: red;
+}
+
+.nearing-message-limit {
+    color: orange;
 }
 
 .send-message {

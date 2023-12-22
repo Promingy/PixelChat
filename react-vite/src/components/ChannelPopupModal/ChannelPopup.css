@@ -159,6 +159,11 @@
     color: red;
 }
 
-.channel-popup-delete-button > button:hover {
-    background-color: #F6F6F6
+.channel-popup-delete-modal > button {
+    height: 100px;
+    width: 100%;
+    margin-top: 0px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: red;
 }
