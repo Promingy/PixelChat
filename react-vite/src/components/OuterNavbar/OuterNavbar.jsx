@@ -68,6 +68,12 @@ export default function OuterNavbar() {
             </div>
           </div>
         ))}
+        <Link to="/landing" className="home-link-wrapper">
+          <div className="home-icon-wrapper">
+            <i className="fa-solid fa-house"></i>
+          </div>
+          Home
+        </Link>
       </div>
       <div className="outer-navbar-bottom">
         <Link to="/new-server">
@@ -93,7 +99,7 @@ export default function OuterNavbar() {
             modalComponent={<PreferenceFormModal />}
           />
           <button onClick={logout} >
-            <NavLink to="/" style={{ textDecoration: "none", color:"black" }}>
+            <NavLink to="/" style={{ textDecoration: "none", color: "black" }}>
               Log out
             </NavLink>
           </button>
