@@ -12,6 +12,8 @@ export default function MessageTile({ message, user, channelId, socket, server, 
     const [reactBar, setReactBar] = useState(false)
     const [emojiBox, setEmojiBox ] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
+    const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
+
 
     // format date
     const date = new Date(message.created_at)
@@ -26,6 +28,15 @@ export default function MessageTile({ message, user, channelId, socket, server, 
     // iterate over every reaction and add them to the reactions counter / increment
     for (let reaction of Object.values(message.reactions)) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
+    }
+
+    function handleEmojiBox (e) {
+        e.preventDefault()
+        setTimeout(() => {
+            setEmojiBox(false)
+            window.removeEventListener('mousedown', handleEmojiBox)
+            messagesContainer.removeEventListener('scroll', handleEmojiBox)
+        }, 1 * 58)
     }
     return (
         <>
@@ -60,49 +71,52 @@ export default function MessageTile({ message, user, channelId, socket, server, 
                 </div>
 
 
+                {emojiBox &&
+                <div className={bottom ? 'bottom-emoji' : center ? 'center-emoji ':'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
+                        <EmojiPicker
+
+                            //if an emoji is selected through the picker, add it to the database!
+                            onEmojiClick={(e) => {
+                                //remove the reaction if user has already used it
+                                setEmojiBox(!emojiBox)
+                                for (let reaction of Object.values(message.reactions)){
+                                    if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
+                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
+                                            const payload = {
+                                                type: 'reaction',
+                                                method:'DELETE',
+                                                room: +server?.id,
+                                                channelId,
+                                                messageId: message.id,
+                                                reactionId: reaction.id
+                                            }
+
+                                            socket.emit("server", payload)
+                                        })
+                                    }
+                                }
+                                    // if user hasn't used this reaction already, add reaction
+                                    return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                        const payload = {
+                                            type: 'reaction',
+                                            method: 'POST',
+                                            room: +server?.id,
+                                            channelId,
+                                            reaction: res
+                                        }
+                                        socket.emit("server", payload)
+                                        })
+                                }} />
+                    </div>}
                 {reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
                 {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
 
                         <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
                             onClick={() => {
                                 setEmojiBox(!emojiBox)
+                                window.addEventListener("mousedown", handleEmojiBox)
+                                messagesContainer.addEventListener('scroll', handleEmojiBox)
                         }}/>
-                    {emojiBox && <div className={bottom ? 'bottom-emoji' : center ? 'center-emoji ':'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
-                            <EmojiPicker
-
-                                //if an emoji is selected through the picker, add it to the database!
-                                onEmojiClick={(e) => {
-                                    //remove the reaction if user has already used it
-                                    setEmojiBox(!emojiBox)
-                                    for (let reaction of Object.values(message.reactions)){
-                                        if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                            return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
-                                                const payload = {
-                                                    type: 'reaction',
-                                                    method:'DELETE',
-                                                    room: +server?.id,
-                                                    channelId,
-                                                    messageId: message.id,
-                                                    reactionId: reaction.id
-                                                }
-
-                                                socket.emit("server", payload)
-                                            })
-                                        }
-                                    }
-                                        // if user hasn't used this reaction already, add reaction
-                                        return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
-                                            const payload = {
-                                                type: 'reaction',
-                                                method: 'POST',
-                                                room: +server?.id,
-                                                channelId,
-                                                reaction: res
-                                            }
-                                            socket.emit("server", payload)
-                                            })
-                                    }} />
-                        </div>}
 
                         {server.owner_id === sessionUser.id &&
                             <i
@@ -118,7 +132,6 @@ export default function MessageTile({ message, user, channelId, socket, server, 
                                             channelId,
                                             message: res
                                         }
-                                        console.log('~~~~~~payload', payload)
                                         socket.emit("server", payload)
                                     })
                                 }} />

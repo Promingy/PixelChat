@@ -64,19 +64,20 @@
 
 .emoji-box {
     position: absolute;
-    right: 33vw;
+    right: 10vw;
+    bottom: 30vh;
 }
 
 .center-emoji {
    position: absolute;
-   right: 33vw;
+   right: 10vw;
    bottom: 20vh;
 }
 
 .bottom-emoji {
     position: absolute;
-    right: 33vw;
-    bottom: 45vh;
+    right: 10vw;
+    bottom: 15vh;
 }
 
 .user-message-container {
