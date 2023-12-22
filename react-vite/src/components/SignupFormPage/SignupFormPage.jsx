@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
-import './SignupFormPage.css'
+import { uploadImage } from "../../redux/server";
+import "./SignupFormPage.css";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -16,12 +17,9 @@ function SignupFormPage() {
   const [last_name, setLast_name] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
-  const [image_url, setImage_url] = useState("");
+  const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
-
   const [errors, setErrors] = useState({});
-
-  // if (sessionUser) return <Navigate to="/" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +36,12 @@ function SignupFormPage() {
       });
     }
 
+    const formData = new FormData();
+    formData.append("image", image);
+    // aws uploads can be a bit slow—displaying
+    // some sort of loading message is a good idea
+    const returnImage = await dispatch(uploadImage(formData));
+
     const userData = {
       first_name,
       last_name,
@@ -45,15 +49,15 @@ function SignupFormPage() {
       email,
       password,
       bio,
-      location,
+      location
     };
 
     if (theme !== "") {
       userData.theme = theme;
     }
 
-    if (image_url !== "") {
-      userData.image_url = image_url;
+    if (image !== "") {
+      userData.image_url = returnImage.url;
     }
 
     const serverResponse = await dispatch(thunkSignup(userData));
@@ -68,10 +72,16 @@ function SignupFormPage() {
   return (
     <>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit} className="signup-form">
-        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+      <form
+        onSubmit={handleSubmit}
+        className="signup-form"
+        encType="multipart/form-data"
+      >
+        <img className="home-logo" src="https://svgshare.com/i/10wP.svg" />
         <h1>Sign Up</h1>
-        <p>We suggest using the email address you <b>use at work</b>.</p>
+        <p>
+          We suggest using the email address you <b>use at work</b>.
+        </p>
         <label>
           Email*
           <input
@@ -117,16 +127,6 @@ function SignupFormPage() {
         {errors.last_name && <p>{errors.last_name}</p>}
 
         <label>
-          Bio
-          <input
-            type="text"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </label>
-        {errors.bio && <p>{errors.bio}</p>}
-
-        <label>
           Location
           <input
             type="text"
@@ -137,14 +137,24 @@ function SignupFormPage() {
         {errors.location && <p>{errors.location}</p>}
 
         <label>
-          Image Url
-          <input
+          Bio
+          <textarea
             type="text"
-            value={image_url}
-            onChange={(e) => setImage_url(e.target.value)}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </label>
-        {errors.image_url && <p>{errors.image_url}</p>}
+        {errors.bio && <p>{errors.bio}</p>}
+
+        <div className="signup-file-upload">
+          <p>Profile Photo </p>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+        {errors.image && <p>{errors.image}</p>}
 
         <label>
           Theme
@@ -176,7 +186,9 @@ function SignupFormPage() {
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
 
-        <button type="submit" className="large-purple-button">Sign Up</button>
+        <button type="submit" className="large-purple-button">
+          Sign Up
+        </button>
       </form>
     </>
   );
