@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
 import { uploadImage } from "../../redux/server";
+import TextareaAutosize from "react-textarea-autosize";
 import "./SignupFormPage.css";
 
 function SignupFormPage() {
@@ -20,17 +21,34 @@ function SignupFormPage() {
   const [image, setImage] = useState("");
   const [theme, setTheme] = useState("");
   const [errors, setErrors] = useState({});
+  const [submit, setSubmit] = useState(false)
 
-  const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
+  // const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
   const rootElement = document.documentElement
-  function scrollToTop() {
-    // Scroll to top logic
+  // function scrollToTop() {
+  //   // Scroll to top logic
+  //   rootElement.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth"
+  //   })
+  // }
+  // scrollToTopBtn[0]?.addEventListener("click", scrollToTop)
+
+  if ((errors.email || errors.username) && submit === true) {
     rootElement.scrollTo({
       top: 0,
       behavior: "smooth"
     })
+    setSubmit(false)
   }
-  scrollToTopBtn[0].addEventListener("click", scrollToTop)
+
+  if ((errors.password || errors.confirmPassword) && submit === true) {
+    rootElement.scrollTo({
+      top: 400,
+      behavior: "smooth"
+    })
+    setSubmit(false)
+  }
 
   const validateEmail = (email) => {
     const atPos = email.indexOf("@");
@@ -58,6 +76,18 @@ function SignupFormPage() {
         email:
           "Invalid Email Address",
       });
+    }
+
+    if (/\d/.test(first_name) === true) {
+      return setErrors({
+        first_name: "First name must not include digits (0-9)"
+      })
+    }
+
+    if (/\d/.test(last_name) === true) {
+      return setErrors({
+        last_name: "Last name must not include digits (0-9)"
+      })
     }
 
     const formData = new FormData();
@@ -162,7 +192,7 @@ function SignupFormPage() {
 
         <label>
           Bio
-          <textarea
+          <TextareaAutosize
             type="text"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
@@ -179,16 +209,6 @@ function SignupFormPage() {
           />
         </div>
         {errors.image && <span>{errors.image}</span>}
-
-        <label>
-          Theme
-          <input
-            type="text"
-            value={theme}
-            onChange={(e) => setTheme(e.target.value)}
-          />
-        </label>
-        {errors.theme && <span>{errors.theme}</span>}
         <label>
           Password*
           <input
@@ -210,7 +230,7 @@ function SignupFormPage() {
         </label>
         {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
 
-        <button type="submit" className="large-purple-button">
+        <button type="submit" className="large-purple-button" onClick={() => setSubmit(true)}>
           Sign Up
         </button>
       </form>
