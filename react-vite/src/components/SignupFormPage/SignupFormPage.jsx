@@ -19,7 +19,7 @@ function SignupFormPage() {
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [image, setImage] = useState("");
-  const [theme, setTheme] = useState("");
+  const [theme] = useState("");
   const [errors, setErrors] = useState({});
   const [submit, setSubmit] = useState(false)
 

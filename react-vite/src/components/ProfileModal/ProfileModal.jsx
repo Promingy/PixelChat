@@ -1,11 +1,7 @@
-import { useModal } from "../../context/Modal"
 import { useSelector } from 'react-redux'
-import { VscChromeClose } from "react-icons/vsc";
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
-
 import "./ProfileModal.css"
-import { useState } from "react";
 
 export default function Profile({ animation }) {
   const sessionUser = useSelector((state) => state.session.user);

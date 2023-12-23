@@ -6,7 +6,7 @@ import "./ServerDeletionModal.css"
 import { useNavigate } from "react-router-dom"
 
 export default function ServerDeletionModal({ server }) {
-    const [errors, setErrors] = useState({})
+    const [errors] = useState({})
     const navigate = useNavigate()
     const dispatch = useDispatch()
 

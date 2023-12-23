@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -7,8 +7,8 @@ import "./TopicForm.css"
 import TextareaAutoSize from 'react-textarea-autosize'
 
 function TopicFormModal({ socket }) {
-  const { serverId, channelId } = useParams()
-  const navigate = useNavigate();
+  const { channelId } = useParams()
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const server = useSelector(state => state.server)
   const channel = server?.channels?.[+channelId]
@@ -71,4 +71,3 @@ function TopicFormModal({ socket }) {
 }
 
 export default TopicFormModal
-

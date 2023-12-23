@@ -1,5 +1,5 @@
 import { addServers, editServers, removeServers } from "./all_servers"
-import { addUserServer, removeUserServer, editUserServer } from "./session"
+import { removeUserServer, editUserServer } from "./session"
 
 const GET_SERVER = 'server/getServer'
 const DELETE_SERVER = 'server/deleteServer'

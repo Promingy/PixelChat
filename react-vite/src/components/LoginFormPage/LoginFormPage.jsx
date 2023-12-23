@@ -26,8 +26,7 @@ function LoginFormPage() {
       })
     );
 
-    if (serverResponse) {
-    } else {
+    if (!serverResponse) {
       navigate("/landing");
     }
   };
@@ -41,8 +40,7 @@ function LoginFormPage() {
       })
     );
 
-    if (serverResponse) {
-    } else {
+    if (!serverResponse) {
       navigate("/landing");
     }
   };
