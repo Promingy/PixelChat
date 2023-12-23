@@ -3,6 +3,7 @@ import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
+import { thunkPinMessage } from '../../redux/server'
 
 export default function MessageTile({ message, user, channelId, socket, bottom, center, emojiBox, setEmojiBox, handleEmojiBox, messagesContainer }) {
     const dispatch = useDispatch()
