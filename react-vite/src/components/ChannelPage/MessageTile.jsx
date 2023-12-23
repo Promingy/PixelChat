@@ -18,7 +18,6 @@ export default function MessageTile({ message, user, channelId, socket, server, 
     const [profileModal, setProfileModal] = useState(false)
     const [profileModal2, setProfileModal2] = useState(false)
     const users = useSelector(state => state.server.users)
-    const msgUser = users[message.user_id]
 
 
     // format date
