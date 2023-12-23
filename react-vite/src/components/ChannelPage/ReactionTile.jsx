@@ -50,8 +50,8 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
 
     return (
         <div className='message-reaction' onClick={addReactToDB}>
-            <p>{reaction}</p>
-            <p className='reaction-count'>{count}</p>
+            <span>{reaction}</span>
+            <span>{count}</span>
         </div>
     )
 }
