@@ -38,8 +38,8 @@ export default function ChannelPage({ socket }) {
         e.preventDefault()
         console.log("~~~~~", e.clientY)
         let emojiHeight = e.clientY - 30
-        if (window.innerHeight - emojiHeight < 550) {
-            emojiHeight = window.innerHeight - 550
+        if (window.innerHeight - emojiHeight < 500) {
+            emojiHeight = window.innerHeight - 500
         }
         setEmojiBoxHeight(emojiHeight)
         setTimeout(() => {
