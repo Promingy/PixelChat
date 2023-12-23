@@ -20,11 +20,6 @@ export default function ChannelPage({ socket }) {
     const users = server?.users
     const [offset, setOffset] = useState(15)
     const [theme, setTheme] = useState("light");
-    // const [emojiBox, setEmojiBox] = useState(false)
-    // const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
-
-    // const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
-
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -32,21 +27,6 @@ export default function ChannelPage({ socket }) {
             setTheme(storedTheme);
         }
     }, []);
-
-    // function handleEmojiBox(e) {
-    //     e.preventDefault()
-    //     console.log("~~~~~", e.clientY)
-    //     let emojiHeight = e.clientY - 30
-    //     if (window.innerHeight - emojiHeight < 500) {
-    //         emojiHeight = window.innerHeight - 500
-    //     }
-    //     setEmojiBoxHeight(emojiHeight)
-    //     setTimeout(() => {
-    //         setEmojiBox(false)
-    //         window.removeEventListener('mousedown', handleEmojiBox)
-    //         messagesContainer.removeEventListener('scroll', handleEmojiBox)
-    //     }, 1 * 58)
-    // }
 
 
     document.documentElement.className = `theme-${theme}`;
@@ -90,12 +70,6 @@ export default function ChannelPage({ socket }) {
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                // emojiBox={emojiBox}
-                                // setEmojiBox={setEmojiBox}
-                                // handleEmojiBox={handleEmojiBox}
-                                // messagesContainer={messagesContainer}
-                                // emojiBoxHeight={emojiBoxHeight}
-                                // setEmojiBoxHeight={setEmojiBoxHeight}
                                 bottom={i < 2}
                                 center={i === 2}
                             />
@@ -110,12 +84,6 @@ export default function ChannelPage({ socket }) {
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                // emojiBox={emojiBox}
-                                // setEmojiBox={setEmojiBox}
-                                // handleEmojiBox={handleEmojiBox}
-                                // messagesContainer={messagesContainer}
-                                // emojiBoxHeight={emojiBoxHeight}
-                                // setEmojiBoxHeight={setEmojiBoxHeight}
                                 bottom={i < 2}
                                 center={i === 2}
                             />
@@ -143,43 +111,6 @@ export default function ChannelPage({ socket }) {
 
     return (
         <>
-            {/* {emojiBox &&
-                <div className={'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)} style={{ 'top': `${emojiBoxHeight}px` }}>
-                    <EmojiPicker
-
-                        //if an emoji is selected through the picker, add it to the database!
-                        onEmojiClick={(e) => {
-                            //remove the reaction if user has already used it
-                            setEmojiBox(!emojiBox)
-                            for (let reaction of Object.values(message.reactions)) {
-                                if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                    return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
-                                        const payload = {
-                                            type: 'reaction',
-                                            method: 'DELETE',
-                                            room: +server?.id,
-                                            channelId,
-                                            messageId: message.id,
-                                            reactionId: reaction.id
-                                        }
-
-                                        socket.emit("server", payload)
-                                    })
-                                }
-                            }
-                            // if user hasn't used this reaction already, add reaction
-                            return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
-                                const payload = {
-                                    type: 'reaction',
-                                    method: 'POST',
-                                    room: +server?.id,
-                                    channelId,
-                                    reaction: res
-                                }
-                                socket.emit("server", payload)
-                            })
-                        }} />
-                </div>} */}
 
             <div className="channel-page-wrapper">
                 <div className="channel-page-button-container">
