@@ -51,6 +51,11 @@ function DescriptionFormModal({ socket }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add a description"
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              return handleSubmit(e)
+            }
+          }}
           required
         />
         <p>{`Let people know what this channel is for.`}</p>

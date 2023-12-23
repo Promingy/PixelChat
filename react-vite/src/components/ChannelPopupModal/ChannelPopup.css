@@ -21,6 +21,9 @@
     gap: 10px;
     font-size: 15px;
     cursor: pointer;
+    margin: 10px 20px;
+    align-items: center;
+    padding: 0 5px;
 }
 
 .channel-popup-members-container:hover {

@@ -52,6 +52,11 @@ function TopicFormModal({ socket }) {
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="Add a topic"
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              return handleSubmit(e)
+            }
+          }}
           required
         />
         <p>{`Let people know what your channel is focused on right now (ex. a project milestone). Topics are always visible in the header.`}</p>
