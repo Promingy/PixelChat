@@ -60,6 +60,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .emoji-box {
@@ -112,6 +114,10 @@
     border-radius: 10px;
 }
 
+.message-profile-pic:hover {
+    cursor: pointer;
+}
+
 .message-body-header-container {
     display: flex;
     gap: 10px;
@@ -131,6 +137,13 @@
     display: flex;
     gap: 5px;
     height: fit-content;
+    width: fit-content;
+}
+
+.date-name-container:hover {
+    text-decoration: underline;
+    text-decoration-color: #E01D5A;
+    cursor: pointer;
 }
 .message-owner,
 .message-post-time,
@@ -180,6 +193,12 @@
     background-color: #FFFFFF;
     box-shadow: 2px 2px 10px lightgrey;
     cursor: pointer;
+    z-index: 0;
+
+}
+.profile-modal-messages {
+    position: relative;
+    z-index: 1;
 }
 
 .react-bar > * {

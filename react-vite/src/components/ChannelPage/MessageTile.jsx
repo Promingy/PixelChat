@@ -5,6 +5,8 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 import { thunkPinMessage } from '../../redux/server'
+import ProfileModal from "../ProfileModal";
+
 
 export default function MessageTile({ message, user, channelId, socket, server, bottom, center }) {
     const dispatch = useDispatch()
@@ -13,6 +15,10 @@ export default function MessageTile({ message, user, channelId, socket, server, 
     const [emojiBox, setEmojiBox ] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
     const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
+    const [profileModal, setProfileModal] = useState(false)
+    const [profileModal2, setProfileModal2] = useState(false)
+    const users = useSelector(state => state.server.users)
+    const msgUser = users[message.user_id]
 
 
     // format date
@@ -38,8 +44,41 @@ export default function MessageTile({ message, user, channelId, socket, server, 
             messagesContainer.removeEventListener('scroll', handleEmojiBox)
         }, 1 * 58)
     }
+
+    function handleProfileModal (e) {
+        e.preventDefault()
+        const profile = document.getElementsByClassName('profile-modal')
+        const xBtn = document.getElementsByClassName('close-profile')
+        let node = e.target
+
+        for (let i = 0; i <= 6; i++){
+        if (node === profile[0] ||
+            e.target.src === user.image_url ||
+            +e.target.id === +message.id) return
+
+        else if (node === xBtn[0]) break
+
+        else node = node.parentNode
+        }
+        setProfileModal2(true)
+        setProfileModal(false)
+        setTimeout(() => setProfileModal2(false), 350)
+        window.removeEventListener('mousedown', handleProfileModal)
+    }
+
     return (
         <>
+        {profileModal &&
+            <div className='profile-modal-messages'>
+                <ProfileModal animation={false} userId={message.user_id}/>
+            </div>
+        }
+        {profileModal2 &&
+            <div className='profile-modal-messages'>
+                <ProfileModal animation={true} userId={message.user_id}/>
+            </div>
+        }
+
             <div className={ message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
                 setConfirmMsgDel(false)
@@ -50,12 +89,26 @@ export default function MessageTile({ message, user, channelId, socket, server, 
                         <i className='fa-sharp fa-solid fa-thumbtack fa-xs pin-message pinned-icon-on-message'/>
                     }
                     <div className="message-body-header-container">
-                        <img className='message-profile-pic' src={user.image_url} />
+                        <img
+                            className='message-profile-pic'
+                            src={user.image_url}
+                            onClick={() => {
+                                setProfileModal(true)
+
+                                window.addEventListener('mousedown', handleProfileModal)
+                            }}
+                            />
 
                         <div className="message-owner-date-container">
-                            <div className='date-name-container'>
-                                <span className="message-owner">{user.username}</span>
-                                <span className="message-post-time">{hours}:{minutes} {amPm}</span>
+                            <div
+                                className='date-name-container'
+                                onClick={() => {
+                                setProfileModal(true)
+
+                                window.addEventListener('mousedown', handleProfileModal)
+                            }}>
+                                <span className="message-owner" id={message.id}>{user.username}</span>
+                                <span className="message-post-time" id={message.id}>{hours}:{minutes} {amPm}</span>
                             </div>
                             <p className="message-body">{message.body}</p>
                         </div>
