@@ -90,12 +90,12 @@ function ChannelPopupModal({ activeProp, socket }) {
                         <p className='channel-popup-details'>{users[channel.owner_id].first_name} {users[channel.owner_id].last_name}</p>
                     </div>
                 </div> : null}
-            {active === 2 ? Object.values(users).map((user) => (
+            {active === 2 ? <div className='channel-popup-members-scroll'>{Object.values(users).map((user) => (
                 <div key={user.id} className='channel-popup-members-container'>
                     <img className='popup-profile-pic' src={user.image_url} />
                     <p>{user.first_name} {user.last_name}</p>
                 </div>
-            )) : null}
+            ))}</div> : null}
             {active === 3 ?
                 <div>
                     <div className='channel-popup-details-container'>
