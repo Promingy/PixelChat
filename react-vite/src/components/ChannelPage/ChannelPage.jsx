@@ -51,8 +51,11 @@ export default function ChannelPage({ socket }) {
                 const prev_date = new Date(sortedMessages[i + 1]?.created_at)
                 const curr_date = new Date(sortedMessages[i].created_at)
 
-                // add a separator for a messages posted on different days
-                if ((prev_date.getDate() !== curr_date.getDate())) {
+                // add a seperator for a messages posted on different days
+                if ((prev_date.getDate() !== curr_date.getDate()) ||
+                (prev_date.getFullYear() !== curr_date.getFullYear()) ||
+                (prev_date.getMonth() !== curr_date.getMonth())) {
+                  
                     result.push(
                         <div key={message.id}>
                             <div className="date-wrapper">

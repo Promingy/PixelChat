@@ -1,3 +1,19 @@
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 .profile-modal {
   position: fixed;
   top: 0;
@@ -10,6 +26,21 @@
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  animation: slideIn .4s;
+}
+.profile-modal2 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: auto;
+  max-width: 25%;
+  height: 100%;
+   background-color: var(--color-background);
+    color: var(--color-font);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideOut .4s;
 }
 
 .profile-top {
@@ -53,6 +84,11 @@
 
 .profile-top button:hover {
   color: #333;
+}
+
+.close-profile {
+  padding: 10px 5px;
+  cursor: pointer;
 }
 
 .theme-light {
