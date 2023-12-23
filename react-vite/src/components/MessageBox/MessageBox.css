@@ -1,16 +1,31 @@
 .send-message-form {
     display: flex;
-    flex-direction: column;
-    border: 2px solid grey;
-    border-radius: 10px;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    border: 1px solid #bbb;
+    border-radius: 8px;
     margin: 0 10px;
     z-index: 0;
     align-items: flex-end;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+}
+
+.message-wrapper-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.message-wrapper-bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .message-box {
     resize: none;
-    box-sizing: border-box;
     width: 98%;
     height: 3vh;
     padding: 10px;
@@ -20,6 +35,8 @@
     outline: transparent;
     background-color: var(--color-background);
     color: var(--color-font);
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    font-size: 15px;
 }
 
 .char-count-and-submit {
@@ -28,13 +45,14 @@
     gap: 5px;
 }
 
-.char-count-and-submit > span {
+.char-count-and-submit>span {
     font-size: 13px;
 }
 
 .clear-message-limit {
     color: black;
 }
+
 .over-message-limit {
     color: red;
 }
@@ -60,6 +78,7 @@
     background-color: lightgray;
     cursor: default;
 }
+
 .theme-light {
     --color-background: white;
     --color-font: black;
