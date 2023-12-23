@@ -4,14 +4,20 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 import { thunkPinMessage } from '../../redux/server'
+import EmojiPicker from 'emoji-picker-react'
 
-export default function MessageTile({ message, user, channelId, socket, bottom, center, emojiBox, setEmojiBox, handleEmojiBox, messagesContainer }) {
+
+export default function MessageTile({ message, user, channelId, socket, bottom, center }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
-    // const [emojiBox, setEmojiBox] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
+    const [emojiBox, setEmojiBox] = useState(false)
+    const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
+
+
+    const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
 
     // format date
     const date = new Date(message.created_at)
@@ -20,6 +26,21 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
     const amPm = hours >= 12 ? 'PM' : 'AM'
     hours = hours % 12 ? hours % 12 : 12
     minutes = minutes < 10 ? `0${minutes}` : minutes
+
+    function handleEmojiBox(e) {
+        e.preventDefault()
+        console.log("~~~~~", e.clientY)
+        let emojiHeight = e.clientY - 30
+        if (window.innerHeight - emojiHeight < 500) {
+            emojiHeight = window.innerHeight - 500
+        }
+        setEmojiBoxHeight(emojiHeight)
+        setTimeout(() => {
+            setEmojiBox(false)
+            window.removeEventListener('mousedown', handleEmojiBox)
+            messagesContainer.removeEventListener('scroll', handleEmojiBox)
+        }, 1 * 58)
+    }
 
     // set object with a count of each emoji
     const reactions = {}
@@ -30,7 +51,43 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
 
     return (
         <>
+            {emojiBox &&
+                <div className={'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)} style={{ 'top': `${emojiBoxHeight}px` }}>
+                    <EmojiPicker
 
+                        //if an emoji is selected through the picker, add it to the database!
+                        onEmojiClick={(e) => {
+                            //remove the reaction if user has already used it
+                            setEmojiBox(!emojiBox)
+                            for (let reaction of Object.values(message.reactions)) {
+                                if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
+                                    return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
+                                        const payload = {
+                                            type: 'reaction',
+                                            method: 'DELETE',
+                                            room: +server?.id,
+                                            channelId,
+                                            messageId: message.id,
+                                            reactionId: reaction.id
+                                        }
+
+                                        socket.emit("server", payload)
+                                    })
+                                }
+                            }
+                            // if user hasn't used this reaction already, add reaction
+                            return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
+                                const payload = {
+                                    type: 'reaction',
+                                    method: 'POST',
+                                    room: +server?.id,
+                                    channelId,
+                                    reaction: res
+                                }
+                                socket.emit("server", payload)
+                            })
+                        }} />
+                </div>}
             <div className={message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
                 setConfirmMsgDel(false)
