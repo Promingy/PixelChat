@@ -5,17 +5,18 @@ import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
 
 import "./ProfileModal.css"
+import { useState } from "react";
 
-export default function Profile() {
-  const { closeModal } = useModal();
+export default function Profile({ animation }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   if (!sessionUser) return null
+
   return (
-    <div className="profile-modal">
+    <div className={animation ? 'profile-modal2' : "profile-modal"}>
       <div className="profile-top">
         <h3>Profile</h3>
-        <button type="button" onClick={closeModal}><VscChromeClose /></button>
+        <i className="close-profile fa-solid fa-xmark fa-xl"/>
       </div>
       <div className="profile-header">
         <div style={{ textAlign: "center" }}>
