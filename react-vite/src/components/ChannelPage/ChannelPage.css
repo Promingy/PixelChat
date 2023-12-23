@@ -93,6 +93,10 @@
     background-color: #F8F8F8;
 }
 
+.pinned {
+    background-color: #FEF9EC;
+}
+
 .pinned:hover {
     background-color: #FEF9EC;
 }
@@ -182,12 +186,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    ;
     height: 20px;
     gap: 5px;
     border: 1px solid lightgray;
     border-radius: 10px;
-    ;
     padding: 5px;
     position: relative;
     right: 10px;
@@ -212,6 +214,13 @@
     padding-top: 5px;
 }
 
+.pin-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3px;
+}
+
 .confirm-message-delete {
     position: absolute;
     right: 1px;
@@ -234,7 +243,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    ;
 }
 
 .date-wrapper {
@@ -250,7 +258,6 @@
     width: fit-content;
     border-radius: 100px;
     padding: 6px 15px 6px 15px;
-    /* margin: 5px auto; */
     background-color: white;
     font-size: 13px;
     font-weight: 600;

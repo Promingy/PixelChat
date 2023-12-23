@@ -53,9 +53,9 @@ export default function ChannelPage({ socket }) {
 
                 // add a seperator for a messages posted on different days
                 if ((prev_date.getDate() !== curr_date.getDate()) ||
-                (prev_date.getFullYear() !== curr_date.getFullYear()) ||
-                (prev_date.getMonth() !== curr_date.getMonth())) {
-                  
+                    (prev_date.getFullYear() !== curr_date.getFullYear()) ||
+                    (prev_date.getMonth() !== curr_date.getMonth())) {
+
                     result.push(
                         <div key={message.id}>
                             <div className="date-wrapper">
@@ -68,7 +68,6 @@ export default function ChannelPage({ socket }) {
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                serverId={server.id}
                                 bottom={i < 2}
                                 center={i === 2}
                             />
@@ -83,7 +82,6 @@ export default function ChannelPage({ socket }) {
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                server={server}
                                 bottom={i < 2}
                                 center={i === 2}
                             />

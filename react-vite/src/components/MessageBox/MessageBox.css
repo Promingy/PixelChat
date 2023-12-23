@@ -1,6 +1,5 @@
 .send-message-form {
     display: flex;
-    /* flex-direction: column; */
     flex-wrap: wrap;
     border: 1px solid #bbb;
     border-radius: 8px;
@@ -27,7 +26,7 @@
 .message-box {
     resize: none;
     width: 98%;
-    height: 3vh;
+    height: 20px;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -37,6 +36,7 @@
     color: var(--color-font);
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
     font-size: 15px;
+    box-sizing: border-box;
 }
 
 .char-count-and-submit {

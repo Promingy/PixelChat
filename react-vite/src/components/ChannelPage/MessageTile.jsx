@@ -5,7 +5,7 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 
-export default function MessageTile({ message, user, channelId, socket, serverId, bottom, center }) {
+export default function MessageTile({ message, user, channelId, socket, bottom, center }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
@@ -40,7 +40,6 @@ export default function MessageTile({ message, user, channelId, socket, serverId
         <>
             <div className={message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
-                setEmojiBox(false)
                 setConfirmMsgDel(false)
             }}>
 
@@ -64,7 +63,7 @@ export default function MessageTile({ message, user, channelId, socket, serverId
 
                     <div className='message-reactions-container'>
                         {Object.keys(reactions).map(key => {
-                            return <ReactionTile key={key} socket={socket} serverId={serverId} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
                         })}
                     </div>
 
