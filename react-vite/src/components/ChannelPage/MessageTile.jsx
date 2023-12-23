@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import EmojiPicker from 'emoji-picker-react'
 import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 
-export default function MessageTile({ message, user, channelId, socket, bottom, center }) {
+export default function MessageTile({ message, user, channelId, socket, bottom, center, emojiBox, setEmojiBox, handleEmojiBox, messagesContainer }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
-    const [emojiBox, setEmojiBox] = useState(false)
+    // const [emojiBox, setEmojiBox] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
 
     // format date
@@ -28,16 +27,9 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
 
-    function handleEmojiBox(e) {
-        e.preventDefault()
-        setTimeout(() => {
-            setEmojiBox(false)
-            window.removeEventListener('mousedown', handleEmojiBox)
-            messagesContainer.removeEventListener('scroll', handleEmojiBox)
-        }, 1 * 58)
-    }
     return (
         <>
+
             <div className={message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
                 setConfirmMsgDel(false)
@@ -69,51 +61,13 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
 
                 </div >
 
-
-                {emojiBox &&
-                    <div className={bottom ? 'bottom-emoji' : center ? 'center-emoji ' : 'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)}>
-                        <EmojiPicker
-
-                            //if an emoji is selected through the picker, add it to the database!
-                            onEmojiClick={(e) => {
-                                //remove the reaction if user has already used it
-                                setEmojiBox(!emojiBox)
-                                for (let reaction of Object.values(message.reactions)) {
-                                    if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                        return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
-                                            const payload = {
-                                                type: 'reaction',
-                                                method: 'DELETE',
-                                                room: +server?.id,
-                                                channelId,
-                                                messageId: message.id,
-                                                reactionId: reaction.id
-                                            }
-
-                                            socket.emit("server", payload)
-                                        })
-                                    }
-                                }
-                                // if user hasn't used this reaction already, add reaction
-                                return dispatch(initializeReaction(channelId, message.id, { emoji: e.emoji })).then(res => {
-                                    const payload = {
-                                        type: 'reaction',
-                                        method: 'POST',
-                                        room: +server?.id,
-                                        channelId,
-                                        reaction: res
-                                    }
-                                    socket.emit("server", payload)
-                                })
-                            }} />
-                    </div>}
                 {reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
                     {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
-                        onClick={() => {
+                        onClick={(e) => {
                             setEmojiBox(!emojiBox)
-                            window.addEventListener("mousedown", handleEmojiBox)
+                            window.addEventListener("mousedown", (e) => handleEmojiBox(e))
                             messagesContainer.addEventListener('scroll', handleEmojiBox)
                         }} />
 
