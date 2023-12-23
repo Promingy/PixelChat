@@ -18,7 +18,7 @@
 .channel-page-button-container {
     display: flex;
     justify-content: space-between;
-    height: 56px;
+    height: 55px;
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #aaa;
