@@ -17,8 +17,6 @@ export default function MessageTile({ message, user, channelId, socket, server, 
     const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
     const [profileModal, setProfileModal] = useState(false)
     const [profileModal2, setProfileModal2] = useState(false)
-    const users = useSelector(state => state.server.users)
-
 
     // format date
     const date = new Date(message.created_at)
@@ -41,7 +39,7 @@ export default function MessageTile({ message, user, channelId, socket, server, 
             setEmojiBox(false)
             window.removeEventListener('mousedown', handleEmojiBox)
             messagesContainer.removeEventListener('scroll', handleEmojiBox)
-        }, 1 * 58)
+        }, 1 * 200)
     }
 
     function handleProfileModal (e) {
