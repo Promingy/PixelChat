@@ -80,7 +80,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
         for (let i = 0; i <= 6; i++){
         if (node === profile[0] ||
-            e.target.src === user.image_url ||
+            e.target.src === user?.image_url ||
             +e.target.id === +message.id) return
 
         else if (node === xBtn[0]) break
@@ -155,7 +155,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                     <div className="message-body-header-container">
                         <img
                             className='message-profile-pic'
-                            src={user.image_url}
+                            src={user?.image_url}
                             onClick={() => {
                                 setProfileModal(true)
 
@@ -171,7 +171,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                                 window.addEventListener('mousedown', handleProfileModal)
                             }}>
-                                <p className="message-owner" id={message.id}>{user.username}</p>
+                                <p className="message-owner" id={message.id}>{user?.username}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
