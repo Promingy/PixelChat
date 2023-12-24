@@ -14,13 +14,13 @@
     overflow: hidden;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    border-left: 1px solid rgb(170,170,170, 20%);
+    border-left: 1px solid rgb(170, 170, 170, 20%);
 }
 
 .inner-navbar-header {
     height: 49px;
     box-sizing: border-box;
-    border-bottom: 1px solid rgb(170,170,170, 20%);
+    border-bottom: 1px solid #C0AEC4;
     width: 100%;
     display: flex;
     justify-content: start;
@@ -198,7 +198,7 @@
     flex-direction: column;
     justify-content: flex-end;
     height: 100vh;
-    color:var(--color-font);
+    color: var(--color-font);
     width: 100%;
     font-size: 14px;
 }
@@ -230,7 +230,7 @@
 .creator-links {
     display: flex;
     gap: 3px;
-    color:var(--color-font)
+    color: var(--color-font)
 }
 
 .creator-links:hover,
@@ -246,7 +246,7 @@
     margin: 10px 20px 10px 0px;
     border: 1px solid var(--color-font);
     border-radius: 5px;
-    color:var(--color-font);
+    color: var(--color-font);
     width: 100%;
 }
 
