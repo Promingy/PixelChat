@@ -78,7 +78,7 @@ export default function InnerNavbar({ socket }) {
               }
             />
           </div>
-          <ul className="inner-navbar-content">
+          {/* <ul className="inner-navbar-content">
             <div className="creat-channel-container">
               <button onClick={toggleMenu}>
                 {" "}
@@ -92,7 +92,7 @@ export default function InnerNavbar({ socket }) {
                 &nbsp;&nbsp;&nbsp;&nbsp;Channels
               </button>
             </div>
-            </ul>
+            </ul> */}
 
             <ul className="inner-navbar-content">
                 <div className="creat-channel-container">
