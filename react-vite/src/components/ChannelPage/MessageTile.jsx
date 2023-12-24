@@ -130,17 +130,10 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                 </div >
 
-                {reactBar && <div className={reactBar ? 'react-bar' : 'hidden'}>
-                    {/* {<div className={reactBar ? 'react-bar' : 'react-bar'}> */}
+                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'}`}>
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
-                        onClick={(e) => {
-                            // setEmojiBox(!emojiBox)
-                            // setEmojiBox(true)
-                            handleEmojiBox(e)
-                            // window.addEventListener("mousedown", (e) => handleEmojiBox(e))
-                            // messagesContainer.addEventListener('scroll', handleEmojiBox)
-                        }} />
+                        onClick={(e) => { handleEmojiBox(e) }} />
 
                     {server.owner_id === sessionUser.id &&
                         <i
