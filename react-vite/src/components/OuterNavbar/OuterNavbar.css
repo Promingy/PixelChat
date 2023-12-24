@@ -60,7 +60,7 @@
   font-size: 18px;
 }
 
-.create-new-server {
+.new-button-wrapper {
   background-color: #805083;
   width: 36px;
   height: 36px;
@@ -74,14 +74,30 @@
   margin-bottom: 18px;
 }
 
-.create-new-server:hover {
+.new-button-wrapper:hover {
   width: 40px;
   height: 40px;
   font-size: 20px;
   margin-bottom: 16px;
 }
 
-.open-profile-wrapper > button {
+
+.new-button-wrapper>button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.new-button-wrapper>button:hover {
+  font-size: 18px;
+}
+
+.open-profile-wrapper>button {
   width: 36px;
   height: 36px;
   border-radius: 3px;
@@ -180,7 +196,6 @@
 .profile-button-img {
   width: 36px;
   object-fit: cover;
-}
 
 .create-new-server > button {
   margin: 0;
@@ -197,3 +212,4 @@
 .theme-dark {
   --inner-background: #350d36;
 }
+

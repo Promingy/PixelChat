@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams, Navigate } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
 import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
@@ -22,6 +22,7 @@ function checkChannelIfSelected(channelId) {
 
 export default function ServerPage() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { serverId } = useParams()
     // const [boldObj, setBoldObj] = useState({})
 
@@ -29,6 +30,9 @@ export default function ServerPage() {
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
 
+    useEffect(() => {
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
 
     // Eager load all data for the server
     useEffect(() => {
@@ -124,13 +128,18 @@ export default function ServerPage() {
             socket.emit("leave", { room: server.id })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser.id])
+    }, [server?.id, dispatch, sessionUser])
+
+    if (!sessionUser) return null
 
     return (
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
             <ChannelPage socket={socket} />
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
         </div>
     )
 }

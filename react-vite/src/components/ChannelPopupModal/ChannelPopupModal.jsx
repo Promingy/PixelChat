@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom"
-import { useModal } from "../../context/Modal";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import PutPopupFormModal from '../PutPopupFormModal';
 import ChannelDeletionModal from '../ChannelDeletionModal';
-import { removeChannel } from '../../redux/server'
+// import { removeChannel } from '../../redux/server'
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuHeadphones } from "react-icons/lu";
 import { IoIosLink } from "react-icons/io";
@@ -21,7 +20,7 @@ function ChannelPopupModal({ activeProp, socket }) {
     const session = useSelector(state => state.session)
     const sessionUser = session?.user
     const [active, setActive] = useState(activeProp)
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
     // const { closeModal } = useModal();
 
     return (
@@ -114,7 +113,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                 </div>
                             </div>
                             <div className='channel-popup-details-border'>
-                                {(sessionUser.id == server.owner_id) && <div className='server-modal-wrapper server-popup-delete'>
+                                {(sessionUser.id == server.owner_id) && (Object.values(server.channels).length > 1) && <div className='server-modal-wrapper server-popup-delete'>
                                     <OpenModalButton
                                         buttonText={<div className='server-popup-about-div'>
                                             <div className='server-popup-about-div-left'>
@@ -123,8 +122,20 @@ function ChannelPopupModal({ activeProp, socket }) {
                                             <div className='server-popup-about-div-right'>
                                             </div>
                                         </div>}
-                                        modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} />}
+                                        modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} channel={channel} />}
                                     />
+                                </div>}
+                                {(sessionUser.id == server.owner_id) && (Object.values(server.channels).length === 1) &&
+                                <div className='server-modal-wrapper server-popup-delete' >
+                                    <div>
+                                        <div className='server-popup-about-div'>
+                                            <div className='cant-delete-channel'>
+                                                <p><FaRegTrashAlt />  Can't delete last the channel in a server</p>
+                                            </div>
+                                            <div className='server-popup-about-div-right'>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>}
                             </div>
                         </div>

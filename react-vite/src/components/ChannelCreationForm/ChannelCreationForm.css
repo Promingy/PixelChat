@@ -51,8 +51,9 @@
   justify-content: center;
   align-items: center;
 }
-.create-channel-bottom > button {
-  background-color: #2e8b57;
+
+.create-button {
+  background-color: 	#2e8b57;
   color: white;
   border: none;
   width: 25%;

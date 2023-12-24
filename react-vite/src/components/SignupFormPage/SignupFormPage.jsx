@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
@@ -19,9 +19,7 @@ function SignupFormPage() {
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [image, setImage] = useState("");
-  const [theme, setTheme] = useState("");
   const [errors, setErrors] = useState({});
-  const [submit, setSubmit] = useState(false)
 
   // const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
   const rootElement = document.documentElement
@@ -34,21 +32,26 @@ function SignupFormPage() {
   // }
   // scrollToTopBtn[0]?.addEventListener("click", scrollToTop)
 
-  if ((errors.email || errors.username) && submit === true) {
-    rootElement.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
-    setSubmit(false)
-  }
+  useEffect(() => {
+    if ((errors.email || errors.username)) {
+      rootElement.scrollTo({
+        top: 200,
+        behavior: "smooth"
+      })
+    } else if ((errors.first_name || errors.last_name)) {
+      rootElement.scrollTo({
+        top: 450,
+        behavior: "smooth"
+      })
+    } else if ((errors.password || errors.confirmPassword)) {
+      rootElement.scrollTo({
+        top: 700,
+        behavior: "smooth"
+      })
+    }
 
-  if ((errors.password || errors.confirmPassword) && submit === true) {
-    rootElement.scrollTo({
-      top: 400,
-      behavior: "smooth"
-    })
-    setSubmit(false)
-  }
+  }, [errors, rootElement])
+
 
   const validateEmail = (email) => {
     const atPos = email.indexOf("@");
@@ -58,43 +61,57 @@ function SignupFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let errorsTemp = {}
+    setErrors({})
     if (password.length < 6) {
-      return setErrors({
+      errorsTemp = {
+        ...errorsTemp,
         password: "Password must be at least 6 characters",
-      });
+      };
     }
 
     if (password !== confirmPassword) {
-      return setErrors({
+      errorsTemp = {
+        ...errorsTemp,
         confirmPassword:
           "Confirm Password field must be the same as the Password field",
-      });
+      };
     }
 
     if (!validateEmail(email)) {
-      return setErrors({
+      errorsTemp = {
+        ...errorsTemp,
         email:
-          "Invalid Email Address",
-      });
+          "Invalid Email Address"
+      };
     }
 
     if (/\d/.test(first_name) === true) {
-      return setErrors({
-        first_name: "First name must not include digits (0-9)"
-      })
+      errorsTemp = {
+        ...errorsTemp,
+        first_name:
+          "First name must not include digits (0-9)"
+      };
     }
 
     if (/\d/.test(last_name) === true) {
-      return setErrors({
-        last_name: "Last name must not include digits (0-9)"
-      })
+      errorsTemp = {
+        ...errorsTemp,
+        last_name:
+          "Last name must not include digits (0-9)"
+      };
     }
+    setErrors(errorsTemp)
+    if (Object.keys(errorsTemp).length) return
 
-    const formData = new FormData();
-    formData.append("image", image);
-    // aws uploads can be a bit slow—displaying
-    // some sort of loading message is a good idea
-    const returnImage = await dispatch(uploadImage(formData));
+    let returnImage
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      // aws uploads can be a bit slow—displaying
+      // some sort of loading message is a good idea
+      returnImage = await dispatch(uploadImage(formData));
+    }
 
     const userData = {
       first_name,
@@ -103,19 +120,11 @@ function SignupFormPage() {
       email,
       password,
       bio,
-      location,
+      location
     };
-
-    if (theme !== "") {
-      userData.theme = theme;
-    }
-
-    if (image !== "") {
-      userData.image_url = returnImage.url;
-    }
-
+    if (returnImage) userData.image_url = returnImage.url
     const serverResponse = await dispatch(thunkSignup(userData));
-
+    console.log(serverResponse)
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
@@ -200,14 +209,17 @@ function SignupFormPage() {
         </label>
         {errors.bio && <span>{errors.bio}</span>}
 
-        <div className="signup-file-upload">
-          <p>Profile Photo </p>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
+        <label>
+          Profile Photo
+          <div className="signup-file-upload-wrapper">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+
+          </div>
+        </label>
         {errors.image && <span>{errors.image}</span>}
         <label>
           Password*
@@ -230,7 +242,7 @@ function SignupFormPage() {
         </label>
         {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
 
-        <button type="submit" className="large-purple-button" onClick={() => setSubmit(true)}>
+        <button type="submit" className="large-purple-button">
           Sign Up
         </button>
       </form>

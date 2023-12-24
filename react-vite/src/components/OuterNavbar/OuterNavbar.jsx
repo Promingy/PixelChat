@@ -111,7 +111,7 @@ export default function OuterNavbar() {
         </Link>
       </div>
       <div className="outer-navbar-bottom">
-        <div className="create-new-server">
+        <div className="new-button-wrapper">
           <button onClick={toggleMenu1}>
             <i className="fa-solid fa-plus"></i>
           </button>
@@ -144,32 +144,32 @@ export default function OuterNavbar() {
         {profileModal && <ProfileModal animation={false} />}
         {profileModal2 && <ProfileModal animation={true} />}
         <div className={`profile-dropdown ${ulClassName2}`} ref={ulRef}>
-          <button
-            onClick={() => {
-              setProfileModal(true);
-              closeMenu2();
-              const profile = document.getElementsByClassName("profile-modal");
 
-              function handleMouseClick(e) {
-                e.preventDefault();
-                let node = e.target;
-                const xBtn = document.getElementsByClassName("close-profile");
 
-                for (let i = 0; i <= 5; i++) {
-                  if (node === profile[0]) return;
-                  else if (node === xBtn[0]) break;
-                  else node = node.parentNode;
-                }
-                setProfileModal2(true);
-                setProfileModal(false);
-                setTimeout(() => setProfileModal2(false), 350);
-                window.removeEventListener("mousedown", handleMouseClick);
+          <button onClick={() => {
+            setProfileModal(true)
+            closeMenu2()
+
+            function handleMouseClick(e) {
+              e.preventDefault()
+              const profile = document.getElementsByClassName('profile-modal')
+              const xBtn = document.getElementsByClassName('close-profile')
+              let node = e.target
+
+              for (let i = 0; i <= 6; i++){
+                if (node === profile[0]) return
+
+                else if (node === xBtn[0]) break
+
+                else node = node.parentNode
               }
-              window.addEventListener("mousedown", handleMouseClick);
-            }}
-          >
-            Profile
-          </button>
+              setProfileModal2(true)
+              setProfileModal(false)
+              setTimeout(() => setProfileModal2(false), 350)
+              window.removeEventListener('mousedown', handleMouseClick)
+            }
+            window.addEventListener('mousedown', handleMouseClick)
+          }}>Profile</button>
 
           <OpenModalButton
             buttonText="Preference"
