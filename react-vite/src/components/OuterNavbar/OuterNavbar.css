@@ -61,7 +61,7 @@
 }
 
 
-.create-new-server {
+.new-button-wrapper {
   background-color: #805083;
   width: 36px;
   height: 36px;
@@ -75,11 +75,26 @@
   margin-bottom: 18px;
 }
 
-.create-new-server:hover {
+.new-button-wrapper:hover {
   width: 40px;
   height: 40px;
   font-size: 20px;
   margin-bottom: 16px;
+}
+
+.new-button-wrapper>button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.new-button-wrapper>button:hover {
+  font-size: 18px;
 }
 
 .open-profile-wrapper>button {
@@ -165,12 +180,4 @@
 .profile-button-img {
   width: 36px;
   object-fit: cover;
-}
-
-.create-new-server > button {
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: none;
-  background-color: transparent;
 }

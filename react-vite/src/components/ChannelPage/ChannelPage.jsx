@@ -10,6 +10,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages } from "../../redux/server";
 
 
+
 export default function ChannelPage({ socket }) {
     const dispatch = useDispatch()
     const { channelId } = useParams()
@@ -17,15 +18,16 @@ export default function ChannelPage({ socket }) {
     const channel = server?.channels?.[+channelId]
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
-    const [ offset, setOffset ] = useState(15)
+    const [offset, setOffset] = useState(15)
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) {
-        setTheme(storedTheme);
-      }
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+            setTheme(storedTheme);
+        }
     }, []);
+
 
     document.documentElement.className = `theme-${theme}`;
 
@@ -52,36 +54,40 @@ export default function ChannelPage({ socket }) {
                 const curr_date = new Date(sortedMessages[i].created_at)
 
                 // add a seperator for a messages posted on different days
-                if ((prev_date.getDate() !== curr_date.getDate())) {
+                if ((prev_date.getDate() !== curr_date.getDate()) ||
+                    (prev_date.getFullYear() !== curr_date.getFullYear()) ||
+                    (prev_date.getMonth() !== curr_date.getMonth())) {
+
                     result.push(
                         <div key={message.id}>
-                                <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                {/* <div className="date-seperator-bar"/> */}
+                            <div className="date-wrapper">
+                                <p className='message-date-separator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <div className="date-divider" />
+                            </div>
+                            {/* <div className="date-separator-bar"/> */}
                             <MessageTile
                                 message={message}
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                server={server}
                                 bottom={i < 2}
                                 center={i === 2}
-                                />
+                            />
                         </div>
                     )
                     continue
                 } else {
                     result.push(
-                    <div key={message.id}>
-                        <MessageTile
-                            message={message}
-                            user={user}
-                            channelId={channelId}
-                            socket={socket}
-                            server={server}
-                            bottom={i < 2}
-                            center={i === 2}
+                        <div key={message.id}>
+                            <MessageTile
+                                message={message}
+                                user={user}
+                                channelId={channelId}
+                                socket={socket}
+                                bottom={i < 2}
+                                center={i === 2}
                             />
-                    </div>
+                        </div>
                     )
                 }
 
@@ -105,6 +111,7 @@ export default function ChannelPage({ socket }) {
 
     return (
         <>
+
             <div className="channel-page-wrapper">
                 <div className="channel-page-button-container">
                     <OpenModalButton
@@ -120,19 +127,19 @@ export default function ChannelPage({ socket }) {
                         modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
                     />}
                 </div>
-            <div className="all-messages-container" id='all-messages-container'>
-                {generate_message_layout()}
+                <div className="all-messages-container" id='all-messages-container'>
+                    {generate_message_layout()}
 
-                {messages && <InfiniteScroll
-                    dataLength={Object.values(messages).length}
-                    hasMore={!(Object.values(messages).length % 15)}
-                    next={() => {
-                        dispatch(getMessages(channelId, `offset=${offset}`))
-                        setOffset(prevOffset => prevOffset += 15)
-                    }}
-                    inverse={true}
-                    scrollableTarget='all-messages-container'
-                    endMessage={<h3 style={{textAlign: 'center'}}>No more messages.</h3>}
+                    {messages && <InfiniteScroll
+                        dataLength={Object.values(messages).length}
+                        hasMore={!(Object.values(messages).length % 15)}
+                        next={() => {
+                            dispatch(getMessages(channelId, `offset=${offset}`))
+                            setOffset(prevOffset => prevOffset += 15)
+                        }}
+                        inverse={true}
+                        scrollableTarget='all-messages-container'
+                        endMessage={<h3 style={{ textAlign: 'center' }}>No more messages.</h3>}
                     />}
                 </div>
                 <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />

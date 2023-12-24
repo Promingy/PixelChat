@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import OpenModalButton from "../OpenModalButton/OpenModalButton"
-import ServerPopupFormModal from "../ServerPopupFormModal"
+import PutPopupFormModal from "../PutPopupFormModal"
 import ServerDeletionModal from "../ServerDeletionModal"
 import "./ServerPopupModal.css"
 
@@ -24,7 +24,7 @@ export default function ServerPopupModal() {
                                 {(sessionUser.id == server.owner_id) && "Edit"}
                             </div>
                         </div>}
-                        modalComponent={(sessionUser.id == server.owner_id) && <ServerPopupFormModal type="name" />}
+                        modalComponent={(sessionUser.id == server.owner_id) && <PutPopupFormModal inputType="name" target="server" />}
                     />
                 </div>
                 <div className='server-modal-wrapper server-popup-description'>
@@ -38,7 +38,7 @@ export default function ServerPopupModal() {
                                 {(sessionUser.id == server.owner_id) && "Edit"}
                             </div>
                         </div>}
-                        modalComponent={(sessionUser.id == server.owner_id) && <ServerPopupFormModal type="description" />}
+                        modalComponent={(sessionUser.id == server.owner_id) && <PutPopupFormModal inputType="description" target="server" />}
                     />
                 </div>
                 <div className='server-modal-wrapper server-popup-image'>
@@ -55,7 +55,7 @@ export default function ServerPopupModal() {
                                 {(sessionUser.id == server.owner_id) && "Edit"}
                             </div>
                         </div>}
-                        modalComponent={(sessionUser.id == server.owner_id) && <ServerPopupFormModal type="image" />}
+                        modalComponent={(sessionUser.id == server.owner_id) && <PutPopupFormModal inputType="image" target="server" />}
                     />
                 </div>
                 {(sessionUser.id == server.owner_id) && <div className='server-modal-wrapper server-popup-delete'>

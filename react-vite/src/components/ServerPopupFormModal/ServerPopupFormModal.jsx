@@ -56,6 +56,11 @@ export default function ServerPopupFormModal({ type }) {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Add text here"
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter'){
+                            return handleSubmit(e)
+                        }
+                    }}
                     required
                 />}
 
@@ -64,6 +69,11 @@ export default function ServerPopupFormModal({ type }) {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Add text here"
+                    onKeyUp={(e) => {
+                        if (e.key ==='Enter') {
+                            return handleSubmit(e)
+                        }
+                    }}
                     required
                 />}
 
@@ -84,3 +94,4 @@ export default function ServerPopupFormModal({ type }) {
         </div>
     )
 }
+
