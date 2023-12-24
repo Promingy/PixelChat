@@ -14,7 +14,7 @@
     overflow: hidden;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    border-left: 1px solid rgb(170, 170, 170, 20%);
+    border-left: 1px solid #C0AEC4;
 }
 
 .inner-navbar-header {
