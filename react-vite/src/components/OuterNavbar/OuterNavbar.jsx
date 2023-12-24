@@ -25,11 +25,11 @@ export default function OuterNavbar() {
   const ulRef = useRef();
 
   useEffect(() => {
-     const storedTheme = localStorage.getItem("theme");
-     if (storedTheme) {
-       setTheme(storedTheme);
-     }
-   }, []);
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
 
   document.documentElement.className = `theme-${theme}`;
 
@@ -80,6 +80,7 @@ export default function OuterNavbar() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.thunkLogout());
+    navigate('/')
   };
 
   const navigateToServer = async (serverId) => {
@@ -116,19 +117,15 @@ export default function OuterNavbar() {
             <i className="fa-solid fa-plus"></i>
           </button>
           <div className={`server-dropdown ${ulClassName1}`} ref={ulRef}>
-            <button>
-              <NavLink to="/join-server" style={{ textDecoration: "none", color: "inherit" }}>
-                Join a Server
-              </NavLink>
-            </button>
-            <button>
-              <NavLink
-                to="/new-server"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                Create a Server
-              </NavLink>
-            </button>
+            <NavLink to="/join-server">
+              Join a Server
+            </NavLink>
+            <NavLink
+              to="/new-server"
+            >
+              Create a Server
+            </NavLink>
+            <div className="outer-navbar-popup-divider" />
             <OpenModalButton
               buttonText="Create a Channel"
               onItemClick={closeMenu1}
@@ -156,7 +153,7 @@ export default function OuterNavbar() {
               const xBtn = document.getElementsByClassName('close-profile')
               let node = e.target
 
-              for (let i = 0; i <= 6; i++){
+              for (let i = 0; i <= 6; i++) {
                 if (node === profile[0]) return
 
                 else if (node === xBtn[0]) break
@@ -172,17 +169,14 @@ export default function OuterNavbar() {
           }}>Profile</button>
 
           <OpenModalButton
-            buttonText="Preference"
+            buttonText="Preferences"
             onItemClick={closeMenu2}
             modalComponent={<PreferenceFormModal />}
           />
-          <button onClick={logout}>
-            <NavLink
-              to="/"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              Log out
-            </NavLink>
+          <div className="outer-navbar-popup-divider" />
+
+          <button className="outer-navbar-logout-button" onClick={logout}>
+            Log out
           </button>
         </div>
       </div>
