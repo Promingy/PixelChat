@@ -92,6 +92,7 @@ export default function InnerNavbar({ socket }) {
                 &nbsp;&nbsp;&nbsp;&nbsp;Channels
               </button>
             </div>
+            </ul>
 
             <ul className="inner-navbar-content">
                 <div className="creat-channel-container">
@@ -143,7 +144,7 @@ export default function InnerNavbar({ socket }) {
                     </a>
 
                     <a className="creator-links" target="_blank" rel='noreferrer' href="https://github.com/lovelyyun024">
-                         &nbsp; &nbsp;<i className="fa-brands fa-github"/>
+                        <i className="fa-brands fa-github"/>
                         Esther
                     </a>
                 </li>
