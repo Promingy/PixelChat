@@ -3,6 +3,7 @@ const REMOVE_USER = 'session/removeUser';
 const ADD_SERVER = 'session/addServer'
 const REMOVE_SERVER = 'session/removeServer'
 const EDIT_SERVER = 'session/editServer'
+const SET_THEME = 'session/setTheme'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -26,6 +27,11 @@ export const removeUserServer = (serverId) => ({
 export const editUserServer = (server) => ({
   type: EDIT_SERVER,
   server
+})
+
+export const setTheme = (theme) => ({
+  type: SET_THEME,
+  theme
 })
 
 export const thunkAuthenticate = () => async (dispatch) => {
@@ -101,7 +107,8 @@ const initialState = { user: null };
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { ...state, user: action.payload };
+      const newState = { ...state, user: action.payload }
+      return newState
     case REMOVE_USER:
       return { ...state, user: null };
     case ADD_SERVER: {
@@ -117,6 +124,11 @@ function sessionReducer(state = initialState, action) {
     case REMOVE_SERVER: {
       const newState = { ...state }
       delete newState.user.servers[action.serverId]
+      return newState
+    }
+    case SET_THEME: {
+      const newState = { ...state }
+      newState.user.theme = action.theme
       return newState
     }
 

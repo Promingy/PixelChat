@@ -4,6 +4,7 @@ import { useNavigate, useParams, Navigate } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
 import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
+import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
@@ -39,6 +40,14 @@ export default function ServerPage() {
         dispatch(loadServer(serverId))
         dispatch(loadAllServers())
     }, [dispatch, serverId])
+
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+            dispatch(setTheme(storedTheme))
+        }
+    }, []);
 
 
     useEffect(() => {

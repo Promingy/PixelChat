@@ -1,25 +1,29 @@
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import { IoColorWandOutline } from "react-icons/io5";
 import { VscChromeClose } from "react-icons/vsc";
 import { PiSunBold, PiMoonBold } from "react-icons/pi";
+import { setTheme } from "../../redux/session";
 import "./PreferenceFormModal.css";
 
 export default function PreferenceFormModal() {
+  const sessionUser = useSelector(state => state.session.user)
+  const dispatch = useDispatch()
   const { closeModal } = useModal();
-  const [theme, setTheme] = useState("light");
+  // const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
-      setTheme(storedTheme);
+      dispatch(setTheme(storedTheme))
     }
   }, []);
 
-  document.documentElement.className = `theme-${theme}`;
+  document.documentElement.className = `theme-${sessionUser.theme}`;
 
   const handleThemeChange = (selectedTheme) => {
-    setTheme(selectedTheme);
+    dispatch(setTheme(selectedTheme));
     localStorage.setItem("theme", selectedTheme);
   };
 
