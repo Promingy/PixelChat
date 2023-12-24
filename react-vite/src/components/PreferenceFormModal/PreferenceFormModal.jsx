@@ -27,7 +27,7 @@ export default function PreferenceFormModal() {
     <>
       <div className="preference-modal">
         <div className="preference-container-top">
-          <h2>Preference</h2>
+          <h2>Preferences</h2>
           <button onClick={closeModal}>
             <VscChromeClose />
           </button>
@@ -51,7 +51,7 @@ export default function PreferenceFormModal() {
                 &nbsp;&nbsp;&nbsp;Light
               </button>
               <button
-               
+
                 onClick={() => handleThemeChange("dark")}
               >
                 <PiMoonBold />
