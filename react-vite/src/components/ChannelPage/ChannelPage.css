@@ -18,7 +18,8 @@
 .channel-page-button-container {
     display: flex;
     justify-content: space-between;
-    height: 55px;
+    /* height: 55px; */
+    min-height: 49px;
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #aaa;
@@ -27,6 +28,7 @@
 
 .channel-page-button-container>button {
     background: none;
+    border-radius: 5px;
 }
 
 .channel-page-button-container>button:first-child {
