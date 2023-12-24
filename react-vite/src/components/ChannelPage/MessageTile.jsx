@@ -28,7 +28,6 @@ export default function MessageTile({ message, user, channelId, socket }) {
     minutes = minutes < 10 ? `0${minutes}` : minutes
 
     function handleEmojiBox(e) {
-        console.log("~~~~~", e.clientY)
         let emojiHeight = e.clientY - 30
         if (window.innerHeight - emojiHeight < 500) {
             emojiHeight = window.innerHeight - 500
@@ -40,17 +39,18 @@ export default function MessageTile({ message, user, channelId, socket }) {
             counter++
             try {
                 if (!document.getElementById('emojiBox').contains(e.target) && counter > 1) {
-                    window.removeEventListener("click", e => { handleEmojiClick(e) })
+                    window.removeEventListener("click", handleEmojiClick)
                     setEmojiBox(false)
                     counter = 0
                 }
             } catch {
-                window.removeEventListener("click", e => { handleEmojiClick(e) })
+                console.log(e)
+                window.removeEventListener("click", handleEmojiClick)
                 counter = 0
             }
         }
-        window.removeEventListener("click", e => { handleEmojiClick(e) })
-        window.addEventListener("click", e => { handleEmojiClick(e) })
+        window.removeEventListener("click", handleEmojiClick)
+        window.addEventListener("click", handleEmojiClick)
     }
 
     // set object with a count of each emoji
