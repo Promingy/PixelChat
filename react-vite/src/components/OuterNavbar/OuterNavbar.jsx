@@ -141,14 +141,14 @@ export default function OuterNavbar() {
           <button onClick={() => {
             setProfileModal(true)
             closeMenu2()
-            const profile = document.getElementsByClassName('profile-modal')
 
             function handleMouseClick(e) {
               e.preventDefault()
-              let node = e.target
+              const profile = document.getElementsByClassName('profile-modal')
               const xBtn = document.getElementsByClassName('close-profile')
+              let node = e.target
 
-              for (let i = 0; i <= 5; i++) {
+              for (let i = 0; i <= 6; i++){
                 if (node === profile[0]) return
 
                 else if (node === xBtn[0]) break

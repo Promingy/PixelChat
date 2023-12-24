@@ -114,6 +114,10 @@
     border-radius: 10px;
 }
 
+.message-profile-pic:hover {
+    cursor: pointer;
+}
+
 .message-body-header-container {
     display: flex;
     gap: 10px;
@@ -129,9 +133,14 @@
 
 .date-name-container {
     display: flex;
+    align-items: center;
     gap: 5px;
     height: fit-content;
-    align-items: center;
+    width: fit-content;
+}
+
+.date-name-container:hover {
+    cursor: pointer;
 }
 
 .message-owner,
@@ -147,7 +156,13 @@
     font-weight: 600;
 }
 
+.message-owner:hover {
+    text-decoration: underline;
+    text-decoration-color: #E01D5A;
+}
+
 .message-post-time {
+    display:flex;
     font-size: 13px;
     color: #888
 }
@@ -192,6 +207,12 @@
     background-color: #FFFFFF;
     box-shadow: 2px 2px 10px lightgrey;
     cursor: pointer;
+    z-index: 0;
+
+}
+.profile-modal-messages {
+    position: relative;
+    z-index: 1;
 }
 
 .react-bar>* {

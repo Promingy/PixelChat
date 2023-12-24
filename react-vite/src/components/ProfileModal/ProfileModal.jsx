@@ -1,14 +1,13 @@
-import { useModal } from "../../context/Modal"
 import { useSelector } from 'react-redux'
-import { VscChromeClose } from "react-icons/vsc";
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
-
 import "./ProfileModal.css"
-import { useState } from "react";
 
-export default function Profile({ animation }) {
+export default function Profile({ animation, userId }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const users = useSelector(state => state.server.users)
+  const user = users[userId]
+  console.log(user)
 
   if (!sessionUser) return null
 
@@ -21,16 +20,16 @@ export default function Profile({ animation }) {
       <div className="profile-header">
         <div style={{ textAlign: "center" }}>
           <img
-            src={sessionUser.image_url}
+            src={user?.image_url || sessionUser.image_url}
             alt="Profile Image"
             style={{ width: "250px", height: "250px" , borderRadius:"10px", objectFit: "cover"}}
           ></img>
         </div>
         <h2>
-          {sessionUser.first_name}&nbsp;{sessionUser.last_name}
+          {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
 
-        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{sessionUser.location}</p>
+        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location ||sessionUser.location}</p>
       </div>
       <div className="profile-middle">
         <h4>Contact Information</h4>
@@ -40,13 +39,13 @@ export default function Profile({ animation }) {
           </div>
           <div className="flex-item">
             <p>Email Address</p>
-            <p>{sessionUser.email}</p>
+            <p>{user?.email || sessionUser.email}</p>
           </div>
         </div>
       </div>
       <div className="profile-bottom">
         <h4>About Me</h4>
-        <p>{sessionUser.bio}</p>
+        <p>{user?.bio || sessionUser.bio}</p>
       </div>
     </div>
   );
