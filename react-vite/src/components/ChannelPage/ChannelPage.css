@@ -83,7 +83,7 @@
 
 .user-message-container {
   display: flex;
-  padding: 20px;
+  padding: 5px 20px 5px 20px;
   justify-content: space-between;
 }
 
@@ -110,8 +110,8 @@
 
 .message-profile-pic {
   object-fit: cover;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
 }
 
@@ -129,7 +129,9 @@
 .message-owner-date-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .date-name-container {
@@ -154,6 +156,7 @@
 }
 
 .message-owner {
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -163,7 +166,7 @@
 
 .message-post-time {
   display: flex;
-  font-size: 13px;
+  font-size: 12px;
   color: #888;
 }
 
