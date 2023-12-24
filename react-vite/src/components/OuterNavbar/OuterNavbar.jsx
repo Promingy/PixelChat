@@ -101,7 +101,7 @@ export default function OuterNavbar() {
         </Link>
       </div>
       <div className="outer-navbar-bottom">
-        <div className="create-new-server">
+        <div className="new-button-wrapper">
           <button onClick={toggleMenu1}>
             <i className="fa-solid fa-plus"></i>
           </button>
@@ -134,15 +134,15 @@ export default function OuterNavbar() {
             <img className="profile-button-img" src={sessionUser.image_url} />
           </button>
         </div>
-        {profileModal && <ProfileModal animation={false}/>}
-        {profileModal2 && <ProfileModal  animation={true}/>}
+        {profileModal && <ProfileModal animation={false} />}
+        {profileModal2 && <ProfileModal animation={true} />}
         <div className={`profile-dropdown ${ulClassName2}`} ref={ulRef}>
 
           <button onClick={() => {
             setProfileModal(true)
             closeMenu2()
 
-            function handleMouseClick (e) {
+            function handleMouseClick(e) {
               e.preventDefault()
               const profile = document.getElementsByClassName('profile-modal')
               const xBtn = document.getElementsByClassName('close-profile')
@@ -161,7 +161,7 @@ export default function OuterNavbar() {
               window.removeEventListener('mousedown', handleMouseClick)
             }
             window.addEventListener('mousedown', handleMouseClick)
-            }}>Profile</button>
+          }}>Profile</button>
 
           <OpenModalButton
             buttonText="Preference"

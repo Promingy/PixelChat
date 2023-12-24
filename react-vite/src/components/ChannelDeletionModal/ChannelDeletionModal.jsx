@@ -27,9 +27,7 @@ export default function ChannelDeletionModal({ socket, channel }) {
                 room: server.id,
                 channelId
             })
-        }).then(() => {
-            navigate(`/landing`)
-        }).then(closeModal()).catch(async (res) => {
+        }).then(navigate(`/landing`)).then(closeModal()).catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
                 setErrors(data.errors)
@@ -41,7 +39,7 @@ export default function ChannelDeletionModal({ socket, channel }) {
     return (
         <div className="server-popup-delete-wrapper">
             <h1>Confirm channel delete</h1>
-            <h2>Are you sure you want to delete {channel.name}?</h2>
+            <h2>Are you sure you want to delete {channel?.name}?</h2>
             <form onSubmit={handleSubmit} className="server-popup-delete">
 
                 {errors.channel && <span>{errors.channel}</span>}

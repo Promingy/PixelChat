@@ -36,6 +36,11 @@
     background-color: #ddd;
 }
 
+.channel-popup-members-scroll {
+    overflow-y: auto;
+    height: 440px;
+}
+
 .channel-popup-tab-container {
     display: flex;
     gap: 20px;
