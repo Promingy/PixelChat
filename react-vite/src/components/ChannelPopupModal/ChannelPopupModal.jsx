@@ -125,6 +125,18 @@ function ChannelPopupModal({ activeProp, socket }) {
                                         modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} channel={channel} />}
                                     />
                                 </div>}
+                                {(sessionUser.id == server.owner_id) && (Object.values(server.channels).length === 1) &&
+                                <div className='server-modal-wrapper server-popup-delete' >
+                                    <div>
+                                        <div className='server-popup-about-div'>
+                                            <div className='cant-delete-channel'>
+                                                <p><FaRegTrashAlt />  Can't delete last the channel in a server</p>
+                                            </div>
+                                            <div className='server-popup-about-div-right'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>}
                             </div>
                         </div>
                     </div>

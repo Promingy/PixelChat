@@ -191,3 +191,8 @@
     border-radius: none;
     padding: 5px;
 }
+
+.cant-delete-channel {
+    display: flex;
+    align-items: center;
+}
