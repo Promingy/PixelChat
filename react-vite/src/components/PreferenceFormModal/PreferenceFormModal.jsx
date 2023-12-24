@@ -42,7 +42,7 @@ export default function PreferenceFormModal() {
           <div className="preference-right">
             <p style={{ fontWeight: "bold" }}>Color Mode</p>
             <p>
-              Choose if PixcelChat&rsquo;s appearance should be light or dark.
+              Set PixelChat&rsquo;s appearance to light or dark mode.
             </p>
             <div className="theme-option">
               <button onClick={() => handleThemeChange("light")}
@@ -51,7 +51,6 @@ export default function PreferenceFormModal() {
                 &nbsp;&nbsp;&nbsp;Light
               </button>
               <button
-
                 onClick={() => handleThemeChange("dark")}
               >
                 <PiMoonBold />
