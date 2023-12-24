@@ -1,17 +1,17 @@
+
 .preference-container-top{
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding: 10px;
+  padding: 8px;
   display:flex;
-  border-bottom: 0.5px solid grey;
+  border-bottom:1px solid rgb(170,170,170, 20%);
 }
 
 .preference-container-bottom{
   justify-content: space-between;
   align-items: center;
   gap: 40px;
-  padding: 20px;
+  padding: 25px;
   display: flex;
 }
 
@@ -24,7 +24,7 @@
 
 .theme-option {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between
 }
 
 .theme-option > button {
@@ -39,17 +39,6 @@
   font-weight: bold;
   background-color: var(--color-background);
   color: var(--color-font);
-}
-
-
-.theme-light {
-  --color-background: white;
-  --color-font: black;
-}
-
-.theme-dark {
-  --color-background: #1D1D1D;
-  --color-font: #e8e8e8;
 }
 
 .preference-modal {

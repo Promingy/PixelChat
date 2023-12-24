@@ -21,7 +21,17 @@ export default function OuterNavbar() {
   const [profileModal2, setProfileModal2] = useState(false)
   const ulClassName1 = showMenu1 ? "" : " hidden";
   const ulClassName2 = showMenu2 ? "" : " hidden";
+  const [theme, setTheme] = useState("light");
   const ulRef = useRef();
+
+  useEffect(() => {
+     const storedTheme = localStorage.getItem("theme");
+     if (storedTheme) {
+       setTheme(storedTheme);
+     }
+   }, []);
+
+  document.documentElement.className = `theme-${theme}`;
 
   const toggleMenu1 = (e) => {
     e.stopPropagation();
@@ -107,17 +117,14 @@ export default function OuterNavbar() {
           </button>
           <div className={`server-dropdown ${ulClassName1}`} ref={ulRef}>
             <button>
-              <NavLink
-                to="/join-server"
-                style={{ textDecoration: "none", color: "black" }}
-              >
+              <NavLink to="/join-server" style={{ textDecoration: "none", color: "inherit" }}>
                 Join a Server
               </NavLink>
             </button>
             <button>
               <NavLink
                 to="/new-server"
-                style={{ textDecoration: "none", color: "black" }}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
                 Create a Server
               </NavLink>
@@ -137,6 +144,7 @@ export default function OuterNavbar() {
         {profileModal && <ProfileModal animation={false} />}
         {profileModal2 && <ProfileModal animation={true} />}
         <div className={`profile-dropdown ${ulClassName2}`} ref={ulRef}>
+
 
           <button onClick={() => {
             setProfileModal(true)
@@ -169,7 +177,10 @@ export default function OuterNavbar() {
             modalComponent={<PreferenceFormModal />}
           />
           <button onClick={logout}>
-            <NavLink to="/" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="/"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               Log out
             </NavLink>
           </button>
