@@ -281,6 +281,7 @@
   z-index: 1;
   position: relative;
   margin: 0;
+  background-color: white;
 }
 
 .date-divider {
