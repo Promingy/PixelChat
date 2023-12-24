@@ -7,7 +7,7 @@ import { thunkPinMessage } from '../../redux/server'
 import EmojiPicker from 'emoji-picker-react'
 
 
-export default function MessageTile({ message, user, channelId, socket, bottom, center }) {
+export default function MessageTile({ message, user, channelId, socket }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
@@ -28,18 +28,29 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
     minutes = minutes < 10 ? `0${minutes}` : minutes
 
     function handleEmojiBox(e) {
-        e.preventDefault()
         console.log("~~~~~", e.clientY)
         let emojiHeight = e.clientY - 30
         if (window.innerHeight - emojiHeight < 500) {
             emojiHeight = window.innerHeight - 500
         }
+        setEmojiBox(true)
         setEmojiBoxHeight(emojiHeight)
-        setTimeout(() => {
-            setEmojiBox(false)
-            window.removeEventListener('mousedown', handleEmojiBox)
-            messagesContainer.removeEventListener('scroll', handleEmojiBox)
-        }, 1 * 58)
+        let counter = 0
+        const handleEmojiClick = (e) => {
+            counter++
+            try {
+                if (!document.getElementById('emojiBox').contains(e.target) && counter > 1) {
+                    window.removeEventListener("click", e => { handleEmojiClick(e) })
+                    setEmojiBox(false)
+                    counter = 0
+                }
+            } catch {
+                window.removeEventListener("click", e => { handleEmojiClick(e) })
+                counter = 0
+            }
+        }
+        window.removeEventListener("click", e => { handleEmojiClick(e) })
+        window.addEventListener("click", e => { handleEmojiClick(e) })
     }
 
     // set object with a count of each emoji
@@ -52,13 +63,13 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
     return (
         <>
             {emojiBox &&
-                <div className={'emoji-box'} onMouseLeave={() => setEmojiBox(!emojiBox)} style={{ 'top': `${emojiBoxHeight}px` }}>
+                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
 
                         //if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
                             //remove the reaction if user has already used it
-                            setEmojiBox(!emojiBox)
+                            setEmojiBox(false)
                             for (let reaction of Object.values(message.reactions)) {
                                 if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
                                     return dispatch(removeReaction(channelId, message.id, reaction.id)).then(() => {
@@ -124,9 +135,11 @@ export default function MessageTile({ message, user, channelId, socket, bottom, 
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
                         onClick={(e) => {
-                            setEmojiBox(!emojiBox)
-                            window.addEventListener("mousedown", (e) => handleEmojiBox(e))
-                            messagesContainer.addEventListener('scroll', handleEmojiBox)
+                            // setEmojiBox(!emojiBox)
+                            // setEmojiBox(true)
+                            handleEmojiBox(e)
+                            // window.addEventListener("mousedown", (e) => handleEmojiBox(e))
+                            // messagesContainer.addEventListener('scroll', handleEmojiBox)
                         }} />
 
                     {server.owner_id === sessionUser.id &&
