@@ -13,11 +13,20 @@ export default function ChannelDeletionModal({ socket, channel }) {
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const channels = server && Object.values(server.channels)
 
     const { closeModal } = useModal()
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        let newChannel;
+
+        for (let chnl of channels) {
+            if (chnl.id !== +channelId){
+                newChannel = chnl
+            }
+        }
 
         dispatch(removeChannel(channelId)).then(() => {
             socket.emit("server", {
@@ -27,7 +36,8 @@ export default function ChannelDeletionModal({ socket, channel }) {
                 room: server.id,
                 channelId
             })
-        }).then(navigate(`/landing`)).then(closeModal()).catch(async (res) => {
+        }).then(navigate(`/main/servers/${server.id}/channels/${newChannel.id}`)).then(closeModal())
+        .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
                 setErrors(data.errors)
