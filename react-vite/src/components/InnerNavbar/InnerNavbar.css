@@ -1,7 +1,7 @@
 .inner-navbar-wrapper {
     width: 22%;
     max-width: 270px;
-    height: 96vh;
+    height: 100vh;
     min-width: 230px;
     box-sizing: border-box;
     background-color: var(--inner-background);
@@ -14,10 +14,7 @@
     overflow: hidden;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-     border-left: 1px solid rgb(170,170,170, 20%);
-     
-
-    
+    border-left: 1px solid rgb(170,170,170, 20%);
 }
 
 .inner-navbar-header {
@@ -201,7 +198,7 @@
     flex-direction: column;
     justify-content: flex-end;
     height: 100vh;
-    color:var(--color-font)
+    color:var(--color-font);
     width: 100%;
     font-size: 14px;
 }
@@ -249,7 +246,7 @@
     margin: 10px 20px 10px 0px;
     border: 1px solid var(--color-font);
     border-radius: 5px;
-    color:var(--color-font)
+    color:var(--color-font);
     width: 100%;
 }
 

@@ -27,7 +27,7 @@
     min-height: 49px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid rgb(170,170,170, 20%);
     padding: 10px;
 }
 
