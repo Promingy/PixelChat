@@ -114,7 +114,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                 </div>
                             </div>
                             <div className='channel-popup-details-border'>
-                                {(sessionUser.id == server.owner_id) && <div className='server-modal-wrapper server-popup-delete'>
+                                {(sessionUser.id == server.owner_id) && (Object.values(server.channels).length > 1) && <div className='server-modal-wrapper server-popup-delete'>
                                     <OpenModalButton
                                         buttonText={<div className='server-popup-about-div'>
                                             <div className='server-popup-about-div-left'>
@@ -123,7 +123,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                             <div className='server-popup-about-div-right'>
                                             </div>
                                         </div>}
-                                        modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} />}
+                                        modalComponent={(sessionUser.id == server.owner_id) && <ChannelDeletionModal server={server} channel={channel} />}
                                     />
                                 </div>}
                             </div>
