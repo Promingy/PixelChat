@@ -1,322 +1,324 @@
 .hidden {
-    display: none;
+  display: none;
 }
 
 .react-bar-hidden {
-    opacity: 0;
+  opacity: 0;
 }
 
 .channel-page-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    background-color: var(--color-background);
-    color: var(--color-font);
-    overflow-x: hidden;
-    width: 100%;
-    padding-bottom: 20px;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 5px #999;
-    z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  overflow-x: hidden;
+  width: 100%;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 5px #999;
+  z-index: 10;
 }
 
 .channel-page-button-container {
-    display: flex;
-    justify-content: space-between;
-    min-height: 49px;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgb(170,170,170, 20%);
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 49px;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(170, 170, 170, 20%);
+  padding: 10px;
 }
 
-.channel-page-button-container>button {
-    background: none;
-    border-radius: 5px;
+.channel-page-button-container > button {
+  background: none;
+  border-radius: 5px;
 }
 
-.channel-page-button-container>button:first-child {
-    font-weight: 600;
-    font-size: 20px;
-    border: none;
+.channel-page-button-container > button:first-child {
+  font-weight: 600;
+  font-size: 20px;
+  border: none;
 }
 
-.channel-page-button-container>button:hover {
-    background-color: #F8F8F8;
+.channel-page-button-container > button:hover {
+  background-color: #f8f8f8;
 }
 
 .channel-page-first-button {
-    display: flex;
-    align-items: center;
-    gap: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--color-font);
 }
 
 .channel-page-button-arrow {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.channel-page-button-container>button:last-child {
-    border-radius: 5px;
-    border: 1px solid #EAEAEA;
-    color: #606060;
+.channel-page-button-container > button:last-child {
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  color: #606060;
 }
 
-.channel-page-button-container>button:last-child:hover {
-    color: black;
+.channel-page-button-container > button:last-child:hover {
+  color: black;
 }
 
 .all-messages-container {
-    display: flex;
-    flex-direction: column-reverse;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 .emoji-box {
-    position: absolute;
-    right: 120px;
-    z-index: 200;
+  position: absolute;
+  right: 120px;
+  z-index: 200;
 }
 
 .user-message-container {
-    display: flex;
-    padding: 20px;
-    justify-content: space-between;
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
 }
 
 .user-message-container:hover {
-    background-color: #F8F8F8;
+  background-color: var(--color-hover);
 }
 
 .pinned {
-    background-color: #FEF9EC;
+  background-color: #fef9ec;
 }
 
 .pinned:hover {
-    background-color: #FEF9EC;
+  background-color: #fef9ec;
 }
 
 .pinned-icon-on-message {
-    color: #E8912D;
-    align-self: flex-start;
-    transform: rotate(-45deg);
-    position: relative;
-    left: 30px;
-    bottom: 5px;
+  color: #e8912d;
+  align-self: flex-start;
+  transform: rotate(-45deg);
+  position: relative;
+  left: 30px;
+  bottom: 5px;
 }
 
 .message-profile-pic {
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
 }
 
 .message-profile-pic:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .message-body-header-container {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    /* width: 69vw; */
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  /* width: 69vw; */
 }
 
 .message-owner-date-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .date-name-container {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height: fit-content;
-    width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: fit-content;
+  width: fit-content;
 }
 
 .date-name-container:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .message-owner,
 .message-post-time,
 .message-body,
 .message-reaction {
-    height: fit-content;
-    margin: 0;
-    padding: 0;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
 }
 
 .message-owner {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .message-owner:hover {
-    text-decoration: underline;
-    text-decoration-color: #E01D5A;
+  text-decoration: underline;
+  text-decoration-color: #e01d5a;
 }
 
 .message-post-time {
-    display:flex;
-    font-size: 13px;
-    color: #888
+  display: flex;
+  font-size: 13px;
+  color: #888;
 }
 
 .message-body {
-    overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .message-reactions-container {
-    display: flex;
-    margin-left: 60px;
+  display: flex;
+  margin-left: 60px;
 }
 
 .message-reaction {
-    display: flex;
-    gap: 5px;
-    border-radius: 15px;
-    width: 50px;
-    justify-content: center;
-    align-items: center;
-    height: 25px;
-    background-color: #EFEFEF;
-    border: 1px solid transparent;
+  display: flex;
+  gap: 5px;
+  border-radius: 15px;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  background-color: #efefef;
+  border: 1px solid transparent;
 }
 
 .message-reaction:hover {
-    background-color: white;
-    border: 1px solid grey;
-    cursor: pointer;
+  background-color: white;
+  border: 1px solid grey;
+  cursor: pointer;
 }
 
 .react-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 20px;
-    gap: 5px;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    padding: 5px;
-    width: auto;
-    background-color: #FFFFFF;
-    box-shadow: 2px 2px 10px lightgrey;
-    cursor: pointer;
-    z-index: 0;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  gap: 5px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 5px;
+  width: auto;
+  background-color: var(--color-hover);
+  box-shadow: 2px 2px 10px lightgrey;
+  cursor: pointer;
+  z-index: 0;
 }
 .profile-modal-messages {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
-.react-bar>* {
-    border-radius: 5px;
-    width: 25px;
-    height: 25px;
+.react-bar > * {
+  border-radius: 5px;
+  width: 25px;
+  height: 25px;
 }
 
-.react-bar>*:hover {
-    background-color: lightgray;
+.react-bar > *:hover {
+  background-color: lightgray;
 }
 
 .remove-message {
-    display: flex;
-    justify-content: center;
-    padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
 }
 
 .pin-message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 3px;
 }
 
 .confirm-message-delete {
-    position: absolute;
-    right: 1px;
-    bottom: 4vh;
-    border: 1px solid red;
-    border-radius: 10px;
-    padding: 5px;
-    background-color: #FFFFFF;
-    box-shadow: 2px 2px 5px lightgrey;
-    text-align: center;
-    color: red;
+  position: absolute;
+  right: 1px;
+  bottom: 4vh;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 5px lightgrey;
+  text-align: center;
+  color: red;
 }
 
 .confirm-message-delete:hover {
-    text-decoration: underline;
-    cursor: pointer;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .reaction-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .date-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
 }
 
 .message-date-separator {
-    border: 1px solid #DDD;
-    text-align: center;
-    width: fit-content;
-    border-radius: 100px;
-    padding: 6px 15px 6px 15px;
-    background-color: white;
-    font-size: 13px;
-    font-weight: 600;
-    z-index: 1;
-    position: relative;
-    margin: 0;
+  border: 1px solid #ddd;
+  text-align: center;
+  width: fit-content;
+  border-radius: 100px;
+  padding: 6px 15px 6px 15px;
+  background-color: var(--color-hover);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 1;
+  position: relative;
+  margin: 0;
 }
 
 .date-divider {
-    position: relative;
-    border-bottom: 1px solid #ddd;
-    margin-top: 0px;
-    z-index: 0;
-    height: 0px;
-    width: 100%;
-    margin-top: -15px;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+  margin-top: 0px;
+  z-index: 0;
+  height: 0px;
+  width: 100%;
+  margin-top: -15px;
 }
 
 .message-body-reactions-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: auto;
 }
 
 .date-separator-bar {
-    position: relative;
-    border-bottom: 1px solid lightgrey;
-    bottom: 21px;
-    z-index: 0;
+  position: relative;
+  border-bottom: 1px solid lightgrey;
+  bottom: 21px;
+  z-index: 0;
 }
 
 .reaction-count {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .theme-light {
-    --color-background: white;
-    --color-font: black;
+  --color-background: white;
+  --color-font: black;
+  --color-hover: #f8f8f8;
 }
 
 .theme-dark {
-    --color-background: #1d1d1d;
-    --color-font: #e8e8e8;
+  --color-background: #1d1d1d;
+  --color-font: #e8e8e8;
+  --color-hover: #424242;
 }

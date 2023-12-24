@@ -171,6 +171,7 @@
     align-items: center;
     font-size: 15px;
     padding-left: 17px;
+    color:var(--color-font);
 }
 
 .channel-dropdown {
