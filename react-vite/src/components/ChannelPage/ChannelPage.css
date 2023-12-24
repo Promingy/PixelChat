@@ -24,7 +24,6 @@
 .channel-page-button-container {
     display: flex;
     justify-content: space-between;
-    /* height: 55px; */
     min-height: 49px;
     width: 100%;
     box-sizing: border-box;
