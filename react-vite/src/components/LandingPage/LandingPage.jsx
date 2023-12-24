@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 // import { loadAllServers } from "../../redux/all_servers"
@@ -37,6 +37,9 @@ export default function LandingPage() {
 
     return (
         <>
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
             <div className="landing-top-half-background">
                 <div className="landing-top-half">
                     <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
