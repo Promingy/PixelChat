@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, Navigate } from 'react-router-dom'
 import './ServerCreationForm.css'
 import { initializeServer, initializeChannel, uploadImage } from '../../redux/server'
 import { Link } from "react-router-dom"
@@ -20,10 +20,13 @@ export default function ServerCreationForm() {
     const [channelDescription, setChannelDescription] = useState('')
     const [errors, setErrors] = useState('')
 
+    useEffect(() => {
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
+
     const onSubmit = async (e) => {
         e.preventDefault()
         setErrors({})
-        // TODO: assign AWS url to image_url
 
         const formData = new FormData();
         formData.append("image", image);
@@ -63,6 +66,8 @@ export default function ServerCreationForm() {
         handleServerCreation(form)
     }
 
+    if (!sessionUser) return null
+
     return (
         <form className="server-creation-form" onSubmit={onSubmit} encType="multipart/form-data">
             <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
@@ -97,6 +102,9 @@ export default function ServerCreationForm() {
                 <input type='text' value={channelDescription} onChange={e => setChannelDescription(e.target.value)} className="server-creation-input" placeholder="Ex: All general questions go here" />
             </div>
             <input type='submit' className="submit-server large-purple-button" value="Create New Server" />
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
         </form>
     )
 }
