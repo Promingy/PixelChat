@@ -34,7 +34,8 @@ export default function ChannelDeletionModal({ socket, channel }) {
                 type: "channel",
                 method: "DELETE",
                 room: server.id,
-                channelId
+                channelId,
+                newChannel: `/main/servers/${server.id}/channels/${newChannel.id}`
             })
         }).then(navigate(`/main/servers/${server.id}/channels/${newChannel.id}`)).then(closeModal())
         .catch(async (res) => {

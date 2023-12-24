@@ -108,6 +108,7 @@ export default function ServerPage() {
                         case "DELETE": {
                             // Handle channel delete
                             dispatch(deleteChannel(obj.channelId))
+                            navigate(obj.newChannel)
                             break
                         }
                         case "PUT": {
