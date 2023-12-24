@@ -206,6 +206,7 @@ export const removeChannel = (channelId) => async (dispatch) => {
     const res = await fetch(`/api/channels/${channelId}`, {
         method: "DELETE"
     })
+
     if (res.ok) {
         dispatch(deleteChannel(channelId))
     }
@@ -369,7 +370,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case DELETE_CHANNEL: {
             const newState = { ...state }
-            delete newState[action.channelId]
+            delete newState.channels[action.channelId]
             return newState
         }
         case UPDATE_CHANNEL: {
