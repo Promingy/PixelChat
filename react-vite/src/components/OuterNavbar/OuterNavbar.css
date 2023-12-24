@@ -3,7 +3,7 @@
   height: 100%;
   box-sizing: border-box;
   background-color: #5e2262;
-  background: linear-gradient(#7F3686, #49154A);
+  background: linear-gradient(#7f3686, #49154a);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -26,7 +26,7 @@
   cursor: pointer;
 }
 
-.server-img-wrapper>img {
+.server-img-wrapper > img {
   width: 100%;
   font-size: 10px;
 }
@@ -56,10 +56,9 @@
 }
 
 .home-link-wrapper:hover .home-icon-wrapper {
-  background-color: #97609D;
+  background-color: #97609d;
   font-size: 18px;
 }
-
 
 .create-new-server {
   background-color: #805083;
@@ -82,7 +81,7 @@
   margin-bottom: 16px;
 }
 
-.open-profile-wrapper>button {
+.open-profile-wrapper > button {
   width: 36px;
   height: 36px;
   border-radius: 3px;
@@ -96,7 +95,7 @@
   box-sizing: border-box;
 }
 
-.open-profile-wrapper>button>img {
+.open-profile-wrapper > button > img {
   height: 105%;
 }
 
@@ -106,7 +105,7 @@
   flex-direction: column;
 }
 
-.outer-navbar-bottom>a {
+.outer-navbar-bottom > a {
   text-decoration: none;
 }
 
@@ -120,18 +119,22 @@
   border-radius: 5px;
   list-style-type: none;
   padding: 10px;
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
   left: 80px;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
-.profile-dropdown>button {
+.profile-dropdown > button {
   border: none;
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   font-size: 15px;
   font-weight: 300;
   margin-bottom: 5px;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
 .server-dropdown.hidden {
@@ -144,21 +147,33 @@
   border-radius: 5px;
   list-style-type: none;
   padding: 10px;
-  background-color: #F6F6F6;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
   left: 80px;
+  bottom: 70px;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
-.server-dropdown>button {
+.server-dropdown > button {
   border: none;
-  background-color: #F6F6F6;
   font-size: 15px;
   font-weight: 300;
   margin-bottom: 5px;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
-.icon-button {
+.server-dropdown > button {
+  border: none;
+  font-size: 15px;
+  font-weight: 300;
+  margin-bottom: 5px;
+  background-color: var(--color-background);
+  color: var(--color-font);
+}
+
+.icon-bu ton {
   padding: 0;
 }
 
@@ -173,4 +188,12 @@
   border: none;
   outline: none;
   background-color: transparent;
+}
+
+.theme-light {
+  --inner-background: #dac3da;
+}
+
+.theme-dark {
+  --inner-background: #350d36;
 }

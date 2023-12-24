@@ -66,71 +66,126 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
 
     if (!server.channels) return null
     return (
-        <>
+      <>
         <div className="inner-navbar-wrapper">
-            <div className="inner-navbar-header">
-                <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
+          <div className="inner-navbar-header">
+            <OpenModalButton
+              modalComponent={<ServerPopupModal socket={socket} />}
+              buttonText={
+                <p>
+                  {server.name} <i className="fa-solid fa-chevron-down"></i>
+                </p>
+              }
+            />
+          </div>
+          <ul className="inner-navbar-content">
+            <div className="creat-channel-container">
+              <button onClick={toggleMenu}>
+                {" "}
+                <i
+                  className={
+                    showMenu
+                      ? `fa-solid fa-caret-down`
+                      : `fa-solid fa-caret-right`
+                  }
+                ></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;Channels
+              </button>
             </div>
-            <ul className="inner-navbar-content">
-                <div className="creat-channel-container">
-                    <button onClick={toggleMenu}> <i className={showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`}></i>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
-                </div>
-                <div className={ulClassName} ref={ulRef}>
-                    <OpenModalButton
-                        buttonText="Create"
-                        onItemClick={closeMenu}
-                        modalComponent={<ChannelCreationForm />}
-                    />
-                </div>
-                {Object.values(server.channels).map((channel) => (
-                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
-                        <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
-                            <div className="navbar-content">
-                                <div className="navbar-content-left">
-                                    <i className="fa-solid fa-hashtag"></i>{channel.name}
-                                </div>
-                                {channel?.bold ? <div className="unread-message-count">{channel?.bold}</div> : ""}
-                            </div>
-                        </Link>
-                    </li>
-                ))}
-
-            </ul>
-        <div className="creator-container">
-            <ul style={{listStyle: "none"}}>
-                <p className="creator-header">Creator Githubs</p>
-                <li className="repo-link-container">
-                    <a className="repo-link" target='_blank' href="https://github.com/Promingy/SlackProject">
-                        Github Repo
-                    </a>
-                </li>
-                <li className="creators">
-                    <a className="creator-links" target="_blank" href="https://github.com/regdes721">
-                        <i className="fa-brands fa-github"/>
-                        Reginald
-                    </a>
+            <div className={ulClassName} ref={ulRef}>
+              <OpenModalButton
+                buttonText="Create"
+                onItemClick={closeMenu}
+                modalComponent={<ChannelCreationForm />}
+              />
+            </div>
+            {Object.values(server.channels).map((channel) => (
+              <li
+                id={`channel${channel.id}`}
+                key={channel.id}
+                onClick={() => handleChannelUnbold(channel.id)}
+                className={`${
+                  channel.id == channelId
+                    ? " selected-channel"
+                    : "not-selected-channel"
+                }${channel?.bold ? " bold-channel" : ""}`}
+              >
+                <Link
+                  to={`/main/servers/${server.id}/channels/${channel.id}`}
+                  className="inner-navbar-link"
+                >
+                  <div className="navbar-content">
+                    <div className="navbar-content-left">
+                      <i className="fa-solid fa-hashtag"></i>
+                      {channel.name}
+                    </div>
+                    {channel?.bold ? (
+                      <div className="unread-message-count">
+                        {channel?.bold}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="creator-container">
+            <ul style={{ listStyle: "none" }}>
+              <p className="creator-header">Creator Githubs</p>
+              <li className="repo-link-container">
+                <a
+                  className="repo-link"
+                  target="_blank"
+                  href="https://github.com/Promingy/SlackProject"
+                >
+                  Github Repo
+                </a>
+              </li>
+              <li className="creators">
+                <a
+                  className="creator-links"
+                  target="_blank"
+                  href="https://github.com/regdes721"
+                >
+                  <i className="fa-brands fa-github" />
+                  Reginald
+                </a>
                 {/* </li>
                 <li className="creators"> */}
-                    <a className="creator-links" target='_blank' href="https://github.com/NickBrooks188">
-                        <i className="fa-brands fa-github"/>
-                        Nick
-                    </a>
-                </li>
-                <li className="creators">
-                    <a className="creator-links" target='_blank' href="https://github.com/Promingy">
-                        <i className="fa-brands fa-github"/>
-                        Corbin
-                    </a>
+                <a
+                  className="creator-links"
+                  target="_blank"
+                  href="https://github.com/NickBrooks188"
+                >
+                  <i className="fa-brands fa-github" />
+                  Nick
+                </a>
+              </li>
+              <li className="creators">
+                <a
+                  className="creator-links"
+                  target="_blank"
+                  href="https://github.com/Promingy"
+                >
+                  <i className="fa-brands fa-github" />
+                  Corbin
+                </a>
                 {/* </li>
                 <li className="creators"> */}
-                    <a className="creator-links" target="_blank" href="https://github.com/lovelyyun024">
-                        <i className="fa-brands fa-github"/>
-                        Esther
-                    </a>
-                </li>
+                <a
+                  className="creator-links"
+                  target="_blank"
+                  href="https://github.com/lovelyyun024"
+                >
+                  &nbsp; &nbsp;<i className="fa-brands fa-github" />
+                  Esther
+                </a>
+              </li>
             </ul>
+          </div>
         </div>
-        </div>
-        </>
-    )
+      </>
+    );
 }
