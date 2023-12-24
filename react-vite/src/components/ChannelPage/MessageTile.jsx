@@ -171,9 +171,9 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                                 window.addEventListener('mousedown', handleProfileModal)
                             }}>
-                                <span className="message-owner" id={message.id}>{user.username}</span>
-                                <span className="message-post-time" id={message.id}>{hours}:{minutes}</span>
-                                <span className="message-post-time" id={message.id}>{amPm}</span>
+                                <p className="message-owner" id={message.id}>{user.username}</p>
+                                <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
+                                <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
                             <p className="message-body">{message.body}</p>
                         </div>
