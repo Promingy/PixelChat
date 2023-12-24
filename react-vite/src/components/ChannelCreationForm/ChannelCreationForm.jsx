@@ -16,7 +16,6 @@ export default function ChannelCreationForm(socket) {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
-
   const [theme, setTheme] = useState("light");
 
    useEffect(() => {
@@ -66,7 +65,9 @@ export default function ChannelCreationForm(socket) {
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) =>
+              setName(e.target.value.toLowerCase().replace(/\s+/g, "-"))
+            }
             placeholder="e.g.plan-budget"
             required
           />
@@ -93,7 +94,10 @@ export default function ChannelCreationForm(socket) {
         {errors.topic && <p>{errors.topic}</p>}
       </form>
       <div className="create-channel-bottom">
-      <button type="submit" className="create-button"> Create </button>
+        <button type="submit" className="create-button">
+          {" "}
+          Create{" "}
+        </button>
       </div>
     </div>
   );
