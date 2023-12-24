@@ -31,18 +31,18 @@
   padding: 10px;
 }
 
-.channel-page-button-container > button {
+.channel-page-button-container>button {
   background: none;
   border-radius: 5px;
 }
 
-.channel-page-button-container > button:first-child {
+.channel-page-button-container>button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container > button:hover {
+.channel-page-button-container>button:hover {
   background-color: #f8f8f8;
 }
 
@@ -57,13 +57,13 @@
   font-size: 12px;
 }
 
-.channel-page-button-container > button:last-child {
+.channel-page-button-container>button:last-child {
   border-radius: 5px;
   border: 1px solid #eaeaea;
   color: #606060;
 }
 
-.channel-page-button-container > button:last-child:hover {
+.channel-page-button-container>button:last-child:hover {
   color: black;
 }
 
@@ -159,7 +159,6 @@
 
 .message-owner:hover {
   text-decoration: underline;
-  text-decoration-color: #e01d5a;
 }
 
 .message-post-time {
@@ -210,18 +209,19 @@
   cursor: pointer;
   z-index: 0;
 }
+
 .profile-modal-messages {
   position: relative;
   z-index: 1;
 }
 
-.react-bar > * {
+.react-bar>* {
   border-radius: 5px;
   width: 25px;
   height: 25px;
 }
 
-.react-bar > *:hover {
+.react-bar>*:hover {
   background-color: lightgray;
 }
 
