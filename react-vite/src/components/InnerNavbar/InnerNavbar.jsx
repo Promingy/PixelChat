@@ -78,21 +78,6 @@ export default function InnerNavbar({ socket }) {
               }
             />
           </div>
-          {/* <ul className="inner-navbar-content">
-            <div className="creat-channel-container">
-              <button onClick={toggleMenu}>
-                {" "}
-                <i
-                  className={
-                    showMenu
-                      ? `fa-solid fa-caret-down`
-                      : `fa-solid fa-caret-right`
-                  }
-                ></i>
-                &nbsp;&nbsp;&nbsp;&nbsp;Channels
-              </button>
-            </div>
-            </ul> */}
 
             <ul className="inner-navbar-content">
                 <div className="creat-channel-container">
