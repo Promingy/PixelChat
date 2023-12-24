@@ -62,14 +62,15 @@ export default function MessageTile({ message, user, channelId, socket }) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
 
-    function handleEmojiBox (e) {
-        e.preventDefault()
-        setTimeout(() => {
-            setEmojiBox(false)
-            window.removeEventListener('mousedown', handleEmojiBox)
-            messagesContainer.removeEventListener('scroll', handleEmojiBox)
-        }, 1 * 58)
-    }
+    // function handleEmojiBox (e) {
+    //     e.preventDefault()
+    //     console.log('hi')
+    //     setTimeout(() => {
+    //         setEmojiBox(false)
+    //         window.removeEventListener('mousedown', handleEmojiBox)
+    //         messagesContainer.removeEventListener('scroll', handleEmojiBox)
+    //     }, 1 * 200)
+    // }
 
     function handleProfileModal (e) {
         e.preventDefault()
@@ -153,7 +154,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                 {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'}`}>
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
-                        onClick={(e) => { handleEmojiBox(e) }} />
+                        onClick={(e) => handleEmojiBox(e)} />
 
                     {server.owner_id === sessionUser.id &&
                         <i
