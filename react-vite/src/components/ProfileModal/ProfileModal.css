@@ -46,7 +46,7 @@
 
 .profile-top {
   padding: 10px;
-  border-bottom: 0.5px solid grey;
+  border-bottom: 1px solid rgb(170,170,170, 20%);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,12 +54,12 @@
 
 .profile-header {
   padding: 10px;
-  border-bottom: 0.5px solid grey;
+  border-bottom:1px solid rgb(170,170,170, 20%);
 }
 
 .profile-middle {
   padding: 10px;
-  border-bottom: 0.5px solid grey;
+  border-bottom: 1px solid rgb(170,170,170, 20%)
 }
 
 
@@ -90,14 +90,4 @@
 .close-profile {
   padding: 10px 5px;
   cursor: pointer;
-}
-
-.theme-light {
-  --color-background: white;
-  --color-font: black;
-}
-
-.theme-dark {
-  --color-background: #1d1d1d;
-  --color-font: #e8e8e8;
 }

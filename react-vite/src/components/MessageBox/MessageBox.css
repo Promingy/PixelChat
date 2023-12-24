@@ -1,5 +1,9 @@
 .send-message-form {
     display: flex;
+    flex-direction: column;
+    border: 2px solid grey;
+    border-radius: 10px;
+    margin: 0 10px 10px;
     flex-wrap: wrap;
     border: 1px solid #bbb;
     border-radius: 8px;
@@ -79,12 +83,3 @@
     cursor: default;
 }
 
-.theme-light {
-    --color-background: white;
-    --color-font: black;
-}
-
-.theme-dark {
-    --color-background: #1D1C1D;
-    --color-font: #E8E8E8;
-}

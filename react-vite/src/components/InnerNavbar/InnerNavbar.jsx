@@ -66,11 +66,34 @@ export default function InnerNavbar({ socket }) {
 
     if (!server.channels) return null
     return (
-        <>
+      <>
         <div className="inner-navbar-wrapper">
-            <div className="inner-navbar-header">
-                <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
+          <div className="inner-navbar-header">
+            <OpenModalButton
+              modalComponent={<ServerPopupModal socket={socket} />}
+              buttonText={
+                <p>
+                  {server.name} <i className="fa-solid fa-chevron-down"></i>
+                </p>
+              }
+            />
+          </div>
+          <ul className="inner-navbar-content">
+            <div className="creat-channel-container">
+              <button onClick={toggleMenu}>
+                {" "}
+                <i
+                  className={
+                    showMenu
+                      ? `fa-solid fa-caret-down`
+                      : `fa-solid fa-caret-right`
+                  }
+                ></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;Channels
+              </button>
             </div>
+            </ul>
+
             <ul className="inner-navbar-content">
                 <div className="creat-channel-container">
                     <button onClick={toggleMenu}> <i className={showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`}></i>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
@@ -94,7 +117,6 @@ export default function InnerNavbar({ socket }) {
                         </Link>
                     </li>
                 ))}
-
             </ul>
         <div className="creator-container">
             <ul style={{listStyle: "none"}}>
@@ -127,8 +149,8 @@ export default function InnerNavbar({ socket }) {
                     </a>
                 </li>
             </ul>
+          </div>
         </div>
-        </div>
-        </>
-    )
+      </>
+    );
 }
