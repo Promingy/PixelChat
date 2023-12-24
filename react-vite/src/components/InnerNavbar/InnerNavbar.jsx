@@ -79,7 +79,7 @@ export default function InnerNavbar({ socket, boldObj, setBoldObj }) {
                     <OpenModalButton
                         buttonText="Create"
                         onItemClick={closeMenu}
-                        modalComponent={<ChannelCreationForm />}
+                        modalComponent={<ChannelCreationForm socket={socket} />}
                     />
                 </div>
                 {Object.values(server.channels).map((channel) => (
