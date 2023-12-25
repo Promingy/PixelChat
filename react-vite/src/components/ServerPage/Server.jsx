@@ -8,6 +8,7 @@ import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
 import "./Server.css"
+import { addUserToServer } from "../../redux/server";
 
 let socket
 
@@ -29,6 +30,13 @@ export default function ServerPage() {
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
+    const payload = {
+        type: "newUser",
+        method: "POST",
+        room: +serverId,
+        user: sessionUser,
+        serverId: serverId
+    }
 
     useEffect(() => {
         if (!sessionUser) { navigate("/") }
@@ -119,11 +127,19 @@ export default function ServerPage() {
                     }
                     break
                 }
+                case "newUser": {
+                    switch (obj.method) {
+                        case "POST": {
+                            dispatch(addUserToServer(obj.serverId, obj.user))
+                        }
+                    }
+                    break
+                }
             }
 
         })
 
-        socket.emit("join", { room: server.id })
+        socket.emit("join", { room: server.id, user: payload })
 
         return (() => {
             socket.emit("leave", { room: server.id })

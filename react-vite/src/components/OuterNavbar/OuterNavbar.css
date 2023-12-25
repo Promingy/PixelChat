@@ -189,7 +189,7 @@
   color: var(--color-font);
 }
 
-.icon-bu ton {
+.icon-button {
   padding: 0;
 }
 
@@ -212,4 +212,3 @@
 .theme-dark {
   --inner-background: #350d36;
 }
-

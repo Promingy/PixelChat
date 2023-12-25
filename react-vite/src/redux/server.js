@@ -16,6 +16,15 @@ const CREATE_REACTION = 'reaction/createReaction'
 const BOLD_CHANNEL = 'channel/bold'
 const UNBOLD_CHANNEL = 'channel/unbold'
 const GET_MESSAGES = 'reaction/getMessages'
+const ADD_USER_TO_SERVER = 'session/addUserToServer'
+
+export const addUserToServer = (serverId, user) => {
+    return {
+        type: ADD_USER_TO_SERVER,
+        serverId,
+        user
+    }
+}
 
 const getServer = (server, boldValues = false) => {
     return {
@@ -432,6 +441,12 @@ const serverReducer = (state = initialState, action) => {
         case PIN_MESSAGE: {
             const newState = { ...state }
             newState.channels[action.message.channel_id].messages[action.message.id].pinned = action.message.pinned
+            return newState
+        }
+        case ADD_USER_TO_SERVER: {
+            const newState = { ...state }
+
+            newState.users = {...newState.users, [action.user.id]: action.user}
             return newState
         }
         default: {
