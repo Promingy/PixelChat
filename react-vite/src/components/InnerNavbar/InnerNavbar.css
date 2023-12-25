@@ -14,7 +14,7 @@
     overflow: hidden;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    border-left: 1px solid rgb(170, 170, 170, 20%);
+    border-left: 1px solid #C0AEC4;
 }
 
 .inner-navbar-header {
@@ -96,7 +96,7 @@
     gap: 10px;
     text-decoration: none;
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 400;
     justify-content: space-between;
     padding: 10px;
 }
@@ -116,7 +116,7 @@
 
 
 .not-selected-channel>a {
-    color: var(--color-font);
+    color: #454447;
     width: 100%;
 }
 
@@ -160,37 +160,50 @@
     display: none;
 }
 
-.creat-channel-container {
+.create-channel-container {
     margin-bottom: 5px;
 }
 
-.creat-channel-container>button {
+.create-channel-container>button {
     font-weight: 300;
     background-color: var(--inner-background);
     border: none;
     align-items: center;
     font-size: 15px;
     padding-left: 17px;
+    /* color: var(--color-font); */
+    color: #454447;
+    font-weight: 400;
 }
 
 .channel-dropdown {
     border-radius: 5px;
     list-style-type: none;
-    padding: 4px;
     background-color: #F6F6F6;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     position: relative;
-    left: 9px;
+    left: 3%;
     border-radius: 5px;
-    width: 90%;
+    width: 94%;
+    overflow: hidden;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
 }
 
 .channel-dropdown>button {
     border: none;
-    background-color: white;
-    font-size: 15px;
-    font-weight: 300;
+    background-color: none;
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    text-align: left;
+    padding: 5px 10px 5px 10px;
+}
+
+.channel-dropdown>button:hover {
+    background-color: #1064A3;
+    color: white;
 }
 
 .creator-container {
