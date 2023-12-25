@@ -94,7 +94,7 @@ export default function ServerCreationForm() {
                 <h1 className="server-creation-header">Create a channel for your new server</h1>
                 <h2 className="server-creation-subheader">Name a channel so users have a place to communicate</h2>
                 <span>{errors.channel}</span>
-                <input type='text' value={channelName} onChange={e => setChannelName(e.target.value)} className="server-creation-input" placeholder="Ex: General Questions" />
+                <input type='text' value={channelName} onChange={e => setChannelName(e.target.value.toLowerCase().replace(/\s+/g, "-"))} className="server-creation-input" placeholder="Ex: General Questions" />
             </div>
             <div>
                 <h1 className="server-creation-header">Add a description for your new channel</h1>
