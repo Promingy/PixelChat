@@ -5,7 +5,7 @@ import { useState } from "react"
 import "./ServerDeletionModal.css"
 import { useNavigate } from "react-router-dom"
 
-export default function ServerDeletionModal({ server }) {
+export default function ServerDeletionModal({ server, socket }) {
     const [errors] = useState({})
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -14,20 +14,27 @@ export default function ServerDeletionModal({ server }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        const payload = {
+            type: "server",
+            method: "DELETE",
+            room: +server.id,
+            serverId: server.id
+        }
 
         const handleServerDelete = async (serverId) => {
             const res = await dispatch(removeServer(serverId))
-            console.log("res", res)
+            // console.log("res", res)
             if (res.ok) {
                 const data = await dispatch(deleteImage(server.image_url))
-                console.log("data", data)
-                console.log("data url", data.url)
+                // console.log("data", data)
+                // console.log("data url", data.url)
                 closeModal()
                 navigate('/landing')
             }
         }
 
         handleServerDelete(server.id)
+        socket.emit("server", payload)
     }
     return (
         <div className="server-popup-delete-wrapper">

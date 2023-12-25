@@ -8,7 +8,8 @@ import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
 import "./Server.css"
-import { addUserToServer } from "../../redux/server";
+import { addUserToServer, deleteServer } from "../../redux/server";
+import { removeUserServer } from "../../redux/session";
 
 let socket
 
@@ -127,10 +128,22 @@ export default function ServerPage() {
                     }
                     break
                 }
+                case "server": {
+                    switch (obj.method) {
+                        case "DELETE": {
+                            dispatch(deleteServer())
+                            dispatch(removeUserServer(obj.serverId))
+                            navigate('/landing')
+                            break
+                        }
+                    }
+                    break
+                }
                 case "newUser": {
                     switch (obj.method) {
                         case "POST": {
                             dispatch(addUserToServer(obj.serverId, obj.user))
+                            break
                         }
                     }
                     break

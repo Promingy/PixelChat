@@ -34,7 +34,7 @@ const getServer = (server, boldValues = false) => {
     }
 }
 
-const deleteServer = () => {
+export const deleteServer = () => {
     return {
         type: DELETE_SERVER
     }
