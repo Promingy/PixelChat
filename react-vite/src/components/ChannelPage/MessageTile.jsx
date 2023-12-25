@@ -25,7 +25,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
     const date = new Date(message.created_at)
     let hours = date.getHours()
     let minutes = date.getMinutes()
-    const amPm = hours >= 12 ? 'P.M.' : 'A.M.'
+    const amPm = hours >= 12 ? 'PM' : 'AM'
     hours = hours % 12 ? hours % 12 : 12
     minutes = minutes < 10 ? `0${minutes}` : minutes
 
@@ -72,20 +72,20 @@ export default function MessageTile({ message, user, channelId, socket }) {
     //     }, 1 * 200)
     // }
 
-    function handleProfileModal (e) {
+    function handleProfileModal(e) {
         e.preventDefault()
         const profile = document.getElementsByClassName('profile-modal')
         const xBtn = document.getElementsByClassName('close-profile')
         let node = e.target
 
-        for (let i = 0; i <= 6; i++){
-        if (node === profile[0] ||
-            e.target.src === user?.image_url ||
-            +e.target.id === +message.id) return
+        for (let i = 0; i <= 6; i++) {
+            if (node === profile[0] ||
+                e.target.src === user?.image_url ||
+                +e.target.id === +message.id) return
 
-        else if (node === xBtn[0]) break
+            else if (node === xBtn[0]) break
 
-        else node = node.parentNode
+            else node = node.parentNode
         }
         setProfileModal2(true)
         setProfileModal(false)
@@ -95,17 +95,17 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
     return (
         <>
-        {profileModal &&
-            <div className='profile-modal-messages'>
-                <ProfileModal animation={false} userId={message.user_id}/>
-            </div>
-        }
-        {profileModal2 &&
-            <div className='profile-modal-messages'>
-                <ProfileModal animation={true} userId={message.user_id}/>
-            </div>
-        }
-                    {emojiBox &&
+            {profileModal &&
+                <div className='profile-modal-messages'>
+                    <ProfileModal animation={false} userId={message.user_id} />
+                </div>
+            }
+            {profileModal2 &&
+                <div className='profile-modal-messages'>
+                    <ProfileModal animation={true} userId={message.user_id} />
+                </div>
+            }
+            {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
 
@@ -143,7 +143,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                         }} />
                 </div>}
 
-            <div className={ message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
+            <div className={message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
                 setReactBar(false)
                 setConfirmMsgDel(false)
             }}>
@@ -161,16 +161,16 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                                 window.addEventListener('mousedown', handleProfileModal)
                             }}
-                            />
+                        />
 
                         <div className="message-owner-date-container">
                             <div
                                 className='date-name-container'
                                 onClick={() => {
-                                setProfileModal(true)
+                                    setProfileModal(true)
 
-                                window.addEventListener('mousedown', handleProfileModal)
-                            }}>
+                                    window.addEventListener('mousedown', handleProfileModal)
+                                }}>
                                 <p className="message-owner" id={message.id}>{user?.username}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
