@@ -77,6 +77,7 @@ You will be able to test the features without sign up by clicking on one of the 
 
 <img src='./images/readme_img_1.png'>
 <img src='./images/readme_img_2.png'>
+<img src='./images/readme_image_main.png'>
 
 ## Future Features
 * Huddles
