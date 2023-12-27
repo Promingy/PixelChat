@@ -70,8 +70,12 @@ This is a concise list of what was utilized to develop this project.
    folder whenever you change your code, keeping the production version up to
    date. Finally, run `npm run dev` to open the application on the local browser.
 
-## Features Directions:
+## Landing Page:
 
-### Home Page Demo User:
+You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
-You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Login Page and the Signup Page
+<img src='./images/readme_img_1.png'>
+<img src='./images/readme_img_2.png'>
+
+## Future Features
+* Huddles
