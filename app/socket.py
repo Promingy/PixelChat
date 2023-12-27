@@ -19,6 +19,7 @@ def handle_join(data):
     print("------", data)
     room = data["room"]
     join_room(room)
+    emit("server", data['user'], room=room)
 
 @socketio.on("leave")
 def handle_leave(data):

@@ -4,7 +4,7 @@ import PutPopupFormModal from "../PutPopupFormModal"
 import ServerDeletionModal from "../ServerDeletionModal"
 import "./ServerPopupModal.css"
 
-export default function ServerPopupModal() {
+export default function ServerPopupModal({ socket }) {
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
     return (
@@ -67,7 +67,7 @@ export default function ServerPopupModal() {
                             <div className='server-popup-about-div-right'>
                             </div>
                         </div>}
-                        modalComponent={(sessionUser.id == server.owner_id) && <ServerDeletionModal server={server} />}
+                        modalComponent={(sessionUser.id == server.owner_id) && <ServerDeletionModal server={server} socket={socket}/>}
                     />
                 </div>}
             </div>
