@@ -63,7 +63,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
                     onKeyUp={(e) => {
                         if (e.key === 'Enter' &&
                             !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
-                            message.length <= 2000) {
+                            message.length <= 2001) {
                             return handleSubmit(e)
                         }
                     }} />
