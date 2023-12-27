@@ -239,7 +239,12 @@
   color: white;
 }
 
-.icon-bu ton {
+.server-dropdown>a:hover {
+  background-color: #1064A3;
+  color: white;
+}
+
+.icon-button {
   padding: 0;
 }
 
