@@ -6,6 +6,7 @@ PixelChat is a website clone of [Slack](https://www.slack.com/) populated with c
 
 * [Database Schema](https://github.com/Promingy/SlackProject/wiki/Slack-Clone-DB-Schema)
 * [User Stories](https://github.com/Promingy/SlackProject/wiki/User-Stories)
+* [Frontend Routes](https://github.com/Promingy/SlackProject/wiki/Frontend-routes)
 
 ## Languages and Technologies
 
