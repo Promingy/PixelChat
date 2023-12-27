@@ -242,16 +242,18 @@
 }
 
 .confirm-message-delete {
-  position: absolute;
-  right: 1px;
+  position: relative;
+  right: 140px;
   bottom: 4vh;
-  border: 1px solid red;
+  border: 1px solid #555;
   border-radius: 10px;
   padding: 5px;
   background-color: #ffffff;
   box-shadow: 2px 2px 5px lightgrey;
   text-align: center;
-  color: red;
+  color: #E01E5A;
+  width: 140px;
+  font-size: 14px;
 }
 
 .confirm-message-delete:hover {
