@@ -67,7 +67,6 @@ export default function ServerPage() {
         }
 
         socket.on("server", obj => {
-            console.log(obj)
 
             switch (obj.type) {
                 case "message": {

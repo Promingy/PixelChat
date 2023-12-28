@@ -84,7 +84,6 @@ export default function OuterNavbar() {
   };
 
   const navigateToServer = async (serverId) => {
-    console.log(serverId);
     const preloadServer = async (servId) => {
       const serv = await dispatch(loadServer(servId));
       return serv;

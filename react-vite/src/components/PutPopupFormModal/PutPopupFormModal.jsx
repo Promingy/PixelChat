@@ -15,7 +15,6 @@ export default function PutPopupFormModal({ inputType, target, socket }) {
     const { closeModal } = useModal()
     const dispatch = useDispatch()
 
-    console.log("~~~~~~~~~~~~~~", inputType, target)
     useEffect(() => {
         document.getElementById('mainInput').focus()
     }, [])

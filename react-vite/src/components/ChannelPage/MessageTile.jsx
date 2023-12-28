@@ -31,10 +31,12 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
     function handleEmojiBox(e) {
         let emojiHeight = e.clientY - 30
+        const messageContainer = document.getElementById('all-messages-container')
         if (window.innerHeight - emojiHeight < 500) {
             emojiHeight = window.innerHeight - 500
         }
         setEmojiBox(true)
+        messageContainer.classList.toggle('no-scroll')
         setEmojiBoxHeight(emojiHeight)
         let counter = 0
         const handleEmojiClick = (e) => {
@@ -43,6 +45,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                 if (!document.getElementById('emojiBox').contains(e.target) && counter > 1) {
                     window.removeEventListener("click", handleEmojiClick)
                     setEmojiBox(false)
+                    messageContainer.classList.toggle('no-scroll')
                     counter = 0
                 }
             } catch {
@@ -79,13 +82,14 @@ export default function MessageTile({ message, user, channelId, socket }) {
         let node = e.target
 
         for (let i = 0; i <= 6; i++) {
-            if (node === profile[0] ||
-                e.target.src === user?.image_url ||
-                +e.target.id === +message.id) return
+                if (node === profile[0] ||
+                    e.target.src === user?.image_url && +e.target.id === +message.id||
+                    +e.target.id === +message.id) return
 
-            else if (node === xBtn[0]) break
+                else if (node === xBtn[0]) break
 
-            else node = node.parentNode
+                else node = node.parentNode
+
         }
         setProfileModal2(true)
         setProfileModal(false)
@@ -156,6 +160,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                         <img
                             className='message-profile-pic'
                             src={user?.image_url}
+                            id={user}
                             onClick={() => {
                                 setProfileModal(true)
 

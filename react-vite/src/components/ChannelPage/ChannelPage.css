@@ -75,6 +75,10 @@
   height: 100%;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .emoji-box {
   position: absolute;
   right: 120px;
