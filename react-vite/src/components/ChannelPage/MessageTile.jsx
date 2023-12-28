@@ -161,7 +161,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                         <img
                             className='message-profile-pic'
                             src={user?.image_url}
-                            id={user}
+                            id={message.id}
                             onClick={() => {
                                 setProfileModal(true)
 
