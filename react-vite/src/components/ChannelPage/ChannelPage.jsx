@@ -70,6 +70,7 @@ export default function ChannelPage({ socket }) {
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
+                                theme={theme}
                             />
                         </div>
                     )
@@ -84,6 +85,7 @@ export default function ChannelPage({ socket }) {
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
+                                theme={theme}
                             />
                         </div>
                     )
