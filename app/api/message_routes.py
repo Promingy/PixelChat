@@ -11,7 +11,18 @@ def create_reactions(messageId):
     form = ReactionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     message = Message.query.get(messageId)
-    if message and form.validate_on_submit():
+    reactions = Reaction.query.filter(Reaction.user_id == int(session['_user_id']),
+                                      Reaction.message_id == messageId ).all()
+
+    reactions = {reaction.emoji: reaction for reaction in reactions}
+    reactionExists = None
+
+    try:
+        reactionExists = reactions[form.data['emoji']]
+    except:
+        ""
+
+    if message and form.validate_on_submit() and not reactionExists:
         data = form.data
         reaction = Reaction(
             user_id = int(session['_user_id']),
