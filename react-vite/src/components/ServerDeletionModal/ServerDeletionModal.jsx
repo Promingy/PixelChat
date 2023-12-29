@@ -24,7 +24,7 @@ export default function ServerDeletionModal({ server, socket }) {
         const handleServerDelete = async (serverId) => {
             const res = await dispatch(removeServer(serverId))
             if (res.ok) {
-                const data = await dispatch(deleteImage(server.image_url))
+                await dispatch(deleteImage(server.image_url))
 
                 closeModal()
                 navigate('/landing')

@@ -21,10 +21,7 @@ export default function OuterNavbar() {
   const [profileModal2, setProfileModal2] = useState(false)
   const ulClassName1 = showMenu1 ? "" : " hidden";
   const ulClassName2 = showMenu2 ? "" : " hidden";
-  const [theme, setTheme] = useState("light");
   const ulRef = useRef();
-
-
 
   document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 

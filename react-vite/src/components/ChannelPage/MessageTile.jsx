@@ -14,10 +14,8 @@ export default function MessageTile({ message, user, channelId, socket, theme })
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
-    const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
     const [profileModal, setProfileModal] = useState(false)
     const [profileModal2, setProfileModal2] = useState(false)
-    const users = useSelector(state => state.server.users)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
 
@@ -65,16 +63,6 @@ export default function MessageTile({ message, user, channelId, socket, theme })
     for (let reaction of Object.values(message.reactions)) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
-
-    // function handleEmojiBox (e) {
-    //     e.preventDefault()
-    //     console.log('hi')
-    //     setTimeout(() => {
-    //         setEmojiBox(false)
-    //         window.removeEventListener('mousedown', handleEmojiBox)
-    //         messagesContainer.removeEventListener('scroll', handleEmojiBox)
-    //     }, 1 * 200)
-    // }
 
     function handleProfileModal(e) {
         e.preventDefault()

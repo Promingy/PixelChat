@@ -130,7 +130,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                     <div>
                                         <div className='server-popup-about-div'>
                                             <div className='cant-delete-channel'>
-                                                <p><FaRegTrashAlt />  Can't delete last the channel in a server</p>
+                                                <p><FaRegTrashAlt />  Can&apos;t delete last the channel in a server</p>
                                             </div>
                                             <div className='server-popup-about-div-right'>
                                             </div>
