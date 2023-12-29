@@ -19,7 +19,7 @@ export default function HomePage() {
   const demoUserLogin = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'demo@aa.io',
+        email: 'mario@aa.io',
         password: 'password',
       })
     );
@@ -36,7 +36,7 @@ export default function HomePage() {
   const demoUser2Login = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'zelda@aa.io',
+        email: 'pikachu@aa.io',
         password: 'password',
       })
     );

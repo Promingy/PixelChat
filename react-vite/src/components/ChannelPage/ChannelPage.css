@@ -31,6 +31,10 @@
   padding: 10px;
 }
 
+.channel-page-button-container-dark {
+  border-bottom: 1px solid #747474;
+}
+
 .channel-page-button-container>button {
   background: none;
   border-radius: 5px;
@@ -73,6 +77,10 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
 
 .emoji-box {
@@ -123,7 +131,6 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  /* width: 69vw; */
 }
 
 .message-owner-date-container {
@@ -132,6 +139,7 @@
   gap: 5px;
   font-size: 15px;
   font-weight: 400;
+  width: 90%;
 }
 
 .date-name-container {
@@ -191,10 +199,19 @@
   border: 1px solid transparent;
 }
 
+.message-reaction-dark {
+  background-color: #222529;
+}
+
 .message-reaction:hover {
   background-color: white;
   border: 1px solid grey;
   cursor: pointer;
+}
+
+.message-reaction-dark:hover {
+  background-color: darkgray;
+  border: 1px solid grey;
 }
 
 .react-bar {
@@ -211,6 +228,8 @@
   box-shadow: 2px 2px 10px lightgrey;
   cursor: pointer;
   z-index: 0;
+  position: sticky;
+  right: 30px;
 }
 
 .profile-modal-messages {
@@ -226,6 +245,16 @@
 
 .react-bar>*:hover {
   background-color: lightgray;
+}
+
+.react-bar-dark {
+  border: 1px solid #35373A;
+  box-shadow: 2px 2px 10px #35373A;
+  background-color: #1B1D21;
+}
+
+.react-bar-dark > *:hover {
+  background-color: #222529;
 }
 
 .remove-message {
@@ -274,6 +303,10 @@
   padding: 0;
 }
 
+.date-wrapper-dark {
+  color: #D0D1D2;
+}
+
 .message-date-separator {
   border: 1px solid #ddd;
   text-align: center;
@@ -289,6 +322,11 @@
   background-color: white;
 }
 
+.message-date-separator-dark {
+  background-color: #1B1D21;
+  border: 1px solid #35373A;
+}
+
 .date-divider {
   position: relative;
   border-bottom: 1px solid #ddd;
@@ -299,11 +337,15 @@
   margin-top: -15px;
 }
 
+.date-divider-dark {
+  border: 1px solid #35373A;
+}
+
 .message-body-reactions-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: auto;
+  width: 100%;
 }
 
 .date-separator-bar {
@@ -324,7 +366,7 @@
 }
 
 .theme-dark {
-  --color-background: #1d1d1d;
-  --color-font: #e8e8e8;
+  --color-background: #1B1D21;
+  --color-font: #D0D1D2;
   --color-hover: #424242;
 }

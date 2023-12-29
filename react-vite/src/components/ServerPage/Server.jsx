@@ -32,13 +32,6 @@ export default function ServerPage() {
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
-    const payload = {
-        type: "newUser",
-        method: "POST",
-        room: +serverId,
-        user: sessionUser,
-        serverId: serverId
-    }
 
     useEffect(() => {
         if (!sessionUser) { navigate("/") }
@@ -56,7 +49,7 @@ export default function ServerPage() {
         if (storedTheme) {
             dispatch(setTheme(storedTheme))
         }
-    }, []);
+    }, [dispatch]); //possibly remove the dependency if it causes breaking issues
 
 
     useEffect(() => {
@@ -66,8 +59,15 @@ export default function ServerPage() {
             socket = io('https://slack-deploy.onrender.com')
         }
 
+        const payload = {
+            type: "newUser",
+            method: "POST",
+            room: +serverId,
+            user: sessionUser,
+            serverId: serverId
+        }
+
         socket.on("server", obj => {
-            console.log(obj)
 
             switch (obj.type) {
                 case "message": {
@@ -167,7 +167,7 @@ export default function ServerPage() {
             socket.emit("leave", { room: server.id })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser])
+    }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
 
     if (!sessionUser) return null
 

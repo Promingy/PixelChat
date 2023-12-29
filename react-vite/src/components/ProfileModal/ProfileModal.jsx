@@ -7,7 +7,6 @@ export default function Profile({ animation, userId }) {
   const sessionUser = useSelector((state) => state.session.user);
   const users = useSelector(state => state.server.users)
   const user = users[userId]
-  console.log(user)
 
   if (!sessionUser) return null
 

@@ -21,17 +21,9 @@ export default function OuterNavbar() {
   const [profileModal2, setProfileModal2] = useState(false)
   const ulClassName1 = showMenu1 ? "" : " hidden";
   const ulClassName2 = showMenu2 ? "" : " hidden";
-  const [theme, setTheme] = useState("light");
   const ulRef = useRef();
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-  }, []);
-
-  document.documentElement.className = `theme-${theme}`;
+  document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
   const toggleMenu1 = (e) => {
     e.stopPropagation();
@@ -84,7 +76,6 @@ export default function OuterNavbar() {
   };
 
   const navigateToServer = async (serverId) => {
-    console.log(serverId);
     const preloadServer = async (servId) => {
       const serv = await dispatch(loadServer(servId));
       return serv;

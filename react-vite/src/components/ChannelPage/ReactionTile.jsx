@@ -49,7 +49,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
     }
 
     return (
-        <div className='message-reaction' onClick={addReactToDB}>
+        <div className={`message-reaction ${localStorage.getItem('theme') === 'dark' ? 'message-reaction-dark' : ''}`} onClick={addReactToDB}>
             <p>{reaction}</p>
             <p className='reaction-count'>{count}</p>
         </div>

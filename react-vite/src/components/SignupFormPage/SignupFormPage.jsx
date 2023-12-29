@@ -124,7 +124,6 @@ function SignupFormPage() {
     };
     if (returnImage) userData.image_url = returnImage.url
     const serverResponse = await dispatch(thunkSignup(userData));
-    console.log(serverResponse)
     if (serverResponse) {
       setErrors(serverResponse);
     } else {

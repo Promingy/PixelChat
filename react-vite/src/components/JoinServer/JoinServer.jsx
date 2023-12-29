@@ -3,7 +3,6 @@ import { thunkAddUserServer } from "../../redux/session"
 import { useEffect, useState } from "react"
 import { loadAllServers } from "../../redux/all_servers"
 import { Link, useNavigate } from "react-router-dom"
-import { Navigate } from "react-router-dom";
 import "./JoinServer.css"
 
 export default function JoinServer() {

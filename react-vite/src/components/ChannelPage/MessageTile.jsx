@@ -8,16 +8,14 @@ import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 
 
-export default function MessageTile({ message, user, channelId, socket }) {
+export default function MessageTile({ message, user, channelId, socket, theme }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
-    const messagesContainer = document.getElementsByClassName('all-messages-container')[[0]]
     const [profileModal, setProfileModal] = useState(false)
     const [profileModal2, setProfileModal2] = useState(false)
-    const users = useSelector(state => state.server.users)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
 
@@ -31,10 +29,12 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
     function handleEmojiBox(e) {
         let emojiHeight = e.clientY - 30
+        const messageContainer = document.getElementById('all-messages-container')
         if (window.innerHeight - emojiHeight < 500) {
             emojiHeight = window.innerHeight - 500
         }
         setEmojiBox(true)
+        messageContainer.classList.toggle('no-scroll')
         setEmojiBoxHeight(emojiHeight)
         let counter = 0
         const handleEmojiClick = (e) => {
@@ -43,11 +43,13 @@ export default function MessageTile({ message, user, channelId, socket }) {
                 if (!document.getElementById('emojiBox').contains(e.target) && counter > 1) {
                     window.removeEventListener("click", handleEmojiClick)
                     setEmojiBox(false)
+                    messageContainer.classList.toggle('no-scroll')
                     counter = 0
                 }
             } catch {
                 console.log(e)
                 window.removeEventListener("click", handleEmojiClick)
+                messageContainer.classList.toggle('no-scroll')
                 counter = 0
             }
         }
@@ -62,16 +64,6 @@ export default function MessageTile({ message, user, channelId, socket }) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
 
-    // function handleEmojiBox (e) {
-    //     e.preventDefault()
-    //     console.log('hi')
-    //     setTimeout(() => {
-    //         setEmojiBox(false)
-    //         window.removeEventListener('mousedown', handleEmojiBox)
-    //         messagesContainer.removeEventListener('scroll', handleEmojiBox)
-    //     }, 1 * 200)
-    // }
-
     function handleProfileModal(e) {
         e.preventDefault()
         const profile = document.getElementsByClassName('profile-modal')
@@ -79,13 +71,14 @@ export default function MessageTile({ message, user, channelId, socket }) {
         let node = e.target
 
         for (let i = 0; i <= 6; i++) {
-            if (node === profile[0] ||
-                e.target.src === user?.image_url ||
-                +e.target.id === +message.id) return
+                if (node === profile[0] ||
+                    e.target.src === user?.image_url && +e.target.id === +message.id||
+                    +e.target.id === +message.id) return
 
-            else if (node === xBtn[0]) break
+                else if (node === xBtn[0]) break
 
-            else node = node.parentNode
+                else node = node.parentNode
+
         }
         setProfileModal2(true)
         setProfileModal(false)
@@ -108,6 +101,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
+                            theme={ theme ? 'dark' : 'light'}
 
                         //if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
@@ -156,6 +150,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                         <img
                             className='message-profile-pic'
                             src={user?.image_url}
+                            id={message.id}
                             onClick={() => {
                                 setProfileModal(true)
 
@@ -188,7 +183,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                 </div >
 
-                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'}`}>
+                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'} ${localStorage.getItem('theme') === 'dark' ? 'react-bar-dark' : ''}`}>
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
                         onClick={(e) => handleEmojiBox(e)} />
