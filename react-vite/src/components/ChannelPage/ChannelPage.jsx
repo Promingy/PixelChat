@@ -19,10 +19,14 @@ export default function ChannelPage({ socket }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
+    const sessionUserTheme = useSelector(state => state.session.user.theme)
+    let theme = localStorage.getItem('theme') === 'dark';
 
     useEffect(() => {
         if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
-    })
+        theme = localStorage.getItem('theme') === 'dark'
+    }, [sessionUserTheme])
+
 
 
     function generate_message_layout() {
@@ -107,7 +111,7 @@ export default function ChannelPage({ socket }) {
         <>
 
             <div className="channel-page-wrapper">
-                <div className="channel-page-button-container">
+                <div className={`channel-page-button-container ${ theme ? 'channel-page-button-container-dark' : ''}`}>
                     <OpenModalButton
                         buttonText={<div className="channel-page-first-button">
                             <i className="fa-solid fa-hashtag"></i>

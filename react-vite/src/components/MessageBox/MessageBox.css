@@ -1,9 +1,6 @@
 .send-message-form {
     display: flex;
     flex-direction: column;
-    border: 2px solid grey;
-    border-radius: 10px;
-    margin: 0 10px 10px;
     flex-wrap: wrap;
     border: 1px solid #bbb;
     border-radius: 8px;
@@ -12,6 +9,10 @@
     align-items: flex-end;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
     box-shadow: 0px 0px 2px #ddd;
+}
+
+.send-message-form-dark {
+    border: 1px solid #565856;
 }
 
 .message-wrapper-top {
@@ -58,6 +59,10 @@
     color: black;
 }
 
+.clear-message-limit-dark {
+    color: #D0D1D2;
+}
+
 .over-message-limit {
     color: red;
 }
@@ -79,7 +84,15 @@
     margin: 5px;
 }
 
+.send-message-dark {
+    color: #D0D1D2;
+}
+
+
 .send-message:disabled {
     background-color: lightgray;
     cursor: default;
+}
+.send-message-dark:disabled {
+    background-color: transparent;
 }

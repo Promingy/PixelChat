@@ -14,6 +14,12 @@ export default function InnerNavbar({ socket }) {
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
     const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
+    const sessionUserTheme = useSelector(state => state.session.user.theme)
+    let theme = localStorage.getItem('theme') === 'dark';
+
+    useEffect(() => {
+        theme = localStorage.getItem('theme') === 'dark'
+    }, [sessionUserTheme])
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -58,8 +64,8 @@ export default function InnerNavbar({ socket }) {
     if (!server.channels) return null
     return (
         <>
-            <div className="inner-navbar-wrapper">
-                <div className="inner-navbar-header">
+            <div className={`inner-navbar-wrapper ${ theme ? 'inner-navbar-wrapper-dark' : '' }`}>
+                <div className={`inner-navbar-header ${ theme ? 'inner-navbar-header-dark' : '' }`}>
                     <OpenModalButton
                         modalComponent={<ServerPopupModal socket={socket} />}
                         buttonText={
@@ -71,8 +77,8 @@ export default function InnerNavbar({ socket }) {
                 </div>
 
                 <ul className="inner-navbar-content">
-                    <div className="create-channel-container">
-                        <button onClick={toggleMenu}> <i className={showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`}></i>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
+                    <div className={`create-channel-container ${theme ? 'channels-dark' : ''}`}>
+                        <button onClick={toggleMenu} className='test'> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down channels-dark' : 'fa-solid fa-caret-right channels-dark' : ''}`}/>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
                     </div>
                     <div className={ulClassName} ref={ulRef}>
                         <OpenModalButton
@@ -82,7 +88,7 @@ export default function InnerNavbar({ socket }) {
                         />
                     </div>
                     {Object.values(server.channels).map((channel) => (
-                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
+                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""} ${ theme ? 'not-selected-channel-dark' : ''}`}>
                             <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
