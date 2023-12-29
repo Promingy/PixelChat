@@ -194,7 +194,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
 
                 </div >
 
-                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'}`}>
+                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'} ${localStorage.getItem('theme') === 'dark' ? 'react-bar-dark' : ''}`}>
 
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
                         onClick={(e) => handleEmojiBox(e)} />

@@ -20,11 +20,11 @@ export default function PreferenceFormModal() {
     }
   }, []);
 
-  document.documentElement.className = `theme-${sessionUser.theme}`;
 
   const handleThemeChange = (selectedTheme) => {
     dispatch(setTheme(selectedTheme));
     localStorage.setItem("theme", selectedTheme);
+    document.documentElement.className = `theme-${selectedTheme}`;
   };
 
   return (

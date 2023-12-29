@@ -14,7 +14,6 @@ export default function InnerNavbar({ socket }) {
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
     const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
-    const [theme, setTheme] = useState("light");
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -45,14 +44,6 @@ export default function InnerNavbar({ socket }) {
 
     const closeMenu = () => setShowMenu(false);
 
-
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme) {
-            setTheme(storedTheme);
-        }
-    }, []);
-
     const handleChannelUnbold = (channelId) => {
         dispatch(unboldChannel(channelId))
         const storedBoldValues = localStorage.getItem("boldValues")
@@ -62,7 +53,7 @@ export default function InnerNavbar({ socket }) {
         localStorage.setItem("boldValues", storedBoldValuesJSON)
     }
 
-    document.documentElement.className = `theme-${theme}`;
+    document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
     if (!server.channels) return null
     return (

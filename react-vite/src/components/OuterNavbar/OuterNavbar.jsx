@@ -24,14 +24,9 @@ export default function OuterNavbar() {
   const [theme, setTheme] = useState("light");
   const ulRef = useRef();
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-  }, []);
 
-  document.documentElement.className = `theme-${theme}`;
+
+  document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
   const toggleMenu1 = (e) => {
     e.stopPropagation();

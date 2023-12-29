@@ -19,17 +19,11 @@ export default function ChannelPage({ socket }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
-    const [theme, setTheme] = useState("light");
 
     useEffect(() => {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme) {
-            setTheme(storedTheme);
-        }
-    }, []);
+        if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
+    })
 
-
-    document.documentElement.className = `theme-${theme}`;
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -60,9 +54,9 @@ export default function ChannelPage({ socket }) {
 
                     result.push(
                         <div key={message.id}>
-                            <div className="date-wrapper">
-                                <p className='message-date-separator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                <div className="date-divider" />
+                            <div className={`date-wrapper ${localStorage.getItem('theme') === 'dark' ? 'date-wrapper-dark' : ''}`}>
+                                <p className={`message-date-separator ${localStorage.getItem('theme') === 'dark' ? 'message-date-separator-dark' : ''}`}>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <div className={`date-divider ${localStorage.getItem('theme') === 'dark' ? 'date-divider-dark' : ''}`} />
                             </div>
                             {/* <div className="date-separator-bar"/> */}
                             <MessageTile
