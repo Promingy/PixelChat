@@ -40,7 +40,7 @@ def upload_image():
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
-        print(upload)
+        # print(upload)
 
         if "url" not in upload:
         # if the dictionary doesn't have a url key
@@ -52,13 +52,13 @@ def upload_image():
         return {"url": url}
 
     if form.errors:
-        print(form.errors)
+        # print(form.errors)
         return {"errors": form.errors}, 401
 
 @server.route("images/:image_url", methods=["DELETE"])
 def delete_image(image_url):
     removed = remove_file_from_s3(image_url)
-    print(removed)
+    # print(removed)
     return {"removed": removed}
 
 

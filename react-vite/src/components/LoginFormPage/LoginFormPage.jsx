@@ -49,7 +49,7 @@ function LoginFormPage() {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      console.log("error");
+      // console.log("error");
       return setErrors({
         email: "Invalid Email Address",
       });

@@ -21,7 +21,7 @@ export default function JoinServer() {
         dispatch(loadAllServers())
     }, [dispatch])
 
-    console.log(sessionUser)
+    // console.log(sessionUser)
 
     useEffect(() => {
         const unjoinedServers = []
