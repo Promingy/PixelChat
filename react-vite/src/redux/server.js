@@ -297,9 +297,9 @@ export const removeReaction = (channelId, messageId, reactionId) => async (dispa
     const res = await fetch(`/api/reactions/${reactionId}`, {
         method: "DELETE"
     })
-    // if (res.ok) {
-    //     dispatch(deleteReaction(channelId, messageId, reactionId))
-    // }
+    if (res.ok) {
+        dispatch(deleteReaction(channelId, messageId, reactionId))
+    }
     return res
 }
 

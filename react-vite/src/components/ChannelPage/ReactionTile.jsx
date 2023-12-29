@@ -23,7 +23,6 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         // check if the user has already used this reaction, if so, remove it!
         if (userReactions[newReaction.emoji]){
             const reaction = userReactions[newReaction.emoji]
-            dispatch(deleteReaction(channelId, messageId, reaction.id))
             const data = await dispatch(removeReaction(channelId, messageId, reaction.id))
             if (data.ok) {
                 socket.emit("server", {
