@@ -21,24 +21,6 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
             emoji: reaction
         }
         // check if the user has already used this reaction, if so, remove it!
-        // for (let reaction of Object.values(allReactions)) {
-        //     if (reaction.user_id == sessionUser.id && reaction.emoji == newReaction.emoji) {
-        //         const data = await dispatch(removeReaction(channelId, messageId, reaction.id))
-        //         if (data.ok) {
-        //             socket.emit("server", {
-        //                 userId: sessionUser.id,
-        //                 type: "reaction",
-        //                 method: "DELETE",
-        //                 room: server.id,
-        //                 channelId,
-        //                 messageId,
-        //                 reactionId: reaction.id
-        //             })
-        //             return
-        //         }
-        //     }
-        // }
-        /// possibly call action before dispatching the thunk and remove the action from the thunk if this doesn't work
         if (userReactions[newReaction.emoji]){
             const reaction = userReactions[newReaction.emoji]
             dispatch(deleteReaction(channelId, messageId, reaction.id))
