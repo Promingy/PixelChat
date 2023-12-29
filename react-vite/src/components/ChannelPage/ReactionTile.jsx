@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeReaction, removeReaction,deleteReaction } from '../../redux/server'
+import { initializeReaction, removeReaction } from '../../redux/server'
 import './ChannelPage.css'
 
 export default function ReactionTile({ allReactions, reaction, count, messageId, channelId, socket }) {
