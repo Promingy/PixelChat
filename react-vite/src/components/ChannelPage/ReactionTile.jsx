@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeReaction, removeReaction } from '../../redux/server'
+import { initializeReaction, removeReaction,deleteReaction } from '../../redux/server'
 import './ChannelPage.css'
 
 export default function ReactionTile({ allReactions, reaction, count, messageId, channelId, socket }) {
@@ -41,8 +41,8 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
         /// possibly call action before dispatching the thunk and remove the action from the thunk if this doesn't work
         if (userReactions[newReaction.emoji]){
             const reaction = userReactions[newReaction.emoji]
+            dispatch(deleteReaction(channelId, messageId, reaction.id))
             const data = await dispatch(removeReaction(channelId, messageId, reaction.id))
-            console.log('data', data)
             if (data.ok) {
                 socket.emit("server", {
                     userId: sessionUser.id,
