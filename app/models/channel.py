@@ -31,7 +31,7 @@ class Channel(db.Model, UserMixin):
 
 
 
-    def to_dict(self, offset=0, messages=False):
+    def to_dict(self, offset=0, messages=False, server=False):
         dictionary = {
             'id': self.id,
             'server_id':self.server_id,
@@ -46,4 +46,6 @@ class Channel(db.Model, UserMixin):
             # runs sorting lambda that sorts by Year, Month, Day, Hour, Minute, Second and adds list of messages to the dictionary
             dictionary['messages'] = sorted([message.to_dict() for message in self.messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[offset : offset + 15]
 
+        if server:
+            dictionary['server'] = self.server
         return dictionary
