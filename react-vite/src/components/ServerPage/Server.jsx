@@ -77,15 +77,15 @@ export default function ServerPage() {
                             dispatch(createMessage(obj.message))
                             if (!checkChannelIfSelected(obj.message.channel_id)) {
                                 dispatch(boldChannel(obj.message.channel_id))
-                                const storedBoldValues = localStorage.getItem("boldValues")
-                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
-                                if (storedBoldValuesObj[obj.message.channel_id]) {
-                                    storedBoldValuesObj[obj.message.channel_id]++
-                                } else {
-                                    storedBoldValuesObj[obj.message.channel_id] = 1
-                                }
-                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-                                localStorage.setItem("boldValues", storedBoldValuesJSON)
+                                // const storedBoldValues = localStorage.getItem("boldValues")
+                                // const storedBoldValuesObj = JSON.parse(storedBoldValues)
+                                // if (storedBoldValuesObj[obj.message.channel_id]) {
+                                //     storedBoldValuesObj[obj.message.channel_id]++
+                                // } else {
+                                //     storedBoldValuesObj[obj.message.channel_id] = 1
+                                // }
+                                // const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                // localStorage.setItem("boldValues", storedBoldValuesJSON)
                             }
                             break
                         }
