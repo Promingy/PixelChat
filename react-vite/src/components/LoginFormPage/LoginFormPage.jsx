@@ -21,7 +21,7 @@ function LoginFormPage() {
 
     const serverResponse = await dispatch(
       thunkLogin({
-        email: "demo@aa.io",
+        email: "mario@aa.io",
         password: "password",
       })
     );
@@ -35,7 +35,7 @@ function LoginFormPage() {
     e.preventDefault();
     const serverResponse = await dispatch(
       thunkLogin({
-        email: "zelda@aa.io",
+        email: "pikachu@aa.io",
         password: "password",
       })
     );

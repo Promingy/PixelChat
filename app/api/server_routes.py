@@ -138,7 +138,7 @@ def add_user_to_server(serverId):
         user.servers.append(server)
         db.session.commit()
         return server.to_dict()
-    return {'errors': form.errors}
+    return {'errors': form.errors}, 401
 
 @server.route('/<int:serverId>/users/<int:userId>', methods=["DELETE"])
 @login_required
@@ -151,5 +151,5 @@ def remove_user_from_server(serverId, userId):
         db.session.commit()
         return server.to_dict()
     elif not user:
-        return {"errors": {"user": "User could not be found"}}
-    return {"errors": {"server": "Server could not be found"}}
+        return {"errors": {"user": "User could not be found"}}, 404
+    return {"errors": {"server": "Server could not be found"}}, 404

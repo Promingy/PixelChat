@@ -127,7 +127,7 @@ export default function PutPopupFormModal({ inputType, target, socket }) {
                             maxLength={50}
                             required
                         />
-                        <div className="character-count">{content.length}/50</div>
+                        <div className="character-count">{content?.length}/50</div>
                     </div>
 
                 }
