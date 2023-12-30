@@ -87,7 +87,6 @@ def api_help():
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-@app.route('/main/servers/<int:serverId>/channels/<path:path>')
 def react_root(path):
     """
     This route will direct to the public directory in our
