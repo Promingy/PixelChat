@@ -43,7 +43,6 @@ export default function ChannelPage({ socket, serverId }) {
                return  navigate('/redirect')
             }
         })
-        return () => 'cool'
     }, [dispatch])
 
     function generate_message_layout() {
