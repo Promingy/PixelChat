@@ -87,6 +87,7 @@ def api_help():
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
+@app.route('/main/servers/<int:serverId>/channels/<path:path>')
 def react_root(path):
     """
     This route will direct to the public directory in our
@@ -95,6 +96,7 @@ def react_root(path):
     """
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'server_icon.svg') # if something breaks, change 'server_icon.svg' back to 'favicon.ico'
+
     if path == 'server_icon.svg':
         return app.send_from_directory('public', 'server_icon.svg') # if something breaks, change 'server_icon.svg' back to 'favicon.ico'
     return app.send_static_file('index.html')
