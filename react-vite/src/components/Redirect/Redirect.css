@@ -1,0 +1,7 @@
+.redirect {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    margin-top: 35vh;
+}

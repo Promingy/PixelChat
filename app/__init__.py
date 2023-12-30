@@ -29,7 +29,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-socketio.init_app(app, async_mode='gevent') 
+socketio.init_app(app, async_mode='gevent')
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 
@@ -94,7 +94,7 @@ def react_root(path):
     or index.html requests
     """
     if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
+        return app.send_from_directory('public', 'server_icon.svg') # if something breaks, change 'server_icon.svg' back to 'favicon.ico'
     return app.send_static_file('index.html')
 
 

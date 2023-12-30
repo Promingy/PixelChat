@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './ChannelPage.css'
@@ -8,11 +8,13 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages } from "../../redux/server";
+import { loadServer } from "../../redux/server";
 
 
 
-export default function ChannelPage({ socket }) {
+export default function ChannelPage({ socket, serverId }) {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { channelId } = useParams()
     const server = useSelector(state => state.server)
     const channel = server?.channels?.[+channelId]
@@ -27,7 +29,21 @@ export default function ChannelPage({ socket }) {
         theme = localStorage.getItem('theme') === 'dark'
     }, [sessionUserTheme])
 
+    useEffect(() => {
+        dispatch(loadServer(serverId))
+        .then(server => {
+            const channels = {}
+            if (server.channels) {
+                for (let channel of Object.values(server.channels)){
+                    channels[channel.id] = channel
+                }
+            }
 
+            if (!server || !channels[channelId]){
+               return  navigate('/redirect')
+            }
+        })
+    }, [dispatch])
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel

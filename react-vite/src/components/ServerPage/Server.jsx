@@ -142,7 +142,7 @@ export default function ServerPage() {
                         case "DELETE": {
                             dispatch(deleteServer())
                             dispatch(removeUserServer(obj.serverId))
-                            navigate('/landing')
+                            navigate('/redirect')
                             break
                         }
                     }
@@ -175,7 +175,7 @@ export default function ServerPage() {
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
-            <ChannelPage socket={socket} />
+            <ChannelPage socket={socket} serverId={serverId} />
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}
