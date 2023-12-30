@@ -52,11 +52,11 @@ export default function InnerNavbar({ socket }) {
 
     const handleChannelUnbold = (channelId) => {
         dispatch(unboldChannel(channelId))
-        const storedBoldValues = localStorage.getItem("boldValues")
-        const storedBoldValuesObj = JSON.parse(storedBoldValues)
-        storedBoldValuesObj[channelId] = 0
-        const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-        localStorage.setItem("boldValues", storedBoldValuesJSON)
+        // const storedBoldValues = localStorage.getItem("boldValues")
+        // const storedBoldValuesObj = JSON.parse(storedBoldValues)
+        // storedBoldValuesObj[channelId] = 0
+        // const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+        // localStorage.setItem("boldValues", storedBoldValuesJSON)
     }
 
     document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
