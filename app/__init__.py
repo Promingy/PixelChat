@@ -95,6 +95,8 @@ def react_root(path):
     """
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'server_icon.svg') # if something breaks, change 'server_icon.svg' back to 'favicon.ico'
+    if path == 'server_icon.svg':
+        return app.send_from_directory('public', 'server_icon.svg') # if something breaks, change 'server_icon.svg' back to 'favicon.ico'
     return app.send_static_file('index.html')
 
 
