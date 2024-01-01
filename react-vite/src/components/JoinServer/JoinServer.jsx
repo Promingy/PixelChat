@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { thunkAddUserServer } from "../../redux/session"
 import { useEffect, useState } from "react"
-import { loadAllServers } from "../../redux/all_servers"
+import { loadAllServers, removeServers } from "../../redux/all_servers"
 import { Link, useNavigate } from "react-router-dom"
 import "./JoinServer.css"
 
@@ -36,8 +36,7 @@ export default function JoinServer() {
     }, [allServers, sessionUser])
 
     const addServer = async (server) => {
-        const data = await dispatch(thunkAddUserServer(server, sessionUser))
-        if (!data.errors) {
+        await dispatch(thunkAddUserServer(server, sessionUser)).then(res => {
             const unjoinedServers = []
             for (let id of Object.keys(allServers.servers)) {
                 if (!sessionUser.servers[id]) {
@@ -45,7 +44,11 @@ export default function JoinServer() {
                 }
             }
             setAvailableServers(unjoinedServers)
-        }
+
+        }).catch(() => {
+            dispatch(removeServers(server.id))
+            alert('This server no longer exists')
+        })
     }
 
     if (!sessionUser) return null
