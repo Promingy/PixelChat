@@ -27,7 +27,7 @@
   min-height: 49px;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid #E2E2E2;
+  border-bottom: 1px solid #e2e2e2;
   padding: 10px;
 }
 
@@ -35,18 +35,18 @@
   border-bottom: 1px solid #747474;
 }
 
-.channel-page-button-container>button {
+.channel-page-button-container > button {
   background: none;
   border-radius: 5px;
 }
 
-.channel-page-button-container>button:first-child {
+.channel-page-button-container > button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container>button:hover {
+.channel-page-button-container > button:hover {
   background-color: #f8f8f8;
 }
 
@@ -61,13 +61,13 @@
   font-size: 12px;
 }
 
-.channel-page-button-container>button:last-child {
+.channel-page-button-container > button:last-child {
   border-radius: 5px;
   border: 1px solid #eaeaea;
   color: #606060;
 }
 
-.channel-page-button-container>button:last-child:hover {
+.channel-page-button-container > button:last-child:hover {
   color: black;
 }
 
@@ -237,20 +237,20 @@
   z-index: 1;
 }
 
-.react-bar>* {
+.react-bar > * {
   border-radius: 5px;
   width: 25px;
   height: 25px;
 }
 
-.react-bar>*:hover {
+.react-bar > *:hover {
   background-color: lightgray;
 }
 
 .react-bar-dark {
-  border: 1px solid #35373A;
-  box-shadow: 2px 2px 10px #35373A;
-  background-color: #1B1D21;
+  border: 1px solid #35373a;
+  box-shadow: 2px 2px 10px #35373a;
+  background-color: #1b1d21;
 }
 
 .react-bar-dark > *:hover {
@@ -280,7 +280,7 @@
   background-color: #ffffff;
   box-shadow: 2px 2px 5px lightgrey;
   text-align: center;
-  color: #E01E5A;
+  color: #e01e5a;
   width: 140px;
   font-size: 14px;
 }
@@ -304,7 +304,7 @@
 }
 
 .date-wrapper-dark {
-  color: #D0D1D2;
+  color: #d0d1d2;
 }
 
 .message-date-separator {
@@ -323,8 +323,8 @@
 }
 
 .message-date-separator-dark {
-  background-color: #1B1D21;
-  border: 1px solid #35373A;
+  background-color: #1b1d21;
+  border: 1px solid #35373a;
 }
 
 .date-divider {
@@ -338,7 +338,7 @@
 }
 
 .date-divider-dark {
-  border: 1px solid #35373A;
+  border: 1px solid #35373a;
 }
 
 .message-body-reactions-container {
@@ -362,11 +362,11 @@
 .theme-light {
   --color-background: white;
   --color-font: black;
-  --color-hover: #f8f8f8;
+  --color-hover: #f6f6f6;
 }
 
 .theme-dark {
-  --color-background: #1B1D21;
-  --color-font: #D0D1D2;
+  --color-background: #1b1d21;
+  --color-font: #d0d1d2;
   --color-hover: #424242;
 }
