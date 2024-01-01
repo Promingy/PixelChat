@@ -82,7 +82,7 @@ export default function InnerNavbar({ socket }) {
                     </div>
                     <div className={ulClassName} ref={ulRef}>
                         <OpenModalButton
-                            buttonText="Create new channel"
+                            buttonText="Create a Channel"
                             onItemClick={closeMenu}
                             modalComponent={<ChannelCreationForm socket={socket} />}
                         />

@@ -4,12 +4,14 @@
     overflow: hidden;
     position: relative;
     z-index: 50;
+    color:var(--color-font)
 }
 
 .channel-popup-header {
     border-bottom: 1px solid #E2E2E2;
     padding: 20px;
     padding-bottom: 0px;
+    background-color: var(--color-background);
 }
 
 .channel-popup-header>h1 {
@@ -33,7 +35,7 @@
 }
 
 .channel-popup-member:hover {
-    background-color: #ddd;
+    background-color: var(--color-hover)
 }
 
 .channel-popup-members-scroll {
@@ -50,7 +52,7 @@
 
 .channel-popup-tab-container>.channel-popup-selected-tab {
     border-bottom: 2px solid #5e2262;
-    color: black;
+    color:var(--color-font)
 }
 
 .channel-popup-tab {
@@ -61,11 +63,11 @@
 }
 
 .channel-popup-tab:hover {
-    color: black;
+    color:var(--color-font)
 }
 
 .channel-popup-content-wrapper {
-    background-color: #F8F8F8;
+    background-color: var(--color-background);
     padding: 20px;
     height: 288px;
 }
@@ -75,7 +77,7 @@
     border-radius: 5px;
     font-size: 15px;
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--color-background);
 }
 
 .channel-popup-details-border {
@@ -115,7 +117,7 @@
 }
 
 .topic-modal-wrapper>button:hover {
-    background-color: #F6F6F6
+    background-color: var(--color-hover)
 }
 
 .channel-popup-about-div {
@@ -138,7 +140,7 @@
     text-align: left;
     font-weight: 600;
     margin-top: 0px;
-    color: black;
+     color:var(--color-font)
 }
 
 .channel-popup-about-div-right {
@@ -160,11 +162,12 @@
 }
 
 .channel-popup-huddle-buttons>button {
-    background-color: white;
+    background-color: var(--color-background);
     border-radius: 5px;
     display: flex;
     gap: 3px;
     border: 1px solid gray;
+    color:var(--color-font)
 }
 
 .channel-popup-huddle-buttons>button:hover {
