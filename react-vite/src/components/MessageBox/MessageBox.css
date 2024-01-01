@@ -1,17 +1,38 @@
 .send-message-form {
     display: flex;
     flex-direction: column;
-    border: 2px solid grey;
-    border-radius: 10px;
+    flex-wrap: wrap;
+    border: 1px solid #bbb;
+    border-radius: 8px;
     margin: 0 10px;
     z-index: 0;
     align-items: flex-end;
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    box-shadow: 0px 0px 2px #ddd;
+}
+
+.send-message-form-dark {
+    border: 1px solid #565856;
+}
+
+.message-wrapper-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.message-wrapper-bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .message-box {
     resize: none;
     width: 98%;
-    height: 3vh;
+    height: 20px;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -19,6 +40,35 @@
     outline: transparent;
     background-color: var(--color-background);
     color: var(--color-font);
+    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.char-count-and-submit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.char-count-and-submit>span {
+    font-size: 13px;
+}
+
+.clear-message-limit {
+    color: black;
+}
+
+.clear-message-limit-dark {
+    color: #D0D1D2;
+}
+
+.over-message-limit {
+    color: red;
+}
+
+.nearing-message-limit {
+    color: orange;
 }
 
 .send-message {
@@ -34,16 +84,15 @@
     margin: 5px;
 }
 
+.send-message-dark {
+    color: #D0D1D2;
+}
+
+
 .send-message:disabled {
     background-color: lightgray;
     cursor: default;
 }
-.theme-light {
-    --color-background: white;
-    --color-font: black;
-}
-
-.theme-dark {
-    --color-background: #1D1C1D;
-    --color-font: #E8E8E8;
+.send-message-dark:disabled {
+    background-color: transparent;
 }

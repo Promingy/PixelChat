@@ -7,56 +7,83 @@ import * as sessionActions from "../../redux/session";
 import { NavLink } from "react-router-dom";
 import ProfileModal from "../ProfileModal";
 import PreferenceFormModal from "../PreferenceFormModal/PreferenceFormModal";
+import ChannelCreationForm from "../ChannelCreationForm";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
 export default function OuterNavbar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
-
   const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu1, setShowMenu1] = useState(false);
+  const [showMenu2, setShowMenu2] = useState(false);
+  const [profileModal, setProfileModal] = useState(false)
+  const [profileModal2, setProfileModal2] = useState(false)
+  const ulClassName1 = showMenu1 ? "" : " hidden";
+  const ulClassName2 = showMenu2 ? "" : " hidden";
   const ulRef = useRef();
 
-  const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-    setShowMenu(!showMenu);
+  document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
+
+  const toggleMenu1 = (e) => {
+    e.stopPropagation();
+    setShowMenu1(!showMenu1);
+    setShowMenu2(false);
   };
 
   useEffect(() => {
-    if (!showMenu) return;
+    if (!showMenu1) return;
 
     const closeMenu = (e) => {
       if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
+        setShowMenu1(false);
       }
     };
 
     document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  }, [showMenu1]);
 
-  const closeMenu = () => setShowMenu(false);
+  const closeMenu1 = () => setShowMenu1(false);
+
+  const toggleMenu2 = (e) => {
+    e.stopPropagation();
+    setShowMenu2(!showMenu1);
+    setShowMenu1(false);
+  };
+
+  useEffect(() => {
+    if (!showMenu2) return;
+
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu2(false);
+      }
+    };
+
+    document.addEventListener("click", closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu2]);
+
+  const closeMenu2 = () => setShowMenu2(false);
 
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.thunkLogout());
-    closeMenu();
+    navigate('/')
   };
 
   const navigateToServer = async (serverId) => {
-    console.log(serverId)
     const preloadServer = async (servId) => {
-      const serv = await dispatch(loadServer(servId))
-      return serv
-    }
-    const server = await preloadServer(serverId)
-    const channelId = Object.values(server.channels)[0].id
-    return navigate(`/main/servers/${server.id}/channels/${channelId}`)
-  }
-
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+      const serv = await dispatch(loadServer(servId));
+      return serv;
+    };
+    const server = await preloadServer(serverId);
+    const channelId = Object.values(server.channels)[0].id;
+    return navigate(`/main/servers/${server.id}/channels/${channelId}`);
+  };
 
   return (
     <div className="outer-navbar-wrapper">
@@ -64,38 +91,83 @@ export default function OuterNavbar() {
         {Object.values(sessionUser.servers).map((server) => (
           <div onClick={() => navigateToServer(server.id)} key={server.id}>
             <div className="server-img-wrapper">
-              <img src={server.image_url} title={server.name} />
+              <img src={server.image_url} title={server?.name} />
             </div>
           </div>
         ))}
+        <Link to="/landing" className="home-link-wrapper">
+          <div className="home-icon-wrapper">
+            <i className="fa-solid fa-house"></i>
+          </div>
+          Home
+        </Link>
       </div>
       <div className="outer-navbar-bottom">
-        <Link to="/new-server">
-          <div className="create-new-server">
+        <div className="new-button-wrapper">
+          <button onClick={toggleMenu1}>
             <i className="fa-solid fa-plus"></i>
+          </button>
+          <div className={`server-dropdown ${ulClassName1}`} ref={ulRef}>
+            <NavLink to="/join-server">
+              Join a Server
+            </NavLink>
+            <NavLink
+              to="/new-server"
+            >
+              Create a Server
+            </NavLink>
+            <div className="outer-navbar-popup-divider" />
+            <OpenModalButton
+              buttonText="Create a Channel"
+              onItemClick={closeMenu1}
+              modalComponent={<ChannelCreationForm />}
+            />
           </div>
-        </Link>
+        </div>
         <div className="open-profile-wrapper">
-          {/* <OpenModalButton buttonText={<img src={sessionUser.image_url} />} modalComponent={<ProfileModal />} /> */}
-          <button className="icon-button" onClick={toggleMenu}>
+          <button className="icon-button" onClick={toggleMenu2}>
             <img className="profile-button-img" src={sessionUser.image_url} />
           </button>
         </div>
-        <div className={ulClassName} ref={ulRef}>
+        {profileModal && <ProfileModal animation={false} />}
+        {profileModal2 && <ProfileModal animation={true} />}
+        <div className={`profile-dropdown ${ulClassName2}`} ref={ulRef}>
+
+
+          <button onClick={() => {
+            setProfileModal(true)
+            closeMenu2()
+
+            function handleMouseClick(e) {
+              e.preventDefault()
+              const profile = document.getElementsByClassName('profile-modal')
+              const xBtn = document.getElementsByClassName('close-profile')
+              let node = e.target
+
+              for (let i = 0; i <= 6; i++) {
+                if (node === profile[0]) return
+
+                else if (node === xBtn[0]) break
+
+                else node = node.parentNode
+              }
+              setProfileModal2(true)
+              setProfileModal(false)
+              setTimeout(() => setProfileModal2(false), 350)
+              window.removeEventListener('mousedown', handleMouseClick)
+            }
+            window.addEventListener('mousedown', handleMouseClick)
+          }}>Profile</button>
+
           <OpenModalButton
-            buttonText="Profile"
-            onItemClick={closeMenu}
-            modalComponent={<ProfileModal />}
-          />
-          <OpenModalButton
-            buttonText="Preference"
-            onItemClick={closeMenu}
+            buttonText="Preferences"
+            onItemClick={closeMenu2}
             modalComponent={<PreferenceFormModal />}
           />
-          <button onClick={logout} >
-            <NavLink to="/" style={{ textDecoration: "none", color:"black" }}>
-              Log out
-            </NavLink>
+          <div className="outer-navbar-popup-divider" />
+
+          <button className="outer-navbar-logout-button" onClick={logout}>
+            Log out
           </button>
         </div>
       </div>

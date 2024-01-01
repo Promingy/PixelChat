@@ -1,8 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, Navigate } from 'react-router-dom'
 import './ServerCreationForm.css'
 import { initializeServer, initializeChannel, uploadImage } from '../../redux/server'
+import { Link } from "react-router-dom"
+import { thunkAddUserServer } from '../../redux/session'
+
 
 export default function ServerCreationForm() {
     const dispatch = useDispatch()
@@ -17,10 +20,13 @@ export default function ServerCreationForm() {
     const [channelDescription, setChannelDescription] = useState('')
     const [errors, setErrors] = useState('')
 
+    useEffect(() => {
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
+
     const onSubmit = async (e) => {
         e.preventDefault()
         setErrors({})
-        // TODO: assign AWS url to image_url
 
         const formData = new FormData();
         formData.append("image", image);
@@ -50,6 +56,7 @@ export default function ServerCreationForm() {
                     owner_id: sessionUser.id
                 }
                 const channelData = await dispatch(initializeChannel(serverData.id, channelForm))
+                await dispatch(thunkAddUserServer(serverData, sessionUser))
                 return navigate(`/main/servers/${serverData.id}/channels/${channelData.id}`)
             } else {
                 setErrors(serverData.errors)
@@ -59,9 +66,12 @@ export default function ServerCreationForm() {
         handleServerCreation(form)
     }
 
+    if (!sessionUser) return null
+
     return (
         <form className="server-creation-form" onSubmit={onSubmit} encType="multipart/form-data">
-            <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+            <Link to="/landing" className="back-to-landing"><i className="fa-solid fa-chevron-left"></i><p>To landing page</p></Link>
+            <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
             <div>
                 <h1 className="server-creation-header">{`What's the name of your server?`}</h1>
                 <h2 className="server-creation-subheader">This will be the name of your PixelChat server - choose something that your team will recognize</h2>
@@ -84,7 +94,7 @@ export default function ServerCreationForm() {
                 <h1 className="server-creation-header">Create a channel for your new server</h1>
                 <h2 className="server-creation-subheader">Name a channel so users have a place to communicate</h2>
                 <span>{errors.channel}</span>
-                <input type='text' value={channelName} onChange={e => setChannelName(e.target.value)} className="server-creation-input" placeholder="Ex: General Questions" />
+                <input type='text' value={channelName} onChange={e => setChannelName(e.target.value.toLowerCase().replace(/\s+/g, "-"))} className="server-creation-input" placeholder="Ex: General Questions" />
             </div>
             <div>
                 <h1 className="server-creation-header">Add a description for your new channel</h1>
@@ -92,6 +102,9 @@ export default function ServerCreationForm() {
                 <input type='text' value={channelDescription} onChange={e => setChannelDescription(e.target.value)} className="server-creation-input" placeholder="Ex: All general questions go here" />
             </div>
             <input type='submit' className="submit-server large-purple-button" value="Create New Server" />
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
         </form>
     )
 }

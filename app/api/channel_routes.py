@@ -53,7 +53,7 @@ def create_message(channelId):
 @login_required
 def delete_channel(channelId):
     channel = Channel.query.get(channelId)
-    if channel and int(session['_user_id']) == channel.to_dict()['owner_id']:
+    if channel and int(session['_user_id']) == channel.to_dict()['owner_id'] or channel.to_dict(server=True)['server'].to_dict()['owner_id'] == int(session['_user_id']):
         db.session.delete(channel)
         db.session.commit()
         return {'message': 'Successfully deleted'}

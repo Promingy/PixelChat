@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
-import './SignupFormPage.css'
+import { uploadImage } from "../../redux/server";
+import TextareaAutosize from "react-textarea-autosize";
+import "./SignupFormPage.css";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -16,26 +18,99 @@ function SignupFormPage() {
   const [last_name, setLast_name] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
-  const [image_url, setImage_url] = useState("");
-  const [theme, setTheme] = useState("");
-
+  const [image, setImage] = useState("");
   const [errors, setErrors] = useState({});
 
-  // if (sessionUser) return <Navigate to="/" replace={true} />;
+  // const scrollToTopBtn = document.getElementsByClassName("large-purple-button")
+  const rootElement = document.documentElement
+  // function scrollToTop() {
+  //   // Scroll to top logic
+  //   rootElement.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth"
+  //   })
+  // }
+  // scrollToTopBtn[0]?.addEventListener("click", scrollToTop)
+
+  useEffect(() => {
+    if ((errors.email || errors.username)) {
+      rootElement.scrollTo({
+        top: 200,
+        behavior: "smooth"
+      })
+    } else if ((errors.first_name || errors.last_name)) {
+      rootElement.scrollTo({
+        top: 450,
+        behavior: "smooth"
+      })
+    } else if ((errors.password || errors.confirmPassword)) {
+      rootElement.scrollTo({
+        top: 700,
+        behavior: "smooth"
+      })
+    }
+
+  }, [errors, rootElement])
+
+
+  const validateEmail = (email) => {
+    const atPos = email.indexOf("@");
+    const dotPos = email.lastIndexOf(".");
+    return atPos > 0 && dotPos > atPos + 1 && dotPos < email.length - 1;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let errorsTemp = {}
+    setErrors({})
     if (password.length < 6) {
-      return setErrors({
+      errorsTemp = {
+        ...errorsTemp,
         password: "Password must be at least 6 characters",
-      });
+      };
     }
 
     if (password !== confirmPassword) {
-      return setErrors({
+      errorsTemp = {
+        ...errorsTemp,
         confirmPassword:
           "Confirm Password field must be the same as the Password field",
-      });
+      };
+    }
+
+    if (!validateEmail(email)) {
+      errorsTemp = {
+        ...errorsTemp,
+        email:
+          "Invalid Email Address"
+      };
+    }
+
+    if (/\d/.test(first_name) === true) {
+      errorsTemp = {
+        ...errorsTemp,
+        first_name:
+          "First name must not include digits (0-9)"
+      };
+    }
+
+    if (/\d/.test(last_name) === true) {
+      errorsTemp = {
+        ...errorsTemp,
+        last_name:
+          "Last name must not include digits (0-9)"
+      };
+    }
+    setErrors(errorsTemp)
+    if (Object.keys(errorsTemp).length) return
+
+    let returnImage
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      // aws uploads can be a bit slow—displaying
+      // some sort of loading message is a good idea
+      returnImage = await dispatch(uploadImage(formData));
     }
 
     const userData = {
@@ -45,19 +120,10 @@ function SignupFormPage() {
       email,
       password,
       bio,
-      location,
+      location
     };
-
-    if (theme !== "") {
-      userData.theme = theme;
-    }
-
-    if (image_url !== "") {
-      userData.image_url = image_url;
-    }
-
+    if (returnImage) userData.image_url = returnImage.url
     const serverResponse = await dispatch(thunkSignup(userData));
-
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
@@ -67,11 +133,17 @@ function SignupFormPage() {
 
   return (
     <>
-      {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit} className="signup-form">
-        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+      {errors.server && <span>{errors.server}</span>}
+      <form
+        onSubmit={handleSubmit}
+        className="signup-form"
+        encType="multipart/form-data"
+      >
+        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" />
         <h1>Sign Up</h1>
-        <p>We suggest using the email address you <b>use at work</b>.</p>
+        <p>
+          We suggest using the email address you <b>use at work</b>.
+        </p>
         <label>
           Email*
           <input
@@ -82,7 +154,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <span>{errors.email}</span>}
         <label>
           Username*
           <input
@@ -92,7 +164,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <span>{errors.username}</span>}
 
         <label>
           First Name*
@@ -103,7 +175,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.first_name && <p>{errors.first_name}</p>}
+        {errors.first_name && <span>{errors.first_name}</span>}
 
         <label>
           Last Name*
@@ -114,17 +186,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.last_name && <p>{errors.last_name}</p>}
-
-        <label>
-          Bio
-          <input
-            type="text"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </label>
-        {errors.bio && <p>{errors.bio}</p>}
+        {errors.last_name && <span>{errors.last_name}</span>}
 
         <label>
           Location
@@ -134,27 +196,30 @@ function SignupFormPage() {
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
-        {errors.location && <p>{errors.location}</p>}
+        {errors.location && <span>{errors.location}</span>}
 
         <label>
-          Image Url
-          <input
+          Bio
+          <TextareaAutosize
             type="text"
-            value={image_url}
-            onChange={(e) => setImage_url(e.target.value)}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </label>
-        {errors.image_url && <p>{errors.image_url}</p>}
+        {errors.bio && <span>{errors.bio}</span>}
 
         <label>
-          Theme
-          <input
-            type="text"
-            value={theme}
-            onChange={(e) => setTheme(e.target.value)}
-          />
+          Profile Photo
+          <div className="signup-file-upload-wrapper">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+
+          </div>
         </label>
-        {errors.theme && <p>{errors.theme}</p>}
+        {errors.image && <span>{errors.image}</span>}
         <label>
           Password*
           <input
@@ -164,7 +229,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <span>{errors.password}</span>}
         <label>
           Confirm Password*
           <input
@@ -174,9 +239,11 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
 
-        <button type="submit" className="large-purple-button">Sign Up</button>
+        <button type="submit" className="large-purple-button">
+          Sign Up
+        </button>
       </form>
     </>
   );

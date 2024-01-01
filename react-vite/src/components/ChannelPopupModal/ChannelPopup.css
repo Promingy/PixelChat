@@ -1,42 +1,58 @@
 .channel-popup {
-    height: 500px;
     width: 500px;
-    padding: 20px;
+    height: 428px;
     overflow: hidden;
     position: relative;
     z-index: 50;
+    color:var(--color-font)
 }
 
 .channel-popup-header {
-    border-bottom: 1px solid gray;
-    margin-bottom: 0;
+    border-bottom: 1px solid #E2E2E2;
+    padding: 20px;
+    padding-bottom: 0px;
+    background-color: var(--color-background);
 }
 
-.channel-popup-header > h1 {
+.channel-popup-header>h1 {
     margin: 0
 }
 
-.channel-popup-members-container {
+.channel-members-wrapper {
+    overflow-y: scroll;
+    height: 286px;
+}
+
+.channel-popup-member {
     display: flex;
     gap: 10px;
     font-size: 15px;
     cursor: pointer;
+    margin: 10px 20px;
+    align-items: center;
+    padding: 0 5px;
+    align-items: center;
 }
 
-.channel-popup-members-container:hover {
-    background-color: #F6F6F6;
+.channel-popup-member:hover {
+    background-color: var(--color-hover)
+}
+
+.channel-popup-members-scroll {
+    overflow-y: auto;
+    height: 440px;
 }
 
 .channel-popup-tab-container {
     display: flex;
     gap: 20px;
     font-size: 12px;
-    margin-bottom: 0;
+    margin-bottom: 0px;
 }
 
-.channel-popup-tab-container > .channel-popup-selected-tab {
+.channel-popup-tab-container>.channel-popup-selected-tab {
     border-bottom: 2px solid #5e2262;
-    color: black;
+    color:var(--color-font)
 }
 
 .channel-popup-tab {
@@ -47,19 +63,25 @@
 }
 
 .channel-popup-tab:hover {
-    color: black;
+    color:var(--color-font)
+}
+
+.channel-popup-content-wrapper {
+    background-color: var(--color-background);
+    padding: 20px;
+    height: 288px;
 }
 
 .channel-popup-details-container {
-    border: 1px solid gray;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    margin: 10px 20px;
     font-size: 15px;
     box-sizing: border-box;
+    background-color: var(--color-background);
 }
 
 .channel-popup-details-border {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #ddd;
 }
 
 .channel-popup-details {
@@ -78,7 +100,7 @@
     margin-top: 20px;
 }
 
-.topic-modal-wrapper > button {
+.topic-modal-wrapper>button {
     width: 100%;
     height: 100%;
     background-color: white;
@@ -94,8 +116,8 @@
     box-sizing: border-box;
 }
 
-.topic-modal-wrapper > button:hover {
-    background-color: #F6F6F6
+.topic-modal-wrapper>button:hover {
+    background-color: var(--color-hover)
 }
 
 .channel-popup-about-div {
@@ -110,14 +132,15 @@
     grid-template-columns: 1fr;
     font-size: 16px;
     margin-top: 0px;
-    color: #666
+    color: #666;
+    text-align: left;
 }
 
-.channel-popup-about-div-left > p {
+.channel-popup-about-div-left>p {
     text-align: left;
     font-weight: 600;
     margin-top: 0px;
-    color: black;
+     color:var(--color-font)
 }
 
 .channel-popup-about-div-right {
@@ -138,15 +161,16 @@
     gap: 10px;
 }
 
-.channel-popup-huddle-buttons > button {
-    background-color: white;
+.channel-popup-huddle-buttons>button {
+    background-color: var(--color-background);
     border-radius: 5px;
     display: flex;
     gap: 3px;
     border: 1px solid gray;
+    color:var(--color-font)
 }
 
-.channel-popup-huddle-buttons > button:hover {
+.channel-popup-huddle-buttons>button:hover {
     background-color: #F6F6F6
 }
 
@@ -156,9 +180,22 @@
     margin-top: 0px;
     overflow: hidden;
     box-sizing: border-box;
-    color: red;
+    color: #E01E5A;
 }
 
-.channel-popup-delete-button > button:hover {
-    background-color: #F6F6F6
+.channel-popup-delete-modal>button {
+    height: 100px;
+    width: 100%;
+    margin-top: 0px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: #E01E5A;
+    border: none;
+    border-radius: none;
+    padding: 5px;
+}
+
+.cant-delete-channel {
+    display: flex;
+    align-items: center;
 }

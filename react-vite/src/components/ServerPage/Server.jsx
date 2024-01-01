@@ -1,14 +1,16 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { loadServer } from "../../redux/server"
+import { useNavigate, useParams, Navigate } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
+import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
 import OuterNavbar from "../OuterNavbar"
 import "./Server.css"
+import { addUserToServer, deleteServer } from "../../redux/server";
+import { removeUserServer } from "../../redux/session";
 
 let socket
 
@@ -23,16 +25,32 @@ function checkChannelIfSelected(channelId) {
 
 export default function ServerPage() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { serverId } = useParams()
+    // const [boldObj, setBoldObj] = useState({})
+
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
+
+    useEffect(() => {
+        if (!sessionUser) { navigate("/") }
+    }, [sessionUser, navigate]);
 
     // Eager load all data for the server
     useEffect(() => {
         dispatch(loadServer(serverId))
         dispatch(loadAllServers())
     }, [dispatch, serverId])
+
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+            dispatch(setTheme(storedTheme))
+        }
+    }, [dispatch]); //possibly remove the dependency if it causes breaking issues
+
 
     useEffect(() => {
         if (import.meta.env.MODE !== "production") {
@@ -41,32 +59,43 @@ export default function ServerPage() {
             socket = io('https://slack-deploy.onrender.com')
         }
 
-        // sampleEmit = socket.emit("server", {
-        //     userId: sessionUser.id,
-        //     type: "Message",
-        //     method: "DELETE",
-        //     room: server.id,
-        //     channelId,
-        //     messageId
-        // })
+        const payload = {
+            type: "newUser",
+            method: "POST",
+            room: +serverId,
+            user: sessionUser,
+            serverId: serverId
+        }
 
         socket.on("server", obj => {
-            console.log(obj)
-            if (obj.userId == sessionUser.id) {
-                return
-            }
+
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
                         case "POST": {
                             // Handle message post
                             dispatch(createMessage(obj.message))
-                            if (!checkChannelIfSelected(obj.message.channel_id)) dispatch(boldChannel(obj.message.channel_id))
+                            if (!checkChannelIfSelected(obj.message.channel_id)) {
+                                dispatch(boldChannel(obj.message.channel_id))
+                                // const storedBoldValues = localStorage.getItem("boldValues")
+                                // const storedBoldValuesObj = JSON.parse(storedBoldValues)
+                                // if (storedBoldValuesObj[obj.message.channel_id]) {
+                                //     storedBoldValuesObj[obj.message.channel_id]++
+                                // } else {
+                                //     storedBoldValuesObj[obj.message.channel_id] = 1
+                                // }
+                                // const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                // localStorage.setItem("boldValues", storedBoldValuesJSON)
+                            }
                             break
                         }
                         case "DELETE": {
                             // Handle message delete
                             dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            break
+                        }
+                        case "PUT": {
+                            dispatch(pinMessage(obj.message))
                             break
                         }
                     }
@@ -97,6 +126,7 @@ export default function ServerPage() {
                         case "DELETE": {
                             // Handle channel delete
                             dispatch(deleteChannel(obj.channelId))
+                            navigate(obj.newChannel)
                             break
                         }
                         case "PUT": {
@@ -107,24 +137,48 @@ export default function ServerPage() {
                     }
                     break
                 }
+                case "server": {
+                    switch (obj.method) {
+                        case "DELETE": {
+                            dispatch(deleteServer())
+                            dispatch(removeUserServer(obj.serverId))
+                            navigate('/redirect')
+                            break
+                        }
+                    }
+                    break
+                }
+                case "newUser": {
+                    switch (obj.method) {
+                        case "POST": {
+                            dispatch(addUserToServer(obj.serverId, obj.user))
+                            break
+                        }
+                    }
+                    break
+                }
             }
 
         })
 
-        socket.emit("join", { room: server.id })
-
+        socket.emit("join", { room: server.id, user: payload })
 
         return (() => {
-            socket.emit("leave", { room: server?.id })
+            socket.emit("leave", { room: server.id })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser.id])
+    }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
+
+    if (!sessionUser) return null
 
     return (
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} />
             <InnerNavbar socket={socket} />
-            <ChannelPage socket={socket} />
+            <ChannelPage socket={socket} serverId={serverId} />
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
         </div>
     )
 }

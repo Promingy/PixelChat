@@ -8,4 +8,6 @@
     justify-content: start;
     align-items: center;
     box-sizing: border-box;
+    background-color: #5e2262;
+    background: linear-gradient(#7F3686, #49154A);
 }

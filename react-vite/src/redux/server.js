@@ -1,5 +1,5 @@
 import { addServers, editServers, removeServers } from "./all_servers"
-import { addUserServer, removeUserServer, editUserServer } from "./session"
+import { removeUserServer, editUserServer } from "./session"
 
 const GET_SERVER = 'server/getServer'
 const DELETE_SERVER = 'server/deleteServer'
@@ -10,20 +10,31 @@ const UPDATE_CHANNEL = 'channel/updateChannel'
 const CREATE_CHANNEL = 'channel/createChannel'
 const DELETE_MESSAGE = 'message/deleteMessage'
 const CREATE_MESSAGE = 'message/createMessage'
+const PIN_MESSAGE = 'message/pin/pinMessage'
 const DELETE_REACTION = 'reaction/deleteReaction'
 const CREATE_REACTION = 'reaction/createReaction'
 const BOLD_CHANNEL = 'channel/bold'
 const UNBOLD_CHANNEL = 'channel/unbold'
 const GET_MESSAGES = 'reaction/getMessages'
+const ADD_USER_TO_SERVER = 'session/addUserToServer'
 
-const getServer = (server) => {
+export const addUserToServer = (serverId, user) => {
     return {
-        type: GET_SERVER,
-        server
+        type: ADD_USER_TO_SERVER,
+        serverId,
+        user
     }
 }
 
-const deleteServer = () => {
+const getServer = (server, boldValues = false) => {
+    return {
+        type: GET_SERVER,
+        server,
+        boldValues
+    }
+}
+
+export const deleteServer = () => {
     return {
         type: DELETE_SERVER
     }
@@ -64,10 +75,11 @@ export const createChannel = (channel) => {
     }
 }
 
-export const boldChannel = (channelId) => {
+export const boldChannel = (channelId, boldValue = false) => {
     return {
         type: BOLD_CHANNEL,
-        channelId
+        channelId,
+        boldValue
     }
 }
 
@@ -89,6 +101,13 @@ export const deleteMessage = (channelId, messageId) => {
 export const createMessage = (message) => {
     return {
         type: CREATE_MESSAGE,
+        message
+    }
+}
+
+export const pinMessage = (message) => {
+    return {
+        type: PIN_MESSAGE,
         message
     }
 }
@@ -127,11 +146,20 @@ export const uploadImage = (image) => async () => {
     return data
 }
 
+export const deleteImage = (image_url) => async () => {
+    const res = await fetch(`/api/servers/images/${image_url}`, {
+        method: "DELETE"
+    })
+    return res
+}
+
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
     if (res.ok) {
-        dispatch(getServer(data))
+        const storedBoldValues = localStorage.getItem("boldValues")
+        const storedBoldValuesObj = JSON.parse(storedBoldValues)
+        dispatch(getServer(data, storedBoldValuesObj))
     }
     return data
 }
@@ -179,7 +207,6 @@ export const initializeServer = (server) => async (dispatch) => {
         dispatch(createServer(data))
         delete data.channels
         dispatch(addServers(data))
-        dispatch(addUserServer(data))
     }
     return data
 }
@@ -188,6 +215,7 @@ export const removeChannel = (channelId) => async (dispatch) => {
     const res = await fetch(`/api/channels/${channelId}`, {
         method: "DELETE"
     })
+
     if (res.ok) {
         dispatch(deleteChannel(channelId))
     }
@@ -249,6 +277,22 @@ export const initializeMessage = (channelId, message) => async (dispatch) => {
     return data
 }
 
+export const thunkPinMessage = (message) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${message.id}`, {
+        method: "PUT",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(pinMessage(data))
+    }
+    return data
+}
+
 export const removeReaction = (channelId, messageId, reactionId) => async (dispatch) => {
     const res = await fetch(`/api/reactions/${reactionId}`, {
         method: "DELETE"
@@ -289,7 +333,6 @@ const initialState = {}
 const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
-            console.log("~~~~~", action.server)
             const newState = {}
             newState.description = action.server.description
             newState.id = action.server.id
@@ -303,7 +346,7 @@ const serverReducer = (state = initialState, action) => {
                 newState.users = { ...newState.users, [users[user].id]: users[user] }
             }
             for (let channel of action.server.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {}, bold: false }
+                newState.channels[channel.id] = { ...channel, messages: {}, bold: (action.boldValues ? action.boldValues[channel.id] : 0) }
                 for (let message of channel.messages) {
                     newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
@@ -320,7 +363,6 @@ const serverReducer = (state = initialState, action) => {
         case UPDATE_SERVER: {
             const newState = { ...state }
             newState.description = action.server.description
-            newState.id = action.server.id
             newState.image_url = action.server.image_url
             newState.name = action.server.name
             return newState
@@ -337,19 +379,21 @@ const serverReducer = (state = initialState, action) => {
         }
         case DELETE_CHANNEL: {
             const newState = { ...state }
-            delete newState[action.channelId]
+            delete newState.channels[action.channelId]
             return newState
         }
         case UPDATE_CHANNEL: {
             const newState = { ...state }
-            newState.channels[action.channel.id] = { ...action.channel }
+            newState.channels[action.channel.id].topic = action.channel.topic
+            newState.channels[action.channel.id].name = action.channel.name
+            newState.channels[action.channel.id].description = action.channel.description
             return newState
         }
         case CREATE_CHANNEL: {
             const newState = { ...state }
             newState.channels[action.channel.id] = { ...action.channel }
             newState.channels[action.channel.id].messages = {}
-            newState.channels[action.channel.id].bold = false
+            newState.channels[action.channel.id].bold = 0
             return newState
         }
         case DELETE_MESSAGE: {
@@ -375,13 +419,16 @@ const serverReducer = (state = initialState, action) => {
         }
         case BOLD_CHANNEL: {
             const newState = { ...state }
-            console.log("HERE")
-            newState.channels[action.channelId].bold = true
+            if (action.boldValue) {
+                newState.channels[action.channelId].bold = action.boldValue
+            } else {
+                newState.channels[action.channelId].bold++
+            }
             return newState
         }
         case UNBOLD_CHANNEL: {
             const newState = { ...state }
-            newState.channels[action.channelId].bold = false
+            newState.channels[action.channelId].bold = 0
             return newState
         }
         case GET_MESSAGES: {
@@ -389,6 +436,17 @@ const serverReducer = (state = initialState, action) => {
             for (let message of action.messages) {
                 newState.channels[action.channelId].messages[message.id] = message
             }
+            return newState
+        }
+        case PIN_MESSAGE: {
+            const newState = { ...state }
+            newState.channels[action.message.channel_id].messages[action.message.id].pinned = action.message.pinned
+            return newState
+        }
+        case ADD_USER_TO_SERVER: {
+            const newState = { ...state }
+
+            newState.users = {...newState.users, [action.user.id]: action.user}
             return newState
         }
         default: {

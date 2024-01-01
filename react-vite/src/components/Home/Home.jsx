@@ -19,7 +19,7 @@ export default function HomePage() {
   const demoUserLogin = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'demo@aa.io',
+        email: 'mario@aa.io',
         password: 'password',
       })
     );
@@ -36,7 +36,7 @@ export default function HomePage() {
   const demoUser2Login = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'zelda@aa.io',
+        email: 'pikachu@aa.io',
         password: 'password',
       })
     );
@@ -54,7 +54,7 @@ export default function HomePage() {
   return (
     <>
       <div className="home-header">
-        <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+        <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
         <div className="signin-header">
           <h1>Sign in to PixelChat</h1>
         </div>

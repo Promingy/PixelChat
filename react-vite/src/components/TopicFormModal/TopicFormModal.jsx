@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { editChannel } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import "./TopicForm.css"
+import TextareaAutoSize from 'react-textarea-autosize'
 
 function TopicFormModal({ socket }) {
-  const { serverId, channelId } = useParams()
-  const navigate = useNavigate();
+  const { channelId } = useParams()
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const server = useSelector(state => state.server)
   const channel = server?.channels?.[+channelId]
@@ -42,22 +44,29 @@ function TopicFormModal({ socket }) {
   };
 
   return (
-    <>
+    <div className="topic-popup-form-wrapper">
       <h1>Edit Topic</h1>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit} className="topic-popup-form">
+        <TextareaAutoSize
           type="text"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="Add a topic"
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              return handleSubmit(e)
+            }
+          }}
           required
         />
         <p>{`Let people know what your channel is focused on right now (ex. a project milestone). Topics are always visible in the header.`}</p>
         {errors.topic && <p>{errors.topic}</p>}
-        <button onClick={() => closeModal()}>Cancel</button>
-        <button type="submit">Save</button>
+        <div className="topic-popup-form-button-wrapper">
+          <button onClick={() => closeModal()} className="topic-popup-form-button topic-popup-form-cancel">Cancel</button>
+          <button type="submit" className="topic-popup-form-button topic-popup-form-submit">Save</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

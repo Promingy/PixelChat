@@ -1,7 +1,7 @@
 from flask import Blueprint, session, request
-from ..models import db, Message, Reaction
+from ..models import db, Message, Reaction, Channel, Server
 from flask_login import login_required
-from app.forms import ReactionForm
+from app.forms import ReactionForm, MessageForm
 
 message = Blueprint('message', __name__)
 
@@ -11,7 +11,18 @@ def create_reactions(messageId):
     form = ReactionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     message = Message.query.get(messageId)
-    if message and form.validate_on_submit():
+    reactions = Reaction.query.filter(Reaction.user_id == int(session['_user_id']),
+                                      Reaction.message_id == messageId ).all()
+
+    reactions = {reaction.emoji: reaction for reaction in reactions}
+    reactionExists = None
+
+    try:
+        reactionExists = reactions[form.data['emoji']]
+    except:
+        ""
+
+    if message and form.validate_on_submit() and not reactionExists:
         data = form.data
         reaction = Reaction(
             user_id = int(session['_user_id']),
@@ -22,8 +33,32 @@ def create_reactions(messageId):
         db.session.commit()
         return reaction.to_dict()
     if not message:
-        return {'errors': {'message': 'Message does not exist'}}
+        return {'errors': {'message': 'Message does not exist'}}, 404
     return {'errors': form.errors}, 401
+
+@message.route('/<int:messageId>', methods=['PUT'])
+@login_required
+def pin_message(messageId):
+    message = Message.query.get(messageId)
+    channel = Channel.query.get(message.channel_id)
+    server = Server.query.get(channel.server_id)
+
+    form = MessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit() and int(server.owner_id) == int(session['_user_id']):
+        data = form.data
+
+        message.pinned = data['pinned']
+        db.session.commit()
+
+        return message.to_dict()
+
+    if form.errors:
+        return {"errors": form.errors}, 401
+
+    return {"errors": {"message": "Unauthorized"}}, 403
+
 
 @message.route('/<int:messageId>', methods=['DELETE'])
 @login_required

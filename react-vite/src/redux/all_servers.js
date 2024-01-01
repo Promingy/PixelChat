@@ -50,7 +50,13 @@ const allServersReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case GET_ALL_SERVERS: {
-      return { ...state, servers: { ...state.servers, ...action.server } };
+      const newState = {servers: {}}
+
+      Object.values(action.server).forEach(server => {
+        newState.servers[server.id] = server
+      })
+
+      return newState
     }
     case ADD_SERVER: {
       const newState = { ...state }
@@ -63,8 +69,9 @@ const allServersReducer = (state = initialState, action) => {
       return newState
     }
     case REMOVE_SERVER: {
-      delete state.servers[action.serverId]
-      return { ...state }
+      const newState = {...state}
+      delete newState.servers[action.serverId]
+      return { ...newState }
     }
     default:
       return state;

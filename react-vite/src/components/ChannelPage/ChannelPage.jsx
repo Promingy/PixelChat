@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './ChannelPage.css'
@@ -8,26 +8,42 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages } from "../../redux/server";
+import { loadServer } from "../../redux/server";
 
 
-export default function ChannelPage({ socket }) {
+
+export default function ChannelPage({ socket, serverId }) {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { channelId } = useParams()
     const server = useSelector(state => state.server)
     const channel = server?.channels?.[+channelId]
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
-    const [ offset, setOffset ] = useState(15)
-    const [theme, setTheme] = useState("light");
+    const [offset, setOffset] = useState(15)
+    const sessionUserTheme = useSelector(state => state.session.user.theme)
+    let theme = localStorage.getItem('theme') === 'dark';
 
     useEffect(() => {
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) {
-        setTheme(storedTheme);
-      }
-    }, []);
+        if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
+        theme = localStorage.getItem('theme') === 'dark'
+    }, [sessionUserTheme])
 
-    document.documentElement.className = `theme-${theme}`;
+    useEffect(() => {
+        dispatch(loadServer(serverId))
+        .then(server => {
+            const channels = {}
+            if (server.channels) {
+                for (let channel of Object.values(server.channels)){
+                    channels[channel.id] = channel
+                }
+            }
+
+            if (!server || !channels[channelId]){
+               return  navigate('/redirect')
+            }
+        })
+    }, [dispatch])
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -52,36 +68,42 @@ export default function ChannelPage({ socket }) {
                 const curr_date = new Date(sortedMessages[i].created_at)
 
                 // add a seperator for a messages posted on different days
-                if ((prev_date.getDate() !== curr_date.getDate())) {
+                if ((prev_date.getDate() !== curr_date.getDate()) ||
+                    (prev_date.getFullYear() !== curr_date.getFullYear()) ||
+                    (prev_date.getMonth() !== curr_date.getMonth())) {
+
                     result.push(
                         <div key={message.id}>
-                                <p className='message-date-seperator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                {/* <div className="date-seperator-bar"/> */}
+                            <div className={`date-wrapper ${localStorage.getItem('theme') === 'dark' ? 'date-wrapper-dark' : ''}`}>
+                                <p className={`message-date-separator ${localStorage.getItem('theme') === 'dark' ? 'message-date-separator-dark' : ''}`}>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <div className={`date-divider ${localStorage.getItem('theme') === 'dark' ? 'date-divider-dark' : ''}`} />
+                            </div>
+                            {/* <div className="date-separator-bar"/> */}
                             <MessageTile
                                 message={message}
                                 user={user}
                                 channelId={channelId}
                                 socket={socket}
-                                serverId={server.id}
                                 bottom={i < 2}
                                 center={i === 2}
-                                />
+                                theme={theme}
+                            />
                         </div>
                     )
                     continue
                 } else {
                     result.push(
-                    <div key={message.id}>
-                        <MessageTile
-                            message={message}
-                            user={user}
-                            channelId={channelId}
-                            socket={socket}
-                            serverId={server.id}
-                            bottom={i < 2}
-                            center={i === 2}
+                        <div key={message.id}>
+                            <MessageTile
+                                message={message}
+                                user={user}
+                                channelId={channelId}
+                                socket={socket}
+                                bottom={i < 2}
+                                center={i === 2}
+                                theme={theme}
                             />
-                    </div>
+                        </div>
                     )
                 }
 
@@ -105,28 +127,35 @@ export default function ChannelPage({ socket }) {
 
     return (
         <>
-            <div className="channel-page-wrapper">
-                <OpenModalButton
-                    buttonText={channel?.name}
-                    modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
-                />
-                {users && <OpenModalButton
-                    buttonText={`${Object.keys(users).length} Members`}
-                    modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
-                />}
-            <div className="all-messages-container" id='all-messages-container'>
-                {generate_message_layout()}
 
-                {messages && <InfiniteScroll
-                    dataLength={Object.values(messages).length}
-                    hasMore={!(Object.values(messages).length % 15)}
-                    next={() => {
-                        dispatch(getMessages(channelId, `offset=${offset}`))
-                        setOffset(prevOffset => prevOffset += 15)
-                    }}
-                    inverse={true}
-                    scrollableTarget='all-messages-container'
-                    endMessage={<h3 style={{textAlign: 'center'}}>No more messages.</h3>}
+            <div className="channel-page-wrapper">
+                <div className={`channel-page-button-container ${ theme ? 'channel-page-button-container-dark' : ''}`}>
+                    <OpenModalButton
+                        buttonText={<div className="channel-page-first-button">
+                            <i className="fa-solid fa-hashtag"></i>
+                            {channel?.name}
+                            <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+                        </div>}
+                        modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
+                    />
+                    {users && <OpenModalButton
+                        buttonText={`${Object.keys(users).length} Members`}
+                        modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
+                    />}
+                </div>
+                <div className="all-messages-container" id='all-messages-container'>
+                    {generate_message_layout()}
+
+                    {messages && <InfiniteScroll
+                        dataLength={Object.values(messages).length}
+                        hasMore={!(Object.values(messages).length % 15)}
+                        next={() => {
+                            dispatch(getMessages(channelId, `offset=${offset}`))
+                            setOffset(prevOffset => prevOffset += 15)
+                        }}
+                        inverse={true}
+                        scrollableTarget='all-messages-container'
+                        endMessage={<h3 style={{ textAlign: 'center' }}>No more messages.</h3>}
                     />}
                 </div>
                 <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />

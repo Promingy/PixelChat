@@ -20,7 +20,6 @@ button {
 
 .home-logo {
     width: 150px;
-    height: 40px;
     margin: auto;
     margin-bottom: 30px;
     margin-top: 30px;
@@ -54,6 +53,7 @@ button {
     color: black;
     border-radius: 5px;
     border: 2px solid #BBBABB;
+    cursor: pointer;
     font-size: 17px;
     font-weight: 500;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
@@ -104,6 +104,7 @@ button {
     color: white;
     border-radius: 5px;
     border: none;
+    cursor: pointer;
     font-size: 18px;
     font-weight: 500;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
@@ -115,4 +116,10 @@ button {
 
 .demo-user-wrapper {
     margin-top: 20px;
+}
+
+span {
+    color: #E01E5A;
+    text-align: left;
+    width: 100%
 }

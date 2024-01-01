@@ -36,11 +36,11 @@ def upload_image():
     form = ImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-          
+
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
-        print(upload)
+        # print(upload)
 
         if "url" not in upload:
         # if the dictionary doesn't have a url key
@@ -52,8 +52,14 @@ def upload_image():
         return {"url": url}
 
     if form.errors:
-        print(form.errors)
+        # print(form.errors)
         return {"errors": form.errors}, 401
+
+@server.route("images/:image_url", methods=["DELETE"])
+def delete_image(image_url):
+    removed = remove_file_from_s3(image_url)
+    # print(removed)
+    return {"removed": removed}
 
 
 @server.route('', methods=['POST'])
@@ -132,7 +138,7 @@ def add_user_to_server(serverId):
         user.servers.append(server)
         db.session.commit()
         return server.to_dict()
-    return {'errors': form.errors}
+    return {'errors': form.errors}, 401
 
 @server.route('/<int:serverId>/users/<int:userId>', methods=["DELETE"])
 @login_required
@@ -145,5 +151,5 @@ def remove_user_from_server(serverId, userId):
         db.session.commit()
         return server.to_dict()
     elif not user:
-        return {"errors": {"user": "User could not be found"}}
-    return {"errors": {"server": "Server could not be found"}}
+        return {"errors": {"user": "User could not be found"}}, 404
+    return {"errors": {"server": "Server could not be found"}}, 404

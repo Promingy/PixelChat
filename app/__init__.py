@@ -1,3 +1,5 @@
+from gevent import monkey
+monkey.patch_all()
 import os
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
@@ -27,6 +29,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+socketio.init_app(app, async_mode='gevent')
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 
@@ -39,7 +42,6 @@ app.register_blueprint(reaction, url_prefix='/api/reactions')
 app.register_blueprint(server, url_prefix='/api/servers')
 db.init_app(app)
 Migrate(app, db)
-socketio.init_app(app)
 
 # Application Security
 CORS(app)
@@ -92,7 +94,8 @@ def react_root(path):
     or index.html requests
     """
     if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
+        return app.send_from_directory('public', 'server_icon.svg')
+
     return app.send_static_file('index.html')
 
 

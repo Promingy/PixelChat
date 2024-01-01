@@ -1,33 +1,35 @@
 import { useModal } from "../../context/Modal";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from 'react-redux'
 import { IoColorWandOutline } from "react-icons/io5";
 import { VscChromeClose } from "react-icons/vsc";
 import { PiSunBold, PiMoonBold } from "react-icons/pi";
+import { setTheme } from "../../redux/session";
 import "./PreferenceFormModal.css";
 
 export default function PreferenceFormModal() {
+  const dispatch = useDispatch()
   const { closeModal } = useModal();
-  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
-      setTheme(storedTheme);
+      dispatch(setTheme(storedTheme))
     }
-  }, []);
+  }, [dispatch]);
 
-  document.documentElement.className = `theme-${theme}`;
 
   const handleThemeChange = (selectedTheme) => {
-    setTheme(selectedTheme);
+    dispatch(setTheme(selectedTheme));
     localStorage.setItem("theme", selectedTheme);
+    document.documentElement.className = `theme-${selectedTheme}`;
   };
 
   return (
     <>
       <div className="preference-modal">
         <div className="preference-container-top">
-          <h2>Preference</h2>
+          <h2>Preferences</h2>
           <button onClick={closeModal}>
             <VscChromeClose />
           </button>
@@ -42,7 +44,7 @@ export default function PreferenceFormModal() {
           <div className="preference-right">
             <p style={{ fontWeight: "bold" }}>Color Mode</p>
             <p>
-              Choose if PixcelChat&rsquo;s appearance should be light or dark.
+              Set PixelChat&rsquo;s appearance to light or dark mode.
             </p>
             <div className="theme-option">
               <button onClick={() => handleThemeChange("light")}
@@ -51,7 +53,6 @@ export default function PreferenceFormModal() {
                 &nbsp;&nbsp;&nbsp;Light
               </button>
               <button
-               
                 onClick={() => handleThemeChange("dark")}
               >
                 <PiMoonBold />

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 // import { loadAllServers } from "../../redux/all_servers"
@@ -37,9 +37,12 @@ export default function LandingPage() {
 
     return (
         <>
+            {!sessionUser && (
+                <Navigate to="/" replace={true} />
+            )}
             <div className="landing-top-half-background">
                 <div className="landing-top-half">
-                    <img className="home-logo" src='https://svgshare.com/i/10wP.svg' />
+                    <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
                     <div className="landing-header">
                         <div className="login-confirm">Confirmed as{" "}<b>{sessionUser?.email}</b>
                             <button onClick={logout} className="logout-button">Change</button>
@@ -48,9 +51,12 @@ export default function LandingPage() {
                     <h1>Create a new PixelChat server</h1>
                     <h2>PixelChat gives your team a home — a place where they
                         can talk and work together. To create a new
-                        server, click the button below.</h2>
+                        server or join a server, click the buttons below.</h2>
                     <Link to='/new-server' className='landing-create-new-server'>
                         <button className="large-purple-button">Create a Server</button>
+                    </Link>
+                    <Link to='/join-server' className='landing-join-server'>
+                        <button className="large-white-button">Join a Server</button>
                     </Link>
                 </div>
             </div>

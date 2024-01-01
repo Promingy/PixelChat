@@ -3,7 +3,7 @@
   height: 100%;
   box-sizing: border-box;
   background-color: #5e2262;
-  background: linear-gradient(#7F3686, #49154A);
+  background: linear-gradient(#7f3686, #49154a);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,22 +16,51 @@
   box-sizing: border-box;
   width: 36px;
   height: 36px;
-  border-radius: 3px;
+  border-radius: 7px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   background: white;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
 }
 
-.server-img-wrapper > img {
+.server-img-wrapper>img {
   width: 100%;
   font-size: 10px;
 }
 
-.create-new-server {
+.home-link-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  width: 36px;
+  height: 48px;
+  border-radius: 7px;
+  font-size: 11px;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.home-icon-wrapper {
+  font-size: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-link-wrapper:hover .home-icon-wrapper {
+  background-color: #97609d;
+  font-size: 18px;
+}
+
+.new-button-wrapper {
   background-color: #805083;
   width: 36px;
   height: 36px;
@@ -45,14 +74,30 @@
   margin-bottom: 18px;
 }
 
-.create-new-server:hover {
+.new-button-wrapper:hover {
   width: 40px;
   height: 40px;
   font-size: 20px;
   margin-bottom: 16px;
 }
 
-.open-profile-wrapper > button {
+
+.new-button-wrapper>button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.new-button-wrapper>button:hover {
+  font-size: 18px;
+}
+
+.open-profile-wrapper>button {
   width: 36px;
   height: 36px;
   border-radius: 3px;
@@ -76,7 +121,7 @@
   flex-direction: column;
 }
 
-.outer-navbar-bottom > a {
+.outer-navbar-bottom>a {
   text-decoration: none;
 }
 
@@ -87,21 +132,116 @@
 .profile-dropdown {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
+  border-radius: 7px;
   list-style-type: none;
-  padding: 10px;
-  background-color: #F6F6F6;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
   left: 80px;
+  bottom: 20px;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 0px;
+  width: 200px;
+  overflow: hidden;
+  padding-top: 10px;
 }
 
-.profile-dropdown > button {
+.profile-dropdown>button {
   border: none;
-  background-color: #F6F6F6;
   font-size: 15px;
-  font-weight: 300;
-  margin-bottom: 5px;
+  font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  text-align: left;
+  font-size: 14px;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
+
+.outer-navbar-logout-button {
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.profile-dropdown>button:hover {
+  background-color: #1064A3;
+  color: white;
+}
+
+.server-dropdown.hidden {
+  display: none;
+}
+
+.server-dropdown {
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  list-style-type: none;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: 80px;
+  bottom: 70px;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 0px;
+  width: 200px;
+  overflow: hidden;
+  padding-top: 10px;
+}
+
+
+.server-dropdown>button {
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  text-align: left;
+  font-size: 14px;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.outer-navbar-popup-divider {
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.server-dropdown>button:hover {
+  background-color: #1064A3;
+  color: white;
+}
+
+.server-dropdown>a {
+  padding: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  text-decoration: none;
+  color: var(--color-font);
+}
+
+.server-dropdown>a:hover {
+  background-color: #1064A3;
+  color: white;
+}
+
+.server-dropdown>a:hover {
+  background-color: #1064A3;
+  color: white;
 }
 
 .icon-button {
@@ -111,4 +251,20 @@
 .profile-button-img {
   width: 36px;
   object-fit: cover;
+}
+
+.create-new-server>button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.theme-light {
+  --inner-background: #dac3da;
+}
+
+.theme-dark {
+  --inner-background: #350d36;
 }

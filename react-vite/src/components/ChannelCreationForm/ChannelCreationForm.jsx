@@ -6,7 +6,7 @@ import { initializeChannel } from "../../redux/server";
 import { VscChromeClose } from "react-icons/vsc";
 import "./ChannelCreationForm.css";
 
-export default function ChannelCreationForm(socket) {
+export default function ChannelCreationForm({ socket }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
@@ -16,7 +16,6 @@ export default function ChannelCreationForm(socket) {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
-
   const [theme, setTheme] = useState("light");
 
    useEffect(() => {
@@ -46,7 +45,8 @@ export default function ChannelCreationForm(socket) {
         room: serverId,
         channel: channelData
       });
-      return navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+      navigate(`main/servers/${serverId}/channels/${channelData.id}`);
+      return closeModal()
     } else {
       setErrors(channelData.errors)
     }
@@ -66,7 +66,9 @@ export default function ChannelCreationForm(socket) {
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) =>
+              setName(e.target.value.toLowerCase().replace(/\s+/g, "-"))
+            }
             placeholder="e.g.plan-budget"
             required
           />
@@ -91,9 +93,9 @@ export default function ChannelCreationForm(socket) {
           />
         </label>
         {errors.topic && <p>{errors.topic}</p>}
+        <button type="submit" className="create-button"> Create </button>
       </form>
       <div className="create-channel-bottom">
-      <button type="submit" className="create-button"> Create </button>
       </div>
     </div>
   );

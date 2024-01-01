@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     bio = db.Column(db.String)
     location = db.Column(db.String)
-    image_url = db.Column(db.String, default="https://www.wadadaleosmith.com/wp-content/uploads/2017/09/demo-image-user-800x1200.jpg")
+    image_url = db.Column(db.String, default="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/demo_user.jpeg")
     email = db.Column(db.String(255), nullable=False, unique=True)
     theme = db.Column(db.String, default="default")
     hashed_password = db.Column(db.String(255), nullable=False)

@@ -10,11 +10,16 @@ import "./InnerNavbar.css"
 export default function InnerNavbar({ socket }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
-    // const sessionUser = useSelector((state) => state.session.user)
     const server = useSelector((state) => state.server)
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
     const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
+    const sessionUserTheme = useSelector(state => state.session.user.theme)
+    let theme = localStorage.getItem('theme') === 'dark';
+
+    useEffect(() => {
+        theme = localStorage.getItem('theme') === 'dark'
+    }, [sessionUserTheme])
 
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -24,57 +29,110 @@ export default function InnerNavbar({ socket }) {
     useEffect(() => {
         if (!showMenu) return;
 
-    const closeMenu = (e) => {
-          if (!ulRef.current.contains(e.target)) {
-            setShowMenu(false);
-          }
-    };
+        const closeMenu = (e) => {
+            if (!ulRef.current.contains(e.target)) {
+                setShowMenu(false);
+            }
+        };
 
-    document.addEventListener("click", closeMenu);
+        document.addEventListener("click", closeMenu);
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
+    // const unboldChannelStorage = (channelId) => {
+    //     const newObj = { ...boldObj }
+    //     newObj[channelId] = 0
+    //     setBoldObj(newObj)
+    //     const newJSON = JSON.stringify(newObj)
+    //     localStorage.setItem("boldValues", newJSON)
+    // }
+
     const closeMenu = () => setShowMenu(false);
 
-    const [theme, setTheme] = useState("light");
+    const handleChannelUnbold = (channelId) => {
+        dispatch(unboldChannel(channelId))
+        // const storedBoldValues = localStorage.getItem("boldValues")
+        // const storedBoldValuesObj = JSON.parse(storedBoldValues)
+        // storedBoldValuesObj[channelId] = 0
+        // const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+        // localStorage.setItem("boldValues", storedBoldValuesJSON)
+    }
 
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme) {
-          setTheme(storedTheme);
-        }
-      }, []);
-
-    document.documentElement.className = `theme-${theme}`;
+    document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
     if (!server.channels) return null
     return (
-
-        <div className="inner-navbar-wrapper">
-            <div className="inner-navbar-header">
-                <OpenModalButton modalComponent={<ServerPopupModal socket={socket} />} buttonText={<p>{server.name} <i className="fa-solid fa-chevron-down"></i></p>} />
-            </div>
-            <ul className="inner-navbar-content">
-                <div className="creat-channel-container">
-                <button onClick={toggleMenu}> <i className={showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`}></i>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
-                </div>
-                <div className={ulClassName} ref={ulRef}>
+        <>
+            <div className={`inner-navbar-wrapper ${ theme ? 'inner-navbar-wrapper-dark' : '' }`}>
+                <div className={`inner-navbar-header ${ theme ? 'inner-navbar-header-dark' : '' }`}>
                     <OpenModalButton
-                    buttonText="Create"
-                    onItemClick={closeMenu}
-                    modalComponent={<ChannelCreationForm />}
+                        modalComponent={<ServerPopupModal socket={socket} />}
+                        buttonText={
+                            <p>
+                                {server.name} <i className="fa-solid fa-chevron-down"></i>
+                            </p>
+                        }
                     />
                 </div>
-                {Object.values(server.channels).map((channel) => (
-                    <li id={`channel${channel.id}`} key={channel.id} onClick={() => dispatch(unboldChannel(channel.id))} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel.bold ? " bold-channel" : ""}`}>
-                        <Link to={`/main/servers/${server.id}/channels/${channel.id}`}>
-                            <div className="navbar-content"><i className="fa-solid fa-hashtag"></i>{channel.name}</div>
-                        </Link>
-                    </li>
-                ))}
 
-            </ul>
-        </div>
-    )
+                <ul className="inner-navbar-content">
+                    <div className={`create-channel-container ${theme ? 'channels-dark' : ''}`}>
+                        <button onClick={toggleMenu} className='test'> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down channels-dark' : 'fa-solid fa-caret-right channels-dark' : ''}`}/>&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
+                    </div>
+                    <div className={ulClassName} ref={ulRef}>
+                        <OpenModalButton
+                            buttonText="Create a Channel"
+                            onItemClick={closeMenu}
+                            modalComponent={<ChannelCreationForm socket={socket} />}
+                        />
+                    </div>
+                    {Object.values(server.channels).map((channel) => (
+                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""} ${ theme ? 'not-selected-channel-dark' : ''}`}>
+                            <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
+                                <div className="navbar-content">
+                                    <div className="navbar-content-left">
+                                        <i className="fa-solid fa-hashtag"></i>{channel.name}
+                                    </div>
+                                    {channel?.bold ? <div className="unread-message-count">{channel?.bold}</div> : ""}
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                <div className="creator-container">
+                    <ul style={{ listStyle: "none" }}>
+                        <p className="creator-header">Creator Githubs</p>
+                        <li className="repo-link-container">
+                            <a className="repo-link" target='_blank' rel='noreferrer' href="https://github.com/Promingy/SlackProject">
+                                Github Repo
+                            </a>
+                        </li>
+                        <li className="creators">
+                            <a className="creator-links" target="_blank" rel='noreferrer' href="https://github.com/regdes721">
+                                <i className="fa-brands fa-github" />
+                                Reginald
+                            </a>
+
+                            <a className="creator-links" target='_blank' rel='noreferrer' href="https://github.com/NickBrooks188">
+                                <i className="fa-brands fa-github" />
+                                Nick
+                            </a>
+                        </li>
+                        <li className="creators">
+                            <a className="creator-links" target='_blank' rel='noreferrer' href="https://github.com/Promingy">
+                                <i className="fa-brands fa-github" />
+                                Corbin
+                            </a>
+
+                            <a className="creator-links" target="_blank" rel='noreferrer' href="https://github.com/lovelyyun024">
+                                <i className="fa-brands fa-github" />
+                                Esther
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </>
+    );
 }
