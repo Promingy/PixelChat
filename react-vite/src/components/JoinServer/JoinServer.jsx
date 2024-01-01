@@ -36,7 +36,7 @@ export default function JoinServer() {
     }, [allServers, sessionUser])
 
     const addServer = async (server) => {
-        await dispatch(thunkAddUserServer(server, sessionUser)).then(res => {
+        await dispatch(thunkAddUserServer(server, sessionUser)).then(() => {
             const unjoinedServers = []
             for (let id of Object.keys(allServers.servers)) {
                 if (!sessionUser.servers[id]) {
