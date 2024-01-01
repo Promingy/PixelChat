@@ -110,8 +110,7 @@
     margin-top: 0px;
     color: #666;
     overflow-y: auto;
-    
-
+    text-align: left;
 }
 
 .server-popup-about-div-left>p {
