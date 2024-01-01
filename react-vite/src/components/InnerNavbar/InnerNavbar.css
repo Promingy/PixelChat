@@ -199,7 +199,7 @@
 .channel-dropdown {
     border-radius: 5px;
     list-style-type: none;
-    background-color: #F6F6F6;
+    background-color: var(--color-background);
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     position: relative;
     left: 3%;
@@ -213,12 +213,13 @@
 
 .channel-dropdown>button {
     border: none;
-    background-color: none;
+    background-color: var(--color-background);
     font-size: 14px;
     font-weight: 400;
     width: 100%;
     text-align: left;
     padding: 5px 10px 5px 10px;
+    color:var(--color-font);
 }
 
 .channel-dropdown>button:hover {
