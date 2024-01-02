@@ -31,18 +31,18 @@ export default function ChannelPage({ socket, serverId }) {
 
     useEffect(() => {
         dispatch(loadServer(serverId))
-        .then(server => {
-            const channels = {}
-            if (server.channels) {
-                for (let channel of Object.values(server.channels)){
-                    channels[channel.id] = channel
+            .then(server => {
+                const channels = {}
+                if (server.channels) {
+                    for (let channel of Object.values(server.channels)) {
+                        channels[channel.id] = channel
+                    }
                 }
-            }
 
-            if (!server || !channels[channelId]){
-               return  navigate('/redirect')
-            }
-        })
+                if (!server || !channels[channelId]) {
+                    return navigate('/redirect')
+                }
+            })
     }, [dispatch])
 
     function generate_message_layout() {
@@ -129,7 +129,7 @@ export default function ChannelPage({ socket, serverId }) {
         <>
 
             <div className="channel-page-wrapper">
-                <div className={`channel-page-button-container ${ theme ? 'channel-page-button-container-dark' : ''}`}>
+                <div className={`channel-page-button-container ${theme ? 'channel-page-button-container-dark' : ''}`}>
                     <OpenModalButton
                         buttonText={<div className="channel-page-first-button">
                             <i className="fa-solid fa-hashtag"></i>
@@ -139,7 +139,19 @@ export default function ChannelPage({ socket, serverId }) {
                         modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
                     />
                     {users && <OpenModalButton
-                        buttonText={`${Object.keys(users).length} Members`}
+                        buttonText={<div className="channel-members-button-wrapper">
+
+
+                            {Object.values(server.users).slice(0, 3).map((user) => (
+                                <div className="member-button-image-wrapper" key={user.id}>
+                                    <img src={user.image_url} />
+                                </div>
+                            ))}
+
+
+                            {`${Object.keys(users).length}`}
+                        </div>
+                        }
                         modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
                     />}
                 </div>

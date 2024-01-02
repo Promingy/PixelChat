@@ -67,9 +67,6 @@ export default function ServerPage() {
         }
 
         socket.on("server", obj => {
-
-            console.log(obj)
-
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
@@ -78,7 +75,6 @@ export default function ServerPage() {
                             dispatch(createMessage(obj.message))
                             if (!checkChannelIfSelected(obj.message.channel_id)) {
                                 dispatch(boldChannel(obj.message.channel_id))
-                                console.log("DID DISPATCH")
                                 const storedBoldValues = localStorage.getItem("boldValues")
                                 const storedBoldValuesObj = JSON.parse(storedBoldValues)
                                 if (storedBoldValuesObj[obj.message.channel_id]) {
