@@ -399,7 +399,7 @@
 
 .theme-light {
   --color-background: white;
-  --color-font: black;
+  --color-font: #1D1C1D;
   --color-hover: #f6f6f6;
   --inner-nav-header-hover: #C9AECB;
   --inner-nav-hover: #C7ACC8;
