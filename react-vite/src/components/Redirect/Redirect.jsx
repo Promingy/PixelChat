@@ -6,12 +6,12 @@ export default function Redirect() {
     const navigate = useNavigate()
     const [time, setTime] = useState(5)
 
-    function reduceTime() {
-        const newTime = time - 1
-        setTime(newTime)
-    }
 
     useEffect(() => {
+        function reduceTime() {
+            const newTime = time - 1
+            setTime(newTime)
+        }
         setTimeout(reduceTime, 1000)
 
         if (!time) {
