@@ -68,7 +68,7 @@
 }
 
 .channel-page-button-container>button:last-child:hover {
-  color: black;
+  color: var(--color-font);
 }
 
 .all-messages-container {

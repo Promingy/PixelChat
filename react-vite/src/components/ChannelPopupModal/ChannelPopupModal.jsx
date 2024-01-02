@@ -112,7 +112,7 @@ function ChannelPopupModal({ activeProp, socket }) {
                                         Copy huddle Link</button>
                                 </div>
                             </div>
-                            <div className='channel-popup-details-border'>
+                            <div className='channel-popup-details-border-last'>
                                 {(sessionUser.id == channel.owner_id || sessionUser.id == server.owner_id) && (Object.values(server.channels).length > 1) && <div className='server-modal-wrapper server-popup-delete'>
                                     <OpenModalButton
                                         buttonText={<div className='server-popup-about-div'>
@@ -126,17 +126,17 @@ function ChannelPopupModal({ activeProp, socket }) {
                                     />
                                 </div>}
                                 {(sessionUser.id == server.owner_id) && (Object.values(server.channels).length === 1) &&
-                                <div className='server-modal-wrapper server-popup-delete' >
-                                    <div>
-                                        <div className='server-popup-about-div'>
-                                            <div className='cant-delete-channel'>
-                                                <p><FaRegTrashAlt />  Can&apos;t delete last the channel in a server</p>
-                                            </div>
-                                            <div className='server-popup-about-div-right'>
+                                    <div className='server-modal-wrapper server-popup-delete' >
+                                        <div>
+                                            <div className='server-popup-about-div'>
+                                                <div className='cant-delete-channel'>
+                                                    <p><FaRegTrashAlt />  Can&apos;t delete last the channel in a server</p>
+                                                </div>
+                                                <div className='server-popup-about-div-right'>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>}
+                                    </div>}
                             </div>
                         </div>
                     </div>
