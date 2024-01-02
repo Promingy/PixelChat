@@ -50,7 +50,7 @@ def seed_users_servers():
         last_name = 'Sparktail',
         bio = "Pika, Pikachu, pi. Pikachu pi, pika. Pika pi Pikachu, pika pi!",
         location = 'Pokemon World',
-        image_url = 'https://i.pinimg.com/736x/e1/9b/f0/e19bf09954ad5231ad9a89cb8db03ec4.jpg',
+        image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtsQ82jX-iaMkFZDP4Wn9UjJbxaTXVOC2Cyw&usqp=CAU',
         email='pikachu@aa.io',
         password='password'
         )#4
