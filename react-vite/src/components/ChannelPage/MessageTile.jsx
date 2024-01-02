@@ -81,6 +81,7 @@ export default function MessageTile({ message, user, channelId, socket, theme })
 
         }
         setProfileModal2(true)
+
         setProfileModal(false)
         setTimeout(() => setProfileModal2(false), 350)
         window.removeEventListener('mousedown', handleProfileModal)
@@ -103,9 +104,9 @@ export default function MessageTile({ message, user, channelId, socket, theme })
                     <EmojiPicker
                         theme={theme ? 'dark' : 'light'}
 
-                        //if an emoji is selected through the picker, add it to the database!
+                        // if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
-                            //remove the reaction if user has already used it
+                            // remove the reaction if user has already used it
                             setEmojiBox(false)
                             for (let reaction of Object.values(message.reactions)) {
                                 if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {

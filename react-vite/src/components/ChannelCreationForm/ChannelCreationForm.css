@@ -64,4 +64,10 @@
   font-size: 18px;
   border-radius: 5px;
   align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.create-button:hover {
+  background-color: #268450
 }
