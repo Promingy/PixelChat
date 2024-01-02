@@ -64,7 +64,7 @@
 }
 
 .inner-navbar-header>button:hover {
-    background-color: #C9AECB;
+    background-color: var(--inner-nav-header-hover)
 }
 
 .inner-navbar-content {
@@ -127,15 +127,15 @@
     width: 100%;
 }
 
-.not-selected-channel-dark > a {
+.not-selected-channel-dark>a {
     color: #B9BABE;
 }
 
 .not-selected-channel:hover {
-    background-color: #C7ACC8;
+    background-color: var(--inner-nav-hover);
 }
 
-.not-selected-channel-dark:hover > a {
+.not-selected-channel-dark:hover>a {
     color: white;
 }
 
@@ -192,7 +192,7 @@
     font-weight: 400;
 }
 
-.channels-dark > button {
+.channels-dark>button {
     color: #B9BABE;
 }
 
@@ -219,7 +219,7 @@
     width: 100%;
     text-align: left;
     padding: 5px 10px 5px 10px;
-    color:var(--color-font);
+    color: var(--color-font);
 }
 
 .channel-dropdown>button:hover {

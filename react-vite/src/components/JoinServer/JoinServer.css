@@ -62,15 +62,17 @@
 }
 
 .server-to-join-image {
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
     margin-right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-} 
+}
 
-.server-to-join-image > img {
+.server-to-join-image>img {
     height: 40px;
     width: 40px;
 }

@@ -1,6 +1,8 @@
 .server-popup-form-wrapper {
     padding: 20px;
     width: 500px;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .server-popup-form-wrapper>h1 {
@@ -29,6 +31,8 @@
     padding: 10px;
     font-size: 14px;
     border-radius: 5px;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .server-modal-form-input-wrapper>textarea {
@@ -41,6 +45,8 @@
     border-radius: 5px;
     height: 80px;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-font);
 }
 
 .server-popup-form-button-wrapper {
@@ -64,13 +70,14 @@
 }
 
 .server-popup-form-cancel:hover {
-    background-color: #F8F8F8;
+    background-color: #F2F2F2;
 }
 
 .server-popup-form-submit {
     background-color: #007A5A;
     border: none;
     color: white;
+    cursor: pointer;
 }
 
 .server-popup-form-submit:hover {

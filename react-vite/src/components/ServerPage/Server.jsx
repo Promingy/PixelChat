@@ -43,7 +43,6 @@ export default function ServerPage() {
         dispatch(loadAllServers())
     }, [dispatch, serverId])
 
-
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
         if (storedTheme) {
@@ -69,6 +68,8 @@ export default function ServerPage() {
 
         socket.on("server", obj => {
 
+            console.log(obj)
+
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
@@ -77,15 +78,16 @@ export default function ServerPage() {
                             dispatch(createMessage(obj.message))
                             if (!checkChannelIfSelected(obj.message.channel_id)) {
                                 dispatch(boldChannel(obj.message.channel_id))
-                                // const storedBoldValues = localStorage.getItem("boldValues")
-                                // const storedBoldValuesObj = JSON.parse(storedBoldValues)
-                                // if (storedBoldValuesObj[obj.message.channel_id]) {
-                                //     storedBoldValuesObj[obj.message.channel_id]++
-                                // } else {
-                                //     storedBoldValuesObj[obj.message.channel_id] = 1
-                                // }
-                                // const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-                                // localStorage.setItem("boldValues", storedBoldValuesJSON)
+                                console.log("DID DISPATCH")
+                                const storedBoldValues = localStorage.getItem("boldValues")
+                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
+                                if (storedBoldValuesObj[obj.message.channel_id]) {
+                                    storedBoldValuesObj[obj.message.channel_id]++
+                                } else {
+                                    storedBoldValuesObj[obj.message.channel_id] = 1
+                                }
+                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                localStorage.setItem("boldValues", storedBoldValuesJSON)
                             }
                             break
                         }

@@ -35,19 +35,19 @@
   border-bottom: 1px solid #747474;
 }
 
-.channel-page-button-container > button {
+.channel-page-button-container>button {
   background: none;
   border-radius: 5px;
 }
 
-.channel-page-button-container > button:first-child {
+.channel-page-button-container>button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container > button:hover {
-  background-color: #f8f8f8;
+.channel-page-button-container>button:hover {
+  background-color: var(--channel-header-hover);
 }
 
 .channel-page-first-button {
@@ -61,13 +61,13 @@
   font-size: 12px;
 }
 
-.channel-page-button-container > button:last-child {
+.channel-page-button-container>button:last-child {
   border-radius: 5px;
   border: 1px solid #eaeaea;
-  color: #606060;
+  color: var(--color-font);
 }
 
-.channel-page-button-container > button:last-child:hover {
+.channel-page-button-container>button:last-child:hover {
   color: black;
 }
 
@@ -237,13 +237,13 @@
   z-index: 1;
 }
 
-.react-bar > * {
+.react-bar>* {
   border-radius: 5px;
   width: 25px;
   height: 25px;
 }
 
-.react-bar > *:hover {
+.react-bar>*:hover {
   background-color: lightgray;
 }
 
@@ -253,7 +253,7 @@
   background-color: #1b1d21;
 }
 
-.react-bar-dark > *:hover {
+.react-bar-dark>*:hover {
   background-color: #222529;
 }
 
@@ -363,10 +363,16 @@
   --color-background: white;
   --color-font: black;
   --color-hover: #f6f6f6;
+  --inner-nav-header-hover: #C9AECB;
+  --inner-nav-hover: #C7ACC8;
+  --channel-header-hover: #f6f6f6;
 }
 
 .theme-dark {
   --color-background: #1b1d21;
   --color-font: #d0d1d2;
   --color-hover: #424242;
+  --inner-nav-header-hover: #562C56;
+  --inner-nav-hover: #562C56;
+  --channel-header-hover: #353739;
 }

@@ -71,13 +71,13 @@ export default function MessageTile({ message, user, channelId, socket, theme })
         let node = e.target
 
         for (let i = 0; i <= 6; i++) {
-                if (node === profile[0] ||
-                    e.target.src === user?.image_url && +e.target.id === +message.id||
-                    +e.target.id === +message.id) return
+            if (node === profile[0] ||
+                e.target.src === user?.image_url && +e.target.id === +message.id ||
+                +e.target.id === +message.id) return
 
-                else if (node === xBtn[0]) break
+            else if (node === xBtn[0]) break
 
-                else node = node.parentNode
+            else node = node.parentNode
 
         }
         setProfileModal2(true)
@@ -101,7 +101,7 @@ export default function MessageTile({ message, user, channelId, socket, theme })
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
-                            theme={ theme ? 'dark' : 'light'}
+                        theme={theme ? 'dark' : 'light'}
 
                         //if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
