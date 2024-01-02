@@ -22,11 +22,11 @@ export default function ChannelPage({ socket, serverId }) {
     const users = server?.users
     const [offset, setOffset] = useState(15)
     const sessionUserTheme = useSelector(state => state.session.user.theme)
-    let theme = localStorage.getItem('theme') === 'dark';
+    const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
 
     useEffect(() => {
         if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
-        theme = localStorage.getItem('theme') === 'dark'
+        setTheme(localStorage.getItem('theme') === 'dark')
     }, [sessionUserTheme])
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function ChannelPage({ socket, serverId }) {
                     return navigate('/redirect')
                 }
             })
-    }, [dispatch])
+    }, [dispatch, channelId, navigate, serverId])
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
