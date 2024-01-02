@@ -3,6 +3,7 @@
   color: var(--color-font);
   background-color: var(--color-background);
 }
+
 .create-channel-header {
   display: flex;
   justify-content: space-between;
@@ -10,7 +11,7 @@
   font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
 }
 
-.create-channel-header > button {
+.create-channel-header>button {
   border: none;
   font-size: 20px;
   background-color: var(--color-background);
@@ -27,12 +28,12 @@
   gap: 20px;
 }
 
-.channel-creation-form > label {
+.channel-creation-form>label {
   width: 100%;
   box-sizing: border-box;
 }
 
-.channel-creation-form > label > input {
+.channel-creation-form>label>input {
   width: 100%;
   box-sizing: border-box;
   height: 44px;
@@ -43,6 +44,8 @@
   font-size: 18px;
   font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
   font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-font);
 }
 
 .create-channel-bottom {
@@ -53,7 +56,7 @@
 }
 
 .create-button {
-  background-color: 	#2e8b57;
+  background-color: #2e8b57;
   color: white;
   border: none;
   width: 25%;
@@ -61,4 +64,10 @@
   font-size: 18px;
   border-radius: 5px;
   align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.create-button:hover {
+  background-color: #268450
 }

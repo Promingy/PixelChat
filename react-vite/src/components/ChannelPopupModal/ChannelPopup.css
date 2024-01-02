@@ -4,7 +4,8 @@
     overflow: hidden;
     position: relative;
     z-index: 50;
-    color:var(--color-font)
+    color: var(--color-font);
+    background-color: var(--color-background)
 }
 
 .channel-popup-header {
@@ -52,7 +53,7 @@
 
 .channel-popup-tab-container>.channel-popup-selected-tab {
     border-bottom: 2px solid #5e2262;
-    color:var(--color-font)
+    color: var(--color-font)
 }
 
 .channel-popup-tab {
@@ -63,7 +64,7 @@
 }
 
 .channel-popup-tab:hover {
-    color:var(--color-font)
+    color: var(--color-font)
 }
 
 .channel-popup-content-wrapper {
@@ -82,6 +83,10 @@
 
 .channel-popup-details-border {
     border-bottom: 1px solid #ddd;
+}
+
+.channel-popup-details-border-last {
+    border-bottom: none;
 }
 
 .channel-popup-details {
@@ -132,7 +137,7 @@
     grid-template-columns: 1fr;
     font-size: 16px;
     margin-top: 0px;
-    color: #666;
+    color: var(--color-font);
     text-align: left;
 }
 
@@ -140,7 +145,7 @@
     text-align: left;
     font-weight: 600;
     margin-top: 0px;
-     color:var(--color-font)
+    color: var(--color-font)
 }
 
 .channel-popup-about-div-right {
@@ -167,11 +172,11 @@
     display: flex;
     gap: 3px;
     border: 1px solid gray;
-    color:var(--color-font)
+    color: var(--color-font)
 }
 
 .channel-popup-huddle-buttons>button:hover {
-    background-color: #F6F6F6
+    background-color: var(--color-hover)
 }
 
 .channel-popup-delete-button {

@@ -76,6 +76,7 @@ export const createChannel = (channel) => {
 }
 
 export const boldChannel = (channelId, boldValue = false) => {
+    console.log("inside BOLD CHANNEL function")
     return {
         type: BOLD_CHANNEL,
         channelId,
@@ -334,6 +335,13 @@ const serverReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SERVER: {
             const newState = {}
+            const storedBoldValues = localStorage.getItem("boldValues")
+            let storedBoldValuesObj
+            if (storedBoldValues) {
+                storedBoldValuesObj = JSON.parse(storedBoldValues)
+            } else {
+                storedBoldValuesObj = {}
+            }
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
@@ -346,7 +354,7 @@ const serverReducer = (state = initialState, action) => {
                 newState.users = { ...newState.users, [users[user].id]: users[user] }
             }
             for (let channel of action.server.channels) {
-                newState.channels[channel.id] = { ...channel, messages: {}, bold: (action.boldValues ? action.boldValues[channel.id] : 0) }
+                newState.channels[channel.id] = { ...channel, messages: {}, bold: (storedBoldValuesObj[channel.id] ? storedBoldValuesObj[channel.id] : 0) }
                 for (let message of channel.messages) {
                     newState.channels[channel.id].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
@@ -419,6 +427,7 @@ const serverReducer = (state = initialState, action) => {
         }
         case BOLD_CHANNEL: {
             const newState = { ...state }
+            console.log(action)
             if (action.boldValue) {
                 newState.channels[action.channelId].bold = action.boldValue
             } else {
@@ -446,7 +455,7 @@ const serverReducer = (state = initialState, action) => {
         case ADD_USER_TO_SERVER: {
             const newState = { ...state }
 
-            newState.users = {...newState.users, [action.user.id]: action.user}
+            newState.users = { ...newState.users, [action.user.id]: action.user }
             return newState
         }
         default: {

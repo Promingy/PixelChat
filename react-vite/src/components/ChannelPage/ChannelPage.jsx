@@ -22,28 +22,28 @@ export default function ChannelPage({ socket, serverId }) {
     const users = server?.users
     const [offset, setOffset] = useState(15)
     const sessionUserTheme = useSelector(state => state.session.user.theme)
-    let theme = localStorage.getItem('theme') === 'dark';
+    const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
 
     useEffect(() => {
         if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
-        theme = localStorage.getItem('theme') === 'dark'
+        setTheme(localStorage.getItem('theme') === 'dark')
     }, [sessionUserTheme])
 
     useEffect(() => {
         dispatch(loadServer(serverId))
-        .then(server => {
-            const channels = {}
-            if (server.channels) {
-                for (let channel of Object.values(server.channels)){
-                    channels[channel.id] = channel
+            .then(server => {
+                const channels = {}
+                if (server.channels) {
+                    for (let channel of Object.values(server.channels)) {
+                        channels[channel.id] = channel
+                    }
                 }
-            }
 
-            if (!server || !channels[channelId]){
-               return  navigate('/redirect')
-            }
-        })
-    }, [dispatch])
+                if (!server || !channels[channelId]) {
+                    return navigate('/redirect')
+                }
+            })
+    }, [dispatch, channelId, navigate, serverId])
 
     function generate_message_layout() {
         // func to iterate over all messages for a channel
@@ -129,7 +129,7 @@ export default function ChannelPage({ socket, serverId }) {
         <>
 
             <div className="channel-page-wrapper">
-                <div className={`channel-page-button-container ${ theme ? 'channel-page-button-container-dark' : ''}`}>
+                <div className={`channel-page-button-container ${theme ? 'channel-page-button-container-dark' : ''}`}>
                     <OpenModalButton
                         buttonText={<div className="channel-page-first-button">
                             <i className="fa-solid fa-hashtag"></i>
@@ -139,7 +139,19 @@ export default function ChannelPage({ socket, serverId }) {
                         modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
                     />
                     {users && <OpenModalButton
-                        buttonText={`${Object.keys(users).length} Members`}
+                        buttonText={<div className="channel-members-button-wrapper">
+
+
+                            {Object.values(server.users).slice(0, 3).map((user) => (
+                                <div className="member-button-image-wrapper" key={user.id}>
+                                    <img src={user.image_url} />
+                                </div>
+                            ))}
+
+
+                            {`${Object.keys(users).length}`}
+                        </div>
+                        }
                         modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
                     />}
                 </div>

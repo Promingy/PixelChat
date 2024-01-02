@@ -18,14 +18,14 @@ export default function Redirect() {
             navigate('/landing')
         }
 
-    }, [time])
+    }, [time, navigate, reduceTime])
 
     return (
         <div className='redirect'>
             <h1>Error 404: The page you are looking for does not exist or has been deleted.</h1>
             <h3>Redirecting back to the <Link
-                                            to='/landing'
-                                            onClick={() => clearTimeout(reduceTime)}>home page</Link> in {time}</h3>
+                to='/landing'
+                onClick={() => clearTimeout(reduceTime)}>home page</Link> in {time}</h3>
         </div>
     )
 }
