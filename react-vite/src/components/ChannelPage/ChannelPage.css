@@ -404,6 +404,8 @@
   --inner-nav-header-hover: #C9AECB;
   --inner-nav-hover: #C7ACC8;
   --channel-header-hover: #f6f6f6;
+  --inner-nav-channel-font: #454447;
+  --inner-nav-wrapper-border: #C0AEC4;
 }
 
 .theme-dark {
@@ -413,4 +415,6 @@
   --inner-nav-header-hover: #562C56;
   --inner-nav-hover: #562C56;
   --channel-header-hover: #353739;
+  --inner-nav-channel-font: #B9BABE;
+  --inner-nav-wrapper-border: #747474;
 }
