@@ -11,7 +11,7 @@ import ChannelCreationForm from "../ChannelCreationForm";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
-export default function OuterNavbar() {
+export default function OuterNavbar({ socket }) {
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
@@ -120,7 +120,7 @@ export default function OuterNavbar() {
             <OpenModalButton
               buttonText="Create a Channel"
               onItemClick={closeMenu1}
-              modalComponent={<ChannelCreationForm />}
+              modalComponent={<ChannelCreationForm socket={socket} />}
             />
           </div>
         </div>

@@ -2,11 +2,13 @@ import { useDispatch } from "react-redux"
 import { useModal } from "../../context/Modal"
 import { deleteImage, removeServer } from "../../redux/server"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import "./ServerDeletionModal.css"
 
 export default function ServerDeletionModal({ server, socket }) {
     const [errors] = useState({})
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { closeModal } = useModal()
 
@@ -23,8 +25,8 @@ export default function ServerDeletionModal({ server, socket }) {
             const res = await dispatch(removeServer(serverId))
             if (res.ok) {
                 await dispatch(deleteImage(server.image_url))
-
                 closeModal()
+                navigate('/landing')
             }
         }
 

@@ -10,7 +10,7 @@ export default function PutPopupFormModal({ inputType, target, socket }) {
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
     const { channelId } = useParams()
-    const [content, setContent] = useState(target === "server" ? server[inputType] : server.channels[channelId][inputType])
+    const [content, setContent] = useState(target === "server" ? (server[inputType] || '') : (server.channels[channelId][inputType] || ''))
     const [errors, setErrors] = useState({})
     const { closeModal } = useModal()
     const dispatch = useDispatch()
