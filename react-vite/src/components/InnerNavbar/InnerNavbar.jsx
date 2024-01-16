@@ -7,7 +7,7 @@ import ChannelCreationForm from '../ChannelCreationForm'
 import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
 import "./InnerNavbar.css"
 
-export default function InnerNavbar({ socket }) {
+export default function InnerNavbar({ socket, showNavBar, setShowNavBar }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
     const server = useSelector((state) => state.server)
@@ -61,7 +61,7 @@ export default function InnerNavbar({ socket }) {
     if (!server.channels) return null
     return (
         <>
-            <div className={`inner-navbar-wrapper`}>
+            <div className={`inner-navbar-wrapper${showNavBar? ' do-show':''}`}>
                 <div className={`inner-navbar-header`}>
                     <OpenModalButton
                         modalComponent={<ServerPopupModal socket={socket} />}
@@ -85,7 +85,7 @@ export default function InnerNavbar({ socket }) {
                         />
                     </div>
                     {Object.values(server.channels).map((channel) => (
-                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""} ${theme ? 'not-selected-channel-dark' : ''}`}>
+                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">

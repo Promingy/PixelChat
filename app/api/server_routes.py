@@ -55,13 +55,6 @@ def upload_image():
         # print(form.errors)
         return {"errors": form.errors}, 401
 
-@server.route("images/:image_url", methods=["DELETE"])
-def delete_image(image_url):
-    removed = remove_file_from_s3(image_url)
-    # print(removed)
-    return {"removed": removed}
-
-
 @server.route('', methods=['POST'])
 @login_required
 def create_server():
@@ -102,6 +95,7 @@ def edit_server(serverId):
 def delete_server(serverId):
     server = Server.query.get(serverId)
     if server and int(session['_user_id']) == server.to_dict()['owner_id']:
+        remove_file_from_s3(server.image_url)
         db.session.delete(server)
         db.session.commit()
         return {'message': 'Successfully deleted'}

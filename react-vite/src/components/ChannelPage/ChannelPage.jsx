@@ -12,7 +12,7 @@ import { loadServer } from "../../redux/server";
 
 
 
-export default function ChannelPage({ socket, serverId }) {
+export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { channelId } = useParams()
@@ -23,6 +23,7 @@ export default function ChannelPage({ socket, serverId }) {
     const [offset, setOffset] = useState(15)
     const sessionUserTheme = useSelector(state => state.session.user.theme)
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
+
 
     useEffect(() => {
         if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
@@ -126,52 +127,79 @@ export default function ChannelPage({ socket, serverId }) {
 
 
     return (
-        <>
-
-            <div className="channel-page-wrapper">
-                <div className={`channel-page-button-container ${theme ? 'channel-page-button-container-dark' : ''}`}>
-                    <OpenModalButton
-                        buttonText={<div className="channel-page-first-button">
-                            <i className="fa-solid fa-hashtag"></i>
-                            {channel?.name}
-                            <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
-                        </div>}
-                        modalComponent={<ChannelPopupModal activeProp={1} socket={socket} />}
-                    />
-                    {users && <OpenModalButton
-                        buttonText={<div className="channel-members-button-wrapper">
-
-
-                            {Object.values(server.users).slice(0, 3).map((user) => (
-                                <div className="member-button-image-wrapper" key={user.id}>
-                                    <img src={user.image_url} />
-                                </div>
-                            ))}
-
-
-                            {`${Object.keys(users).length}`}
+      <>
+        <button className={`open-nav-bar${showNavBar? ' do-not-show' : ''}`} onClick={()=>{setShowNavBar(true)}}>
+          <i className="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+        <div className={`close-nav-bar${showNavBar? ' do-show' : ''}`} onClick={()=>{setShowNavBar(false)}}></div>
+        <div className="channel-page-wrapper">
+          <div
+            className={`channel-page-button-container ${
+              theme ? "channel-page-button-container-dark" : ""
+            }`}
+          >
+            <OpenModalButton
+              buttonText={
+                <div className="channel-page-first-button">
+                  <i className="fa-solid fa-hashtag"></i>
+                  {channel?.name}
+                  <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+                </div>
+              }
+              modalComponent={
+                <ChannelPopupModal activeProp={1} socket={socket} />
+              }
+            />
+            {users && (
+              <OpenModalButton
+                buttonText={
+                  <div className="channel-members-button-wrapper">
+                    {Object.values(server.users)
+                      .slice(0, 3)
+                      .map((user) => (
+                        <div
+                          className="member-button-image-wrapper"
+                          key={user.id}
+                        >
+                          <img src={user.image_url} />
                         </div>
-                        }
-                        modalComponent={<ChannelPopupModal activeProp={2} socket={socket} />}
-                    />}
-                </div>
-                <div className="all-messages-container" id='all-messages-container'>
-                    {generate_message_layout()}
+                      ))}
 
-                    {messages && <InfiniteScroll
-                        dataLength={Object.values(messages).length}
-                        hasMore={!(Object.values(messages).length % 15)}
-                        next={() => {
-                            dispatch(getMessages(channelId, `offset=${offset}`))
-                            setOffset(prevOffset => prevOffset += 15)
-                        }}
-                        inverse={true}
-                        scrollableTarget='all-messages-container'
-                        endMessage={<h3 style={{ textAlign: 'center' }}>No more messages.</h3>}
-                    />}
-                </div>
-                <MessageBox socket={socket} serverId={server.id} channelName={channel?.name} channelId={channelId} />
-            </div>
-        </>
-    )
+                    {`${Object.keys(users).length}`}
+                  </div>
+                }
+                modalComponent={
+                  <ChannelPopupModal activeProp={2} socket={socket} />
+                }
+              />
+            )}
+          </div>
+          <div className="all-messages-container" id="all-messages-container">
+            {generate_message_layout()}
+
+            {messages && (
+              <InfiniteScroll
+                dataLength={Object.values(messages).length}
+                hasMore={!(Object.values(messages).length % 15)}
+                next={() => {
+                  dispatch(getMessages(channelId, `offset=${offset}`));
+                  setOffset((prevOffset) => (prevOffset += 15));
+                }}
+                inverse={true}
+                scrollableTarget="all-messages-container"
+                endMessage={
+                  <h3 style={{ textAlign: "center" }}>No more messages.</h3>
+                }
+              />
+            )}
+          </div>
+          <MessageBox
+            socket={socket}
+            serverId={server.id}
+            channelName={channel?.name}
+            channelId={channelId}
+          />
+        </div>
+      </>
+    );
 }

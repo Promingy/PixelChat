@@ -15,6 +15,7 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-left: 1px solid var(--inner-nav-wrapper-border);
+    
 }
 
 .inner-navbar-header {
@@ -57,6 +58,10 @@
 
 .inner-navbar-header>button:hover {
     background-color: var(--inner-nav-header-hover)
+}
+
+.inner-navbar-header>button:active {
+    background-color: var(--inner-nav-header-active)
 }
 
 .inner-navbar-content {
@@ -121,6 +126,10 @@
 
 .not-selected-channel:hover {
     background-color: var(--inner-nav-hover);
+}
+
+.not-selected-channel:active {
+    background-color: var(--inner-nav-active);
 }
 
 
@@ -204,6 +213,10 @@
 .channel-dropdown>button:hover {
     background-color: #1064A3;
     color: white;
+}
+
+.channel-dropdown>button:active {
+    background-color: #0e5b96;
 }
 
 .creator-container {

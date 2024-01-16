@@ -66,6 +66,10 @@
     color: black;
 }
 
+.logout-button:active {
+    color: #F6F6F6;
+}
+
 .landing-create-new-server {
     margin: auto;
     width: fit-content;
@@ -116,7 +120,11 @@
 }
 
 .landing-server-link:hover {
-    background-color: #F8F8F8;
+    background-color: #F6F6F6;
+}
+
+.landing-server-link:active {
+    background-color: #F1F1F1;
 }
 
 .landing-server-image {
@@ -166,5 +174,9 @@
 }
 
 .try-different-email:hover {
-    background-color: #F8f8f8;
+    background-color: #F6f6f6;
+}
+
+.try-different-email:hover {
+    background-color: #F1f1f1;
 }
