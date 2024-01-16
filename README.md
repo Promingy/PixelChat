@@ -1,4 +1,4 @@
-# <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' width="40" height="40" /> PixelChat
+# <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default_Server_Image.svg' width="40" height="40" /> PixelChat
 
 PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
 
