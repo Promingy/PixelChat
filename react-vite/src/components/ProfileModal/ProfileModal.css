@@ -2,18 +2,22 @@
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(0);
   }
 }
+
 @keyframes slideOut {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
+
 .profile-modal {
   position: fixed;
   top: 0;
@@ -29,6 +33,7 @@
   animation: slideIn .4s;
   overflow: scroll;
 }
+
 .profile-modal2 {
   position: fixed;
   top: 0;
@@ -46,7 +51,7 @@
 
 .profile-top {
   padding: 10px;
-  border-bottom: 1px solid rgb(170,170,170, 20%);
+  border-bottom: 1px solid rgb(170, 170, 170, 20%);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,12 +59,12 @@
 
 .profile-header {
   padding: 10px;
-  border-bottom:1px solid rgb(170,170,170, 20%);
+  border-bottom: 1px solid rgb(170, 170, 170, 20%);
 }
 
 .profile-middle {
   padding: 10px;
-  border-bottom: 1px solid rgb(170,170,170, 20%)
+  border-bottom: 1px solid rgb(170, 170, 170, 20%)
 }
 
 
@@ -75,7 +80,7 @@
 }
 
 
-.profile-top button {
+.profile-top>i {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -83,7 +88,7 @@
   color: #555;
 }
 
-.profile-top button:hover {
+.profile-top>i:hover {
   color: #333;
 }
 
