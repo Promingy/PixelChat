@@ -94,8 +94,101 @@ You will be able to test the features without sign up by clicking on one of the 
 ## Technical implementation details
 
 * Websockets
+  * We set up on the backend a websocket listener that listens for server, join messages, and leave messages. When somebody joins a server on the server page, they are subscribed to the room (i.e. server) listener. Any message sent from them or anyone else that has joined that room is broadcasted to everyone else that has joined this room.
+     * insert img 9 codeblock
+  * Any time anyone performs a CRUD action in a server (for reactions, channels, messages, and/or servers), we dispatch a thunk to the backend database, then emit a message saying what we just did, and finally everyone (including the actor that initiated this CRUD) will receive this message and update their frontend redux store accordingly - message reception code parses through the type of message and the action, and using any data attached to the message will update the local state of everyone who received the message.
+    ```
+    const sendSocket = (message) => {
+        socket.emit("server", message)
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+
+        const newMessage = {
+            body: message,
+            pinned: false
+        }
+        setMessage('')
+
+        dispatch(initializeMessage(channelId, newMessage))
+            .then(res => {
+                const messageToEmit = {
+                    userId: res.user_id,
+                    type: 'message',
+                    method: "POST",
+                    room: +serverId,
+                    channelId,
+                    message: res
+                }
+
+                sendSocket(messageToEmit)
+
+                const element = document.querySelector('.all-messages-container')
+                element.scrollTo(0, element.scrollHeight)
+            })
+
+
+    }
+    ```
 * AWS
-  * (delete route)
+  * In the backend, we set up a file with helper functions that uses environmental variables to connect to the AWS S3 Bucket and exports functions to delete from and upload images to that bucket.
+  ```
+   import boto3
+   import botocore
+   import os
+   import uuid
+
+   ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "svg"}
+   BUCKET_NAME = os.environ.get("S3_BUCKET")
+   S3_LOCATION = f"http://{BUCKET_NAME}.s3.amazonaws.com/"
+
+   s3 = boto3.client(
+      "s3",
+      aws_access_key_id=os.environ.get("S3_KEY"),
+      aws_secret_access_key=os.environ.get("S3_SECRET"),
+      region_name="us-west-1"
+   )
+
+   def get_unique_filename(filename):
+      ext = filename.rsplit(".", 1)[1].lower()
+      unique_filename = uuid.uuid4().hex
+      return f"{unique_filename}.{ext}"
+
+   def upload_file_to_s3(file, acl="public-read"):
+      try:
+         s3.upload_fileobj(
+               file,
+               BUCKET_NAME,
+               file.filename,
+               ExtraArgs={
+                "ACL": acl,
+                "ContentType": file.content_type
+            }
+        )
+      except Exception as e:
+         # in case the our s3 upload fails
+         return {"errors": str(e)}
+
+    return {"url": f"{S3_LOCATION}{file.filename}"}
+
+   def remove_file_from_s3(image_url):
+      # AWS needs the image file name, not the URL,
+      # so we split that out of the URL
+      key = image_url.rsplit("/", 1)[1]
+      try:
+         s3.delete_object(
+         Bucket=BUCKET_NAME,
+         Key=key
+        )
+      except Exception as e:
+         return { "errors": str(e) }
+      return True
+
+
+  ```
+  * In our user creation, server creation, and server deletion routes, we call these helper functions when appropriate
+   * Note: one issue we ran into was passing the server image url from the frontend component into the backend route. We attempted to pass the image url into the backend route as a url parameter. However, the backend route did not recognize it as a url parameter because it was itself a url. We resolved this issue by refactoring our delete server backend route so that the server image url is directly queried using the id of the server we were trying to delete.
 * Themes
 * Slideout menu
 
