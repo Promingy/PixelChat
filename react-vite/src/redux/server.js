@@ -147,13 +147,6 @@ export const uploadImage = (image) => async () => {
     return data
 }
 
-export const deleteImage = (image_url) => async () => {
-    const res = await fetch(`/api/servers/images/${image_url}`, {
-        method: "DELETE"
-    })
-    return res
-}
-
 export const loadServer = (serverId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
