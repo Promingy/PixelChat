@@ -15,7 +15,7 @@ PixelChat is a website clone of [Slack](https://www.slack.com/) populated with c
 
 This is a concise list of what was utilized to develop this project.
 
-* JavaScript
+* <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/javascript/javascript-original.svg"> JavaScript
 * HTML5
 * CSS3
 * Python
@@ -82,7 +82,7 @@ You will be able to test the features without sign up by clicking on one of the 
 <img src='./images/readme_img_2.png'>
 <img src='./images/readme_image_main.png'>
 
-## Future Features
+## ⏩ Future Features
 * Huddles
 * Direct Messages
 * Threads
