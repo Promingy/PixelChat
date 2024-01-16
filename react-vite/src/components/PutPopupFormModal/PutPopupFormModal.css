@@ -70,18 +70,26 @@
 }
 
 .server-popup-form-cancel:hover {
-    background-color: #F2F2F2;
+    background-color: #F6F6F6;
+}
+
+.server-popup-form-cancel:active {
+    background-color: #F1F1F1;
 }
 
 .server-popup-form-submit {
-    background-color: #007A5A;
+    background-color: #2e8b57;
     border: none;
     color: white;
     cursor: pointer;
 }
 
 .server-popup-form-submit:hover {
-    background-color: #138567;
+    background-color: #297c4d;
+}
+
+.server-popup-form-submit:active {
+    background-color: #236a41;
 }
 
 .character-count {
@@ -102,5 +110,9 @@ input::file-selector-button {
 }
 
 input::file-selector-button:hover {
+    background-color: #d6d6d6;
+}
+
+input::file-selector-button:active {
     background-color: #ccc;
 }
