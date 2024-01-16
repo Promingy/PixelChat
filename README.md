@@ -2,14 +2,16 @@
 
 PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
 
-## Wiki Link
+## 🌐 Wiki Link
 
-* [API Routes](https://github.com/Promingy/SlackProject/wiki/API-routes)
 * [Database Schema](https://github.com/Promingy/SlackProject/wiki/Slack-Clone-DB-Schema)
+* [Feature List](https://github.com/Promingy/SlackProject/wiki/Feature-list)
 * [User Stories](https://github.com/Promingy/SlackProject/wiki/User-Stories)
+* [API Routes](https://github.com/Promingy/SlackProject/wiki/API-routes)
 * [Frontend Routes](https://github.com/Promingy/SlackProject/wiki/Frontend-routes)
+* [React Components List](https://github.com/Promingy/SlackProject/wiki/React-Components-list)
 
-## Languages and Technologies
+## 💻 Languages and Technologies
 
 This is a concise list of what was utilized to develop this project.
 
@@ -24,7 +26,7 @@ This is a concise list of what was utilized to develop this project.
 * AWS
 * Websockets
 
-## Getting started
+## ⚙️ Getting started
 
 1. Clone this repository (only the main branch).
 
@@ -72,7 +74,7 @@ This is a concise list of what was utilized to develop this project.
    folder whenever you change your code, keeping the production version up to
    date. Finally, run `npm run dev` to open the application on the local browser.
 
-## Landing Page:
+## 📷 Landing Page:
 
 You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
@@ -82,3 +84,6 @@ You will be able to test the features without sign up by clicking on one of the 
 
 ## Future Features
 * Huddles
+* Direct Messages
+* Threads
+* Search
