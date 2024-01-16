@@ -26,7 +26,7 @@ This is a concise list of what was utilized to develop this project.
    <img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL " width="40" height="40"/>&nbsp;
    <img src="https://github.com/devicons/devicon/blob/master/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" title="AWS" alt="AWS" width="40" height="40"/>&nbsp;
    <img src="https://github.com/devicons/devicon/blob/master/icons/git/git-original-wordmark.svg" title="Git" **alt="Git" width="40" height="40"/>
-   <img src="https://www.bmpgmbh.de/images/websockets-logo.png" title="Websockets" **alt="Websockets" width="40" height="40"/>
+   <img src="https://i.morioh.com/9f75e619b0.png" title="Websockets" **alt="Websockets" width="40" height="40"/>
 </div>
 
 ## ⚙️ Getting started
