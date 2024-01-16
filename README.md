@@ -91,6 +91,14 @@ You will be able to test the features without sign up by clicking on one of the 
 <img src='./images/readme_img_8.png'>
 <img src='./images/readme_image_main.png'>
 
+## Technical implementation details
+
+* Websockets
+* AWS
+  * (delete route)
+* Themes
+* Slideout menu
+
 ## ⏩ Future Features
 * Huddles
 * Direct Messages
