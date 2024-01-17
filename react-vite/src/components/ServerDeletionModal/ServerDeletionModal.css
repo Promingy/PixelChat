@@ -1,6 +1,8 @@
 .server-popup-delete-wrapper {
     padding: 20px;
     width: 500px;
+    max-width: 90vw;
+    box-sizing: border-box;
     background-color: var(--color-background);
     color: var(--color-font);
 }

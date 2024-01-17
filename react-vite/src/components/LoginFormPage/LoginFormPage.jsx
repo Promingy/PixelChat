@@ -101,13 +101,13 @@ function LoginFormPage() {
         <button type="submit" className="large-purple-button">
           Log In
         </button>
-        <div id="auto-login">
+        <div className="demo-user-wrapper">
           <button onClick={demoUserLogin} className="large-white-button">
             {" "}
             Log in as Demo User{" "}
           </button>
         </div>
-        <div>
+        <div className="demo-user-wrapper">
           <button className="large-white-button" onClick={demoUser2Login}>
             Log in as Demo User 2
           </button>
