@@ -21,16 +21,6 @@ export default function ChannelPage({ socket, serverId }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
-    const sessionUserTheme = useSelector(state => state.session.user.theme)
-    const [theme, setTheme] = useState("light")
-
-    useEffect(() => {
-        const storedTheme = localStorage.getItem('theme')
-
-        if (storedTheme){
-            setTheme(storedTheme)
-        }
-    }, [])
 
     useEffect(() => {
         dispatch(loadServer(serverId))
