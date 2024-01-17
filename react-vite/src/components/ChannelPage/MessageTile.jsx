@@ -8,7 +8,7 @@ import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 
 
-export default function MessageTile({ message, user, channelId, socket, theme }) {
+export default function MessageTile({ message, user, channelId, socket }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
@@ -102,7 +102,7 @@ export default function MessageTile({ message, user, channelId, socket, theme })
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
-                        theme={theme ? 'dark' : 'light'}
+                        theme={localStorage.getItem('theme') || 'light'}
 
                         // if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {

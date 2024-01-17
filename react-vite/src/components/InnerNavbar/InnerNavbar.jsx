@@ -85,7 +85,7 @@ export default function InnerNavbar({ socket }) {
                         />
                     </div>
                     {Object.values(server.channels).map((channel) => (
-                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""} ${theme ? 'not-selected-channel-dark' : ''}`}>
+                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">

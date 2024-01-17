@@ -21,13 +21,6 @@ export default function ChannelPage({ socket, serverId }) {
     const messages = server?.channels?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
-    const sessionUserTheme = useSelector(state => state.session.user.theme)
-    const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
-
-    useEffect(() => {
-        if (localStorage.getItem('theme')) document.documentElement.className = `theme-${localStorage.getItem('theme')}`
-        setTheme(localStorage.getItem('theme') === 'dark')
-    }, [sessionUserTheme])
 
     useEffect(() => {
         dispatch(loadServer(serverId))
@@ -74,9 +67,9 @@ export default function ChannelPage({ socket, serverId }) {
 
                     result.push(
                         <div key={message.id}>
-                            <div className={`date-wrapper ${localStorage.getItem('theme') === 'dark' ? 'date-wrapper-dark' : ''}`}>
-                                <p className={`message-date-separator ${localStorage.getItem('theme') === 'dark' ? 'message-date-separator-dark' : ''}`}>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
-                                <div className={`date-divider ${localStorage.getItem('theme') === 'dark' ? 'date-divider-dark' : ''}`} />
+                            <div className='date-wrapper'>
+                                <p className='message-date-separator'>{days[curr_date.getDay()]}, {months[curr_date.getMonth()]} {curr_date.getDate()}{dateSuffix[curr_date.getDate()] || 'th'}</p>
+                                <div className='date-divider' />
                             </div>
                             {/* <div className="date-separator-bar"/> */}
                             <MessageTile
@@ -86,7 +79,6 @@ export default function ChannelPage({ socket, serverId }) {
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
-                                theme={theme}
                             />
                         </div>
                     )
@@ -101,7 +93,6 @@ export default function ChannelPage({ socket, serverId }) {
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
-                                theme={theme}
                             />
                         </div>
                     )
@@ -129,7 +120,7 @@ export default function ChannelPage({ socket, serverId }) {
         <>
 
             <div className="channel-page-wrapper">
-                <div className={`channel-page-button-container ${theme ? 'channel-page-button-container-dark' : ''}`}>
+                <div className='channel-page-button-container'>
                     <OpenModalButton
                         buttonText={<div className="channel-page-first-button">
                             <i className="fa-solid fa-hashtag"></i>
