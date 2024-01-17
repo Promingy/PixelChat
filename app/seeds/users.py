@@ -1,17 +1,19 @@
-from app.models import db, User, Server, environment, SCHEMA
+from app.models import db, User, environment, SCHEMA
 from .channels import channel_1, channel_2, channel_3, channel_4
+from .servers import servers
 from sqlalchemy.sql import text
 
+server1, server2 = servers
 
 # Adds a demo user, you can add other users here if you want
-def seed_users_servers():
+def seed_users():
     """
-    Func to that creates and adds user and server seed data to the data base
+    Func to that creates and adds user seed data to the data base
     as well as create the many-to-many relationships with Users & Servers and
     Users & Channels
     """
 
-    #lines 15-10 creates the users
+    #lines 15-102 creates the users
     demo = User(
         username = 'Demo',
         first_name = 'Demo',
@@ -100,22 +102,8 @@ def seed_users_servers():
     )
 
 
-    # Creates the server seed data
-    server1 = Server(
-        owner_id = '1',
-        name = "OmniPlay",
-        description = "Step into OmniPlay, where gaming universes collide in a magnificent mess of pixels and power-ups!",
-    )
-
-    server2 = Server(
-        owner_id = '2',
-        name = "Unity Universe",
-        description = "Welcome to Unity Universe, the intergalactic gaming fiesta where even the aliens can't resist a round of Among Us!",
-    )
-
     # compact all users and servers into list comprehensions for easy commiting
     users = [demo, zelda, mario, pikachu, spiderman, kirby, frisk, steve]
-    servers = [server1, server2]
 
     # Set servers/users many-to-many relationship connections
     [user.servers.append(server1) for user in users]
@@ -125,10 +113,9 @@ def seed_users_servers():
     [user.channels.append(channel_1) for user in users]
     [user.channels.append(channel_2) for user in users]
     [user.channels.append(channel_3) for user in users if user.username not in ['Demo', 'Spiderman']]
-    [user.channels.append(channel_4) for user in users if user.username not in ['Demo', 'Spiderman', 'Mario']]
+    [user.channels.append(channel_4) for user in users if user.username not in ['Demo', 'Spiderman']]
 
     # Pre-stages servers and users for commiting to the database
-    [db.session.add(server) for server in servers]
     [db.session.add(user) for user in users]
 
     # commit servers and users and relationships to the databse
@@ -143,14 +130,11 @@ def seed_users_servers():
 # it will reset the primary keys for you as well.
 def undo_users():
     """
-    func that undos the data for Servers and Users
+    func that undos the data for Users
     """
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
 
-        db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
-
-        db.session.execute(f"TRUNCATe table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
 

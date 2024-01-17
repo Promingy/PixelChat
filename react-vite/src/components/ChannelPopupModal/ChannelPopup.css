@@ -39,6 +39,10 @@
     background-color: var(--color-hover)
 }
 
+.channel-popup-member:active {
+    background-color: var(--color-active)
+}
+
 .channel-popup-members-scroll {
     overflow-y: auto;
     height: 440px;
@@ -60,11 +64,19 @@
     color: #616061;
     cursor: pointer;
     margin-bottom: 0;
-    padding-bottom: 8px;
+    padding: 4px 8px 8px 8px;
 }
 
 .channel-popup-tab:hover {
     color: var(--color-font)
+}
+
+.channel-popup-tab:active {
+    background-color: var(--color-active)
+}
+
+.channel-popup-tab:active {
+    background-color: var(--color-hover)
 }
 
 .channel-popup-content-wrapper {
@@ -123,6 +135,10 @@
 
 .topic-modal-wrapper>button:hover {
     background-color: var(--color-hover)
+}
+
+.topic-modal-wrapper>button:active {
+    background-color: var(--color-active)
 }
 
 .channel-popup-about-div {

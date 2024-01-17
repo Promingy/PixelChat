@@ -84,7 +84,7 @@
 
 .add-server-button {
     border: none;
-    background-color: #2DB67D;
+    background-color: #2e8b57;
     color: white;
     height: 28px;
     width: 28px;
@@ -93,5 +93,9 @@
 }
 
 .add-server-button:hover {
-    background-color: #23AB73;
+    background-color: #297c4d;
+}
+
+.add-server-button:active {
+    background-color: #236a41;
 }

@@ -60,6 +60,10 @@
     background-color: var(--inner-nav-header-hover)
 }
 
+.inner-navbar-header>button:active {
+    background-color: var(--inner-nav-header-active)
+}
+
 .inner-navbar-content {
     padding: 0px;
     width: 100%;
@@ -122,6 +126,10 @@
 
 .not-selected-channel:hover {
     background-color: var(--inner-nav-hover);
+}
+
+.not-selected-channel:active {
+    background-color: var(--inner-nav-active);
 }
 
 
@@ -205,6 +213,10 @@
 .channel-dropdown>button:hover {
     background-color: #1064A3;
     color: white;
+}
+
+.channel-dropdown>button:active {
+    background-color: #0e5b96;
 }
 
 .creator-container {
