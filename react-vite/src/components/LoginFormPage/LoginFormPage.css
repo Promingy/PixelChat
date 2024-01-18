@@ -2,9 +2,11 @@
     display: flex;
     justify-content: center;
     width: 400px;
+    max-width: 90%;
     flex-wrap: wrap;
     margin: auto;
     gap: 20px;
+    margin-bottom: 20px;
 }
 
 .login-form>h1 {
@@ -30,4 +32,3 @@
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
     font-weight: 400;
 }
-

@@ -1,3 +1,23 @@
+@media screen and (max-width: 500px) {
+    .landing-top-half>h1 {
+        font-size: 20px;
+    }
+
+    .landing-top-half>h2 {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    .landing-top-half>h1 {
+        font-size: 30px;
+    }
+
+    .landing-top-half>h2 {
+        font-size: 16px;
+    }
+}
+
 .landing-top-half-background {
     position: relative;
     background-color: #FAF6F2;
@@ -10,22 +30,37 @@
     background-color: #FAF6F2;
     height: 370px;
     width: 500px;
-    display: grid;
-    grid-template-columns: 1fr;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     margin: auto;
+    overflow: hidden;
 }
 
 .landing-top-half>img {
-    margin-bottom: 0px;
+    margin-bottom: -15px;
+}
+
+.landing-top-half>a {
+    max-width: 100%;
+    margin: 0px;
+}
+
+.landing-top-half>a>button {
+    margin: 0px;
 }
 
 .landing-header {
-    margin-top: -20px;
-    height: 0px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-confirm {
-    margin: auto;
+    margin: 0px;
     text-align: center;
     background-color: white;
     border-radius: 50px;
@@ -33,24 +68,25 @@
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 10px;
     font-size: 12px;
 }
 
 .landing-top-half>h1 {
-    font-size: 30px;
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
     width: 100%;
     text-align: center;
-    margin-bottom: 0px;
+    margin: 5px 0px 0px 0px;
+    padding: 0px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
 }
 
 .landing-top-half>h2 {
     text-align: center;
-    font-size: 16px;
     width: 400px;
-    margin: auto;
-    margin-top: 0px;
+    max-width: 100%;
+    margin: 0px;
     font-weight: 400;
 }
 
@@ -85,6 +121,7 @@
 
 .landing-bottom-half {
     width: 400px;
+    max-width: 90%;
     display: grid;
     grid-template-columns: 1fr;
     margin: auto;
@@ -102,6 +139,7 @@
     border-radius: 5px;
     max-height: 300px;
     overflow-y: scroll;
+    width: 100%;
 }
 
 .available-servers-header {
@@ -114,9 +152,15 @@
     color: black;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 60px;
     padding: 10px;
     cursor: pointer;
+    max-width: 100%;
+}
+
+.landing-server-link>i {
+    margin-right: 20px;
 }
 
 .landing-server-link:hover {
@@ -125,6 +169,13 @@
 
 .landing-server-link:active {
     background-color: #F1F1F1;
+}
+
+.available-server-lhs {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: start;
 }
 
 .landing-server-image {
@@ -139,10 +190,6 @@
 
 .landing-server-image>img {
     height: 100%;
-}
-
-.landing-server-name {
-    width: 280px;
 }
 
 .landing-change-email {

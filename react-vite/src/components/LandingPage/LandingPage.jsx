@@ -67,8 +67,10 @@ export default function LandingPage() {
                     <div className="available-servers-header">Servers for <b>{sessionUser?.email}</b></div>
                     {Object.values(sessionUser.servers).map((server) => (
                         <div className='landing-server-link' onClick={(() => navigateToServer(server.id))} key={server.id}>
-                            <div className="landing-server-image"><img src={server.image_url} /></div>
-                            <div className="landing-server-name">{server.name}</div>
+                            <div className="available-server-lhs">
+                                <div className="landing-server-image"><img src={server.image_url} /></div>
+                                <div className="landing-server-name">{server.name}</div>
+                            </div>
                             <i className="fa-solid fa-arrow-right"></i>
                         </div>
 

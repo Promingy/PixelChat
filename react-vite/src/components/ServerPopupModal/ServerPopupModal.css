@@ -1,5 +1,6 @@
 .server-popup {
     width: 500px;
+    max-width: 90vw;
     padding: 0px;
     overflow: hidden;
     position: relative;
