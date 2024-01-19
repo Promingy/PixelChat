@@ -69,5 +69,9 @@
 }
 
 .create-button:hover {
-  background-color: #268450
+  background-color: #297c4d
+}
+
+.create-button:active {
+  background-color: #236a41
 }

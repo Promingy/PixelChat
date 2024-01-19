@@ -1,5 +1,6 @@
 .server-popup {
     width: 500px;
+    max-width: 90vw;
     padding: 0px;
     overflow: hidden;
     position: relative;
@@ -95,6 +96,10 @@
     background-color: var(--color-hover)
 }
 
+.server-modal-wrapper>button:active {
+    background-color: var(--color-active)
+}
+
 .server-popup-about-div {
     display: flex;
     justify-content: space-between;
@@ -132,7 +137,11 @@
 }
 
 .server-popup-huddle-buttons>button:hover {
-    background-color: #F6F6F6
+    background-color: #F6F6F6;
+}
+
+.server-popup-huddle-buttons>button:active {
+    background-color: #F1F1F1;
 }
 
 .server-popup-delete-button {
@@ -145,4 +154,8 @@
 
 .server-popup-delete-button>button:hover {
     background-color: #F6F6F6
+}
+
+.server-popup-delete-button>button:active {
+    background-color: #F1F1F1
 }

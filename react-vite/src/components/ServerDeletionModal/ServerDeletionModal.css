@@ -1,6 +1,8 @@
 .server-popup-delete-wrapper {
     padding: 20px;
     width: 500px;
+    max-width: 90vw;
+    box-sizing: border-box;
     background-color: var(--color-background);
     color: var(--color-font);
 }
@@ -42,7 +44,11 @@
 }
 
 .server-popup-modal-delete-cancel:hover {
-    background-color: #F8F8F8;
+    background-color: #F6F6F6;
+}
+
+.server-popup-modal-delete-cancel:active {
+    background-color: #F1F1F1;
 }
 
 .server-popup-modal-delete-submit {
@@ -53,4 +59,8 @@
 
 .server-popup-modal-delete-submit:hover {
     background-color: #D00E4A;
+}
+
+.server-popup-modal-delete-submit:active {
+    background-color: #c00d46;
 }
