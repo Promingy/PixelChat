@@ -356,7 +356,6 @@
   background-color: var(--color-hover);
   font-size: 13px;
   font-weight: 600;
-  z-index: 1;
   position: relative;
   margin: 0;
   background-color: white;
@@ -371,7 +370,7 @@
   position: relative;
   border-bottom: 1px solid #ddd;
   margin-top: 0px;
-  z-index: 0;
+  z-index: -1;
   height: 0px;
   width: 100%;
   margin-top: -15px;
