@@ -27,28 +27,28 @@
   min-height: 49px;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--header-bottom-border);
   padding: 10px;
 }
 
-.channel-page-button-container-dark {
-  border-bottom: 1px solid #747474;
-}
-
-.channel-page-button-container > button {
+.channel-page-button-container>button {
   background: none;
   border-radius: 5px;
   padding: none;
 }
 
-.channel-page-button-container > button:first-child {
+.channel-page-button-container>button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container > button:hover {
+.channel-page-button-container>button:hover {
   background-color: var(--channel-header-hover);
+}
+
+.channel-page-button-container>button:active {
+  background-color: var(--channel-header-active);
 }
 
 .channel-page-first-button {
@@ -62,7 +62,7 @@
   font-size: 12px;
 }
 
-.channel-page-button-container > button:last-child {
+.channel-page-button-container>button:last-child {
   border-radius: 5px;
   border: 1px solid #eaeaea;
   padding: 0;
@@ -72,13 +72,11 @@
   align-items: center;
 }
 
-.channel-page-button-container > button:last-child:hover {
+.channel-page-button-container>button:last-child:hover {
   color: var(--color-font);
 }
 
-.channel-page-button-container
-  > button:last-child:hover
-  .member-button-image-wrapper {
+.channel-page-button-container>button:last-child:hover .member-button-image-wrapper {
   border: 3px solid var(--channel-header-hover);
 }
 
@@ -107,8 +105,8 @@
   background-color: white;
 }
 
-.member-button-image-wrapper > img {
-  height: 100%;
+.member-button-image-wrapper>img {
+  height: 100%
 }
 
 .all-messages-container {
@@ -161,9 +159,6 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-}
-
-.message-profile-pic:hover {
   cursor: pointer;
 }
 
@@ -188,9 +183,6 @@
   gap: 5px;
   height: fit-content;
   width: fit-content;
-}
-
-.date-name-container:hover {
   cursor: pointer;
 }
 
@@ -235,23 +227,18 @@
   justify-content: center;
   align-items: center;
   height: 25px;
-  background-color: #efefef;
+  background-color: var(--reaction);
   border: 1px solid transparent;
-}
-
-.message-reaction-dark {
-  background-color: #222529;
-}
-
-.message-reaction:hover {
-  background-color: white;
-  border: 1px solid grey;
   cursor: pointer;
 }
 
-.message-reaction-dark:hover {
-  background-color: darkgray;
+.message-reaction:hover {
+  background-color: var(--react-bar-hover);
   border: 1px solid grey;
+}
+
+.message-reaction:active {
+  background-color: var(--react-bar-active);
 }
 
 .react-bar {
@@ -260,12 +247,12 @@
   align-items: center;
   height: 20px;
   gap: 5px;
-  border: 1px solid lightgray;
+  border: 1px solid var(--date-divider);
   border-radius: 10px;
   padding: 5px;
   width: auto;
   background-color: var(--color-hover);
-  box-shadow: 2px 2px 10px lightgrey;
+  box-shadow: 2px 2px 10px var(--react-bar-shadow);
   cursor: pointer;
   z-index: 0;
   position: sticky;
@@ -277,24 +264,19 @@
   z-index: 1;
 }
 
-.react-bar > * {
+.react-bar>* {
   border-radius: 5px;
   width: 25px;
   height: 25px;
 }
 
-.react-bar > *:hover {
-  background-color: lightgray;
+.react-bar>*:hover {
+  background-color: var(--react-bar-hover);
 }
 
-.react-bar-dark {
-  border: 1px solid #35373a;
-  box-shadow: 2px 2px 10px #35373a;
-  background-color: #1b1d21;
-}
-
-.react-bar-dark > *:hover {
-  background-color: #222529;
+.react-bar>*:active {
+  background-color: rgb(193, 193, 193);
+  background-color: var(--react-bar-active);
 }
 
 .remove-message {
@@ -323,11 +305,11 @@
   color: #e01e5a;
   width: 140px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .confirm-message-delete:hover {
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .reaction-icon {
@@ -343,41 +325,27 @@
   padding: 0;
 }
 
-.date-wrapper-dark {
-  color: #d0d1d2;
-}
-
 .message-date-separator {
-  border: 1px solid #ddd;
+  border: 1px solid var(--date-divider);
   text-align: center;
   width: fit-content;
   border-radius: 100px;
   padding: 6px 15px 6px 15px;
-  background-color: var(--color-hover);
+  background-color: var(--message-date-seperator);
   font-size: 13px;
   font-weight: 600;
   position: relative;
   margin: 0;
-  background-color: white;
-}
-
-.message-date-separator-dark {
-  background-color: #1b1d21;
-  border: 1px solid #35373a;
 }
 
 .date-divider {
   position: relative;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--date-divider);
   margin-top: 0px;
   z-index: -1;
   height: 0px;
   width: 100%;
   margin-top: -15px;
-}
-
-.date-divider-dark {
-  border: 1px solid #35373a;
 }
 
 .message-body-reactions-container {
@@ -427,22 +395,50 @@
 
 .theme-light {
   --color-background: white;
-  --color-font: #1d1c1d;
+  --color-font: #1D1C1D;
   --color-hover: #f6f6f6;
-  --inner-nav-header-hover: #c9aecb;
-  --inner-nav-hover: #c7acc8;
+  --color-active: #f1f1f1;
+  --inner-nav-header-hover: #C9AECB;
+  --inner-nav-header-active: #bda5bf;
+  --inner-nav-hover: #C7ACC8;
+  --inner-nav-active: #bda5bf;
   --channel-header-hover: #f6f6f6;
+  --channel-header-active: #f1f1f1;
   --inner-nav-channel-font: #454447;
-  --inner-nav-wrapper-border: #c0aec4;
+  --inner-nav-wrapper-border: #C0AEC4;
+  --inner-background: #dac3da;
+  --message-date-seperator: #f6f6f6;
+  --date-divider: #dddddd;
+  --react-bar-shadow: lightgray;
+  --react-bar-hover: lightgray;
+  --react-bar-active: rgb(193, 193, 193);
+  --reaction: #efefef;
+  --reaction-hover: #F6F6F6;
+  --reaction-active: white;
+  --header-bottom-border: #e2e2e2;
 }
 
 .theme-dark {
   --color-background: #1b1d21;
   --color-font: #d0d1d2;
   --color-hover: #424242;
-  --inner-nav-header-hover: #562c56;
-  --inner-nav-hover: #562c56;
+  --color-active: #525252;
+  --inner-nav-header-hover: #562C56;
+  --inner-nav-header-active: #653565;
+  --inner-nav-hover: #562C56;
+  --inner-nav-active: #653565;
   --channel-header-hover: #353739;
-  --inner-nav-channel-font: #b9babe;
+  --channel-header-active: #454749;
+  --inner-nav-channel-font: #B9BABE;
   --inner-nav-wrapper-border: #747474;
+  --inner-background: #350d36;
+  --react-bar-shadow: #35373a;
+  --react-bar-hover: #34383d;
+  --react-bar-active: #222529;
+  --message-date-seperator: #1b1d21;
+  --date-divider: #35373a;
+  --reaction: #222529;
+  --reaction-hover: #2d3137;
+  --reaction-active: #40464e;
+  --header-bottom-border: #747474;
 }
