@@ -1,1 +1,41 @@
 /* TODO: Add sitewide styles */
+
+@media screen and (max-width: 500px) {
+  .outer-navbar-wrapper,
+  .inner-navbar-wrapper {
+    visibility: hidden;
+    position: absolute;
+  }
+
+  .inner-navbar-wrapper {
+    left: 75px;
+    border-radius: 0px;
+    min-width: 190px;
+    z-index: 19;
+  }
+
+  /* ensure profile dropdown and server dropdown always on top*/
+  .outer-navbar-wrapper {
+    z-index: 20;
+  }
+
+  .profile-modal {
+    max-width: 70%;
+  }
+}
+
+@media screen and (min-width: 501px) {
+  .open-nav-bar {
+    visibility: hidden;
+  }
+}
+
+.do-not-show {
+  /* display: none; */
+  visibility: hidden;
+}
+
+.do-show {
+  /* display: block; */
+  visibility: visible;
+}

@@ -11,19 +11,21 @@ import ChannelCreationForm from "../ChannelCreationForm";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
-export default function OuterNavbar({ socket }) {
+export default function OuterNavbar({ socket, showNavBar, setShowNavBar}) {
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
-  const [profileModal, setProfileModal] = useState(false)
-  const [profileModal2, setProfileModal2] = useState(false)
+  const [profileModal, setProfileModal] = useState(false);
+  const [profileModal2, setProfileModal2] = useState(false);
   const ulClassName1 = showMenu1 ? "" : " hidden";
   const ulClassName2 = showMenu2 ? "" : " hidden";
   const ulRef = useRef();
 
-  document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
+  document.documentElement.className = `theme-${
+    localStorage.getItem("theme") || "light"
+  }`;
 
   const toggleMenu1 = (e) => {
     e.stopPropagation();
@@ -72,7 +74,7 @@ export default function OuterNavbar({ socket }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.thunkLogout());
-    navigate('/')
+    navigate("/");
   };
 
   const navigateToServer = async (serverId) => {
@@ -86,7 +88,7 @@ export default function OuterNavbar({ socket }) {
   };
 
   return (
-    <div className="outer-navbar-wrapper">
+    <div className={`outer-navbar-wrapper${showNavBar? ' do-show': ''}`}>
       <div className="outer-navbar-top">
         {Object.values(sessionUser.servers).map((server) => (
           <div onClick={() => navigateToServer(server.id)} key={server.id}>
@@ -108,14 +110,8 @@ export default function OuterNavbar({ socket }) {
             <i className="fa-solid fa-plus"></i>
           </button>
           <div className={`server-dropdown ${ulClassName1}`} ref={ulRef}>
-            <NavLink to="/join-server">
-              Join a Server
-            </NavLink>
-            <NavLink
-              to="/new-server"
-            >
-              Create a Server
-            </NavLink>
+            <NavLink to="/join-server">Join a Server</NavLink>
+            <NavLink to="/new-server">Create a Server</NavLink>
             <div className="outer-navbar-popup-divider" />
             <OpenModalButton
               buttonText="Create a Channel"
@@ -131,33 +127,34 @@ export default function OuterNavbar({ socket }) {
         </div>
         {profileModal && <ProfileModal animation={false} />}
         {profileModal2 && <ProfileModal animation={true} />}
-        <div className={`profile-dropdown ${ulClassName2}`} ref={ulRef}>
+        <div className={`profile-dropdown ${ulClassName2} `} ref={ulRef}>
+          <button
+            onClick={() => {
+              setProfileModal(true);
+              closeMenu2();
 
+              function handleMouseClick(e) {
+                e.preventDefault();
+                const profile =
+                  document.getElementsByClassName("profile-modal");
+                const xBtn = document.getElementsByClassName("close-profile");
+                let node = e.target;
 
-          <button onClick={() => {
-            setProfileModal(true)
-            closeMenu2()
-
-            function handleMouseClick(e) {
-              e.preventDefault()
-              const profile = document.getElementsByClassName('profile-modal')
-              const xBtn = document.getElementsByClassName('close-profile')
-              let node = e.target
-
-              for (let i = 0; i <= 6; i++) {
-                if (node === profile[0]) return
-
-                else if (node === xBtn[0]) break
-
-                else node = node.parentNode
+                for (let i = 0; i <= 6; i++) {
+                  if (node === profile[0]) return;
+                  else if (node === xBtn[0]) break;
+                  else node = node.parentNode;
+                }
+                setProfileModal2(true);
+                setProfileModal(false);
+                setTimeout(() => setProfileModal2(false), 350);
+                window.removeEventListener("mousedown", handleMouseClick);
               }
-              setProfileModal2(true)
-              setProfileModal(false)
-              setTimeout(() => setProfileModal2(false), 350)
-              window.removeEventListener('mousedown', handleMouseClick)
-            }
-            window.addEventListener('mousedown', handleMouseClick)
-          }}>Profile</button>
+              window.addEventListener("mousedown", handleMouseClick);
+            }}
+          >
+            Profile
+          </button>
 
           <OpenModalButton
             buttonText="Preferences"
