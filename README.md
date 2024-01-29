@@ -2,7 +2,7 @@
 
 PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
 
-## 🌐 Wiki Link
+## 🌐 Wiki Links
 
 * [Database Schema](https://github.com/Promingy/SlackProject/wiki/Slack-Clone-DB-Schema)
 * [Feature List](https://github.com/Promingy/SlackProject/wiki/Feature-list)
@@ -13,7 +13,7 @@ PixelChat is a website clone of [Slack](https://www.slack.com/) populated with c
 
 ## 💻 Languages and Technologies
 
-This is a concise list of what was utilized to develop this project.
+This is a concise list of technologies utilized to develop this project.
 
 <div>
    <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original.svg" title="Python" alt="Python" width="40" height="40">
@@ -46,7 +46,7 @@ This is a concise list of what was utilized to develop this project.
 
 4. Make sure the SQLite3 database connection URL is in the __.env__ file.
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
+5. This project organizes all tables inside the `flask_schema` schema, defined
    by the `SCHEMA` environment variable.  Replace the value for
    `SCHEMA` with a unique name, **making sure you use the snake_case
    convention.**
@@ -71,13 +71,9 @@ This is a concise list of what was utilized to develop this project.
    ```
 
 7. To run the React frontend in development, `cd` into the __react-vite__
-   directory and run `npm i` to install dependencies. Next, run `npm run build`
-   to create the `dist` folder. The starter has modified the `npm run build`
-   command to include the `--watch` flag. This flag will rebuild the __dist__
-   folder whenever you change your code, keeping the production version up to
-   date. Finally, run `npm run dev` to open the application on the local browser.
+   directory and run `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
-## 📷 Landing Page:
+## 📷 Application screenshots:
 
 You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
@@ -347,7 +343,7 @@ You will be able to test the features without sign up by clicking on one of the 
   ```
 
 ## ⏩ Future Features
-* Huddles
 * Direct Messages
-* Threads
+* Text toolbar
 * Search
+* Oauth
