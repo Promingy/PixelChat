@@ -73,7 +73,7 @@ This is a concise list of technologies utilized to develop this project.
 7. To run the React frontend in development, `cd` into the __react-vite__
    directory and starun `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
-## 📷 Landing Page:
+## 📷 Application screenshots:
 
 You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
