@@ -71,7 +71,7 @@ This is a concise list of technologies utilized to develop this project.
    ```
 
 7. To run the React frontend in development, `cd` into the __react-vite__
-   directory and starun `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
+   directory and run `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
 ## 📷 Application screenshots:
 
