@@ -1,30 +1,35 @@
-# PixelChat
+# <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default_Server_Image.svg' width="40" height="40" /> PixelChat
 
 PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
 
 ## 🌐 Wiki Links
 
-* [API Routes](https://github.com/Promingy/SlackProject/wiki/API-routes)
 * [Database Schema](https://github.com/Promingy/SlackProject/wiki/Slack-Clone-DB-Schema)
+* [Feature List](https://github.com/Promingy/SlackProject/wiki/Feature-list)
 * [User Stories](https://github.com/Promingy/SlackProject/wiki/User-Stories)
+* [API Routes](https://github.com/Promingy/SlackProject/wiki/API-routes)
 * [Frontend Routes](https://github.com/Promingy/SlackProject/wiki/Frontend-routes)
+* [React Components List](https://github.com/Promingy/SlackProject/wiki/React-Components-list)
 
-## Languages and Technologies
+## 💻 Languages and Technologies
 
 This is a concise list of technologies utilized to develop this project.
 
-* JavaScript
-* HTML5
-* CSS3
-* Python
-* Flask
-* PostgreSQL
-* React
-* Redux
-* AWS
-* Websockets
+<div>
+   <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original.svg" title="Python" alt="Python" width="40" height="40">
+   <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/javascript/javascript-original.svg" alt="JavaScript" width="40" height="40">
+   <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original.svg" title="HTML5" alt="HTML" width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/css3/css3-plain-wordmark.svg"  title="CSS3" alt="CSS" width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React" width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/redux/redux-original.svg" title="Redux" alt="Redux " width="40" height="40"/>&nbsp;
+   <img src="https://cdn.freebiesupply.com/logos/large/2x/flask-logo-png-transparent.png" title="Flask" alt="Flask " width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL " width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" title="AWS" alt="AWS" width="40" height="40"/>&nbsp;
+   <img src="https://github.com/devicons/devicon/blob/master/icons/git/git-original-wordmark.svg" title="Git" **alt="Git" width="40" height="40"/>
+   <img src="https://i.morioh.com/9f75e619b0.png" title="Websockets" **alt="Websockets" width="40" height="40"/>
+</div>
 
-## Getting started
+## ⚙️ Getting started
 
 1. Clone this repository (only the main branch).
 
@@ -68,12 +73,18 @@ This is a concise list of technologies utilized to develop this project.
 7. To run the React frontend in development, `cd` into the __react-vite__
    directory and starun `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
-## Landing Page:
+## 📷 Landing Page:
 
 You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
 <img src='./images/readme_img_1.png'>
 <img src='./images/readme_img_2.png'>
+<img src='./images/readme_img_3.png'>
+<img src='./images/readme_img_4.png'>
+<img src='./images/readme_img_5.png'>
+<img src='./images/readme_img_6.png'>
+<img src='./images/readme_img_7.png'>
+<img src='./images/readme_img_8.png'>
 <img src='./images/readme_image_main.png'>
 
 ## ⚠️ Technical implementation details

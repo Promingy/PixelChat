@@ -27,12 +27,8 @@
   min-height: 49px;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--header-bottom-border);
   padding: 10px;
-}
-
-.channel-page-button-container-dark {
-  border-bottom: 1px solid #747474;
 }
 
 .channel-page-button-container>button {
@@ -231,32 +227,18 @@
   justify-content: center;
   align-items: center;
   height: 25px;
-  background-color: #efefef;
+  background-color: var(--reaction);
   border: 1px solid transparent;
   cursor: pointer;
 }
 
 .message-reaction:hover {
-  background-color: #F6F6F6;
+  background-color: var(--react-bar-hover);
   border: 1px solid grey;
 }
 
 .message-reaction:active {
-  background-color: white;
-}
-
-.message-reaction-dark {
-  background-color: #222529;
-  cursor: pointer;
-}
-
-.message-reaction-dark:hover {
-  background-color: #2d3137;
-  border: 1px solid grey;
-}
-
-.message-reaction-dark:active {
-  background-color: #40464e;
+  background-color: var(--react-bar-active);
 }
 
 .react-bar {
@@ -265,12 +247,12 @@
   align-items: center;
   height: 20px;
   gap: 5px;
-  border: 1px solid lightgray;
+  border: 1px solid var(--date-divider);
   border-radius: 10px;
   padding: 5px;
   width: auto;
   background-color: var(--color-hover);
-  box-shadow: 2px 2px 10px lightgrey;
+  box-shadow: 2px 2px 10px var(--react-bar-shadow);
   cursor: pointer;
   z-index: 0;
   position: sticky;
@@ -289,25 +271,12 @@
 }
 
 .react-bar>*:hover {
-  background-color: lightgray;
+  background-color: var(--react-bar-hover);
 }
 
 .react-bar>*:active {
   background-color: rgb(193, 193, 193);
-}
-
-.react-bar-dark {
-  border: 1px solid #35373a;
-  box-shadow: 2px 2px 10px #35373a;
-  background-color: #1b1d21;
-}
-
-.react-bar-dark>*:hover {
-  background-color: #222529;
-}
-
-.react-bar-dark>*:active {
-  background-color: #34383d;
+  background-color: var(--react-bar-active);
 }
 
 .remove-message {
@@ -356,42 +325,27 @@
   padding: 0;
 }
 
-.date-wrapper-dark {
-  color: #d0d1d2;
-}
-
 .message-date-separator {
-  border: 1px solid #ddd;
+  border: 1px solid var(--date-divider);
   text-align: center;
   width: fit-content;
   border-radius: 100px;
   padding: 6px 15px 6px 15px;
-  background-color: var(--color-hover);
+  background-color: var(--message-date-seperator);
   font-size: 13px;
   font-weight: 600;
-  z-index: 1;
   position: relative;
   margin: 0;
-  background-color: white;
-}
-
-.message-date-separator-dark {
-  background-color: #1b1d21;
-  border: 1px solid #35373a;
 }
 
 .date-divider {
   position: relative;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--date-divider);
   margin-top: 0px;
-  z-index: 0;
+  z-index: -1;
   height: 0px;
   width: 100%;
   margin-top: -15px;
-}
-
-.date-divider-dark {
-  border: 1px solid #35373a;
 }
 
 .message-body-reactions-container {
@@ -412,6 +366,33 @@
   font-size: 12px;
 }
 
+.open-nav-bar {
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  z-index: 20;
+  background-color: #5e2262;
+  color:white;
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius: 0px 3px 3px 0px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-nav-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  z-index:15;
+  background-color: rgba(0,0,0, 0.2);
+  visibility: hidden;
+
+}
+
 .theme-light {
   --color-background: white;
   --color-font: #1D1C1D;
@@ -426,6 +407,15 @@
   --inner-nav-channel-font: #454447;
   --inner-nav-wrapper-border: #C0AEC4;
   --inner-background: #dac3da;
+  --message-date-seperator: #f6f6f6;
+  --date-divider: #dddddd;
+  --react-bar-shadow: lightgray;
+  --react-bar-hover: lightgray;
+  --react-bar-active: rgb(193, 193, 193);
+  --reaction: #efefef;
+  --reaction-hover: #F6F6F6;
+  --reaction-active: white;
+  --header-bottom-border: #e2e2e2;
 }
 
 .theme-dark {
@@ -442,4 +432,13 @@
   --inner-nav-channel-font: #B9BABE;
   --inner-nav-wrapper-border: #747474;
   --inner-background: #350d36;
+  --react-bar-shadow: #35373a;
+  --react-bar-hover: #34383d;
+  --react-bar-active: #222529;
+  --message-date-seperator: #1b1d21;
+  --date-divider: #35373a;
+  --reaction: #222529;
+  --reaction-hover: #2d3137;
+  --reaction-active: #40464e;
+  --header-bottom-border: #747474;
 }

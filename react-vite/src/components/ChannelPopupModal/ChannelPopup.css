@@ -1,5 +1,6 @@
 .channel-popup {
     width: 500px;
+    max-width: 90vw;
     height: 428px;
     overflow: hidden;
     position: relative;

@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams, Navigate } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
@@ -27,6 +27,7 @@ export default function ServerPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { serverId } = useParams()
+    const [showNavBar, setShowNavBar] = useState(false);
     // const [boldObj, setBoldObj] = useState({})
 
 
@@ -171,9 +172,9 @@ export default function ServerPage() {
 
     return (
         <div className="main-page-wrapper">
-            <OuterNavbar socket={socket} />
-            <InnerNavbar socket={socket} />
-            <ChannelPage socket={socket} serverId={serverId} />
+            <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
+            <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
+            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}

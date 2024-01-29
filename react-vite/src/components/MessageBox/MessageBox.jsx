@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 export default function MessageBox({ socket, channelName, channelId, serverId }) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
-    const theme = localStorage.getItem('theme') === 'dark'
 
     document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
@@ -45,7 +44,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
     }
 
     return (
-        <form className={`send-message-form ${ theme ? 'send-message-form-dark' : ''}`}>
+        <form className='send-message-form'>
             <div className='message-wrapper-top'>
                 <TextareaAutoSize
                     className="message-box"
@@ -63,8 +62,8 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
             </div>
             <div className='message-wrapper-bottom'>
                 <div className='char-count-and-submit'>
-                    <span className={message.length >= 1800 ? message.length >= 2000 ? 'over-message-limit' : 'nearing-message-limit' : `clear-message-limit ${theme ? 'clear-message-limit-dark' : ''}`}>{message.length}/2000</span>
-                    <button disabled={!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) || message.length > 2000} onClick={handleSubmit} className={`fa-regular fa-paper-plane fa-lg send-message ${theme ? 'send-message-dark' : ''}`} />
+                    <span className={message.length >= 1800 ? message.length >= 2000 ? 'over-message-limit' : 'nearing-message-limit' : `clear-message-limit`}>{message.length}/2000</span>
+                    <button disabled={!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) || message.length > 2000} onClick={handleSubmit} className={`fa-regular fa-paper-plane fa-lg send-message`} />
                 </div>
 
             </div>
