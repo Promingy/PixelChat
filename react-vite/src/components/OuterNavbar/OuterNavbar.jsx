@@ -11,7 +11,7 @@ import ChannelCreationForm from "../ChannelCreationForm";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
-export default function OuterNavbar({ socket, showNavBar, setShowNavBar}) {
+export default function OuterNavbar({ socket, showNavBar }) {
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
@@ -23,9 +23,8 @@ export default function OuterNavbar({ socket, showNavBar, setShowNavBar}) {
   const ulClassName2 = showMenu2 ? "" : " hidden";
   const ulRef = useRef();
 
-  document.documentElement.className = `theme-${
-    localStorage.getItem("theme") || "light"
-  }`;
+  document.documentElement.className = `theme-${localStorage.getItem("theme") || "light"
+    }`;
 
   const toggleMenu1 = (e) => {
     e.stopPropagation();
@@ -88,7 +87,7 @@ export default function OuterNavbar({ socket, showNavBar, setShowNavBar}) {
   };
 
   return (
-    <div className={`outer-navbar-wrapper${showNavBar? ' do-show': ''}`}>
+    <div className={`outer-navbar-wrapper${showNavBar ? ' do-show' : ''}`}>
       <div className="outer-navbar-top">
         {Object.values(sessionUser.servers).map((server) => (
           <div onClick={() => navigateToServer(server.id)} key={server.id}>
