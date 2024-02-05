@@ -46,12 +46,17 @@ This is a concise list of what was utilized to develop this project.
 
 4. Make sure the SQLite3 database connection URL is in the __.env__ file.
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
+5. Make sure the AWS S3 credentials (bucket name, S3 key, and S3 secret key) are in the __.env__ file. If you don't have an AWS S3 bucket set up:
+   1. Set up an account on [AWS](https://aws.amazon.com/)
+   2. Create a new S3 bucket for your application (to store your files)
+   3. Create a user to access the S3 bucket (this user has the necessary credentials) If you accidentally expose these credentials, you should delete the user's credentials and create new credentials.
+
+6. This starter organizes all tables inside the `flask_schema` schema, defined
    by the `SCHEMA` environment variable.  Replace the value for
    `SCHEMA` with a unique name, **making sure you use the snake_case
    convention.**
 
-6. Get into your pipenv, migrate your database, seed your database, and run your
+7. Get into your pipenv, migrate your database, seed your database, and run your
    Flask app:
 
    ```bash
@@ -70,7 +75,7 @@ This is a concise list of what was utilized to develop this project.
    flask run
    ```
 
-7. To run the React frontend in development, `cd` into the __react-vite__
+8. To run the React frontend in development, `cd` into the __react-vite__
    directory and run `npm i` to install dependencies. Next, run `npm run build`
    to create the `dist` folder. The starter has modified the `npm run build`
    command to include the `--watch` flag. This flag will rebuild the __dist__
