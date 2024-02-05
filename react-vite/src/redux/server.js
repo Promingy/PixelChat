@@ -76,7 +76,6 @@ export const createChannel = (channel) => {
 }
 
 export const boldChannel = (channelId, boldValue = false) => {
-    console.log("inside BOLD CHANNEL function")
     return {
         type: BOLD_CHANNEL,
         channelId,
@@ -420,7 +419,6 @@ const serverReducer = (state = initialState, action) => {
         }
         case BOLD_CHANNEL: {
             const newState = { ...state }
-            console.log(action)
             if (action.boldValue) {
                 newState.channels[action.channelId].bold = action.boldValue
             } else {
