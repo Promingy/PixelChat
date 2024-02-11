@@ -46,12 +46,17 @@ This is a concise list of technologies utilized to develop this project.
 
 4. Make sure the SQLite3 database connection URL is in the __.env__ file.
 
-5. This project organizes all tables inside the `flask_schema` schema, defined
+5. Make sure the AWS S3 credentials (bucket name, S3 key, and S3 secret key) are in the __.env__ file. If you don't have an AWS S3 bucket set up:
+   1. Set up an account on [AWS](https://aws.amazon.com/)
+   2. Create a new S3 bucket for your application (to store your files). Refer to [Getting started with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html) for more details.
+   3. Create a user to access the S3 bucket (this user has the necessary credentials) If you accidentally expose these credentials, you should delete the user's credentials and create new credentials. Refer to [Creating an IAM user in your AWS account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) for more details.
+
+6. This project organizes all tables inside the `flask_schema` schema, defined
    by the `SCHEMA` environment variable.  Replace the value for
    `SCHEMA` with a unique name, **making sure you use the snake_case
    convention.**
 
-6. Get into your pipenv, migrate your database, seed your database, and run your
+7. Get into your pipenv, migrate your database, seed your database, and run your
    Flask app:
 
    ```bash
@@ -70,12 +75,12 @@ This is a concise list of technologies utilized to develop this project.
    flask run
    ```
 
-7. To run the React frontend in development, `cd` into the __react-vite__
+8. To run the React frontend in development, `cd` into the __react-vite__
    directory and run `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
 ## 📷 Application screenshots:
 
-You will be able to test the features without sign up by clicking on one of the "Demo User" buttons in the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
+You will be able to test the features without signing up by clicking on one of the "Demo User" buttons on the Signup Page. You will then be directed to the landing page, where you can create a server, join a server, or open a server.
 
 <img src='./images/readme_img_1.png'>
 <img src='./images/readme_img_2.png'>
@@ -90,7 +95,7 @@ You will be able to test the features without sign up by clicking on one of the 
 ## ⚠️ Technical implementation details
 
 * Websockets
-  * We set up on the backend a websocket listener that listens for server, join messages, and leave messages. When somebody joins a server on the server page, they are subscribed to the room (i.e. server) listener. Any message sent from them or anyone else that has joined that room is broadcasted to everyone else that has joined this room.
+  * We set up on the backend a WebSocket listener that listens for the server, joins messages, and leaves messages. When somebody joins a server on the server page, they are subscribed to the room (i.e. server) listener. Any message sent from them or anyone else who has joined that room is broadcast to everyone else who has joined this room.
    ```
    from flask_socketio import SocketIO, emit, join_room, leave_room
    import os
@@ -160,7 +165,7 @@ You will be able to test the features without sign up by clicking on one of the 
     }
     ```
 * AWS
-  * In the backend, we set up a file with helper functions that uses environmental variables to connect to the AWS S3 Bucket and exports functions to delete from and upload images to that bucket.
+  * In the backend, we set up a file with helper functions that use environmental variables to connect to the AWS S3 Bucket and export functions to delete from and upload images to that bucket.
   ```
    # app/aws.py
 
@@ -197,7 +202,7 @@ You will be able to test the features without sign up by clicking on one of the 
             }
         )
       except Exception as e:
-         # in case the our s3 upload fails
+         # in case our s3 upload fails
          return {"errors": str(e)}
 
     return {"url": f"{S3_LOCATION}{file.filename}"}
@@ -233,9 +238,9 @@ You will be able to test the features without sign up by clicking on one of the 
         upload = upload_file_to_s3(image)
         # print(upload)
 
-        if "url" not in upload:
-        # if the dictionary doesn't have a url key
-        # it means that there was an error when we tried to upload
+        if "url" is not in upload:
+        # If the dictionary doesn't have a url key
+        # It means that there was an error when we tried to upload
         # so we send back that error message (and we printed it above)
             return {"errors":[upload]}, 401
 
@@ -258,7 +263,7 @@ You will be able to test the features without sign up by clicking on one of the 
       return {'errors': {'message': 'Unauthorized'}}, 403
    ```
 * Themes
-  * We set up two themes (light mode and dark mode) with several colors stored as variables for each theme. We then stored these themes in the browser's local storage, which allowed us to proceed without having to create an extra table in our database. Any time a user set the theme or refreshed their page, the colors of each element of the diplayed component would dynamically change based on whether the document's theme was set to light or dark.
+  * We set up two themes (light mode and dark mode) with several colors stored as variables for each theme. We then stored these themes in the browser's local storage, which allowed us to proceed without having to create an extra table in our database. Any time a user set the theme or refreshed their page, the colors of each element of the displayed component would dynamically change based on whether the document's theme was set to light or dark.
 
   ```
    # react-vite/src/components/ChannelCreationForm/ChannelCreationForm.jsx
