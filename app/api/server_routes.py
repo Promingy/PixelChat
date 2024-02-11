@@ -95,7 +95,8 @@ def edit_server(serverId):
 def delete_server(serverId):
     server = Server.query.get(serverId)
     if server and int(session['_user_id']) == server.to_dict()['owner_id']:
-        remove_file_from_s3(server.image_url)
+        if server.image_url != 'https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default-Server-Icon.svg':
+            remove_file_from_s3(server.image_url)
         db.session.delete(server)
         db.session.commit()
         return {'message': 'Successfully deleted'}
