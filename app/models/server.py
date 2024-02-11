@@ -13,7 +13,7 @@ class Server(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String, default="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default_Server_Image.svg")
+    image_url = db.Column(db.String, default="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default-Server-Icon.svg")
     description = db.Column(db.String)
 
     # relationship attributes
