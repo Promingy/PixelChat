@@ -165,7 +165,7 @@ You will be able to test the features without signing up by clicking on one of t
     }
     ```
 * AWS
-  * In the backend, we set up a file with helper functions that use environmental variables to connect to the AWS S3 Bucket and export functions to delete from and upload images to that bucket.
+  * In the backend, we set up a file with helper functions that uses environmental variables to connect to the AWS S3 Bucket and exports functions to delete from and upload images to that bucket.
   ```
    # app/aws.py
 
