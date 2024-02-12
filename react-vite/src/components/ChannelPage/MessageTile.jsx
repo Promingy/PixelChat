@@ -47,7 +47,6 @@ export default function MessageTile({ message, user, channelId, socket }) {
                     counter = 0
                 }
             } catch {
-                // console.log(e)
                 window.removeEventListener("click", handleEmojiClick)
                 messageContainer.classList.toggle('no-scroll')
                 counter = 0
