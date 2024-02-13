@@ -67,6 +67,12 @@ export default function HomePage() {
           <Link to="/login">
             <button className="large-purple-button">Sign In With Email</button>
           </Link>
+          <a href='https://slack-deploy.onrender.com/api/auth/oauth_login' className="demo-user-wrapper">
+            <button className="large-white-button">
+              <img className="google-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" />
+              <p>Continue with Google</p>
+            </button>
+          </a>
           <div className="demo-user-wrapper">
             <button className="large-white-button" onClick={demoUserLogin}>Sign In As Demo User</button>
           </div>
