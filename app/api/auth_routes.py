@@ -35,7 +35,7 @@ client_secrets = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_secret": CLIENT_SECRET,
     "redirect_uris": [
-      "https://slack-deploy.onrender.com/api/auth/callback",
+      "https://slack-deploy.onrender.com/api/auth/callback"
     ]
   }
 }
@@ -185,4 +185,4 @@ def callback():
     login_user(user_exists)
 
     # Note that adding this BASE_URL variable to our .env file, makes the transition to production MUCH simpler, as we can just store this variable on Render and change it to our deployed URL.
-    return redirect(f"{BASE_URL}/") # This will send the final redirect to our user's browser. As depicted in Line 8 of the flow chart!
+    return redirect(f"{BASE_URL}") # This will send the final redirect to our user's browser. As depicted in Line 8 of the flow chart!
