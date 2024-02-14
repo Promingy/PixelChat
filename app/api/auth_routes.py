@@ -8,6 +8,7 @@ import os
 import pathlib
 
 import requests
+import random
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
@@ -176,8 +177,8 @@ def callback():
     if not user_exists:
         user_exists = User(
             first_name=id_info.get("given_name"),
-            last_name=id_info.get("family_name"),
-            username=id_info.get("name"),
+            last_name=id_info.get("family_name") if id_info.get("family_name") else id_info.get("given_name"),
+            username=f"{id_info.get('name')}{random.randint(1, 100000000)}",
             image_url=id_info.get("picture"),
             email=temp_email,
             password='OAUTH'
