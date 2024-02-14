@@ -1,4 +1,4 @@
-# <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Default_Server_Image.svg' width="40" height="40" /> PixelChat
+# <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/pixelchat-logo.png' width="150" height="40" />
 
 PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
 
@@ -165,7 +165,7 @@ You will be able to test the features without signing up by clicking on one of t
     }
     ```
 * AWS
-  * In the backend, we set up a file with helper functions that use environmental variables to connect to the AWS S3 Bucket and export functions to delete from and upload images to that bucket.
+  * In the backend, we set up a file with helper functions that uses environmental variables to connect to the AWS S3 Bucket and exports functions to delete from and upload images to that bucket.
   ```
    # app/aws.py
 
