@@ -97,30 +97,6 @@ export default function InnerNavbar({ socket, showNavBar }) {
                         </li>
                     ))}
                 </ul>
-                <ul className="inner-navbar-content">
-                    <div className={`create-channel-container`}>
-                        <button onClick={toggleMenu}> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
-                    </div>
-                    <div className={ulClassName} ref={ulRef}>
-                        <OpenModalButton
-                            buttonText="Create a Channel"
-                            onItemClick={closeMenu}
-                            modalComponent={<ChannelCreationForm socket={socket} />}
-                        />
-                    </div>
-                    {Object.values(server.channels).map((channel) => (
-                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
-                            <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
-                                <div className="navbar-content">
-                                    <div className="navbar-content-left">
-                                        <i className="fa-solid fa-hashtag"></i>{channel.name}
-                                    </div>
-                                    {channel?.bold ? <div className="unread-message-count">{channel?.bold}</div> : ""}
-                                </div>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
                 <div className="creator-container">
                     <ul style={{ listStyle: "none" }}>
                         <p className="creator-header">Creator Githubs</p>
