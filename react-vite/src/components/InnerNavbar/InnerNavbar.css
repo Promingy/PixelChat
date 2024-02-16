@@ -1,7 +1,7 @@
 .inner-navbar-wrapper {
     width: 25%;
     max-width: 330px;
-    height: 100vh;
+    height: 100%;
     min-width: 230px;
     box-sizing: border-box;
     background-color: var(--inner-background);
@@ -15,7 +15,7 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-left: 1px solid var(--inner-nav-wrapper-border);
-    
+
 }
 
 .inner-navbar-header {
