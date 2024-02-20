@@ -11,6 +11,7 @@ import OuterNavbar from "../OuterNavbar"
 import "./Server.css"
 import { addUserToServer, deleteServer } from "../../redux/server";
 import { removeUserServer } from "../../redux/session";
+import ReactSearchBox from 'react-search-box'
 
 let socket
 
@@ -28,7 +29,7 @@ export default function ServerPage() {
     const navigate = useNavigate()
     const { serverId } = useParams()
     const [showNavBar, setShowNavBar] = useState(false);
-    // const [boldObj, setBoldObj] = useState({})
+    const [searchData, setSearchData] = useState({})
 
 
     const server = useSelector(state => state.server)
@@ -37,6 +38,23 @@ export default function ServerPage() {
     useEffect(() => {
         if (!sessionUser) { navigate("/") }
     }, [sessionUser, navigate]);
+
+    useEffect(() => {
+        let data = []
+        for (let channel of Object.values(server.channels)) {
+            data.push({
+                key: channel.name,
+                value: channel.name
+            })
+        }
+        for (let user of Object.values(server.users)) {
+            data.push({
+                key: `${user.first_name} ${user.last_name}`,
+                value: `${user.first_name} ${user.last_name}`
+            })
+        }
+        setSearchData(data)
+    }, [server])
 
     // Eager load all data for the server
     useEffect(() => {
@@ -172,9 +190,10 @@ export default function ServerPage() {
 
     return (
         <div className="main-page-wrapper">
-            <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
-            <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
-            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
+            <ReactSearchBox data={searchData} />
+            <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+            <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}
