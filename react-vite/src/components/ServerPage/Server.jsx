@@ -190,10 +190,14 @@ export default function ServerPage() {
 
     return (
         <div className="main-page-wrapper">
-            <ReactSearchBox data={searchData} />
-            <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
-            <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
-            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+            <div className="top-bar-wrapper">
+                <ReactSearchBox data={searchData} />
+            </div>
+            <div className="main-content-wrapper">
+                <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+                <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+            </div>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}

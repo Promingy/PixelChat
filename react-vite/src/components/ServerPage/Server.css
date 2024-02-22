@@ -6,9 +6,34 @@
     height: 100%;
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: start;
+    flex-direction: column;
     box-sizing: border-box;
     background-color: #5e2262;
     background: linear-gradient(160deg, #83388a, #150616);
-    padding-top: 40px;
+}
+
+.top-bar-wrapper {
+    min-width: none;
+    min-height: 40px;
+    width: 100%;
+    align-items: center;
+    z-index: 60;
+}
+
+.top-bar-wrapper>div {
+    width: 20%;
+}
+
+.top-bar-wrapper>div>div>span>input {
+    width: 100%;
+    height: 34px;
+}
+
+.main-content-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    box-sizing: border-box;
 }
