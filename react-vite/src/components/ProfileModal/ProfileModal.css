@@ -97,3 +97,22 @@
   padding: 10px 5px;
   cursor: pointer;
 }
+
+.profile-popup-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-popup-buttons>button {
+  background-color: var(--color-background);
+  border-radius: 5px;
+  display: flex;
+  gap: 3px;
+  border: 1px solid gray;
+  color: var(--color-font);
+  font-size: 15px;
+}
+
+.profile-popup-buttons>button:hover {
+  background-color: var(--color-hover)
+}

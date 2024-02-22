@@ -19,6 +19,8 @@ class Server(db.Model, UserMixin):
     # relationship attributes
     user = db.relationship("User", back_populates="servers_owner")
     channels = db.relationship("Channel", back_populates="server")
+    direct_rooms = db.relationship("DirectRoom", back_populates="server")
+
 
     users = db.relationship(
         "User",

@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
+import { LuMessageCircle } from "react-icons/lu";
 import "./ProfileModal.css"
 
 export default function Profile({ animation, userId }) {
@@ -29,6 +30,9 @@ export default function Profile({ animation, userId }) {
         </h2>
 
         <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location ||sessionUser.location}</p>
+        <div className='profile-popup-buttons'>
+          <button onClick={() => (alert(`Feature Coming Soon...`))}><LuMessageCircle />Message</button>
+        </div>
       </div>
       <div className="profile-middle">
         <h4>Contact Information</h4>

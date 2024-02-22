@@ -12,8 +12,10 @@ export default function InnerNavbar({ socket, showNavBar }) {
     const dispatch = useDispatch()
     const server = useSelector((state) => state.server)
     const [showMenu, setShowMenu] = useState(false);
+    const [showMenu2, setShowMenu2] = useState(false);
     const ulRef = useRef();
     const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
+    const ulClassName2 = "channel-dropdown" + (showMenu2 ? "" : " hidden");
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
 
     useEffect(() => {
@@ -23,6 +25,11 @@ export default function InnerNavbar({ socket, showNavBar }) {
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
         setShowMenu(!showMenu);
+    };
+
+    const toggleMenu2 = (e) => {
+        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        setShowMenu2(!showMenu2);
     };
 
     useEffect(() => {
@@ -41,6 +48,23 @@ export default function InnerNavbar({ socket, showNavBar }) {
 
 
     const closeMenu = () => setShowMenu(false);
+
+    useEffect(() => {
+        if (!showMenu2) return;
+
+        const closeMenu2 = (e) => {
+            if (!ulRef.current.contains(e.target)) {
+                setShowMenu2(false);
+            }
+        };
+
+        document.addEventListener("click", closeMenu2);
+
+        return () => document.removeEventListener("click", closeMenu2);
+    }, [showMenu]);
+
+
+    const closeMenu2 = () => setShowMenu2(false)
 
     const handleChannelUnbold = (channelId) => {
         dispatch(unboldChannel(channelId))
@@ -96,6 +120,11 @@ export default function InnerNavbar({ socket, showNavBar }) {
                             </Link>
                         </li>
                     ))}
+                </ul>
+                <ul className="inner-navbar-content">
+                    <div className={`create-channel-container`}>
+                        <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
+                    </div>
                 </ul>
                 <div className="creator-container">
                     <ul style={{ listStyle: "none" }}>
