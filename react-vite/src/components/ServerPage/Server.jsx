@@ -23,7 +23,7 @@ function checkChannelIfSelected(channelId) {
     return true
 }
 
-export default function ServerPage() {
+export default function ServerPage({type}) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { serverId } = useParams()
@@ -174,7 +174,7 @@ export default function ServerPage() {
         <div className="main-page-wrapper">
             <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
             <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
-            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
+            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} type={type} />
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}

@@ -121,6 +121,26 @@ def create_channel(serverId):
         return new_channel.to_dict()
     return {'errors': form.errors}, 401
 
+@server.route('/<int:serverId>/direct_room', methods=["POST"])
+@login_required
+def create_direct_room(serverId):
+    # form = ChannelForm()
+    # form['csrf_token'].data = request.cookies['csrf_token']
+    # if form.validate_on_submit():
+    #     data = form.data
+    #     new_channel = Channel(
+    #         owner_id = int(session['_user_id']),
+    #         server_id = int(serverId),
+    #         name = data["name"],
+    #         topic = data["topic"],
+    #         description = data["description"]
+    #     )
+    #     db.session.add(new_channel)
+    #     db.session.commit()
+    #     return new_channel.to_dict()
+    # return {'errors': form.errors}, 401
+    pass
+
 @server.route('/<int:serverId>/users/add', methods=["POST"])
 @login_required
 def add_user_to_server(serverId):

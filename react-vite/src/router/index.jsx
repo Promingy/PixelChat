@@ -23,7 +23,9 @@ export const router = createBrowserRouter(
       <Route path="/join-server" element={<JoinServer />} />
       <Route path='/redirect' element={<Redirect /> } />
       <Route path="/main" element={<MainPage />}>
-        <Route path="servers/:serverId/channels/:channelId" element={<ServerPage />}>
+        <Route path="servers/:serverId/channels/:channelId" element={<ServerPage type={"channel"} />}>
+        </Route>
+        <Route path="servers/:serverId/direct-messages/:channelId" element={<ServerPage type={"message"} />}>
         </Route>
       </Route>
       <Route path="*" element={<Redirect />} />

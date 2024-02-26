@@ -12,7 +12,7 @@ import { loadServer } from "../../redux/server";
 
 
 
-export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar }) {
+export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { channelId } = useParams()
@@ -116,7 +116,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     }, [channelId])
 
 
-    return (
+    if (type === "channel") return (
       <>
         <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={()=>{setShowNavBar(true)}}>
           <i className="fa-solid fa-arrow-right-to-bracket"></i>
@@ -190,4 +190,6 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         </div>
       </>
     );
+
+    else return (<h1>Hi from Messages</h1>)
 }
