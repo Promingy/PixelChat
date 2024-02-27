@@ -1,96 +1,121 @@
 .send-message-form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin: 0 10px;
-    z-index: 0;
-    align-items: flex-end;
-    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
-    box-shadow: 0px 0px 2px #ddd;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /* border: 1px solid var(--border); */
+  /* border-radius: 8px; */
+  margin: 0 10px;
+  z-index: 0;
+  align-items: flex-end;
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+  /* box-shadow: 0px 0px 2px #ddd; */
+  /* gap: 30px; */
 }
 
 .message-wrapper-top {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .message-wrapper-bottom {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+
 }
 
 .message-box {
-    resize: none;
-    width: 98%;
-    height: 20px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    z-index: 1;
-    outline: transparent;
-    background-color: var(--color-background);
-    color: var(--color-font);
-    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
-    font-size: 15px;
-    box-sizing: border-box;
+  resize: none;
+  width: 98%;
+  min-height: 8em;
+  max-height: 20em;
+  /* padding: 10px; */
+  border: none;
+  border-radius: 10px;
+  z-index: 1;
+  outline: transparent;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+  font-size: 15px;
+  box-sizing: border-box;
 }
 
 .char-count-and-submit {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 10px;
+  z-index: 2;
 }
 
-.char-count-and-submit>span {
-    font-size: 13px;
+.char-count-and-submit > span {
+  font-size: 13px;
 }
 
 .clear-message-limit {
-    color: var(--clear-message-limit);
+  color: var(--clear-message-limit);
 }
 
 .over-message-limit {
-    color: red;
+  color: red;
 }
 
 .nearing-message-limit {
-    color: orange;
+  color: orange;
 }
 
 .send-message {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #007A5A;
-    color: var(--color);
-    border: none;
-    width: 60px;
-    height: 30px;
-    border-radius: 5px;
-    margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007a5a;
+  color: var(--color);
+  border: none;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 5px;
 }
 
 .send-message:disabled {
-    background-color: var(--send-disabled);
-    cursor: default;
+  background-color: var(--send-disabled);
+  cursor: default;
+}
+
+.ql-toolbar.ql-snow {
+  display: flex;
+  justify-content: start;
+  background:var(--code-background);
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+.quill {
+  width: 100%;
+}
+.ql-formats {
+  width: auto;
+}
+
+.ql-container.ql-snow {
+   border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
 }
 
 .theme-light {
-    --border: #dddddd;
-    --color: white;
-    --clear-message-limit: black;
-    --send-disabled: lightgray;
+  --border: #dddddd;
+  --color: white;
+  --clear-message-limit: black;
+  --send-disabled: lightgray;
 }
 
 .theme-dark {
-    --border: #35373a;
-    --color: #D0D1D2;
-    --clear-message-limit: #D0D1D2;
-    --send-disabled: transparent;
+  --border: #35373a;
+  --color: #d0d1d2;
+  --clear-message-limit: #d0d1d2;
+  --send-disabled: transparent;
 }
