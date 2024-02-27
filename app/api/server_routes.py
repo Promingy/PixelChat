@@ -1,7 +1,7 @@
 from flask import Blueprint, session, request
 from ..models import db, Server, Channel, User
 from flask_login import login_required
-from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm
+from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm, DirectRoomForm
 from ..aws import (upload_file_to_s3, get_unique_filename, remove_file_from_s3)
 
 server = Blueprint('server', __name__)
@@ -124,7 +124,7 @@ def create_channel(serverId):
 @server.route('/<int:serverId>/direct_room', methods=["POST"])
 @login_required
 def create_direct_room(serverId):
-    # form = ChannelForm()
+    form = DirectRoomForm()
     # form['csrf_token'].data = request.cookies['csrf_token']
     # if form.validate_on_submit():
     #     data = form.data
