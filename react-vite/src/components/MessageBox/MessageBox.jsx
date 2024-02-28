@@ -1,45 +1,20 @@
-import TextareaAutoSize from 'react-textarea-autosize'
+// import TextareaAutoSize from 'react-textarea-autosize'
 import './MessageBox.css'
 import { useState } from "react";
 import { initializeMessage } from '../../redux/server'
-import { useDispatch } from 'react-redux'
-import React, { useMemo, useRef } from "react";
+import { useDispatch } from "react-redux";
+import  { useMemo } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 
 export default function MessageBox({ socket, channelName, channelId, serverId }) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
-    // const renderCustomToolBar = () =>{
-    //     return(
-    //     <>
-    //         <span className='ql-formats'>
-    //             <button className="ql-bold" aria-label='Bold'> </button>
-    //             <button className="ql-italic" aria-label='Italic'> </button>
-    //             <button className="ql-strike" aria-label='Strike'> </button>
-    //         </span>
-    //         <span className='ql-formats'>
-    //             <button className="ql-link" aria-label='Link'> </button>
-    //         </span>
-    //         <span className='ql-formats'>
-    //             <button className="ql-link" aria-label='Link'> </button>
-    //         </span>
-    //     </>
-    //     )
-    // }
-
-    // const header = renderCustomToolBar()
- 
     const removeTags = function (str) {
       if (str === null || str === "") return false;
       else str = str.toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     };
-
-    // console.log("===", message);
-    // console.log("~~~", message.length);
-    // console.log("~~~", removeTags(message));
-    // console.log("~~~", removeTags(message).length);
 
     const modules = useMemo(
         () => ({
@@ -93,49 +68,27 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
     return (
       <>
         <div className="send-message-form">
+          <div>{channelName}</div>
           <ReactQuill
             theme="snow"
             onChange={(value) => setMessage(value)}
             modules={modules}
             value={message}
+            // Have to set placeholer to plain text because the Quill API does not allow to change this value dynamically
+            placeholder={`Message channel...`}
             className="message-box"
-            placeholder={`Message #${channelName}`}
             style={{ border: "none" }}
-              onKeyUp={(e) => {
-                if (
-                  e.key === "Enter" &&
-                  !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
-                  message.length <= 2001
-                ) {
-                  return handleSubmit(e);
-                }
-              }}
+            onKeyUp={(e) => {
+              if (
+                e.key === "Enter" &&
+                !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
+                message.length <= 2001
+              ) {
+                return handleSubmit(e);
+              }
+            }}
           />
-          {/* <Editor
-          onTextChange={(e) => setMessage(e.htmlValue)}
-         headerTemplate={header}
-          value={message}
-          className="message-box"
-          placeholder={`Message #${channelName}`}
-        /> */}
 
-          {/* <div className="message-wrapper-top">
-            <TextareaAutoSize
-              className="message-box"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder={`Message #${channelName}`}
-              onKeyUp={(e) => {
-                if (
-                  e.key === "Enter" &&
-                  !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
-                  message.length <= 2001
-                ) {
-                  return handleSubmit(e);
-                }
-              }}
-            />
-          </div> */}
           <div className="message-wrapper-bottom">
             <div className="char-count-and-submit">
               <span
@@ -147,7 +100,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
                     : `clear-message-limit`
                 }
               >
-                {removeTags(message).length}/2000
+                {message.length != 0 ? removeTags(message).length : 0}/2000
               </span>
               <button
                 disabled={
