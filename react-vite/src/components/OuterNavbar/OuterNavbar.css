@@ -3,7 +3,7 @@
   height: 100%;
   box-sizing: border-box;
   background-color: #5e2262;
-  background: linear-gradient(#7f3686, #49154a);
+  background: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -208,7 +208,7 @@
   width: 200px;
   overflow: hidden;
   padding-top: 10px;
- 
+
 }
 
 
