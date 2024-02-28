@@ -41,17 +41,24 @@ export default function ServerPage() {
 
     useEffect(() => {
         let data = []
-        for (let channel of Object.values(server.channels)) {
-            data.push({
-                key: channel.name,
-                value: "# " + channel.name
-            })
+        if (server.channels) {
+            for (let channel of Object.values(server.channels)) {
+                data.push({
+                    key: channel.name,
+                    value: "# " + channel.name,
+                    id: channel.id,
+                    type: 'channel'
+                })
+            }
         }
-        for (let user of Object.values(server.users)) {
-            data.push({
-                key: `${user.first_name} ${user.last_name}`,
-                value: `${user.first_name} ${user.last_name}`
-            })
+        if (server.users) {
+            for (let user of Object.values(server.users)) {
+                data.push({
+                    key: `${user.first_name} ${user.last_name}`,
+                    value: `${user.first_name} ${user.last_name}`,
+                    type: 'user'
+                })
+            }
         }
         setSearchData(data)
     }, [server])
@@ -187,11 +194,11 @@ export default function ServerPage() {
     }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
 
     const handleSearchSelect = (target) => {
-        const value = target.item.value
-        if (value[0] === '#') {
-            // deal with channel
-        } else {
+        if (target.item.type === 'channel') {
+            navigate(`/main/servers/${server.id}/channels/${target.item.id}`)
+        } else if (target.item.type === 'user') {
             // deal with user
+            console.log(target.item.value)
         }
     }
 
