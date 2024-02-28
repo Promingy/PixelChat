@@ -21,11 +21,20 @@
     display: flex;
     align-items: start;
     z-index: 60;
+    padding-left: calc(75px + min(max(25%, 230px), 330px))
+}
+
+.top-bar-wrapper>i {
+    width: 10px;
+    margin-top: 15px;
+    margin-left: 10px;
+    z-index: 5;
+    color: #FDFCFD;
+    font-size: 13px;
 }
 
 .top-bar-wrapper>div {
-    width: 45%;
-    margin-left: calc(75px + min(max(25%, 230px), 330px))
+    width: 65%;
 }
 
 .top-bar-wrapper>div>div>span>input {
@@ -40,10 +49,21 @@
     font-weight: 300;
     font-size: 13px;
     border-radius: 7px;
+    margin-left: -20px;
+    padding-left: 32px;
+}
+
+.top-bar-wrapper>div>div>span>input::placeholder {
+    color: inherit;
 }
 
 .top-bar-wrapper>div>div>span>input:hover {
     background: rgba(255, 200, 255, 0.4);
+}
+
+.react-search-box-dropdown {
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .main-content-wrapper {

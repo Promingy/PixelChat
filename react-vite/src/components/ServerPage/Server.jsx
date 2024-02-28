@@ -44,7 +44,7 @@ export default function ServerPage() {
         for (let channel of Object.values(server.channels)) {
             data.push({
                 key: channel.name,
-                value: channel.name
+                value: "# " + channel.name
             })
         }
         for (let user of Object.values(server.users)) {
@@ -186,12 +186,26 @@ export default function ServerPage() {
         })
     }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
 
+    const handleSearchSelect = (target) => {
+        const value = target.item.value
+        if (value[0] === '#') {
+            // deal with channel
+        } else {
+            // deal with user
+        }
+    }
+
     if (!sessionUser) return null
 
     return (
         <div className="main-page-wrapper">
             <div className="top-bar-wrapper">
-                <ReactSearchBox data={searchData} />
+                <i className="fa-solid fa-magnifying-glass"></i>
+                <ReactSearchBox
+                    data={searchData}
+                    placeholder={`Search ${server.name}`}
+                    onSelect={(record) => handleSearchSelect(record)}
+                />
             </div>
             <div className="main-content-wrapper">
                 <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
