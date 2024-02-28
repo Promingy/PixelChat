@@ -72,6 +72,10 @@
     background: rgba(255, 200, 255, 0.4);
 }
 
+.top-bar-wrapper>div>div>span>input:active {
+    background: rgba(255, 200, 255, 0.45);
+}
+
 .react-search-box-dropdown {
     font-size: 15px;
     font-weight: 600;
