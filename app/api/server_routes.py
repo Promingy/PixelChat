@@ -122,7 +122,7 @@ def create_channel(serverId):
         return new_channel.to_dict()
     return {'errors': form.errors}, 401
 
-@server.route('/<int:serverId>/direct_room', methods=["POST"])
+@server.route('/<int:serverId>/direct_rooms', methods=["POST"])
 @login_required
 def create_direct_room(serverId):
     form = DirectRoomForm()

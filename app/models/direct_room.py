@@ -19,7 +19,7 @@ class DirectRoom(db.Model, UserMixin):
     # relationship attributes
     user_1 = db.relationship("User", foreign_keys=[owner_1_id], back_populates="direct_room_owner_1")
     user_2 = db.relationship("User", foreign_keys=[owner_2_id], back_populates="direct_room_owner_2")
-    direct_messages = db.relationship("DirectMessage", back_populates="direct_room")
+    messages = db.relationship("DirectMessage", back_populates="direct_room")
     server = db.relationship("Server", back_populates="direct_rooms")
 
 
@@ -35,7 +35,7 @@ class DirectRoom(db.Model, UserMixin):
         # if messages=True, add amount of messages equal to 'limit' to dictionary.
         if messages:
             # runs sorting lambda that sorts by Year, Month, Day, Hour, Minute, Second and adds list of messages to the dictionary
-            dictionary['direct_messages'] = sorted([message.to_dict() for message in self.direct_messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[offset : offset + 15]
+            dictionary['messages'] = sorted([message.to_dict() for message in self.messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[offset : offset + 15]
 
         if server:
             dictionary['server'] = self.server
