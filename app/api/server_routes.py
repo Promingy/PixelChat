@@ -1,8 +1,9 @@
 from flask import Blueprint, session, request
-from ..models import db, Server, Channel, User
+from ..models import db, Server, Channel, User, DirectRoom
 from flask_login import login_required
 from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm, DirectRoomForm
 from ..aws import (upload_file_to_s3, get_unique_filename, remove_file_from_s3)
+from sqlalchemy import and_
 
 server = Blueprint('server', __name__)
 
@@ -26,7 +27,7 @@ def get_all_server_info(serverId):
     server = Server.query.get(serverId)
 
     if server:
-        return server.to_dict(channels=True)
+        return server.to_dict(channels=True, direct_rooms = True)
 
     return  {"message": "Server Not Found"}, 404
 
@@ -125,21 +126,25 @@ def create_channel(serverId):
 @login_required
 def create_direct_room(serverId):
     form = DirectRoomForm()
-    # form['csrf_token'].data = request.cookies['csrf_token']
-    # if form.validate_on_submit():
-    #     data = form.data
-    #     new_channel = Channel(
-    #         owner_id = int(session['_user_id']),
-    #         server_id = int(serverId),
-    #         name = data["name"],
-    #         topic = data["topic"],
-    #         description = data["description"]
-    #     )
-    #     db.session.add(new_channel)
-    #     db.session.commit()
-    #     return new_channel.to_dict()
-    # return {'errors': form.errors}, 401
-    pass
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        existing_message_1 = DirectRoom.query.filter(and_(DirectRoom.owner_1_id == int(session['_user_id']),DirectRoom.owner_2_id == data["owner_2_id"]))
+        existing_message_2 = DirectRoom.query.filter(and_(DirectRoom.owner_1_id == data["owner_2_id"]),DirectRoom.owner_2_id == int(session['_user_id']))
+        if existing_message_1:
+            return existing_message_1.to_dict()
+        elif existing_message_2:
+            return existing_message_2.to_dict()
+        else:
+            new_direct_room = DirectRoom(
+                owner_1_id = int(session['_user_id']),
+                owner_2_id = data["owner_2_id"],
+                server_id = int(serverId)
+            )
+            db.session.add(new_direct_room)
+            db.session.commit()
+            return new_direct_room.to_dict()
+    return {'errors': form.errors}, 401
 
 @server.route('/<int:serverId>/users/add', methods=["POST"])
 @login_required
