@@ -1,3 +1,14 @@
+@media screen and (max-width: 500px) {
+    .main-page-wrapper>.top-bar-wrapper {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .main-page-wrapper>.top-bar-wrapper>div {
+        width: 100%;
+    }
+}
+
 .main-page-wrapper {
     position: absolute;
     left: 0px;

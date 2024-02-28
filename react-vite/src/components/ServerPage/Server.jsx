@@ -197,7 +197,7 @@ export default function ServerPage() {
         if (target.item.type === 'channel') {
             navigate(`/main/servers/${server.id}/channels/${target.item.id}`)
         } else if (target.item.type === 'user') {
-            // deal with user
+            // deal with user, likely requires rework of profile modal
             console.log(target.item.value)
         }
     }
@@ -209,6 +209,7 @@ export default function ServerPage() {
             <div className="top-bar-wrapper">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <ReactSearchBox
+                    id='searchBox'
                     data={searchData}
                     placeholder={`Search ${server.name}`}
                     onSelect={(record) => handleSearchSelect(record)}
