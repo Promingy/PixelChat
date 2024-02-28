@@ -21,9 +21,15 @@
 
 .message-wrapper-bottom {
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   align-items: flex-start;
-  width: 100%;
+  width: 98%;
+  background-color: white;
+  z-index: 2;
+  margin-top: 5px;
+  border-right: 1px solid #ccc;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 
 }
 
@@ -32,7 +38,6 @@
   width: 98%;
   min-height: 8em;
   max-height: 20em;
-  /* padding: 10px; */
   border: none;
   border-radius: 10px;
   z-index: 1;
@@ -48,8 +53,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-right: 10px;
-  z-index: 2;
+  /* margin-right: 10px; */
+ 
 }
 
 .char-count-and-submit > span {
@@ -89,7 +94,7 @@
 .ql-toolbar.ql-snow {
   display: flex;
   justify-content: start;
-  background:var(--code-background);
+  background-color:var(--code-background);
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
 }
@@ -106,6 +111,15 @@
   border-bottom-right-radius: 0.5em;
 }
 
+.ql-editor > p{
+  font-size: 15px;
+}
+
+.ql-editor::placeholder {
+  font-weight: bold;
+  opacity: 0.5;
+  color: red;
+}
 .theme-light {
   --border: #dddddd;
   --color: white;

@@ -7,7 +7,7 @@ import  { useMemo } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 
-export default function MessageBox({ socket, channelName, channelId, serverId }) {
+export default function MessageBox({ socket, channelId, serverId }) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
     const removeTags = function (str) {
@@ -68,7 +68,6 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
     return (
       <>
         <div className="send-message-form">
-          <div>{channelName}</div>
           <ReactQuill
             theme="snow"
             onChange={(value) => setMessage(value)}
@@ -109,6 +108,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
                 }
                 onClick={handleSubmit}
                 className={`fa-regular fa-paper-plane fa-lg send-message`}
+                style={{"margin":"3px"}}
               />
             </div>
           </div>
