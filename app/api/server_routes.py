@@ -27,7 +27,7 @@ def get_all_server_info(serverId):
     server = Server.query.get(serverId)
 
     if server:
-        return server.to_dict(channels=True, direct_rooms = True)
+        return server.to_dict(channels=True, direct_rooms=int(session['_user_id']))
 
     return  {"message": "Server Not Found"}, 404
 
@@ -129,21 +129,14 @@ def create_direct_room(serverId):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
-        existing_message_1 = DirectRoom.query.filter(and_(DirectRoom.owner_1_id == int(session['_user_id']),DirectRoom.owner_2_id == data["owner_2_id"]))
-        existing_message_2 = DirectRoom.query.filter(and_(DirectRoom.owner_1_id == data["owner_2_id"]),DirectRoom.owner_2_id == int(session['_user_id']))
-        if existing_message_1:
-            return existing_message_1.to_dict()
-        elif existing_message_2:
-            return existing_message_2.to_dict()
-        else:
-            new_direct_room = DirectRoom(
-                owner_1_id = int(session['_user_id']),
-                owner_2_id = data["owner_2_id"],
-                server_id = int(serverId)
-            )
-            db.session.add(new_direct_room)
-            db.session.commit()
-            return new_direct_room.to_dict()
+        new_direct_room = DirectRoom(
+            owner_1_id = int(session['_user_id']),
+            owner_2_id = data["owner_2_id"],
+            server_id = int(serverId)
+        )
+        db.session.add(new_direct_room)
+        db.session.commit()
+        return new_direct_room.to_dict()
     return {'errors': form.errors}, 401
 
 @server.route('/<int:serverId>/users/add', methods=["POST"])
