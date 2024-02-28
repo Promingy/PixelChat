@@ -20,7 +20,7 @@
     width: 100%;
     display: flex;
     align-items: start;
-    z-index: 60;
+    z-index: 40;
     padding-left: calc(75px + min(max(25%, 230px), 330px))
 }
 
