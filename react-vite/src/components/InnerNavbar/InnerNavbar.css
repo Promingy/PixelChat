@@ -1,8 +1,6 @@
 .inner-navbar-wrapper {
-    width: 25%;
-    max-width: 330px;
+    min-width: min(max(25%, 230px), 330px);
     height: 100%;
-    min-width: 230px;
     box-sizing: border-box;
     background-color: var(--inner-background);
     display: flex;
