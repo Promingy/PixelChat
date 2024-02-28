@@ -18,6 +18,18 @@ const UNBOLD_CHANNEL = 'channel/unbold'
 const GET_MESSAGES = 'reaction/getMessages'
 const ADD_USER_TO_SERVER = 'session/addUserToServer'
 
+const DELETE_DIRECT_ROOM = 'direct_room/deleteDirectRoom'
+const UPDATE_DIRECT_ROOM = 'direct_room/updateDirectRoom'
+const CREATE_DIRECT_ROOM = 'direct_room/updateDirectRoom'
+const DELETE_DIRECT_MESSAGE = 'direct_message/deleteDirectMessage'
+const CREATE_DIRECT_MESSAGE = 'direct_message/createDirectMessage'
+const PIN_DIRECT_MESSAGE = 'direct_message/pin/pinDirectMessage'
+const DELETE_DIRECT_REACTION = 'direct_reaction/deleteDirectReaction'
+const CREATE_DIRECT_REACTION = 'direct_reaction/createDirectReaction'
+const BOLD_DIRECT_ROOM = 'direct_room/bold'
+const UNBOLD_DIRECT_ROOM = 'direct_room/unbold'
+const GET_DIRECT_MESSAGES = 'direct_reaction/getDirectMessages'
+
 export const addUserToServer = (serverId, user) => {
     return {
         type: ADD_USER_TO_SERVER,
@@ -137,6 +149,85 @@ export const getMoreMessages = (messages, channelId) => {
     }
 }
 
+// test
+
+export const deleteDirectRoom = (roomId) => {
+    return {
+        type: DELETE_DIRECT_ROOM,
+        roomId
+    }
+}
+
+export const createDirectRoom = (direct_room) => {
+    return {
+        type: CREATE_DIRECT_ROOM,
+        direct_room
+    }
+}
+
+export const boldDirectRoom = (roomId, boldValue = false) => {
+    return {
+        type: BOLD_DIRECT_ROOM,
+        roomId,
+        boldValue
+    }
+}
+
+export const unboldDirectRoom= (roomId) => {
+    return {
+        type: UNBOLD_DIRECT_ROOM,
+        roomId
+    }
+}
+
+export const deleteDirectMessage = (roomId, messageId) => {
+    return {
+        type: DELETE_DIRECT_MESSAGE,
+        roomId,
+        messageId
+    }
+}
+
+export const createDirectMessage = (message) => {
+    return {
+        type: CREATE_DIRECT_MESSAGE,
+        message
+    }
+}
+
+export const pinDirectMessage = (message) => {
+    return {
+        type: PIN_DIRECT_MESSAGE,
+        message
+    }
+}
+
+export const deleteDirectReaction = (roomId, messageId, reactionId) => {
+    return {
+        type: DELETE_DIRECT_REACTION,
+        roomId,
+        messageId,
+        reactionId
+    }
+}
+
+export const createDirectReaction = (roomId, reaction) => {
+    return {
+        type: CREATE_DIRECT_REACTION,
+        roomId,
+        reaction
+    }
+}
+
+export const getMoreDirectMessages = (messages, roomId) => {
+    return {
+        type: GET_DIRECT_MESSAGES,
+        messages,
+        roomId
+    }
+}
+
+
 export const uploadImage = (image) => async () => {
     const res = await fetch(`/api/servers/images`, {
         method: "POST",
@@ -241,6 +332,110 @@ export const initializeChannel = (serverId, channel) => async (dispatch) => {
     const data = await res.json()
     if (res.ok) {
         dispatch(createChannel(data))
+    }
+    return data
+}
+
+export const removeMessage = (channelId, messageId) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${messageId}`, {
+        method: "DELETE"
+    })
+    if (res.ok) {
+        dispatch(deleteMessage(channelId, messageId))
+    }
+    return res
+}
+
+export const initializeMessage = (channelId, message) => async (dispatch) => {
+    const res = await fetch(`/api/channels/${channelId}/messages`, {
+        method: "POST",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(createMessage(data))
+    }
+    return data
+}
+
+export const thunkPinMessage = (message) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${message.id}`, {
+        method: "PUT",
+        body: JSON.stringify(message),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(pinMessage(data))
+    }
+    return data
+}
+
+export const removeReaction = (channelId, messageId, reactionId) => async (dispatch) => {
+    const res = await fetch(`/api/reactions/${reactionId}`, {
+        method: "DELETE"
+    })
+    if (res.ok) {
+        dispatch(deleteReaction(channelId, messageId, reactionId))
+    }
+    return res
+}
+
+export const initializeReaction = (channelId, messageId, reaction) => async (dispatch) => {
+    const res = await fetch(`/api/messages/${messageId}/reactions`, {
+        method: "POST",
+        body: JSON.stringify(reaction),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(createReaction(channelId, data))
+    }
+    return data
+}
+
+export const getMessages = (channelId, query) => async (dispatch) => {
+    const res = await fetch(`/api/channels/${channelId}?${query}`)
+
+    if (res.ok) {
+        const data = await res.json()
+        dispatch(getMoreMessages(data.messages, channelId))
+        return data.messages
+    }
+}
+
+// test
+
+export const removeDirectRoom = (roomId) => async (dispatch) => {
+    const res = await fetch(`/api/direct_room/${roomId}`, {
+        method: "DELETE"
+    })
+
+    if (res.ok) {
+        dispatch(deleteDirectRoom(roomId))
+    }
+    return res
+}
+
+export const initializeDirectRoom= (serverId, direct_room) => async (dispatch) => {
+    const res = await fetch(`/api/servers/${serverId}/direct_room`, {
+        method: "POST",
+        body: JSON.stringify(direct_room),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(createDirectRoom(data))
     }
     return data
 }
