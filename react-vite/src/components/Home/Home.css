@@ -80,6 +80,10 @@ button {
     font-size: 17px;
     font-weight: 500;
     font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .large-white-button:hover {
@@ -156,4 +160,10 @@ span {
     color: #E01E5A;
     text-align: left;
     width: 100%
+}
+
+.google-icon {
+    height: 20px;
+    position: absolute;
+    left: 85px;
 }
