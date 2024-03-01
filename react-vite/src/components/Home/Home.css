@@ -40,10 +40,12 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .home-body>a {
     max-width: 100%;
+    text-decoration: none;
 }
 
 .signin-header {
@@ -154,6 +156,12 @@ button {
 .demo-user-wrapper {
     margin-top: 20px;
     max-width: 100%;
+    text-decoration: none;
+}
+
+.demo-user-wrapper-end {
+    max-width: 100%;
+    text-decoration: none;
 }
 
 span {
