@@ -216,10 +216,8 @@ export default function ServerPage() {
     }
 
     const openUserModal = (userId) => {
-        console.log(userId)
         setUserPopupID(userId)
         setProfileModal(true);
-
         window.addEventListener("mousedown", handleMouseClick);
     }
 
@@ -227,7 +225,6 @@ export default function ServerPage() {
         if (target.item.type === 'channel') {
             navigate(`/main/servers/${server.id}/channels/${target.item.id}`)
         } else if (target.item.type === 'user') {
-            // deal with user, likely requires rework of profile modal
             openUserModal(target.item.id)
         }
     }
