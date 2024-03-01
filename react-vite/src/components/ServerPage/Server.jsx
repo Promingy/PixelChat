@@ -207,7 +207,7 @@ export default function ServerPage() {
         for (let i = 0; i <= 6; i++) {
             if (node === profile[0]) return;
             else if (node === xBtn[0]) break;
-            else node = node.parentNode;
+            else if (node.parentNode) node = node.parentNode;
         }
         setProfileModal2(true);
         setProfileModal(false);
