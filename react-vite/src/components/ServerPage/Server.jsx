@@ -12,6 +12,7 @@ import "./Server.css"
 import { addUserToServer, deleteServer } from "../../redux/server";
 import { removeUserServer } from "../../redux/session";
 import ReactSearchBox from 'react-search-box'
+import ProfileModal from "../ProfileModal";
 
 let socket
 
@@ -29,8 +30,10 @@ export default function ServerPage() {
     const navigate = useNavigate()
     const { serverId } = useParams()
     const [showNavBar, setShowNavBar] = useState(false);
-    const [searchData, setSearchData] = useState({})
-
+    const [searchData, setSearchData] = useState({});
+    const [profileModal, setProfileModal] = useState(false);
+    const [profileModal2, setProfileModal2] = useState(false);
+    const [userPopupID, setUserPopupID] = useState(null)
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
@@ -56,7 +59,8 @@ export default function ServerPage() {
                 data.push({
                     key: `${user.first_name} ${user.last_name}`,
                     value: `${user.first_name} ${user.last_name}`,
-                    type: 'user'
+                    type: 'user',
+                    id: user.id
                 })
             }
         }
@@ -193,12 +197,38 @@ export default function ServerPage() {
         })
     }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
 
+    function handleMouseClick(e) {
+        e.preventDefault();
+        const profile =
+            document.getElementsByClassName("profile-modal");
+        const xBtn = document.getElementsByClassName("close-profile");
+        let node = e.target;
+
+        for (let i = 0; i <= 6; i++) {
+            if (node === profile[0]) return;
+            else if (node === xBtn[0]) break;
+            else node = node.parentNode;
+        }
+        setProfileModal2(true);
+        setProfileModal(false);
+        setTimeout(() => setProfileModal2(false), 350);
+        window.removeEventListener("mousedown", handleMouseClick);
+    }
+
+    const openUserModal = (userId) => {
+        console.log(userId)
+        setUserPopupID(userId)
+        setProfileModal(true);
+
+        window.addEventListener("mousedown", handleMouseClick);
+    }
+
     const handleSearchSelect = (target) => {
         if (target.item.type === 'channel') {
             navigate(`/main/servers/${server.id}/channels/${target.item.id}`)
         } else if (target.item.type === 'user') {
             // deal with user, likely requires rework of profile modal
-            console.log(target.item.value)
+            openUserModal(target.item.id)
         }
     }
 
@@ -206,6 +236,8 @@ export default function ServerPage() {
 
     return (
         <div className="main-page-wrapper">
+            {profileModal && <ProfileModal animation={false} userId={userPopupID} />}
+            {profileModal2 && <ProfileModal animation={true} userId={userPopupID} />}
             <div className="top-bar-wrapper">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <ReactSearchBox
@@ -216,9 +248,9 @@ export default function ServerPage() {
                 />
             </div>
             <div className="main-content-wrapper">
-                <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+                <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
                 <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
-                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
             </div>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />

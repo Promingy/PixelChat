@@ -31,7 +31,7 @@
     width: 100%;
     display: flex;
     align-items: start;
-    z-index: 40;
+    z-index: 11;
     padding-left: calc(75px + min(max(25%, 230px), 330px))
 }
 
