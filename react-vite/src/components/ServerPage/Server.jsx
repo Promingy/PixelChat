@@ -199,16 +199,12 @@ export default function ServerPage() {
 
     function handleMouseClick(e) {
         e.preventDefault();
-        const profile =
-            document.getElementsByClassName("profile-modal");
-        const xBtn = document.getElementsByClassName("close-profile");
-        let node = e.target;
+        const profile = document.getElementById("profile-modal");
+        const xBtn = document.getElementById("close-profile");
 
-        for (let i = 0; i <= 6; i++) {
-            if (node === profile[0]) return;
-            else if (node === xBtn[0]) break;
-            else if (node.parentNode) node = node.parentNode;
-        }
+        // if user clicked in profile modal (but not on "X"), we want to abort closing profile modal
+        if (profile.contains(e.target) && e.target !== xBtn) return
+
         setProfileModal2(true);
         setProfileModal(false);
         setTimeout(() => setProfileModal2(false), 350);
