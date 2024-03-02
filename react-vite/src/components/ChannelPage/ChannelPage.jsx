@@ -7,7 +7,7 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { getMessages } from "../../redux/server";
+import { getMessages, getDirectMessages } from "../../redux/server";
 import { loadServer } from "../../redux/server";
 
 
@@ -16,23 +16,34 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { channelId } = useParams()
+    const sessionUser = useSelector((state) => state.session.user);
     const server = useSelector(state => state.server)
     const channel = server?.channels?.[+channelId]
     const messages = server?.channels?.[+channelId]?.messages
+    const room = server?.direct_rooms?.[+channelId]
+    const directMessages = server?.direct_rooms?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
+    console.log(server?.channels)
 
     useEffect(() => {
         dispatch(loadServer(serverId))
             .then(server => {
                 const channels = {}
+                const direct_rooms = {}
                 if (server.channels) {
                     for (let channel of Object.values(server.channels)) {
                         channels[channel.id] = channel
                     }
                 }
+                if (server.direct_rooms) {
+                    for (let direct_room of Object.values(server.direct_rooms)) {
+                        direct_rooms[direct_room.id] = direct_room
+                    }
+                }
+                // add direct rooms
 
-                if (!server || !channels[channelId]) {
+                if (!server || type === "channel" && !channels[channelId] || type === "message" && !direct_rooms[channelId]) {
                     return navigate('/redirect')
                 }
             })
@@ -42,7 +53,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         // func to iterate over all messages for a channel
         // and create a tile component
 
-        const sortedMessages = messages && Object.values(messages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        const sortedMessages = (type === "channel" && messages && Object.values(messages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))) || (type === "message" && directMessages && Object.values(directMessages).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)))
         const result = []
 
         // set params for the days, month, and dateSuffixes for proper formatting
@@ -103,17 +114,23 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         return result
     }
 
+    // create direct rooms version of above
+
 
     // Scroll to bottom of the page on initial load
     useEffect(() => {
+      if (type === "channel") {
         const element = document.querySelector('.all-messages-container')
         element.scrollTo(0, element.scrollHeight)
+      }
     }, [messages, channelId])
 
     // reset offset on channelId switch, for infinite scroll!
     useEffect(() => {
         setOffset(15)
     }, [channelId])
+
+    // create direct rooms version of above???
 
 
     if (type === "channel") return (
@@ -171,6 +188,57 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                 hasMore={!(Object.values(messages).length % 15)}
                 next={() => {
                   dispatch(getMessages(channelId, `offset=${offset}`));
+                  setOffset((prevOffset) => (prevOffset += 15));
+                }}
+                inverse={true}
+                scrollableTarget="all-messages-container"
+                endMessage={
+                  <h3 style={{ textAlign: "center" }}>No more messages.</h3>
+                }
+              />
+            )}
+          </div>
+          <MessageBox
+            socket={socket}
+            serverId={server.id}
+            channelName={channel?.name}
+            channelId={channelId}
+          />
+        </div>
+      </>
+    );
+
+    if (type === "message") return (
+      <>
+        <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={()=>{setShowNavBar(true)}}>
+          <i className="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+        <div className={`close-nav-bar${showNavBar ? ' do-show' : ''}`} onClick={()=>{setShowNavBar(false)}}></div>
+        <div className="channel-page-wrapper">
+          <div
+            className='channel-page-button-container'
+          >
+            <OpenModalButton
+              buttonText={
+                <div className="channel-page-first-button">
+                  {room ? sessionUser.id === room.owner_1_id ? <p>{users[room.owner_2_id].first_name} {users[room.owner_2_id].last_name}</p> : <p>{users[room.owner_1_id].first_name} {users[room.owner_1_id].last_name}</p> : <p>No Room</p>}
+                  <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+                </div>
+              }
+              // modalComponent={
+              //   <ChannelPopupModal activeProp={1} socket={socket} />
+              // }
+            />
+          </div>
+          <div className="all-messages-container" id="all-messages-container">
+            {generate_message_layout()}
+
+            {directMessages && (
+              <InfiniteScroll
+                dataLength={Object.values(directMessages).length}
+                hasMore={!(Object.values(directMessages).length % 15)}
+                next={() => {
+                  dispatch(getDirectMessages(channelId, `offset=${offset}`));
                   setOffset((prevOffset) => (prevOffset += 15));
                 }}
                 inverse={true}

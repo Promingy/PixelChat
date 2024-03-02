@@ -35,6 +35,7 @@ def inf_scroll_get_messages(roomId):
 def create_message(roomId):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    # add server and direct room validation for user
     if form.validate_on_submit():
         data = form.data
         new_message = DirectMessage(
