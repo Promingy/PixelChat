@@ -106,7 +106,7 @@ function LoginFormPage() {
             Log in as Demo User{" "}
           </button>
         </div>
-        <div className="demo-user-wrapper">
+        <div className="demo-user-wrapper-end">
           <button className="large-white-button" onClick={demoUser2Login}>
             Log in as Demo User 2
           </button>

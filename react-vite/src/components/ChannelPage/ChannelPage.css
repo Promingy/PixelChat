@@ -260,7 +260,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20px;
+  height: 30px;
   gap: 5px;
   border: 1px solid var(--date-divider);
   border-radius: 10px;
@@ -274,12 +274,7 @@
   right: 30px;
 }
 
-.profile-modal-messages {
-  position: relative;
-  z-index: 1;
-}
-
-.react-bar > * {
+.react-bar>* {
   border-radius: 5px;
   width: 25px;
   height: 25px;
@@ -354,7 +349,6 @@
 }
 
 .date-divider {
-  position: relative;
   border-bottom: 1px solid var(--date-divider);
   margin-top: 0px;
   z-index: -1;
@@ -371,7 +365,6 @@
 }
 
 .date-separator-bar {
-  position: relative;
   border-bottom: 1px solid lightgrey;
   bottom: 21px;
   z-index: 0;
