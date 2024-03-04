@@ -237,7 +237,9 @@ export default function ServerPage() {
                     id='searchBox'
                     data={searchData}
                     placeholder={`Search ${server.name}`}
+                    callback={(record) => console.log(record)}
                     onSelect={(record) => handleSearchSelect(record)}
+                    clearOnSelect={true}
                 />
             </div>
             <div className="main-content-wrapper">
