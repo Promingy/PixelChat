@@ -4,18 +4,15 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
 import { thunkPinMessage } from '../../redux/server'
-import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 
 
-export default function MessageTile({ message, user, channelId, socket }) {
+export default function MessageTile({ message, user, channelId, socket, openUserModal }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
-    const [profileModal, setProfileModal] = useState(false)
-    const [profileModal2, setProfileModal2] = useState(false)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
 
@@ -63,41 +60,8 @@ export default function MessageTile({ message, user, channelId, socket }) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
 
-    function handleProfileModal(e) {
-        e.preventDefault()
-        const profile = document.getElementsByClassName('profile-modal')
-        const xBtn = document.getElementsByClassName('close-profile')
-        let node = e.target
-
-        for (let i = 0; i <= 6; i++) {
-            if (node === profile[0] ||
-                e.target.src === user?.image_url && +e.target.id === +message.id ||
-                +e.target.id === +message.id) return
-
-            else if (node === xBtn[0]) break
-
-            else node = node.parentNode
-
-        }
-        setProfileModal2(true)
-
-        setProfileModal(false)
-        setTimeout(() => setProfileModal2(false), 350)
-        window.removeEventListener('mousedown', handleProfileModal)
-    }
-
     return (
         <>
-            {profileModal &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={false} userId={message.user_id} />
-                </div>
-            }
-            {profileModal2 &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={true} userId={message.user_id} />
-                </div>
-            }
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
@@ -152,9 +116,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                             src={user?.image_url}
                             id={message.id}
                             onClick={() => {
-                                setProfileModal(true)
-
-                                window.addEventListener('mousedown', handleProfileModal)
+                                openUserModal(message.user_id)
                             }}
                         />
 
@@ -162,9 +124,7 @@ export default function MessageTile({ message, user, channelId, socket }) {
                             <div
                                 className='date-name-container'
                                 onClick={() => {
-                                    setProfileModal(true)
-
-                                    window.addEventListener('mousedown', handleProfileModal)
+                                    openUserModal(message.user_id)
                                 }}>
                                 <p className="message-owner" id={message.id}>{user?.username}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
