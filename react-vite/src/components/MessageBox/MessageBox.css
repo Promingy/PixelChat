@@ -2,14 +2,10 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* border: 1px solid var(--border); */
-  /* border-radius: 8px; */
-  margin: 0 15px;
+  margin: 0 20px;
   z-index: 0;
   align-items: flex-end;
   font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
-  /* box-shadow: 0px 0px 2px #ddd; */
-  /* gap: 30px; */
 }
 
 .message-wrapper-top {
@@ -21,25 +17,28 @@
 
 .message-wrapper-bottom {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: flex-start;
-  width: 98%;
-  background-color: white;
-  z-index: 2;
-  margin-top: 5px;
+  width: 100%;
+  background-color: var(--color-background);
+  border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+   border-bottom: 1px solid #ccc;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-
+  padding: 0 10px 0 10px
 }
 
 .message-box {
   resize: none;
   width: 98%;
-  min-height: 8em;
+  min-height: 6em;
   max-height: 20em;
-  border: none;
-  border-radius: 10px;
+  border-top:  1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
   z-index: 1;
   outline: transparent;
   background-color: var(--color-background);
@@ -95,8 +94,10 @@
   display: flex;
   justify-content: start;
   background-color:var(--code-background);
-  border-top-left-radius: 0.5em;
-  border-top-right-radius: 0.5em;
+}
+
+.ql-toolbar.ql-snow.hidden {
+   display: none
 }
 
 .quill {
@@ -104,11 +105,6 @@
 }
 .ql-formats {
   width: auto;
-}
-
-.ql-container.ql-snow {
-   border-bottom-left-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
 }
 
 .ql-editor > p{
@@ -120,6 +116,18 @@
   opacity: 0.5;
   color: red;
 }
+
+.bottom-toolbar-wrapper {
+  align-self: center;
+}
+.bottom-toolbar-wrapper > button{
+  background-color: white;
+  border:none
+}
+.bottom-toolbar-wrapper > button:hover{
+   color: #06c;
+}
+ 
 .theme-light {
   --border: #dddddd;
   --color: white;
