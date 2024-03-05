@@ -10,7 +10,9 @@ import "./InnerNavbar.css"
 export default function InnerNavbar({ socket, showNavBar }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
+    const sessionUser = useSelector((state) => state.session.user);
     const server = useSelector((state) => state.server)
+    const users = server?.users
     const [showMenu, setShowMenu] = useState(false);
     const [showMenu2, setShowMenu2] = useState(false);
     const ulRef = useRef();
@@ -125,6 +127,19 @@ export default function InnerNavbar({ socket, showNavBar }) {
                     <div className={`create-channel-container`}>
                         <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
                     </div>
+                    {/* Create Direct Message Popup Modal */}
+                    {Object.values(server.direct_rooms).map((direct_room) => (
+                        <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${direct_room.id == channelId ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
+                            <Link to={`/main/servers/${server.id}/direct-messages/${direct_room.id}`} className="inner-navbar-link">
+                                <div className="navbar-content">
+                                    <div className="navbar-content-left">
+                                        <i className="fa-solid fa-hashtag"></i>{direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"}
+                                    </div>
+                                    {direct_room?.bold ? <div className="unread-message-count">{direct_room?.bold}</div> : ""}
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
                 <div className="creator-container">
                     <ul style={{ listStyle: "none" }}>

@@ -24,7 +24,6 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     const directMessages = server?.direct_rooms?.[+channelId]?.messages
     const users = server?.users
     const [offset, setOffset] = useState(15)
-    console.log(server?.channels)
 
     useEffect(() => {
         dispatch(loadServer(serverId))
@@ -41,7 +40,6 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                         direct_rooms[direct_room.id] = direct_room
                     }
                 }
-                // add direct rooms
 
                 if (!server || type === "channel" && !channels[channelId] || type === "message" && !direct_rooms[channelId]) {
                     return navigate('/redirect')
@@ -90,6 +88,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
+                                type={type}
                             />
                         </div>
                     )
@@ -104,6 +103,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                                 socket={socket}
                                 bottom={i < 2}
                                 center={i === 2}
+                                type={type}
                             />
                         </div>
                     )
@@ -203,6 +203,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
             serverId={server.id}
             channelName={channel?.name}
             channelId={channelId}
+            type={type}
           />
         </div>
       </>
@@ -252,8 +253,9 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
           <MessageBox
             socket={socket}
             serverId={server.id}
-            channelName={channel?.name}
+            channelName={room ? room?.owner_1_id === sessionUser?.id ? `${users[room?.owner_2_id]?.first_name} ${users[room?.owner_2_id]?.last_name}` : `${users[room?.owner_1_id]?.first_name} ${users[room?.owner_1_id]?.last_name}` : "Undefined"}
             channelId={channelId}
+            type={type}
           />
         </div>
       </>
