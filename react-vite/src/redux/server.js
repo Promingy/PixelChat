@@ -17,7 +17,6 @@ const BOLD_CHANNEL = 'channel/bold'
 const UNBOLD_CHANNEL = 'channel/unbold'
 const GET_MESSAGES = 'reaction/getMessages'
 const ADD_USER_TO_SERVER = 'session/addUserToServer'
-const DELETE_DIRECT_ROOM = 'direct_room/deleteDirectRoom'
 const CREATE_DIRECT_ROOM = 'direct_room/createDirectRoom'
 const DELETE_DIRECT_MESSAGE = 'direct_message/deleteDirectMessage'
 const CREATE_DIRECT_MESSAGE = 'direct_message/createDirectMessage'
@@ -36,11 +35,12 @@ export const addUserToServer = (serverId, user) => {
     }
 }
 
-const getServer = (server, boldValues = false) => {
+const getServer = (server, boldValues = false, currentUserId) => {
     return {
         type: GET_SERVER,
         server,
-        boldValues
+        boldValues,
+        currentUserId
     }
 }
 
@@ -147,81 +147,81 @@ export const getMoreMessages = (messages, channelId) => {
     }
 }
 
-// test
-
-export const deleteDirectRoom = (roomId) => {
-    return {
-        type: DELETE_DIRECT_ROOM,
-        roomId
-    }
-}
-
-export const createDirectRoom = (direct_room) => {
+export const createDirectRoom = (direct_room, otherUserId) => {
     return {
         type: CREATE_DIRECT_ROOM,
-        direct_room
+        direct_room,
+        otherUserId
     }
 }
 
-export const boldDirectRoom = (roomId, boldValue = false) => {
+export const boldDirectRoom = (roomId, boldValue = false, otherUserId) => {
     return {
         type: BOLD_DIRECT_ROOM,
         roomId,
-        boldValue
+        boldValue,
+        otherUserId
     }
 }
 
-export const unboldDirectRoom= (roomId) => {
+export const unboldDirectRoom = (roomId, otherUserId) => {
     return {
         type: UNBOLD_DIRECT_ROOM,
-        roomId
+        roomId,
+        otherUserId
     }
 }
 
-export const deleteDirectMessage = (roomId, messageId) => {
+export const deleteDirectMessage = (roomId, messageId, otherUserId) => {
     return {
         type: DELETE_DIRECT_MESSAGE,
         roomId,
-        messageId
+        messageId,
+        otherUserId
     }
 }
 
-export const createDirectMessage = (message) => {
+export const createDirectMessage = (message, otherUserId) => {
     return {
         type: CREATE_DIRECT_MESSAGE,
-        message
+        message,
+        otherUserId
     }
 }
 
-export const pinDirectMessage = (message) => {
+export const pinDirectMessage = (message, otherUserId) => {
     return {
         type: PIN_DIRECT_MESSAGE,
-        message
+        message,
+        otherUserId
     }
 }
 
-export const deleteDirectReaction = (roomId, messageId, reactionId) => {
+export const deleteDirectReaction = (roomId, messageId, reactionId, otherUserId) => {
     return {
         type: DELETE_DIRECT_REACTION,
         roomId,
         messageId,
-        reactionId
+        reactionId,
+        otherUserId
     }
 }
 
-export const createDirectReaction = (roomId, reaction) => {
+export const createDirectReaction = (roomId, reaction, otherUserId) => {
     return {
         type: CREATE_DIRECT_REACTION,
         roomId,
-        reaction
+        reaction,
+        otherUserId
     }
 }
 
-export const getMoreDirectMessages = (messages, roomId) => {
+export const getMoreDirectMessages = (messages, roomId, otherUserId) => {
     return {
         type: GET_DIRECT_MESSAGES,
         messages,
-        roomId
+        roomId,
+        otherUserId
     }
 }
 
@@ -235,13 +235,13 @@ export const uploadImage = (image) => async () => {
     return data
 }
 
-export const loadServer = (serverId) => async (dispatch) => {
+export const loadServer = (serverId, userId) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}`)
     const data = await res.json()
     if (res.ok) {
         const storedBoldValues = localStorage.getItem("boldValues")
         const storedBoldValuesObj = JSON.parse(storedBoldValues)
-        dispatch(getServer(data, storedBoldValuesObj))
+        dispatch(getServer(data, storedBoldValuesObj, userId))
     }
     return data
 }
@@ -410,20 +410,7 @@ export const getMessages = (channelId, query) => async (dispatch) => {
     }
 }
 
-// test
-
-export const removeDirectRoom = (roomId) => async (dispatch) => {
-    const res = await fetch(`/api/direct_rooms/${roomId}`, {
-        method: "DELETE"
-    })
-
-    if (res.ok) {
-        dispatch(deleteDirectRoom(roomId))
-    }
-    return res
-}
-
-export const initializeDirectRoom= (serverId, direct_room) => async (dispatch) => {
+export const initializeDirectRoom = (serverId, direct_room) => async (dispatch) => {
     const res = await fetch(`/api/servers/${serverId}/direct_rooms`, {
         method: "POST",
         body: JSON.stringify(direct_room),
@@ -433,22 +420,22 @@ export const initializeDirectRoom= (serverId, direct_room) => async (dispatch) =
     })
     const data = await res.json()
     if (res.ok) {
-        dispatch(createDirectRoom(data))
+        dispatch(createDirectRoom(data, direct_room.owner_2_id))
     }
     return data
 }
 
-export const removeDirectMessage = (roomId, messageId) => async (dispatch) => {
+export const removeDirectMessage = (roomId, messageId, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_messages/${messageId}`, {
         method: "DELETE"
     })
     if (res.ok) {
-        dispatch(deleteDirectMessage(roomId, messageId))
+        dispatch(deleteDirectMessage(roomId, messageId, otherUserId))
     }
     return res
 }
 
-export const initializeDirectMessage = (roomId, message) => async (dispatch) => {
+export const initializeDirectMessage = (roomId, message, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_rooms/${roomId}/messages`, {
         method: "POST",
         body: JSON.stringify(message),
@@ -458,12 +445,12 @@ export const initializeDirectMessage = (roomId, message) => async (dispatch) => 
     })
     const data = await res.json()
     if (res.ok) {
-        dispatch(createDirectMessage(data))
+        dispatch(createDirectMessage(data, otherUserId))
     }
     return data
 }
 
-export const thunkPinDirectMessage = (message) => async (dispatch) => {
+export const thunkPinDirectMessage = (message, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_messages/${message.id}`, {
         method: "PUT",
         body: JSON.stringify(message),
@@ -474,22 +461,22 @@ export const thunkPinDirectMessage = (message) => async (dispatch) => {
 
     const data = await res.json()
     if (res.ok) {
-        dispatch(pinDirectMessage(data))
+        dispatch(pinDirectMessage(data, otherUserId))
     }
     return data
 }
 
-export const removeDirectReaction = (roomId, messageId, reactionId) => async (dispatch) => {
+export const removeDirectReaction = (roomId, messageId, reactionId, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_reactions/${reactionId}`, {
         method: "DELETE"
     })
     if (res.ok) {
-        dispatch(deleteReaction(roomId, messageId, reactionId))
+        dispatch(deleteReaction(roomId, messageId, reactionId, otherUserId))
     }
     return res
 }
 
-export const initializeDirectReaction = (roomId, messageId, reaction) => async (dispatch) => {
+export const initializeDirectReaction = (roomId, messageId, reaction, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_messages/${messageId}/reactions`, {
         method: "POST",
         body: JSON.stringify(reaction),
@@ -499,17 +486,17 @@ export const initializeDirectReaction = (roomId, messageId, reaction) => async (
     })
     const data = await res.json()
     if (res.ok) {
-        dispatch(createDirectReaction(roomId, data))
+        dispatch(createDirectReaction(roomId, data, otherUserId))
     }
     return data
 }
 
-export const getDirectMessages = (roomId, query) => async (dispatch) => {
+export const getDirectMessages = (roomId, query, otherUserId) => async (dispatch) => {
     const res = await fetch(`/api/direct_rooms/${roomId}?${query}`)
 
     if (res.ok) {
         const data = await res.json()
-        dispatch(getMoreDirectMessages(data.messages, roomId))
+        dispatch(getMoreDirectMessages(data.messages, roomId, otherUserId))
         return data.messages
     }
 }
@@ -549,11 +536,12 @@ const serverReducer = (state = initialState, action) => {
                 }
             }
             for (let direct_room of action.server.direct_rooms) {
-                newState.direct_rooms[direct_room.id] = { ...direct_room, messages: {}, bold: (storedBoldValuesObj[direct_room.id] ? storedBoldValuesObj[direct_room.id] : 0) }
+                const userId = (action.currentUserId === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id)
+                newState.direct_rooms[userId] = { ...direct_room, messages: {}, bold: (storedBoldValuesObj[userId] ? storedBoldValuesObj[userId] : 0) }
                 for (let message of direct_room.messages) {
-                    newState.direct_rooms[direct_room.id].messages[message.id] = { ...message, reactions: {} }
+                    newState.direct_rooms[userId].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
-                        newState.direct_rooms[direct_room.id].messages[message.id].reactions[reaction.id] = { ...reaction }
+                        newState.direct_rooms[userId].messages[message.id].reactions[reaction.id] = { ...reaction }
                     }
                 }
             }
@@ -646,64 +634,58 @@ const serverReducer = (state = initialState, action) => {
             newState.channels[action.message.channel_id].messages[action.message.id].pinned = action.message.pinned
             return newState
         }
-        // test
-        case DELETE_DIRECT_ROOM: {
-            const newState = { ...state }
-            delete newState.direct_rooms[action.roomId]
-            return newState
-        }
         case CREATE_DIRECT_ROOM: {
             const newState = { ...state }
-            newState.direct_rooms[action.direct_room.id] = { ...action.direct_room }
-            newState.direct_rooms[action.direct_room.id].messages = {}
-            newState.direct_rooms[action.direct_room.id].bold = 0
+            newState.direct_rooms[action.otherUserId] = { ...action.direct_room }
+            newState.direct_rooms[action.otherUserId].messages = {}
+            newState.direct_rooms[action.otherUserId].bold = 0
             return newState
         }
         case DELETE_DIRECT_MESSAGE: {
             const newState = { ...state }
-            delete newState.direct_rooms[action.roomId].messages[action.messageId]
+            delete newState.direct_rooms[action.otherUserId].messages[action.messageId]
             return newState
         }
         case CREATE_DIRECT_MESSAGE: {
             const newState = { ...state }
-            newState.direct_rooms[action.message.direct_room_id].messages[action.message.id] = { ...action.message }
-            newState.direct_rooms[action.message.direct_room_id].messages[action.message.id].reactions = {}
+            newState.direct_rooms[action.otherUserId].messages[action.message.id] = { ...action.message }
+            newState.direct_rooms[action.otherUserId].messages[action.message.id].reactions = {}
             return newState
         }
         case DELETE_DIRECT_REACTION: {
             const newState = { ...state }
-            delete newState.direct_rooms[action.roomId].messages[action.messageId].reactions[action.reactionId]
+            delete newState.direct_rooms[action.otherUserId].messages[action.messageId].reactions[action.reactionId]
             return newState
         }
         case CREATE_DIRECT_REACTION: {
             const newState = { ...state }
-            newState.direct_rooms[action.roomId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
+            newState.direct_rooms[action.otherUserId].messages[action.reaction.message_id].reactions[action.reaction.id] = { ...action.reaction }
             return newState
         }
         case BOLD_DIRECT_ROOM: {
             const newState = { ...state }
             if (action.boldValue) {
-                newState.direct_rooms[action.roomId].bold = action.boldValue
+                newState.direct_rooms[action.otherUserId].bold = action.boldValue
             } else {
-                newState.direct_rooms[action.roomId].bold++
+                newState.direct_rooms[action.otherUserId].bold++
             }
             return newState
         }
         case UNBOLD_DIRECT_ROOM: {
             const newState = { ...state }
-            newState.direct_rooms[action.roomId].bold = 0
+            newState.direct_rooms[action.otherUserId].bold = 0
             return newState
         }
         case GET_DIRECT_MESSAGES: {
             const newState = { ...state }
             for (let message of action.messages) {
-                newState.direct_rooms[action.roomId].messages[message.id] = message
+                newState.direct_rooms[action.otherUserId].messages[message.id] = message
             }
             return newState
         }
         case PIN_DIRECT_MESSAGE: {
             const newState = { ...state }
-            newState.direct_rooms[action.message.direct_room_id].messages[action.message.id].pinned = action.message.pinned
+            newState.direct_rooms[action.otherUserId].messages[action.message.id].pinned = action.message.pinned
             return newState
         }
         case ADD_USER_TO_SERVER: {

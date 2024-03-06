@@ -130,7 +130,7 @@ export default function InnerNavbar({ socket, showNavBar }) {
                     {/* Create Direct Message Popup Modal */}
                     {Object.values(server.direct_rooms).map((direct_room) => (
                         <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${direct_room.id == channelId ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
-                            <Link to={`/main/servers/${server.id}/direct-messages/${direct_room.id}`} className="inner-navbar-link">
+                            <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
                                         <i className="fa-solid fa-hashtag"></i>{direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"}

@@ -11,6 +11,7 @@ export default function Profile({ animation, userId }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { serverId } = useParams()
+  const direct_rooms = useSelector((state) => state.server.direct_rooms)
   const sessionUser = useSelector((state) => state.session.user);
   const users = useSelector(state => state.server.users)
   const user = users[userId]
@@ -20,14 +21,17 @@ export default function Profile({ animation, userId }) {
     e.preventDefault()
     setErrors({})
 
+    if (direct_rooms[userId]) return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
+
     const form = {
-        owner_2_id: userId
+      owner_2_id: userId
     }
 
     const handleDirectRoomCreation = async (room) => {
-        const roomData = await dispatch(initializeDirectRoom(serverId, room))
+
+        const roomData = await dispatch(initializeDirectRoom(serverId, room, userId))
         if (!roomData.errors) {
-          return navigate(`/main/servers/${serverId}/direct-messages/${roomData.id}`)
+          return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
         } else {
             setErrors(roomData.errors)
         }

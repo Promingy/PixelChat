@@ -40,9 +40,9 @@ export default function ServerPage({type}) {
 
     // Eager load all data for the server
     useEffect(() => {
-        dispatch(loadServer(serverId))
+        dispatch(loadServer(serverId, sessionUser.id))
         dispatch(loadAllServers())
-    }, [dispatch, serverId])
+    }, [dispatch, serverId, sessionUser])
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");

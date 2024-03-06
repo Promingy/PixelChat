@@ -4,7 +4,7 @@ import { useState } from "react";
 import { initializeMessage, initializeDirectMessage } from '../../redux/server'
 import { useDispatch } from 'react-redux'
 
-export default function MessageBox({ socket, channelName, channelId, serverId, type }) {
+export default function MessageBox({ socket, channelName, channelId, serverId, type, otherUserId }) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
 
@@ -40,7 +40,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId, t
                 element.scrollTo(0, element.scrollHeight)
             })
 
-        if (type === "message") dispatch(initializeDirectMessage(channelId, newMessage))
+        if (type === "message") dispatch(initializeDirectMessage(channelId, newMessage, otherUserId))
 
 
     }

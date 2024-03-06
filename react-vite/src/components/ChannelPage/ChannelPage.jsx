@@ -25,28 +25,6 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     const users = server?.users
     const [offset, setOffset] = useState(15)
 
-    useEffect(() => {
-        dispatch(loadServer(serverId))
-            .then(server => {
-                const channels = {}
-                const direct_rooms = {}
-                if (server.channels) {
-                    for (let channel of Object.values(server.channels)) {
-                        channels[channel.id] = channel
-                    }
-                }
-                if (server.direct_rooms) {
-                    for (let direct_room of Object.values(server.direct_rooms)) {
-                        direct_rooms[direct_room.id] = direct_room
-                    }
-                }
-
-                if (!server || type === "channel" && !channels[channelId] || type === "message" && !direct_rooms[channelId]) {
-                    return navigate('/redirect')
-                }
-            })
-    }, [dispatch, channelId, navigate, serverId])
-
     function generate_message_layout() {
         // func to iterate over all messages for a channel
         // and create a tile component
@@ -89,6 +67,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                                 bottom={i < 2}
                                 center={i === 2}
                                 type={type}
+                                otherUserId={sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id }
                             />
                         </div>
                     )
@@ -104,6 +83,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                                 bottom={i < 2}
                                 center={i === 2}
                                 type={type}
+                                otherUserId={sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id }
                             />
                         </div>
                     )
@@ -239,7 +219,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                 dataLength={Object.values(directMessages).length}
                 hasMore={!(Object.values(directMessages).length % 15)}
                 next={() => {
-                  dispatch(getDirectMessages(channelId, `offset=${offset}`));
+                  dispatch(getDirectMessages(channelId, `offset=${offset}`, otherUserId));
                   setOffset((prevOffset) => (prevOffset += 15));
                 }}
                 inverse={true}
@@ -256,6 +236,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
             channelName={room ? room?.owner_1_id === sessionUser?.id ? `${users[room?.owner_2_id]?.first_name} ${users[room?.owner_2_id]?.last_name}` : `${users[room?.owner_1_id]?.first_name} ${users[room?.owner_1_id]?.last_name}` : "Undefined"}
             channelId={channelId}
             type={type}
+            otherUserId={sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id }
           />
         </div>
       </>

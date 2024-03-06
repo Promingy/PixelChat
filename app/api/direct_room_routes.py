@@ -49,13 +49,3 @@ def create_message(roomId):
         return new_message.to_dict()
     return {'errors': form.errors}, 401
 
-# DELETE channel by ID
-@direct_room.route('/<int:roomId>', methods=['DELETE'])
-@login_required
-def delete_channel(roomId):
-    direct_room = DirectRoom.query.get(roomId)
-    if direct_room and int(session['_user_id']) == direct_room.to_dict()['owner_1_id'] or int(session['_user_id']) == direct_room.to_dict()['owner_2_id']:
-        db.session.delete(direct_room)
-        db.session.commit()
-        return {'message': 'Successfully deleted'}
-    return {'errors': {'message': 'Unauthorized'}}, 403

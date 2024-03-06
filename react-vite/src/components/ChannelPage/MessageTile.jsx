@@ -8,7 +8,7 @@ import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 
 
-export default function MessageTile({ message, user, channelId, socket, type }) {
+export default function MessageTile({ message, user, channelId, socket, type, otherUserId }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
@@ -262,12 +262,12 @@ export default function MessageTile({ message, user, channelId, socket, type }) 
                             setEmojiBox(false)
                             for (let reaction of Object.values(message.reactions)) {
                                 if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
-                                    return dispatch(removeDirectReaction(channelId, message.id, reaction.id))
+                                    return dispatch(removeDirectReaction(channelId, message.id, reaction.id, otherUserId))
                                     // add socket
                                 }
                             }
                             // if user hasn't used this reaction already, add reaction
-                            return dispatch(initializeDirectReaction(channelId, message.id, { emoji: e.emoji }))
+                            return dispatch(initializeDirectReaction(channelId, message.id, { emoji: e.emoji }, otherUserId))
                             // add socket
                         }} />
                 </div>}
@@ -329,7 +329,7 @@ export default function MessageTile({ message, user, channelId, socket, type }) 
                             onClick={() => {
                                 const updatedMessage = { ...message }
                                 updatedMessage.pinned = !updatedMessage.pinned
-                                dispatch(thunkPinDirectMessage(updatedMessage))
+                                dispatch(thunkPinDirectMessage(updatedMessage, otherUserId))
                                 // add socket
                             }} />
                     }
@@ -342,7 +342,7 @@ export default function MessageTile({ message, user, channelId, socket, type }) 
                             onMouseLeave={() => setConfirmMsgDel(false)}
                             onClick={() => {
                                 setConfirmMsgDel(false)
-                                dispatch(removeDirectMessage(channelId, message.id))
+                                dispatch(removeDirectMessage(channelId, message.id, otherUserId))
                                 // add socket
                             }}
                         >Confirm Delete</div>}
