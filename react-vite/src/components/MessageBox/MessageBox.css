@@ -112,7 +112,6 @@
 .ql-editor::placeholder {
   font-weight: bold;
   opacity: 0.5;
-  color: red;
 }
 
 .bottom-toolbar-wrapper {
