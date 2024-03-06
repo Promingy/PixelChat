@@ -13,6 +13,7 @@ export default function MessageBox({ socket, channelId, serverId }) {
   const [message, setMessage] = useState("");
   const [setShowPicker] = useState(false);
   const closeMenu = () => setShowPicker(false);
+ 
 
   const removeTags = function (str) {
     if (str === null || str === "") return false;
@@ -22,7 +23,7 @@ export default function MessageBox({ socket, channelId, serverId }) {
 
   const onEmojiClick = (event) => {
     setMessage((prevMessage) => {
-      return prevMessage ? prevMessage + "@#$`" + event.emoji : event.emoji;
+      return prevMessage ?( (prevMessage + "@#$`" + event.emoji)): event.emoji;
     });
   };
 
@@ -62,9 +63,10 @@ export default function MessageBox({ socket, channelId, serverId }) {
     e.preventDefault();
 
     const newMessage = {
-      body: message.replace("@#$`", ""),
+      body: message.replace("</p><p>@#$`", ""),
       pinned: false,
     };
+
     setMessage("");
 
     dispatch(initializeMessage(channelId, newMessage)).then((res) => {
