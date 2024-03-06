@@ -52,8 +52,6 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  /* margin-right: 10px; */
- 
 }
 
 .char-count-and-submit > span {
@@ -119,10 +117,15 @@
 
 .bottom-toolbar-wrapper {
   align-self: center;
+  display: flex;
+  gap:2px
 }
 .bottom-toolbar-wrapper > button{
-  background-color: white;
-  border:none
+  background-color: var(--color-background);
+  border:none;
+  font-size: 15px;
+  color: var(--bottom-tool);
+
 }
 .bottom-toolbar-wrapper > button:hover{
    color: #06c;
@@ -133,6 +136,7 @@
   --color: white;
   --clear-message-limit: black;
   --send-disabled: lightgray;
+  --bottom-tool:#1d1c1d;
 }
 
 .theme-dark {
@@ -140,4 +144,5 @@
   --color: #d0d1d2;
   --clear-message-limit: #d0d1d2;
   --send-disabled: transparent;
+  --bottom-tool:rgb(65,65,65)
 }

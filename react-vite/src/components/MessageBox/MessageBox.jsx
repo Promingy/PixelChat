@@ -3,17 +3,27 @@ import "./MessageBox.css";
 import { useState } from "react";
 import { initializeMessage } from "../../redux/server";
 import { useDispatch } from "react-redux";
-import { useMemo } from "react";
 import "./quill.snow.css";
 import ReactQuill from "react-quill";
+import Picker from "emoji-picker-react";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 export default function MessageBox({ socket, channelId, serverId }) {
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
+  const [setShowPicker] = useState(false);
+  const closeMenu = () => setShowPicker(false);
+
   const removeTags = function (str) {
     if (str === null || str === "") return false;
     else str = str.toString();
     return str.replace(/(<([^>]+)>)/gi, "");
+  };
+
+  const onEmojiClick = (event) => {
+    setMessage((prevMessage) => {
+      return prevMessage ? prevMessage + "@#$`" + event.emoji : event.emoji;
+    });
   };
 
   const modules = {
@@ -27,18 +37,18 @@ export default function MessageBox({ socket, channelId, serverId }) {
     },
   };
 
-const addClassByClassName = (className, newClass) => {
-  const elements = document.getElementsByClassName(className);
+  const addClassByClassName = (className, newClass) => {
+    const elements = document.getElementsByClassName(className);
 
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
-    element.classList.toggle(newClass);
-  }
-};
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      element.classList.toggle(newClass);
+    }
+  };
 
-const addClassByClassNameOnClick = (className, newClass) => () => {
-  addClassByClassName(className, newClass);
-};
+  const addClassByClassNameOnClick = (className, newClass) => () => {
+    addClassByClassName(className, newClass);
+  };
 
   document.documentElement.className = `theme-${
     localStorage.getItem("theme") || "light"
@@ -52,7 +62,7 @@ const addClassByClassNameOnClick = (className, newClass) => () => {
     e.preventDefault();
 
     const newMessage = {
-      body: message,
+      body: message.replace("@#$`", ""),
       pinned: false,
     };
     setMessage("");
@@ -81,7 +91,7 @@ const addClassByClassNameOnClick = (className, newClass) => () => {
           theme="snow"
           onChange={(value) => setMessage(value)}
           modules={modules}
-          value={message}
+          value={message.replace("</p><p>@#$`", "")}
           // Have to set placeholer to plain text because the Quill API does not allow to change this value dynamically
           placeholder={`Message channel...`}
           className="message-box"
@@ -106,6 +116,11 @@ const addClassByClassNameOnClick = (className, newClass) => () => {
             >
               <i className="fas fa-remove-format"></i>
             </button>
+            <OpenModalButton
+              buttonText={<i className="far fa-grin-alt"></i>}
+              onItemClick={closeMenu}
+              modalComponent={<Picker onEmojiClick={onEmojiClick} />}
+            />
           </div>
           <div className="char-count-and-submit">
             <span
