@@ -13,6 +13,9 @@ from .api.channel_routes import channel
 from .api.message_routes import message
 from .api.reaction_routes import reaction
 from .api.server_routes import server
+from .api.direct_room_routes import direct_room
+from .api.direct_message_routes import direct_message
+from .api.direct_reaction_routes import direct_reaction
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
@@ -40,6 +43,9 @@ app.register_blueprint(channel, url_prefix='/api/channels')
 app.register_blueprint(message, url_prefix='/api/messages')
 app.register_blueprint(reaction, url_prefix='/api/reactions')
 app.register_blueprint(server, url_prefix='/api/servers')
+app.register_blueprint(direct_room, url_prefix='/api/direct_rooms')
+app.register_blueprint(direct_message, url_prefix='/api/direct_messages')
+app.register_blueprint(direct_reaction, url_prefix='/api/direct_reactions')
 db.init_app(app)
 Migrate(app, db)
 

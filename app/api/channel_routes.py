@@ -35,6 +35,7 @@ def inf_scroll_get_messages(channelId):
 def create_message(channelId):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    # add server and channel validation for user
     if form.validate_on_submit():
         data = form.data
         new_message = Message(

@@ -1,12 +1,45 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
+import { LuMessageCircle } from "react-icons/lu";
+import { initializeDirectRoom } from '../../redux/server';
 import "./ProfileModal.css"
 
 export default function Profile({ animation, userId }) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { serverId } = useParams()
+  const direct_rooms = useSelector((state) => state.server.direct_rooms)
   const sessionUser = useSelector((state) => state.session.user);
   const users = useSelector(state => state.server.users)
   const user = users[userId]
+  const [errors, setErrors] = useState('')
+
+  const sendMessage = async (e) => {
+    e.preventDefault()
+    setErrors({})
+
+    if (direct_rooms[userId]) return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
+
+    const form = {
+      owner_2_id: userId
+    }
+
+    const handleDirectRoomCreation = async (room) => {
+
+      const roomData = await dispatch(initializeDirectRoom(serverId, room, userId))
+      if (!roomData.errors) {
+        return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
+      } else {
+        setErrors(roomData.errors)
+      }
+    }
+
+    handleDirectRoomCreation(form)
+  }
+
 
   if (!sessionUser) return null
 
@@ -29,6 +62,9 @@ export default function Profile({ animation, userId }) {
         </h2>
 
         <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
+        <div className='profile-popup-buttons'>
+          <button onClick={sendMessage}><LuMessageCircle />Message</button>
+        </div>
       </div>
       <div className="profile-middle">
         <h4>Contact Information</h4>
