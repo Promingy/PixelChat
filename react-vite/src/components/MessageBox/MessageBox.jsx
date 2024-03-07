@@ -11,7 +11,7 @@ import "./quill.snow.css";
 export default function MessageBox({ socket, channelName, channelId, serverId, type, otherUserId }) {
   const dispatch = useDispatch()
   const [message, setMessage] = useState('')
-
+  const theme = useSelector((state) => state.session.user.theme);
   const [setShowPicker] = useState(false);
   const closeMenu = () => setShowPicker(false);
 
@@ -108,7 +108,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId, t
           modules={modules}
           value={message.replace("</p><p>@#$`", "")}
           // Have to set placeholer to plain text because the Quill API does not allow to change this value dynamically
-          placeholder={`Message channel...`}
+          placeholder="Type your message..."
           className="message-box"
           onKeyUp={(e) => {
             if (
@@ -134,7 +134,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId, t
             <OpenModalButton
               buttonText={<i className="far fa-grin-alt"></i>}
               onItemClick={closeMenu}
-              modalComponent={<Picker onEmojiClick={onEmojiClick} />}
+              modalComponent={<Picker onEmojiClick={onEmojiClick}  theme={theme}/> }
             />
           </div>
           <div className="char-count-and-submit">
