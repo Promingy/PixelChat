@@ -31,23 +31,23 @@
   padding: 10px;
 }
 
-.channel-page-button-container>button {
+.channel-page-button-container > button {
   background: none;
   border-radius: 5px;
   padding: none;
 }
 
-.channel-page-button-container>button:first-child {
+.channel-page-button-container > button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container>button:hover {
+.channel-page-button-container > button:hover {
   background-color: var(--channel-header-hover);
 }
 
-.channel-page-button-container>button:active {
+.channel-page-button-container > button:active {
   background-color: var(--channel-header-active);
 }
 
@@ -62,7 +62,7 @@
   font-size: 12px;
 }
 
-.channel-page-button-container>button:last-child {
+.channel-page-button-container > button:last-child {
   border-radius: 5px;
   border: 1px solid #eaeaea;
   padding: 0;
@@ -72,11 +72,13 @@
   align-items: center;
 }
 
-.channel-page-button-container>button:last-child:hover {
+.channel-page-button-container > button:last-child:hover {
   color: var(--color-font);
 }
 
-.channel-page-button-container>button:last-child:hover .member-button-image-wrapper {
+.channel-page-button-container
+  > button:last-child:hover
+  .member-button-image-wrapper {
   border: 3px solid var(--channel-header-hover);
 }
 
@@ -105,8 +107,8 @@
   background-color: white;
 }
 
-.member-button-image-wrapper>img {
-  height: 100%
+.member-button-image-wrapper > img {
+  height: 100%;
 }
 
 .all-messages-container {
@@ -214,6 +216,19 @@
   overflow-wrap: break-word;
 }
 
+.message-body > p,
+.message-body > ol,
+.message-body > ul {
+  margin: 0;
+}
+
+.ql-syntax {
+  background-color: var(--code-background);
+  color: var(--color-font);
+  padding: 10px;
+  margin: 5px 0;
+}
+
 .message-reactions-container {
   display: flex;
   margin-left: 60px;
@@ -265,11 +280,11 @@
   height: 25px;
 }
 
-.react-bar>*:hover {
+.react-bar > *:hover {
   background-color: var(--react-bar-hover);
 }
 
-.react-bar>*:active {
+.react-bar > *:active {
   background-color: rgb(193, 193, 193);
   background-color: var(--react-bar-active);
 }
@@ -383,22 +398,21 @@
   z-index: 15;
   background-color: rgba(0, 0, 0, 0.2);
   visibility: hidden;
-
 }
 
 .theme-light {
   --color-background: white;
-  --color-font: #1D1C1D;
+  --color-font: #1d1c1d;
   --color-hover: #f6f6f6;
   --color-active: #f1f1f1;
-  --inner-nav-header-hover: #C9AECB;
+  --inner-nav-header-hover: #c9aecb;
   --inner-nav-header-active: #bda5bf;
-  --inner-nav-hover: #C7ACC8;
+  --inner-nav-hover: #c7acc8;
   --inner-nav-active: #bda5bf;
   --channel-header-hover: #f6f6f6;
   --channel-header-active: #f1f1f1;
   --inner-nav-channel-font: #454447;
-  --inner-nav-wrapper-border: #C0AEC4;
+  --inner-nav-wrapper-border: #c0aec4;
   --inner-background: #dac3da;
   --message-date-seperator: #f6f6f6;
   --date-divider: #dddddd;
@@ -406,9 +420,10 @@
   --react-bar-hover: lightgray;
   --react-bar-active: rgb(193, 193, 193);
   --reaction: #efefef;
-  --reaction-hover: #F6F6F6;
+  --reaction-hover: #f6f6f6;
   --reaction-active: white;
   --header-bottom-border: #e2e2e2;
+   --code-background: #f0f0f0
 }
 
 .theme-dark {
@@ -416,13 +431,13 @@
   --color-font: #d0d1d2;
   --color-hover: #424242;
   --color-active: #525252;
-  --inner-nav-header-hover: #562C56;
+  --inner-nav-header-hover: #562c56;
   --inner-nav-header-active: #653565;
-  --inner-nav-hover: #562C56;
+  --inner-nav-hover: #562c56;
   --inner-nav-active: #653565;
   --channel-header-hover: #353739;
   --channel-header-active: #454749;
-  --inner-nav-channel-font: #B9BABE;
+  --inner-nav-channel-font: #b9babe;
   --inner-nav-wrapper-border: #747474;
   --inner-background: #350d36;
   --react-bar-shadow: #35373a;
@@ -434,4 +449,5 @@
   --reaction-hover: #2d3137;
   --reaction-active: #40464e;
   --header-bottom-border: #747474;
+  --code-background: #1b1d21;
 }

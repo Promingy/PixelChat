@@ -1,72 +1,153 @@
-import TextareaAutoSize from 'react-textarea-autosize'
-import './MessageBox.css'
+// import TextareaAutoSize from 'react-textarea-autosize'
+import "./MessageBox.css";
 import { useState } from "react";
-import { initializeMessage } from '../../redux/server'
-import { useDispatch } from 'react-redux'
+import { initializeMessage } from "../../redux/server";
+import { useDispatch } from "react-redux";
+import "./quill.snow.css";
+import ReactQuill from "react-quill";
+import Picker from "emoji-picker-react";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
-export default function MessageBox({ socket, channelName, channelId, serverId }) {
-    const dispatch = useDispatch()
-    const [message, setMessage] = useState('')
+export default function MessageBox({ socket, channelId, serverId }) {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState("");
+  const [setShowPicker] = useState(false);
+  const closeMenu = () => setShowPicker(false);
+ 
 
-    document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
+  const removeTags = function (str) {
+    if (str === null || str === "") return false;
+    else str = str.toString();
+    return str.replace(/(<([^>]+)>)/gi, "");
+  };
 
-    const sendSocket = (message) => {
-        socket.emit("server", message)
+  const onEmojiClick = (event) => {
+    setMessage((prevMessage) => {
+      return prevMessage ?( (prevMessage + "@#$`" + event.emoji)): event.emoji;
+    });
+  };
+
+  const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "strike"],
+        ["link"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["code-block"],
+      ],
+    },
+  };
+
+  const addClassByClassName = (className, newClass) => {
+    const elements = document.getElementsByClassName(className);
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      element.classList.toggle(newClass);
     }
+  };
 
-    function handleSubmit(e) {
-        e.preventDefault()
+  const addClassByClassNameOnClick = (className, newClass) => () => {
+    addClassByClassName(className, newClass);
+  };
 
-        const newMessage = {
-            body: message,
-            pinned: false
-        }
-        setMessage('')
+  document.documentElement.className = `theme-${
+    localStorage.getItem("theme") || "light"
+  }`;
 
-        dispatch(initializeMessage(channelId, newMessage))
-            .then(res => {
-                const messageToEmit = {
-                    userId: res.user_id,
-                    type: 'message',
-                    method: "POST",
-                    room: +serverId,
-                    channelId,
-                    message: res
-                }
+  const sendSocket = (message) => {
+    socket.emit("server", message);
+  };
 
-                sendSocket(messageToEmit)
+  function handleSubmit(e) {
+    e.preventDefault();
 
-                const element = document.querySelector('.all-messages-container')
-                element.scrollTo(0, element.scrollHeight)
-            })
+    const newMessage = {
+      body: message.replace("</p><p>@#$`", ""),
+      pinned: false,
+    };
 
+    setMessage("");
 
-    }
+    dispatch(initializeMessage(channelId, newMessage)).then((res) => {
+      const messageToEmit = {
+        userId: res.user_id,
+        type: "message",
+        method: "POST",
+        room: +serverId,
+        channelId,
+        message: res,
+      };
 
-    return (
-        <form className='send-message-form'>
-            <div className='message-wrapper-top'>
-                <TextareaAutoSize
-                    className="message-box"
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                    placeholder={`Message #${channelName}`}
-                    onKeyUp={(e) => {
-                        if (e.key === 'Enter' &&
-                            !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
-                            message.length <= 2001) {
-                            return handleSubmit(e)
-                        }
-                    }} />
+      sendSocket(messageToEmit);
 
-            </div>
-            <div className='message-wrapper-bottom'>
-                <div className='char-count-and-submit'>
-                    <span className={message.length >= 1800 ? message.length >= 2000 ? 'over-message-limit' : 'nearing-message-limit' : `clear-message-limit`}>{message.length}/2000</span>
-                    <button disabled={!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) || message.length > 2000} onClick={handleSubmit} className={`fa-regular fa-paper-plane fa-lg send-message`} />
-                </div>
+      const element = document.querySelector(".all-messages-container");
+      element.scrollTo(0, element.scrollHeight);
+    });
+  }
 
-            </div>
-        </form >
-    )
+  return (
+    <>
+      <div className="send-message-form">
+        <ReactQuill
+          theme="snow"
+          onChange={(value) => setMessage(value)}
+          modules={modules}
+          value={message.replace("</p><p>@#$`", "")}
+          // Have to set placeholer to plain text because the Quill API does not allow to change this value dynamically
+          placeholder={`Message channel...`}
+          className="message-box"
+          onKeyUp={(e) => {
+            if (
+              e.key === "Enter" &&
+              !!message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) &&
+              message.length <= 2001
+            ) {
+              return handleSubmit(e);
+            }
+          }}
+        />
+
+        <div className="message-wrapper-bottom">
+          <div className="bottom-toolbar-wrapper">
+            <button
+              onClick={addClassByClassNameOnClick(
+                "ql-toolbar ql-snow",
+                "hidden"
+              )}
+            >
+              <i className="fas fa-remove-format"></i>
+            </button>
+            <OpenModalButton
+              buttonText={<i className="far fa-grin-alt"></i>}
+              onItemClick={closeMenu}
+              modalComponent={<Picker onEmojiClick={onEmojiClick} />}
+            />
+          </div>
+          <div className="char-count-and-submit">
+            <span
+              className={
+                removeTags(message).length >= 1800
+                  ? removeTags(message) >= 2000
+                    ? "over-message-limit"
+                    : "nearing-message-limit"
+                  : `clear-message-limit`
+              }
+            >
+              {message.length != 0 ? removeTags(message).length : 0}/2000
+            </span>
+            <button
+              disabled={
+                !message.match(/[A-Za-z0-9!@?#$&()\\-`.+,/\\]/g) ||
+                removeTags(message).length > 2000
+              }
+              onClick={handleSubmit}
+              className={`fa-regular fa-paper-plane fa-lg send-message`}
+              style={{ margin: "3px" }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

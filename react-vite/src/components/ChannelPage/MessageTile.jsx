@@ -2,9 +2,10 @@ import { useState } from 'react'
 import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeReaction, removeReaction, removeMessage } from '../../redux/server'
-import { thunkPinMessage } from '../../redux/server'
-import EmojiPicker from 'emoji-picker-react'
+import { initializeReaction, removeReaction, removeMessage } from '../../redux/server';
+import { thunkPinMessage } from '../../redux/server';
+import EmojiPicker from 'emoji-picker-react';
+import parse from "html-react-parser";
 
 
 export default function MessageTile({ message, user, channelId, socket, openUserModal }) {
@@ -15,6 +16,12 @@ export default function MessageTile({ message, user, channelId, socket, openUser
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
+    
+    //helper function to parse html
+    const replaceClass = function (htmlString) {
+      const updatedHtml = htmlString.replace(/class=/g, "className=");
+      return updatedHtml;
+    };
 
     // format date
     const date = new Date(message.created_at)
@@ -130,7 +137,7 @@ export default function MessageTile({ message, user, channelId, socket, openUser
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
-                            <p className="message-body">{message.body}</p>
+                            <p className="message-body">{parse(replaceClass(message.body))}</p>
                         </div>
 
                     </div>
