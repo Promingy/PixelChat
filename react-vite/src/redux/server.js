@@ -538,7 +538,7 @@ const serverReducer = (state = initialState, action) => {
             for (let direct_room of action.server.direct_rooms) {
                 const userId = (action.currentUserId === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id)
                 newState.direct_rooms[userId] = { ...direct_room, messages: {}, bold: (storedBoldValuesObj[userId] ? storedBoldValuesObj[userId] : 0) }
-                for (let message of direct_room.messages) {
+                for (let message of direct_room.direct_messages) {
                     newState.direct_rooms[userId].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {
                         newState.direct_rooms[userId].messages[message.id].reactions[reaction.id] = { ...reaction }

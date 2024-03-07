@@ -44,6 +44,6 @@ class Server(db.Model, UserMixin):
             dictionary['users'] = [user.to_dict() for user in self.users]
 
         if direct_rooms:
-            dictionary['direct_rooms'] = [direct_room.to_dict(messages=True) for direct_room in self.direct_rooms if direct_room.owner_1_id == direct_rooms or direct_room.owner_2_id == direct_rooms]
+            dictionary['direct_rooms'] = [direct_room.to_dict(direct_messages = True) for direct_room in self.direct_rooms if direct_room.owner_1_id == direct_rooms or direct_room.owner_2_id == direct_rooms]
 
         return dictionary

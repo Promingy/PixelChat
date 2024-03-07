@@ -21,7 +21,7 @@ class DirectMessage(db.Model, UserMixin):
     # relationship attributes
     reactions = db.relationship("DirectReaction", back_populates="direct_message")
     user = db.relationship("User", back_populates="direct_messages")
-    direct_room = db.relationship("DirectRoom", back_populates="messages")
+    direct_room = db.relationship("DirectRoom", back_populates="direct_messages")
 
 
     def to_dict(self, reactions=True):
@@ -33,7 +33,6 @@ class DirectMessage(db.Model, UserMixin):
             'pinned':self.pinned,
             'created_at':self.created_at
         }
-
         # If reactions=True grab all of the reactions for every message and add to dictionary
         if reactions:
             dictionary['reactions'] = [reaction.to_dict() for reaction in self.reactions]

@@ -23,10 +23,10 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   const [offset, setOffset] = useState(15)
 
   useEffect(() => {
-    if (server && !channel && !room) {
+    if (server.id && !server?.direct_rooms && !server?.channels) {
       return navigate('/redirect')
     }
-  }, [channel, room, server])
+  }, [server])
 
   function generate_message_layout() {
     // func to iterate over all messages for a channel
@@ -102,10 +102,10 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
 
 
   // Scroll to bottom of the page on initial load
-  useEffect(() => {
-    const element = document.querySelector('.all-messages-container')
-    element.scrollTo(0, element.scrollHeight)
-  }, [messages, channelId])
+  // useEffect(() => {
+  //   const element = document.querySelector('.all-messages-container')
+  //   element.scrollTo(0, element.scrollHeight)
+  // }, [messages, channelId])
 
   // reset offset on channelId switch, for infinite scroll!
   useEffect(() => {

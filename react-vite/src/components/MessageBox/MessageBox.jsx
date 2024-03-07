@@ -1,12 +1,45 @@
 // import TextareaAutoSize from 'react-textarea-autosize'
 import "./MessageBox.css";
 import { useState } from "react";
-import { initializeMessage } from '../../redux/server'
-import { useDispatch } from 'react-redux'
+import { initializeMessage, initializeDirectMessage } from '../../redux/server'
+import { useDispatch, useSelector } from 'react-redux'
+import ReactQuill from "react-quill";
+import Picker from "emoji-picker-react";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import "./quill.snow.css";
 
-export default function MessageBox({ socket, channelName, channelId, serverId }) {
+export default function MessageBox({ socket, channelName, channelId, serverId, type, otherUserId }) {
   const dispatch = useDispatch()
   const [message, setMessage] = useState('')
+
+  const [setShowPicker] = useState(false);
+  const closeMenu = () => setShowPicker(false);
+
+  const server = useSelector(state => state.server)
+
+
+  const removeTags = function (str) {
+    if (str === null || str === "") return false;
+    else str = str.toString();
+    return str.replace(/(<([^>]+)>)/gi, "");
+  };
+
+  const onEmojiClick = (event) => {
+    setMessage((prevMessage) => {
+      return prevMessage ? ((prevMessage + "@#$`" + event.emoji)) : event.emoji;
+    });
+  };
+
+  const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "strike"],
+        ["link"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["code-block"],
+      ],
+    },
+  };
 
   const addClassByClassName = (className, newClass) => {
     const elements = document.getElementsByClassName(className);
@@ -31,9 +64,15 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
   function handleSubmit(e) {
     e.preventDefault();
 
+    let roomId
+    if (type === 'message') {
+      roomId = server.direct_rooms[channelId].id
+    }
+
     const newMessage = {
       body: message.replace("</p><p>@#$`", ""),
       pinned: false,
+      roomId: roomId
     };
 
     setMessage("");

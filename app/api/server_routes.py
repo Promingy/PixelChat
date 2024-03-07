@@ -25,7 +25,6 @@ def get_all_server_info(serverId):
 
     # Grab the correct server
     server = Server.query.get(serverId)
-
     if server:
         return server.to_dict(channels=True, direct_rooms=int(session['_user_id']))
 

@@ -244,7 +244,7 @@ export default function ServerPage({ type }) {
             <div className="main-content-wrapper">
                 <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
                 <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
-                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
+                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} type={type} />
             </div>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />

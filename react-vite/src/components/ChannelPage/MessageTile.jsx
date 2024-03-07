@@ -8,7 +8,6 @@ import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 import parse from "html-react-parser";
 
-
 export default function MessageTile({ message, user, channelId, socket, type, otherUserId, openUserModal }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
@@ -66,29 +65,6 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
     // iterate over every reaction and add them to the reactions counter / increment
     for (let reaction of Object.values(message.reactions)) {
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
-    }
-
-    function handleProfileModal(e) {
-        e.preventDefault()
-        const profile = document.getElementsByClassName('profile-modal')
-        const xBtn = document.getElementsByClassName('close-profile')
-        let node = e.target
-
-        for (let i = 0; i <= 6; i++) {
-            if (node === profile[0] ||
-                e.target.src === user?.image_url && +e.target.id === +message.id ||
-                +e.target.id === +message.id) return
-
-            else if (node === xBtn[0]) break
-
-            else node = node.parentNode
-
-        }
-        setProfileModal2(true)
-
-        setProfileModal(false)
-        setTimeout(() => setProfileModal2(false), 350)
-        window.removeEventListener('mousedown', handleProfileModal)
     }
 
     if (type === "channel") return (
@@ -232,16 +208,6 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
 
     if (type === "message") return (
         <>
-            {profileModal &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={false} userId={message.user_id} />
-                </div>
-            }
-            {profileModal2 &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={true} userId={message.user_id} />
-                </div>
-            }
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
@@ -278,9 +244,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             src={user?.image_url}
                             id={message.id}
                             onClick={() => {
-                                setProfileModal(true)
-
-                                window.addEventListener('mousedown', handleProfileModal)
+                                openUserModal(message.user_id)
                             }}
                         />
 
@@ -288,15 +252,13 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             <div
                                 className='date-name-container'
                                 onClick={() => {
-                                    setProfileModal(true)
-
-                                    window.addEventListener('mousedown', handleProfileModal)
+                                    openUserModal(message.user_id)
                                 }}>
                                 <p className="message-owner" id={message.id}>{user?.username}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
-                            <p className="message-body">{message.body}</p>
+                            <p className="message-body">{parse(replaceClass(message.body))}</p>
                         </div>
 
                     </div>

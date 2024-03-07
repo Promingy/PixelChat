@@ -30,9 +30,9 @@ def inf_scroll_get_messages(roomId):
     return {"message": "Channel Not Found"}, 404
 
 # POST - Create a new message for a channel
-@direct_room.route('/<int:roomId>/messages', methods=["POST"])
+@direct_room.route('/<int:otherUserId>/messages', methods=["POST"])
 @login_required
-def create_message(roomId):
+def create_message(otherUserId):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     # add server and direct room validation for user
@@ -40,7 +40,7 @@ def create_message(roomId):
         data = form.data
         new_message = DirectMessage(
             user_id = int(session['_user_id']),
-            direct_room_id = roomId,
+            direct_room_id = data['roomId'],
             body = data["body"],
             pinned = data["pinned"]
         )
