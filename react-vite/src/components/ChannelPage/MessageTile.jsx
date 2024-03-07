@@ -6,18 +6,23 @@ import { initializeReaction, removeReaction, removeMessage, initializeDirectReac
 import { thunkPinMessage, thunkPinDirectMessage } from '../../redux/server'
 import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
+import parse from "html-react-parser";
 
 
-export default function MessageTile({ message, user, channelId, socket, type, otherUserId }) {
+export default function MessageTile({ message, user, channelId, socket, type, otherUserId, openUserModal }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
     const [reactBar, setReactBar] = useState(false)
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
-    const [profileModal, setProfileModal] = useState(false)
-    const [profileModal2, setProfileModal2] = useState(false)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
+
+    //helper function to parse html
+    const replaceClass = function (htmlString) {
+        const updatedHtml = htmlString.replace(/class=/g, "className=");
+        return updatedHtml;
+    };
 
     // format date
     const date = new Date(message.created_at)
@@ -88,16 +93,6 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
 
     if (type === "channel") return (
         <>
-            {profileModal &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={false} userId={message.user_id} />
-                </div>
-            }
-            {profileModal2 &&
-                <div className='profile-modal-messages'>
-                    <ProfileModal animation={true} userId={message.user_id} />
-                </div>
-            }
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
                     <EmojiPicker
@@ -152,9 +147,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             src={user?.image_url}
                             id={message.id}
                             onClick={() => {
-                                setProfileModal(true)
-
-                                window.addEventListener('mousedown', handleProfileModal)
+                                openUserModal(message.user_id)
                             }}
                         />
 
@@ -162,15 +155,13 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             <div
                                 className='date-name-container'
                                 onClick={() => {
-                                    setProfileModal(true)
-
-                                    window.addEventListener('mousedown', handleProfileModal)
+                                    openUserModal(message.user_id)
                                 }}>
                                 <p className="message-owner" id={message.id}>{user?.username}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
-                            <p className="message-body">{message.body}</p>
+                            <p className="message-body">{parse(replaceClass(message.body))}</p>
                         </div>
 
                     </div>

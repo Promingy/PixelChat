@@ -29,39 +29,39 @@ export default function Profile({ animation, userId }) {
 
     const handleDirectRoomCreation = async (room) => {
 
-        const roomData = await dispatch(initializeDirectRoom(serverId, room, userId))
-        if (!roomData.errors) {
-          return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
-        } else {
-            setErrors(roomData.errors)
-        }
+      const roomData = await dispatch(initializeDirectRoom(serverId, room, userId))
+      if (!roomData.errors) {
+        return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
+      } else {
+        setErrors(roomData.errors)
+      }
     }
 
     handleDirectRoomCreation(form)
-}
+  }
 
 
   if (!sessionUser) return null
 
   return (
-    <div className={animation ? 'profile-modal2' : "profile-modal"}>
+    <div className={animation ? 'profile-modal2' : "profile-modal"} id='profile-modal'>
       <div className="profile-top">
         <h3>Profile</h3>
-        <i className="close-profile fa-solid fa-xmark fa-xl"/>
+        <i className="close-profile fa-solid fa-xmark fa-xl" id='close-profile' />
       </div>
       <div className="profile-header">
         <div style={{ textAlign: "center" }}>
           <img
             src={user?.image_url || sessionUser.image_url}
             alt="Profile Image"
-            style={{ width: "250px", height: "250px" , borderRadius:"10px", objectFit: "cover"}}
+            style={{ width: "250px", height: "250px", borderRadius: "10px", objectFit: "cover" }}
           ></img>
         </div>
         <h2>
           {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
 
-        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location ||sessionUser.location}</p>
+        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
         <div className='profile-popup-buttons'>
           <button onClick={sendMessage}><LuMessageCircle />Message</button>
         </div>
