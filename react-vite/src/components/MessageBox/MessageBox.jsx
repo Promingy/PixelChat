@@ -60,7 +60,7 @@ export default function MessageBox({ socket, channelName, channelId, serverId })
 
   }
 
-  if (type === "channel") return (
+  return (
     <>
       <div className="send-message-form">
         <ReactQuill

@@ -8,11 +8,8 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages, getDirectMessages } from "../../redux/server";
-import { loadServer } from "../../redux/server";
 
-
-
-export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type }) {
+export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type, openUserModal }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { channelId } = useParams()
@@ -24,6 +21,12 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   const directMessages = server?.direct_rooms?.[+channelId]?.messages
   const users = server?.users
   const [offset, setOffset] = useState(15)
+
+  useEffect(() => {
+    if (server && !channel && !room) {
+      return navigate('/redirect')
+    }
+  }, [channel, room, server])
 
   function generate_message_layout() {
     // func to iterate over all messages for a channel
