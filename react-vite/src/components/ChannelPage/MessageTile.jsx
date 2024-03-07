@@ -2,13 +2,13 @@ import { useState } from 'react'
 import './ChannelPage.css'
 import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeReaction, removeReaction, removeMessage } from '../../redux/server';
-import { thunkPinMessage } from '../../redux/server';
-import EmojiPicker from 'emoji-picker-react';
+import { initializeReaction, removeReaction, removeMessage, initializeDirectReaction, removeDirectReaction, removeDirectMessage } from '../../redux/server'
+import { thunkPinMessage, thunkPinDirectMessage } from '../../redux/server'
+import ProfileModal from "../ProfileModal";
+import EmojiPicker from 'emoji-picker-react'
 import parse from "html-react-parser";
 
-
-export default function MessageTile({ message, user, channelId, socket, openUserModal }) {
+export default function MessageTile({ message, user, channelId, socket, type, otherUserId, openUserModal }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const server = useSelector(state => state.server)
@@ -16,11 +16,11 @@ export default function MessageTile({ message, user, channelId, socket, openUser
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
-    
+
     //helper function to parse html
     const replaceClass = function (htmlString) {
-      const updatedHtml = htmlString.replace(/class=/g, "className=");
-      return updatedHtml;
+        const updatedHtml = htmlString.replace(/class=/g, "className=");
+        return updatedHtml;
     };
 
     // format date
@@ -67,7 +67,7 @@ export default function MessageTile({ message, user, channelId, socket, openUser
         reactions[reaction.emoji] = reactions[reaction.emoji] ? reactions[reaction.emoji] + 1 : 1
     }
 
-    return (
+    if (type === "channel") return (
         <>
             {emojiBox &&
                 <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
@@ -206,4 +206,105 @@ export default function MessageTile({ message, user, channelId, socket, openUser
 
     )
 
+    if (type === "message") return (
+        <>
+            {emojiBox &&
+                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
+                    <EmojiPicker
+                        theme={localStorage.getItem('theme') || 'light'}
+
+                        // if an emoji is selected through the picker, add it to the database!
+                        onEmojiClick={(e) => {
+                            // remove the reaction if user has already used it
+                            setEmojiBox(false)
+                            for (let reaction of Object.values(message.reactions)) {
+                                if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
+                                    return dispatch(removeDirectReaction(channelId, message.id, reaction.id, otherUserId))
+                                    // add socket
+                                }
+                            }
+                            // if user hasn't used this reaction already, add reaction
+                            return dispatch(initializeDirectReaction(channelId, message.id, { emoji: e.emoji }, otherUserId))
+                            // add socket
+                        }} />
+                </div>}
+
+            <div className={message.pinned ? 'user-message-container pinned ' : `user-message-container`} onMouseOver={() => setReactBar(true)} onMouseLeave={() => {
+                setReactBar(false)
+                setConfirmMsgDel(false)
+            }}>
+
+                <div className='message-body-reactions-container'>
+                    {message.pinned &&
+                        <i className='fa-sharp fa-solid fa-thumbtack fa-xs pin-message pinned-icon-on-message' />
+                    }
+                    <div className="message-body-header-container">
+                        <img
+                            className='message-profile-pic'
+                            src={user?.image_url}
+                            id={message.id}
+                            onClick={() => {
+                                openUserModal(message.user_id)
+                            }}
+                        />
+
+                        <div className="message-owner-date-container">
+                            <div
+                                className='date-name-container'
+                                onClick={() => {
+                                    openUserModal(message.user_id)
+                                }}>
+                                <p className="message-owner" id={message.id}>{user?.username}</p>
+                                <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
+                                <p className="message-post-time" id={message.id}>{amPm}</p>
+                            </div>
+                            <p className="message-body">{parse(replaceClass(message.body))}</p>
+                        </div>
+
+                    </div>
+
+                    <div className='message-reactions-container'>
+                        {Object.keys(reactions).map(key => {
+                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                        })}
+                    </div>
+
+                </div >
+
+                {<div className={`react-bar${reactBar ? "" : ' react-bar-hidden'} ${localStorage.getItem('theme') === 'dark' ? 'react-bar-dark' : ''}`}>
+
+                    <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
+                        onClick={(e) => handleEmojiBox(e)} />
+
+                    {server.owner_id === sessionUser.id &&
+                        <i
+                            className='fa-sharp fa-solid fa-thumbtack pin-message'
+                            onClick={() => {
+                                const updatedMessage = { ...message }
+                                updatedMessage.pinned = !updatedMessage.pinned
+                                dispatch(thunkPinDirectMessage(updatedMessage, otherUserId))
+                                // add socket
+                            }} />
+                    }
+
+
+                    {sessionUser.id === message.user_id && <div>
+                        <i className='fa-regular fa-trash-can remove-message' onClick={() => setConfirmMsgDel(!confirmMsgDel)} />
+                        {confirmMsgDel && <div
+                            className='confirm-message-delete'
+                            onMouseLeave={() => setConfirmMsgDel(false)}
+                            onClick={() => {
+                                setConfirmMsgDel(false)
+                                dispatch(removeDirectMessage(channelId, message.id, otherUserId))
+                                // add socket
+                            }}
+                        >Confirm Delete</div>}
+                    </div>}
+                </div>}
+
+            </div>
+
+        </>
+
+    )
 }

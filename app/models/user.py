@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .user_server import user_servers
 from .user_channel import user_channels
+from .direct_room import DirectRoom
 
 
 class User(db.Model, UserMixin):
@@ -27,9 +28,17 @@ class User(db.Model, UserMixin):
 
     channels_owner = db.relationship("Channel", back_populates="user")
 
+    direct_room_owner_1 = db.relationship("DirectRoom", foreign_keys=[DirectRoom.owner_1_id], back_populates="user_1")
+
+    direct_room_owner_2 = db.relationship("DirectRoom", foreign_keys=[DirectRoom.owner_2_id], back_populates="user_2")
+
     reactions = db.relationship("Reaction", back_populates="user")
 
+    direct_reactions = db.relationship("DirectReaction", back_populates="user")
+
     messages = db.relationship("Message", back_populates="user")
+
+    direct_messages = db.relationship("DirectMessage", back_populates="user")
 
     servers = db.relationship(
         "Server",

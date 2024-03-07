@@ -25,7 +25,7 @@ function checkChannelIfSelected(channelId) {
     return true
 }
 
-export default function ServerPage() {
+export default function ServerPage({ type }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { serverId } = useParams()
@@ -69,9 +69,9 @@ export default function ServerPage() {
 
     // Eager load all data for the server
     useEffect(() => {
-        dispatch(loadServer(serverId))
+        dispatch(loadServer(serverId, sessionUser.id))
         dispatch(loadAllServers())
-    }, [dispatch, serverId])
+    }, [dispatch, serverId, sessionUser])
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -244,7 +244,7 @@ export default function ServerPage() {
             <div className="main-content-wrapper">
                 <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
                 <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
-                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
+                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} type={type} />
             </div>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />

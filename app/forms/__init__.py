@@ -6,3 +6,4 @@ from .reaction_form import ReactionForm
 from .message_form import MessageForm
 from .user_server_form import UserServerForm
 from .aws_form import ImageForm
+from .direct_room_form import DirectRoomForm
