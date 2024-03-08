@@ -7,7 +7,7 @@ import ChannelCreationForm from '../ChannelCreationForm'
 import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
 import "./InnerNavbar.css"
 
-export default function InnerNavbar({ socket, showNavBar }) {
+export default function InnerNavbar({ socket, showNavBar, type }) {
     const { channelId } = useParams()
     const dispatch = useDispatch()
     const sessionUser = useSelector((state) => state.session.user);
@@ -111,7 +111,7 @@ export default function InnerNavbar({ socket, showNavBar }) {
                         />
                     </div>
                     {Object.values(server.channels).map((channel) => (
-                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
+                        <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${type === 'channel' && channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
@@ -129,7 +129,7 @@ export default function InnerNavbar({ socket, showNavBar }) {
                     </div>
                     {/* Create Direct Message Popup Modal */}
                     {Object.values(server.direct_rooms).map((direct_room) => (
-                        <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${direct_room.id == channelId ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
+                        <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${type === 'message' && (direct_room.owner_1_id == channelId || direct_room.owner_2_id == channelId) ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
@@ -141,38 +141,6 @@ export default function InnerNavbar({ socket, showNavBar }) {
                         </li>
                     ))}
                 </ul>
-                <div className="creator-container">
-                    <ul style={{ listStyle: "none" }}>
-                        <p className="creator-header">Creator Githubs</p>
-                        <li className="repo-link-container">
-                            <a className="repo-link" target='_blank' rel='noreferrer' href="https://github.com/Promingy/SlackProject">
-                                Github Repo
-                            </a>
-                        </li>
-                        <li className="creators">
-                            <a className="creator-links" target="_blank" rel='noreferrer' href="https://github.com/regdes721">
-                                <i className="fa-brands fa-github" />
-                                Reginald
-                            </a>
-
-                            <a className="creator-links" target='_blank' rel='noreferrer' href="https://github.com/NickBrooks188">
-                                <i className="fa-brands fa-github" />
-                                Nick
-                            </a>
-                        </li>
-                        <li className="creators">
-                            <a className="creator-links" target='_blank' rel='noreferrer' href="https://github.com/Promingy">
-                                <i className="fa-brands fa-github" />
-                                Corbin
-                            </a>
-
-                            <a className="creator-links" target="_blank" rel='noreferrer' href="https://github.com/lovelyyun024">
-                                <i className="fa-brands fa-github" />
-                                Esther
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </>
     );
