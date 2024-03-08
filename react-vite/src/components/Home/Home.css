@@ -12,6 +12,10 @@ button {
     .signin-header>h1 {
         font-size: 30px;
     }
+
+    .footer>p {
+        font-size: 9px;
+    }
 }
 
 .home-header {
@@ -26,6 +30,7 @@ button {
     max-width: 90%;
     overflow: hidden;
     position: relative;
+    margin-bottom: 35px;
 }
 
 .home-logo {
@@ -59,6 +64,7 @@ button {
 .signin-header>h1 {
     font-family: 'Larsseit', Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
     width: 100%;
+    margin: 0;
 }
 
 .signin-header>p {
@@ -174,4 +180,34 @@ span {
     height: 20px;
     position: absolute;
     left: 85px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    height: 30px;
+    background-color: #4A154B;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f2f2f2;
+    font-size: 14px;
+    gap: 14px;
+    z-index: 20;
+}
+
+.footer>p {
+    display: flex;
+    gap: 5px;
+}
+
+.footer>p>a {
+    color: #f2f2f2;
+    text-decoration: none;
+}
+
+.footer>p>a:hover {
+    text-decoration: underline;
+    color: white;
 }
