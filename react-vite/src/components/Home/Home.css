@@ -12,6 +12,10 @@ button {
     .signin-header>h1 {
         font-size: 30px;
     }
+
+    .footer>p {
+        font-size: 9px;
+    }
 }
 
 .home-header {
@@ -189,7 +193,7 @@ span {
     align-items: center;
     color: #f2f2f2;
     font-size: 14px;
-    gap: 12px;
+    gap: 14px;
     z-index: 20;
 }
 

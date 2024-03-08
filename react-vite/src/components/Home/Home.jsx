@@ -83,13 +83,13 @@ export default function HomePage() {
       </div>
       <div className='footer'>
         <p>Nick Brooks<a target='_blank' rel='noreferrer' href="https://github.com/NickBrooks188"><i className="fa-brands fa-github"></i></a>
-          <Link to='https://www.linkedin.com/in/nick-brooks-531661153/'><i className="fa-brands fa-linkedin"></i></Link></p>  •
+          <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/in/nick-brooks-531661153/'><i className="fa-brands fa-linkedin"></i></a></p>  •
         <p>Corbin Ainsworth<a target='_blank' rel='noreferrer' href="https://github.com/Promingy"><i className="fa-brands fa-github"></i></a>
-          <Link to='https://www.linkedin.com/in/nick-brooks-531661153/'><i className="fa-brands fa-linkedin"></i></Link></p>  •
+          <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/in/corbin-ainsworth-18a885232/'><i className="fa-brands fa-linkedin"></i></a></p>  •
         <p>Reginald Desrosiers<a target="_blank" rel='noreferrer' href="https://github.com/regdes721"><i className="fa-brands fa-github"></i></a>
-          <Link to='https://www.linkedin.com/in/nick-brooks-531661153/'><i className="fa-brands fa-linkedin"></i></Link></p>  •
+          <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/in/reginalddesrosiers/'><i className="fa-brands fa-linkedin"></i></a></p>  •
         <p>Esther Zhang<a target="_blank" rel='noreferrer' href="https://github.com/lovelyyun024"><i className="fa-brands fa-github"></i></a>
-          <Link to='https://www.linkedin.com/in/nick-brooks-531661153/'><i className="fa-brands fa-linkedin"></i></Link></p>
+          <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/in/estherzhangg/'><i className="fa-brands fa-linkedin"></i></a></p>
       </div>
     </>
   );
