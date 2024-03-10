@@ -8,7 +8,7 @@ import Picker from "emoji-picker-react";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import "./quill.snow.css";
 
-export default function MessageBox({ socket, channelName, channelId, serverId, type, otherUserId }) {
+export default function MessageBox({ socket, channelId, serverId, type, otherUserId }) {
   const dispatch = useDispatch()
   const [message, setMessage] = useState('')
   const theme = useSelector((state) => state.session.user.theme);
