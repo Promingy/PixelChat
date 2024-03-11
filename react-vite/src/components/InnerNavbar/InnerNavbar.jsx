@@ -133,7 +133,8 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                             <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
-                                        <i className="fa-solid fa-hashtag"></i>{direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"}
+                                        {direct_room ? direct_room?.owner_1_id === sessionUser?.id ? <img src={users[direct_room?.owner_2_id]?.image_url} className="room-nav-profile-pic" /> : <img src={users[direct_room?.owner_1_id]?.image_url} className="room-nav-profile-pic" /> : null}
+                                        {direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"}
                                     </div>
                                     {direct_room?.bold ? <div className="unread-message-count">{direct_room?.bold}</div> : ""}
                                 </div>
