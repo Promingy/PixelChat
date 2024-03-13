@@ -137,7 +137,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
-                            <p className="message-body">{parse(replaceClass(message.body))}</p>
+                            <div className="message-body">{parse(replaceClass(message.body))}</div>
                         </div>
 
                     </div>
@@ -258,7 +258,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
-                            <p className="message-body">{parse(replaceClass(message.body))}</p>
+                            <div className="message-body">{parse(replaceClass(message.body))}</div>
                         </div>
 
                     </div>
