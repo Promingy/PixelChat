@@ -193,24 +193,46 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
 
   if (type === "message") return (
     <>
-      <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={() => { setShowNavBar(true) }}>
+      <button
+        className={`open-nav-bar${showNavBar ? " do-not-show" : ""}`}
+        onClick={() => {
+          setShowNavBar(true);
+        }}
+      >
         <i className="fa-solid fa-arrow-right-to-bracket"></i>
       </button>
-      <div className={`close-nav-bar${showNavBar ? ' do-show' : ''}`} onClick={() => { setShowNavBar(false) }}></div>
+      <div
+        className={`close-nav-bar${showNavBar ? " do-show" : ""}`}
+        onClick={() => {
+          setShowNavBar(false);
+        }}
+      ></div>
       <div className="channel-page-wrapper">
-        <div
-          className='channel-page-button-container'
-        >
+        <div className="channel-page-button-container">
           <OpenModalButton
             buttonText={
               <div className="channel-page-first-button">
-                {room ? sessionUser.id === room.owner_1_id ? <p>{users[room.owner_2_id].first_name} {users[room.owner_2_id].last_name}</p> : <p>{users[room.owner_1_id].first_name} {users[room.owner_1_id].last_name}</p> : <p>No Room</p>}
+                {room ? (
+                  sessionUser.id === room.owner_1_id ? (
+                    <p>
+                      {users[room.owner_2_id].first_name}{" "}
+                      {users[room.owner_2_id].last_name}
+                    </p>
+                  ) : (
+                    <p>
+                      {users[room.owner_1_id].first_name}{" "}
+                      {users[room.owner_1_id].last_name}
+                    </p>
+                  )
+                ) : (
+                  <p>No Room</p>
+                )}
                 <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
               </div>
             }
-          // modalComponent={
-          //   <ChannelPopupModal activeProp={1} socket={socket} />
-          // }
+            // modalComponent={
+            //   <ChannelPopupModal activeProp={1} socket={socket} />
+            // }
           />
         </div>
         <div className="all-messages-container" id="all-messages-container">
@@ -221,13 +243,32 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
               dataLength={Object.values(directMessages).length}
               hasMore={!(Object.values(directMessages).length % 15)}
               next={() => {
-                dispatch(getDirectMessages(channelId, `offset=${offset}`, otherUserId));
+                dispatch(
+                  getDirectMessages(channelId, `offset=${offset}`, otherUserId)
+                );
                 setOffset((prevOffset) => (prevOffset += 15));
               }}
               inverse={true}
               scrollableTarget="all-messages-container"
               endMessage={
-                <h3 style={{ textAlign: "center" }}>No more messages.</h3>
+                <div style={{ marginLeft: "20px" }}>
+                  <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
+                    <img
+                      src={users[room.owner_2_id].image_url}
+                      alt="User Icon"
+                      width="100"
+                      height="100"
+                      style={{ borderRadius: "10px" }}
+                    ></img>
+                    <div style={{fontSize:"18px"}}> {users[room.owner_2_id].first_name} </div>
+                  </div>
+                  <p>
+                    This conversation is just between{" "}
+                    {users[room.owner_2_id].first_name} and you. Check out their
+                    profile to learn more about them.
+                  </p>
+                  <button>View Profile</button>
+                </div>
               }
             />
           )}
@@ -235,10 +276,24 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         <MessageBox
           socket={socket}
           serverId={server.id}
-          channelName={room ? room?.owner_1_id === sessionUser?.id ? `${users[room?.owner_2_id]?.first_name} ${users[room?.owner_2_id]?.last_name}` : `${users[room?.owner_1_id]?.first_name} ${users[room?.owner_1_id]?.last_name}` : "Undefined"}
+          channelName={
+            room
+              ? room?.owner_1_id === sessionUser?.id
+                ? `${users[room?.owner_2_id]?.first_name} ${
+                    users[room?.owner_2_id]?.last_name
+                  }`
+                : `${users[room?.owner_1_id]?.first_name} ${
+                    users[room?.owner_1_id]?.last_name
+                  }`
+              : "Undefined"
+          }
           channelId={channelId}
           type={type}
-          otherUserId={sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id}
+          otherUserId={
+            sessionUser?.id === room?.owner_1_id
+              ? room?.owner_2_id
+              : room?.owner_1_id
+          }
         />
       </div>
     </>
