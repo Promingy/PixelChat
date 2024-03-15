@@ -102,6 +102,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
                         <button onClick={toggleMenu}> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
+                        <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     <div className={ulClassName} ref={ulRef}>
                         <OpenModalButton
@@ -126,6 +127,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
                         <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
+                        <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     {/* Create Direct Message Popup Modal */}
                     {Object.values(server.direct_rooms).map((direct_room) => (
