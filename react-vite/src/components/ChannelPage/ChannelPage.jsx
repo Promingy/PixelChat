@@ -204,7 +204,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
           <OpenModalButton
             buttonText={
               <div className="channel-page-first-button">
-                {room ? sessionUser.id === room.owner_1_id ? <p>{users[room.owner_2_id].first_name} {users[room.owner_2_id].last_name}</p> : <p>{users[room.owner_1_id].first_name} {users[room.owner_1_id].last_name}</p> : <p>No Room</p>}
+                {room ? sessionUser.id === room.owner_1_id ? `${users[room.owner_2_id].first_name} ${users[room.owner_2_id].last_name}` : `${users[room.owner_1_id].first_name} ${users[room.owner_1_id].last_name}` : 'No Room'}
                 <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
               </div>
             }

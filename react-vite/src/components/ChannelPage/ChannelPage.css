@@ -31,23 +31,33 @@
   padding: 10px;
 }
 
-.channel-page-button-container > button {
+.channel-page-button-container>button {
   background: none;
   border-radius: 5px;
   padding: none;
+  border: none;
 }
 
-.channel-page-button-container > button:first-child {
+.channel-page-button-container>button:last-child {
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  padding: 0;
+  color: var(--color-font);
+  display: flex;
+  align-items: center;
+}
+
+.channel-page-button-container>button:first-child {
   font-weight: 600;
   font-size: 20px;
   border: none;
 }
 
-.channel-page-button-container > button:hover {
+.channel-page-button-container>button:hover {
   background-color: var(--channel-header-hover);
 }
 
-.channel-page-button-container > button:active {
+.channel-page-button-container>button:active {
   background-color: var(--channel-header-active);
 }
 
@@ -62,23 +72,11 @@
   font-size: 12px;
 }
 
-.channel-page-button-container > button:last-child {
-  border-radius: 5px;
-  border: 1px solid #eaeaea;
-  padding: 0;
-  height: 26px;
-  color: var(--color-font);
-  display: flex;
-  align-items: center;
-}
-
-.channel-page-button-container > button:last-child:hover {
+.channel-page-button-container>button:last-child:hover {
   color: var(--color-font);
 }
 
-.channel-page-button-container
-  > button:last-child:hover
-  .member-button-image-wrapper {
+.channel-page-button-container>button:last-child:hover .member-button-image-wrapper {
   border: 3px solid var(--channel-header-hover);
 }
 
@@ -90,6 +88,7 @@
   margin-left: 15px;
   margin-right: 8px;
   padding: 0;
+  height: 26px;
 }
 
 .member-button-image-wrapper {
@@ -107,7 +106,7 @@
   background-color: white;
 }
 
-.member-button-image-wrapper > img {
+.member-button-image-wrapper>img {
   height: 100%;
 }
 
@@ -216,9 +215,9 @@
   overflow-wrap: break-word;
 }
 
-.message-body > p,
-.message-body > ol,
-.message-body > ul {
+.message-body>p,
+.message-body>ol,
+.message-body>ul {
   margin: 0;
 }
 
@@ -280,11 +279,11 @@
   height: 25px;
 }
 
-.react-bar > *:hover {
+.react-bar>*:hover {
   background-color: var(--react-bar-hover);
 }
 
-.react-bar > *:active {
+.react-bar>*:active {
   background-color: rgb(193, 193, 193);
   background-color: var(--react-bar-active);
 }
@@ -423,7 +422,7 @@
   --reaction-hover: #f6f6f6;
   --reaction-active: white;
   --header-bottom-border: #e2e2e2;
-   --code-background: #f0f0f0
+  --code-background: #f0f0f0
 }
 
 .theme-dark {
