@@ -235,3 +235,10 @@
 .channel-dropdown>button:active {
     background-color: #0e5b96;
 }
+
+.room-nav-profile-pic {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 5px;
+}
