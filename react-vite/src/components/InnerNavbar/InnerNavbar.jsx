@@ -15,8 +15,10 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
     const users = server?.users
     const [showMenu, setShowMenu] = useState(false);
     const [showMenu2, setShowMenu2] = useState(false);
+    const [showPlusMenu, setShowPlusMenu] = useState(false);
+    const [showPlusMenu2, setShowPlusMenu2] = useState(false);
     const ulRef = useRef();
-    const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
+    const ulClassName = "channel-dropdown" + (showPlusMenu ? "" : " hidden");
     const ulClassName2 = "channel-dropdown" + (showMenu2 ? "" : " hidden");
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
 
@@ -34,39 +36,49 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
         setShowMenu2(!showMenu2);
     };
 
-    useEffect(() => {
-        if (!showMenu) return;
+    const togglePlusMenu = (e) => {
+        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        setShowPlusMenu(!showPlusMenu);
+    };
 
-        const closeMenu = (e) => {
+    const togglePlusMenu2 = (e) => {
+        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        setShowMenu2(!showPlusMenu2);
+    };
+
+    useEffect(() => {
+        if (!showPlusMenu) return;
+
+        const closePlusMenu = (e) => {
             if (!ulRef.current.contains(e.target)) {
-                setShowMenu(false);
+                setShowPlusMenu(false);
             }
         };
 
-        document.addEventListener("click", closeMenu);
+        document.addEventListener("click", closePlusMenu);
 
-        return () => document.removeEventListener("click", closeMenu);
+        return () => document.removeEventListener("click", closePlusMenu);
     }, [showMenu]);
 
 
-    const closeMenu = () => setShowMenu(false);
+    const closePlusMenu = () => setShowPlusMenu(false);
 
-    useEffect(() => {
-        if (!showMenu2) return;
+    // useEffect(() => {
+    //     if (!showMenu2) return;
 
-        const closeMenu2 = (e) => {
-            if (!ulRef.current.contains(e.target)) {
-                setShowMenu2(false);
-            }
-        };
+    //     const closeMenu2 = (e) => {
+    //         if (!ulRef.current.contains(e.target)) {
+    //             setShowMenu2(false);
+    //         }
+    //     };
 
-        document.addEventListener("click", closeMenu2);
+    //     document.addEventListener("click", closeMenu2);
 
-        return () => document.removeEventListener("click", closeMenu2);
-    }, [showMenu]);
+    //     return () => document.removeEventListener("click", closeMenu2);
+    // }, [showMenu]);
 
 
-    const closeMenu2 = () => setShowMenu2(false)
+    // const closeMenu2 = () => setShowMenu2(false)
 
     const handleChannelUnbold = (channelId) => {
         dispatch(unboldChannel(channelId))
@@ -102,16 +114,16 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
                         <button onClick={toggleMenu}> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
-                        <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
+                        <button className="create-channel-button" onClick={togglePlusMenu}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     <div className={ulClassName} ref={ulRef}>
                         <OpenModalButton
                             buttonText="Create a Channel"
-                            onItemClick={closeMenu}
+                            onItemClick={closePlusMenu}
                             modalComponent={<ChannelCreationForm socket={socket} />}
                         />
                     </div>
-                    {Object.values(server.channels).map((channel) => (
+                    {showMenu && Object.values(server.channels).map((channel) => (
                         <li id={`channel${channel.id}`} key={channel.id} onClick={() => handleChannelUnbold(channel.id)} className={`${type === 'channel' && channel.id == channelId ? ' selected-channel' : 'not-selected-channel'}${channel?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/channels/${channel.id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
@@ -130,7 +142,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                         <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     {/* Create Direct Message Popup Modal */}
-                    {Object.values(server.direct_rooms).map((direct_room) => (
+                    {showMenu2 && Object.values(server.direct_rooms).map((direct_room) => (
                         <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${type === 'message' && (direct_room.owner_1_id == channelId || direct_room.owner_2_id == channelId) ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
