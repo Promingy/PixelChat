@@ -244,5 +244,53 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     </>
   );
 
+  if (type === "new") return (
+    <>
+      <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={() => { setShowNavBar(true) }}>
+        <i className="fa-solid fa-arrow-right-to-bracket"></i>
+      </button>
+      <div className={`close-nav-bar${showNavBar ? ' do-show' : ''}`} onClick={() => { setShowNavBar(false) }}></div>
+      <div className="channel-page-wrapper">
+        <div
+          className='channel-page-button-container'
+        >
+          <button>New message</button>
+        </div>
+        <div
+          className='channel-page-button-container'
+        >
+          To:
+        </div>
+        <div className="all-messages-container" id="all-messages-container">
+          {generate_message_layout()}
+
+          {directMessages && (
+            <InfiniteScroll
+              dataLength={Object.values(directMessages).length}
+              hasMore={!(Object.values(directMessages).length % 15)}
+              next={() => {
+                dispatch(getDirectMessages(channelId, `offset=${offset}`, otherUserId));
+                setOffset((prevOffset) => (prevOffset += 15));
+              }}
+              inverse={true}
+              scrollableTarget="all-messages-container"
+              endMessage={
+                <h3 style={{ textAlign: "center" }}>No more messages.</h3>
+              }
+            />
+          )}
+        </div>
+        <MessageBox
+          socket={socket}
+          serverId={server.id}
+          channelName={room ? room?.owner_1_id === sessionUser?.id ? `${users[room?.owner_2_id]?.first_name} ${users[room?.owner_2_id]?.last_name}` : `${users[room?.owner_1_id]?.first_name} ${users[room?.owner_1_id]?.last_name}` : "Undefined"}
+          channelId={channelId}
+          type={type}
+          otherUserId={sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id}
+        />
+      </div>
+    </>
+  );
+
   else return (<h1>Hi from Messages</h1>)
 }

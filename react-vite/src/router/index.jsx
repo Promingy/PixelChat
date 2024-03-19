@@ -26,6 +26,8 @@ export const router = createBrowserRouter(
         </Route>
         <Route path="servers/:serverId/direct-messages/:channelId" element={<ServerPage type={"message"} />}>
         </Route>
+        <Route path="servers/:serverId/direct-messages/new" element={<ServerPage type={"new"} />}>
+        </Route>
       </Route>
       <Route path="*" element={<Redirect />} />
     </Route>
