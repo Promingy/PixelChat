@@ -214,15 +214,29 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
               <div className="channel-page-first-button">
                 {room ? (
                   sessionUser.id === room.owner_1_id ? (
-                    <p>
-                      {users[room.owner_2_id].first_name}{" "}
-                      {users[room.owner_2_id].last_name}
-                    </p>
+                    <div className="first-button-wrapper">
+                      <img
+                        className="top-profile-pic"
+                        src={users[room.owner_2_id].image_url}
+                        alt="User Icon"
+                      ></img>
+                      <p>
+                        {users[room.owner_2_id].first_name}{" "}
+                        {users[room.owner_2_id].last_name}
+                      </p>
+                    </div>
                   ) : (
-                    <p>
-                      {users[room.owner_1_id].first_name}{" "}
-                      {users[room.owner_1_id].last_name}
-                    </p>
+                    <div className="first-button-wrapper">
+                      <img
+                        className="top-profile-pic"
+                        src={users[room.owner_1_id].image_url}
+                        alt="User Icon"
+                      ></img>
+                      <p>
+                        {users[room.owner_1_id].first_name}{" "}
+                        {users[room.owner_1_id].last_name}
+                      </p>
+                    </div>
                   )
                 ) : (
                   <p>No Room</p>
@@ -237,7 +251,40 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         </div>
         <div className="all-messages-container" id="all-messages-container">
           {generate_message_layout()}
-
+          <div className="intro-profile-container">
+            <div className="intro-profile-wrapper">
+              <img
+                className="intro-profile-pic"
+                src={sessionUser.id === room.owner_1_id ? (users[room.owner_2_id].image_url):(users[room.owner_1_id].image_url)}
+                alt="User Icon"
+              ></img>
+              <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
+                users[room.owner_1_id].first_name+" "+users[room.owner_1_id].last_name}
+              </div>
+            </div>
+            <p>
+              This conversation is just between{" "}
+              <button
+                className="hyper-link-button"
+                onClick={() => {
+                  openUserModal(room.owner_2_id);
+                }}
+              >
+               @{sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
+                users[room.owner_1_id].first_name+" "+users[room.owner_1_id].last_name}
+              </button>{" "}
+              and you. Check out their profile to learn more about them.
+            </p>
+            <button
+              className="view-profile-button"
+              onClick={() => {
+                openUserModal(room.owner_2_id);
+              }}
+            >
+              View Profile
+            </button>
+          </div>
           {directMessages && (
             <InfiniteScroll
               dataLength={Object.values(directMessages).length}
@@ -250,26 +297,6 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
               }}
               inverse={true}
               scrollableTarget="all-messages-container"
-              endMessage={
-                <div style={{ marginLeft: "20px" }}>
-                  <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
-                    <img
-                      src={users[room.owner_2_id].image_url}
-                      alt="User Icon"
-                      width="100"
-                      height="100"
-                      style={{ borderRadius: "10px" }}
-                    ></img>
-                    <div style={{fontSize:"18px"}}> {users[room.owner_2_id].first_name} </div>
-                  </div>
-                  <p>
-                    This conversation is just between{" "}
-                    {users[room.owner_2_id].first_name} and you. Check out their
-                    profile to learn more about them.
-                  </p>
-                  <button>View Profile</button>
-                </div>
-              }
             />
           )}
         </div>
