@@ -9,6 +9,7 @@ import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages, getDirectMessages } from "../../redux/server";
 import ReactSearchBox from 'react-search-box'
+import { initializeDirectRoom } from '../../redux/server';
 
 export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type, openUserModal }) {
   const dispatch = useDispatch()
@@ -20,6 +21,8 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   const messages = server?.channels?.[+channelId]?.messages
   const room = server?.direct_rooms?.[+channelId]
   const directMessages = server?.direct_rooms?.[+channelId]?.messages
+  const direct_rooms = useSelector((state) => state.server.direct_rooms)
+
   const users = server?.users
   const [offset, setOffset] = useState(15)
   const [searchData, setSearchData] = useState({});
