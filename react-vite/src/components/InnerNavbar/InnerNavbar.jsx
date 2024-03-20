@@ -13,8 +13,8 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
     const sessionUser = useSelector((state) => state.session.user);
     const server = useSelector((state) => state.server)
     const users = server?.users
-    const [showMenu, setShowMenu] = useState(false);
-    const [showMenu2, setShowMenu2] = useState(false);
+    const [showMenu, setShowMenu] = useState(true);
+    const [showMenu2, setShowMenu2] = useState(true);
     const [showPlusMenu, setShowPlusMenu] = useState(false);
     const [showPlusMenu2, setShowPlusMenu2] = useState(false);
     const ulRef = useRef();
@@ -113,7 +113,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
 
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
-                        <button onClick={toggleMenu}> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
+                        <button onClick={toggleMenu}> <i className={`${showMenu ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right nav-arrow-container`} ${theme ? showMenu ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right nav-arrow-container' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Channels</button>
                         <button className="create-channel-button" onClick={togglePlusMenu}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     <div className={ulClassName} ref={ulRef}>
@@ -138,7 +138,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                 </ul>
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
-                        <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
+                        <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right nav-arrow-container`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right nav-arrow-container' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
                         <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     {/* Create Direct Message Popup Modal */}

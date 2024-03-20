@@ -242,3 +242,7 @@
     object-fit: cover;
     border-radius: 5px;
 }
+
+.nav-arrow-container {
+    width: 9.38px
+}
