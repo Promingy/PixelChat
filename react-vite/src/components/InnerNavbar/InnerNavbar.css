@@ -169,10 +169,14 @@
 
 .create-channel-container {
     margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20px;
 }
 
 .create-channel-container>button {
-    font-weight: 300;
     background-color: var(--inner-background);
     border: none;
     align-items: center;
@@ -180,6 +184,21 @@
     padding-left: 17px;
     color: var(--inner-nav-channel-font);
     font-weight: 400;
+}
+
+.create-channel-button {
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-channel-button:hover {
+    font-size: 18px;
+}
+
+.create-channel-button:active {
+    font-size: 16px;
 }
 
 .channel-dropdown {
