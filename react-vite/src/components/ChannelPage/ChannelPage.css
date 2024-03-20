@@ -68,11 +68,28 @@
   color: var(--color-font);
 }
 
+.first-button-wrapper{
+  display: flex;
+  align-items: center;
+  gap:5px;
+}
+
 .channel-page-button-arrow {
   font-size: 12px;
 }
 
-.channel-page-button-container>button:last-child:hover {
+.channel-page-button-container > button:last-child {
+  border-radius: 5px;
+  /* border: 1px solid #eaeaea; */
+  padding: 0;
+  height: 30px;
+  color: var(--color-font);
+  display: flex;
+  align-items: center;
+  padding: 3px 8px 3px 3px;
+}
+
+.channel-page-button-container > button:last-child:hover {
   color: var(--color-font);
 }
 
@@ -116,6 +133,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  
 }
 
 .no-scroll {
@@ -159,6 +177,30 @@
   object-fit: cover;
   width: 40px;
   height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.top-profile-pic {
+  object-fit: cover;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.intro-profile-container{
+  margin:48px 20px 16px
+}
+.intro-profile-wrapper{
+  display: flex;
+  align-items: center;
+  gap:12px
+}
+.intro-profile-pic{
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -399,6 +441,35 @@
   visibility: hidden;
 }
 
+.hyper-link-button {
+  background-color: var(--profile-link-background);
+  border: none;
+  font-size: 16px;
+  color:#1264a3;
+  padding:0 2px 1px 2px;
+  border-radius: 3px;
+}
+
+.hyper-link-button:hover {
+  background-color: var(--profile-link-bg-hover)
+}
+
+.view-profile-button{
+  background-color:var(--color-background) ;
+  border:1px solid var(--header-bottom-border);
+  height: 36px;
+  padding: 0 12px 1px;
+  font-size: 15px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  color:var(--color-font)
+}
+
+.view-profile-button:hover{
+  background-color: var(--color-hover);
+}
+
 .theme-light {
   --color-background: white;
   --color-font: #1d1c1d;
@@ -422,7 +493,9 @@
   --reaction-hover: #f6f6f6;
   --reaction-active: white;
   --header-bottom-border: #e2e2e2;
-  --code-background: #f0f0f0
+  --code-background: #f0f0f0;
+  --profile-link-background:#f0f4fc;
+  --profile-link-bg-hover:#d8ecf4;
 }
 
 .theme-dark {
@@ -449,4 +522,6 @@
   --reaction-active: #40464e;
   --header-bottom-border: #747474;
   --code-background: #1b1d21;
+  --profile-link-background:#202c34;
+  --profile-link-bg-hover:#203c4c;
 }
