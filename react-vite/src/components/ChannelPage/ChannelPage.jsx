@@ -34,9 +34,17 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   }, [server])
 
   useEffect(() => {
+    const newMessageToWrapper = document.getElementsByClassName('new-message-to-wrapper')
+    if (type == 'new') {
+      newMessageToWrapper[0].children[0].children[0].children[0].children[0].focus()
+    }
+  }, [type])
+
+  useEffect(() => {
     let data = []
     if (server.users) {
       for (let user of Object.values(server.users)) {
+        if (user.id == sessionUser.id) continue
         data.push({
           key: `${user.first_name} ${user.last_name}`,
           value: `${user.first_name} ${user.last_name}`,
@@ -298,15 +306,17 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
           <button>New message</button>
         </div>
         <div
-          className='channel-page-button-container'
-        >
-          <ReactSearchBox
-            id='searchBox'
-            data={searchData}
-            placeholder={`To:`}
-            onSelect={(record) => handleDirectMessageSearchSelect(record)}
-            clearOnSelect={true}
-          />
+          className='channel-page-button-container'>
+          <div className="new-message-to-wrapper">
+            To:
+            <ReactSearchBox
+              id='searchBox'
+              data={searchData}
+              placeholder="@somebody"
+              onSelect={(record) => handleDirectMessageSearchSelect(record)}
+              clearOnSelect={true}
+            />
+          </div>
         </div>
         <div className="all-messages-container" id="all-messages-container">
           {generate_message_layout()}
