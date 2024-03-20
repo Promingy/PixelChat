@@ -24,11 +24,14 @@
 .channel-page-button-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   min-height: 49px;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid var(--header-bottom-border);
   padding: 10px;
+  z-index: 3;
+  padding-left: 20px;
 }
 
 .channel-page-button-container>button {
@@ -78,7 +81,7 @@
   font-size: 12px;
 }
 
-.channel-page-button-container > button:last-child {
+.channel-page-button-container>button:last-child {
   border-radius: 5px;
   /* border: 1px solid #eaeaea; */
   padding: 0;
@@ -89,12 +92,34 @@
   padding: 3px 8px 3px 3px;
 }
 
-.channel-page-button-container > button:last-child:hover {
+.channel-page-button-container>button:last-child:hover {
   color: var(--color-font);
 }
 
 .channel-page-button-container>button:last-child:hover .member-button-image-wrapper {
   border: 3px solid var(--channel-header-hover);
+}
+
+.new-message-to-wrapper {
+  display: flex;
+  align-items: start;
+  height: 40px;
+  padding-top: 11px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #757575;
+}
+
+.new-message-to-wrapper>div {
+  margin-top: -11px;
+}
+
+.new-message-to-wrapper>div>div>span>input {
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: inherit;
+  padding-left: 12px;
 }
 
 .channel-members-button-wrapper {

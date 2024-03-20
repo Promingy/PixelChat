@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
@@ -19,6 +19,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
     const ulClassName = "channel-dropdown" + (showMenu ? "" : " hidden");
     const ulClassName2 = "channel-dropdown" + (showMenu2 ? "" : " hidden");
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
+    const navigate = useNavigate()
 
     useEffect(() => {
         setTheme(localStorage.getItem('theme') === 'dark')
@@ -127,7 +128,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
                         <button onClick={toggleMenu2}> <i className={`${showMenu2 ? `fa-solid fa-caret-down` : `fa-solid fa-caret-right`} ${theme ? showMenu2 ? 'fa-solid fa-cared-down' : 'fa-solid fa-caret-right' : ''}`} />&nbsp;&nbsp;&nbsp;&nbsp;Direct Messages</button>
-                        <button className="create-channel-button" onClick={() => console.log('coming soon')}><i className="fa-solid fa-plus"></i></button>
+                        <button className="create-channel-button" onClick={() => navigate(`/main/servers/${server.id}/direct-messages/new`)}><i className="fa-solid fa-plus"></i></button>
                     </div>
                     {/* Create Direct Message Popup Modal */}
                     {Object.values(server.direct_rooms).map((direct_room) => (
