@@ -8,6 +8,8 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages, getDirectMessages } from "../../redux/server";
+import ReactSearchBox from 'react-search-box'
+import { initializeDirectRoom } from '../../redux/server';
 
 export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type, openUserModal }) {
   const dispatch = useDispatch()
@@ -19,14 +21,61 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   const messages = server?.channels?.[+channelId]?.messages
   const room = server?.direct_rooms?.[+channelId]
   const directMessages = server?.direct_rooms?.[+channelId]?.messages
+  const direct_rooms = useSelector((state) => state.server.direct_rooms)
+
   const users = server?.users
   const [offset, setOffset] = useState(15)
+  const [searchData, setSearchData] = useState({});
 
   useEffect(() => {
     if (server.id && !server?.direct_rooms && !server?.channels) {
       return navigate('/redirect')
     }
   }, [server])
+
+  useEffect(() => {
+    const newMessageToWrapper = document.getElementsByClassName('new-message-to-wrapper')
+    if (type == 'new') {
+      newMessageToWrapper[0].children[0].children[0].children[0].children[0].focus()
+    }
+  }, [type])
+
+  useEffect(() => {
+    let data = []
+    if (server.users) {
+      for (let user of Object.values(server.users)) {
+        if (user.id == sessionUser.id) continue
+        data.push({
+          key: `${user.first_name} ${user.last_name}`,
+          value: `${user.first_name} ${user.last_name}`,
+          type: 'user',
+          id: user.id
+        })
+      }
+    }
+    setSearchData(data)
+  }, [server])
+
+  const handleDirectMessageSearchSelect = (target) => {
+    const otherUserId = target.item.id
+    if (direct_rooms[otherUserId]) return navigate(`/main/servers/${serverId}/direct-messages/${otherUserId}`)
+
+    const form = {
+      owner_2_id: otherUserId
+    }
+
+    const handleDirectRoomCreation = async (room) => {
+
+      const roomData = await dispatch(initializeDirectRoom(serverId, room, otherUserId))
+      if (!roomData.errors) {
+        return navigate(`/main/servers/${serverId}/direct-messages/${otherUserId}`)
+      } else {
+        console.error(roomData.errors)
+      }
+    }
+    handleDirectRoomCreation(form)
+
+  }
 
   function generate_message_layout() {
     // func to iterate over all messages for a channel
@@ -193,6 +242,144 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
 
   if (type === "message") return (
     <>
+      <button
+        className={`open-nav-bar${showNavBar ? " do-not-show" : ""}`}
+        onClick={() => {
+          setShowNavBar(true);
+        }}
+      >
+        <i className="fa-solid fa-arrow-right-to-bracket"></i>
+      </button>
+      <div
+        className={`close-nav-bar${showNavBar ? " do-show" : ""}`}
+        onClick={() => {
+          setShowNavBar(false);
+        }}
+      ></div>
+      <div className="channel-page-wrapper">
+        <div className="channel-page-button-container">
+          <OpenModalButton
+            buttonText={
+              <div className="channel-page-first-button">
+                {room ? (
+                  sessionUser.id === room.owner_1_id ? (
+                    <div className="first-button-wrapper">
+                      <img
+                        className="top-profile-pic"
+                        src={users[room.owner_2_id].image_url}
+                        alt="User Icon"
+                      ></img>
+                      <p>
+                        {users[room.owner_2_id].first_name}{" "}
+                        {users[room.owner_2_id].last_name}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="first-button-wrapper">
+                      <img
+                        className="top-profile-pic"
+                        src={users[room.owner_1_id].image_url}
+                        alt="User Icon"
+                      ></img>
+                      <p>
+                        {users[room.owner_1_id].first_name}{" "}
+                        {users[room.owner_1_id].last_name}
+                      </p>
+                    </div>
+                  )
+                ) : (
+                  <p>No Room</p>
+                )}
+                <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+              </div>
+            }
+            // modalComponent={
+            //   <ChannelPopupModal activeProp={1} socket={socket} />
+            // }
+          />
+        </div>
+        <div className="all-messages-container" id="all-messages-container">
+          {generate_message_layout()}
+          <div className="intro-profile-container">
+            <div className="intro-profile-wrapper">
+              <img
+                className="intro-profile-pic"
+                src={sessionUser.id === room.owner_1_id ? (users[room.owner_2_id].image_url):(users[room.owner_1_id].image_url)}
+                alt="User Icon"
+                onClick={() => {
+                  openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
+                }}
+              ></img>
+              <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
+                users[room.owner_1_id].first_name+" "+users[room.owner_1_id].last_name}
+              </div>
+            </div>
+            <p>
+              This conversation is just between{" "}
+              <button
+                className="hyper-link-button"
+                onClick={() => {
+                  openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
+                }}
+              >
+               @{sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
+                users[room.owner_1_id].first_name+" "+users[room.owner_1_id].last_name}
+              </button>{" "}
+              and you. Check out their profile to learn more about them.
+            </p>
+            <button
+              className="view-profile-button"
+              onClick={() => {
+                openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
+              }}
+            >
+              View Profile
+            </button>
+          </div>
+          {directMessages && (
+            <InfiniteScroll
+              dataLength={Object.values(directMessages).length}
+              hasMore={!(Object.values(directMessages).length % 15)}
+              next={() => {
+                dispatch(
+                  getDirectMessages(channelId, `offset=${offset}`, otherUserId)
+                );
+                setOffset((prevOffset) => (prevOffset += 15));
+              }}
+              inverse={true}
+              scrollableTarget="all-messages-container"
+            />
+          )}
+        </div>
+        <MessageBox
+          socket={socket}
+          serverId={server.id}
+          channelName={
+            room
+              ? room?.owner_1_id === sessionUser?.id
+                ? `${users[room?.owner_2_id]?.first_name} ${
+                    users[room?.owner_2_id]?.last_name
+                  }`
+                : `${users[room?.owner_1_id]?.first_name} ${
+                    users[room?.owner_1_id]?.last_name
+                  }`
+              : "Undefined"
+          }
+          channelId={channelId}
+          type={type}
+          otherUserId={
+            sessionUser?.id === room?.owner_1_id
+              ? room?.owner_2_id
+              : room?.owner_1_id
+          }
+        />
+      </div>
+    </>
+  );
+
+  if (type === "new") return (
+    <>
       <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={() => { setShowNavBar(true) }}>
         <i className="fa-solid fa-arrow-right-to-bracket"></i>
       </button>
@@ -201,17 +388,20 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         <div
           className='channel-page-button-container'
         >
-          <OpenModalButton
-            buttonText={
-              <div className="channel-page-first-button">
-                {room ? sessionUser.id === room.owner_1_id ? `${users[room.owner_2_id].first_name} ${users[room.owner_2_id].last_name}` : `${users[room.owner_1_id].first_name} ${users[room.owner_1_id].last_name}` : 'No Room'}
-                <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
-              </div>
-            }
-          // modalComponent={
-          //   <ChannelPopupModal activeProp={1} socket={socket} />
-          // }
-          />
+          <button>New message</button>
+        </div>
+        <div
+          className='channel-page-button-container'>
+          <div className="new-message-to-wrapper">
+            To:
+            <ReactSearchBox
+              id='searchBox'
+              data={searchData}
+              placeholder="@somebody"
+              onSelect={(record) => handleDirectMessageSearchSelect(record)}
+              clearOnSelect={true}
+            />
+          </div>
         </div>
         <div className="all-messages-container" id="all-messages-container">
           {generate_message_layout()}
