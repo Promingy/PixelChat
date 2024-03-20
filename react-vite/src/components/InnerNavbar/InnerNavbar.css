@@ -235,3 +235,10 @@
 .channel-dropdown>button:active {
     background-color: #0e5b96;
 }
+
+.inner-profile-pic{
+  object-fit: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
