@@ -8,6 +8,7 @@ import ChannelPopupModal from "../ChannelPopupModal/ChannelPopupModal";
 import MessageBox from '../MessageBox'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMessages, getDirectMessages } from "../../redux/server";
+import ReactSearchBox from 'react-search-box'
 
 export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBar, type, openUserModal }) {
   const dispatch = useDispatch()
@@ -21,12 +22,49 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
   const directMessages = server?.direct_rooms?.[+channelId]?.messages
   const users = server?.users
   const [offset, setOffset] = useState(15)
+  const [searchData, setSearchData] = useState({});
 
   useEffect(() => {
     if (server.id && !server?.direct_rooms && !server?.channels) {
       return navigate('/redirect')
     }
   }, [server])
+
+  useEffect(() => {
+    let data = []
+    if (server.users) {
+      for (let user of Object.values(server.users)) {
+        data.push({
+          key: `${user.first_name} ${user.last_name}`,
+          value: `${user.first_name} ${user.last_name}`,
+          type: 'user',
+          id: user.id
+        })
+      }
+    }
+    setSearchData(data)
+  }, [server])
+
+  const handleDirectMessageSearchSelect = (target) => {
+    const otherUserId = target.item.id
+    if (direct_rooms[otherUserId]) return navigate(`/main/servers/${serverId}/direct-messages/${otherUserId}`)
+
+    const form = {
+      owner_2_id: otherUserId
+    }
+
+    const handleDirectRoomCreation = async (room) => {
+
+      const roomData = await dispatch(initializeDirectRoom(serverId, room, otherUserId))
+      if (!roomData.errors) {
+        return navigate(`/main/servers/${serverId}/direct-messages/${otherUserId}`)
+      } else {
+        console.error(roomData.errors)
+      }
+    }
+    handleDirectRoomCreation(form)
+
+  }
 
   function generate_message_layout() {
     // func to iterate over all messages for a channel
@@ -259,7 +297,13 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         <div
           className='channel-page-button-container'
         >
-          To:
+          <ReactSearchBox
+            id='searchBox'
+            data={searchData}
+            placeholder={`To:`}
+            onSelect={(record) => handleDirectMessageSearchSelect(record)}
+            clearOnSelect={true}
+          />
         </div>
         <div className="all-messages-container" id="all-messages-container">
           {generate_message_layout()}
