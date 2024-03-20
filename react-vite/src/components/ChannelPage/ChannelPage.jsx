@@ -257,6 +257,9 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                 className="intro-profile-pic"
                 src={sessionUser.id === room.owner_1_id ? (users[room.owner_2_id].image_url):(users[room.owner_1_id].image_url)}
                 alt="User Icon"
+                onClick={() => {
+                  openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
+                }}
               ></img>
               <div style={{ fontSize: "18px", fontWeight: "bold" }}>
                 {sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
@@ -268,7 +271,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
               <button
                 className="hyper-link-button"
                 onClick={() => {
-                  openUserModal(room.owner_2_id);
+                  openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
                 }}
               >
                @{sessionUser.id === room.owner_1_id ? users[room.owner_2_id].first_name+" "+users[room.owner_2_id].last_name:
@@ -279,7 +282,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
             <button
               className="view-profile-button"
               onClick={() => {
-                openUserModal(room.owner_2_id);
+                openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
               }}
             >
               View Profile
