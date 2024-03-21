@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
@@ -21,6 +21,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
     const ulClassName = "channel-dropdown" + (showPlusMenu ? "" : " hidden");
     const ulClassName2 = "channel-dropdown" + (showMenu2 ? "" : " hidden");
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
+    const navigate = useNavigate()
 
     useEffect(() => {
         setTheme(localStorage.getItem('theme') === 'dark')
@@ -98,18 +99,18 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
 
     if (!server.channels) return null
     return (
-        <>
-            <div className={`inner-navbar-wrapper${showNavBar ? ' do-show' : ''}`}>
-                <div className={`inner-navbar-header`}>
-                    <OpenModalButton
-                        modalComponent={<ServerPopupModal socket={socket} />}
-                        buttonText={
-                            <p>
-                                {server.name} <i className="fa-solid fa-chevron-down"></i>
-                            </p>
-                        }
-                    />
-                </div>
+      <>
+        <div className={`inner-navbar-wrapper${showNavBar ? " do-show" : ""}`}>
+          <div className={`inner-navbar-header`}>
+            <OpenModalButton
+              modalComponent={<ServerPopupModal socket={socket} />}
+              buttonText={
+                <p>
+                  {server.name} <i className="fa-solid fa-chevron-down"></i>
+                </p>
+              }
+            />
+          </div>
 
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
@@ -147,8 +148,16 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                             <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">
-                                        {direct_room ? direct_room?.owner_1_id === sessionUser?.id ? <img src={users[direct_room?.owner_2_id]?.image_url} className="room-nav-profile-pic" /> : <img src={users[direct_room?.owner_1_id]?.image_url} className="room-nav-profile-pic" /> : null}
-                                        {direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"}
+                                        {/* <i className="fa-solid fa-hashtag"></i>{direct_room ? direct_room?.owner_1_id === sessionUser?.id ? `${users[direct_room?.owner_2_id]?.first_name} ${users[direct_room?.owner_2_id]?.last_name}` : `${users[direct_room?.owner_1_id]?.first_name} ${users[direct_room?.owner_1_id]?.last_name}` : "Undefined"} */}
+                                        {direct_room ? (sessionUser.id === direct_room.owner_1_id ? (
+                                            <>
+                                                <img className="inner-profile-pic" src={users[direct_room.owner_2_id].image_url} alt="User Icon"></img>
+                                                {users[direct_room.owner_2_id].first_name}{" "}{users[direct_room.owner_2_id].last_name}
+                                            </>) : (
+                                            <>
+                                                <img className="inner-profile-pic" src={users[direct_room.owner_1_id].image_url} alt="User Icon"></img>
+                                                {users[direct_room.owner_1_id].first_name}{" "}{users[direct_room.owner_1_id].last_name}
+                                            </>)) : ("Undefined")}
                                     </div>
                                     {direct_room?.bold ? <div className="unread-message-count">{direct_room?.bold}</div> : ""}
                                 </div>

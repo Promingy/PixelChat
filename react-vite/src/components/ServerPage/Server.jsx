@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams, Navigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
 import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
