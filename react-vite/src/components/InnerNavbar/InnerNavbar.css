@@ -236,9 +236,13 @@
     background-color: #0e5b96;
 }
 
-.inner-profile-pic{
+.nav-arrow-container {
+    width: 9.38px
+}
+
+.inner-profile-pic {
   object-fit: cover;
   width: 20px;
   height: 20px;
-  border-radius: 3px;
+  border-radius: 5px;
 }

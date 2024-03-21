@@ -63,7 +63,7 @@ export default function Profile({ animation, userId }) {
 
         <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
         <div className='profile-popup-buttons'>
-          <button onClick={sendMessage}><LuMessageCircle />Message</button>
+          {userId !== sessionUser.id && <button onClick={sendMessage}><LuMessageCircle />Message</button>}
         </div>
       </div>
       <div className="profile-middle">
