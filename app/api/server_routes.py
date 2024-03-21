@@ -128,6 +128,8 @@ def create_direct_room(serverId):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
+        if data["owner_2_id"] == int(session['_user_id']):
+            return {'errors': "Owner1 and Owner 2 must be different"}
         new_direct_room = DirectRoom(
             owner_1_id = int(session['_user_id']),
             owner_2_id = data["owner_2_id"],
