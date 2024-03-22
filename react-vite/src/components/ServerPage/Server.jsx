@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Navigate } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
@@ -97,6 +97,7 @@ export default function ServerPage({ type }) {
         }
 
         socket.on("server", obj => {
+            console.log('Incoming websocket: ', obj)
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
@@ -191,19 +192,33 @@ export default function ServerPage({ type }) {
 
         socket.emit("join", { room: server.id, user: payload })
 
+        const directPayload = {
+            type: "newUser",
+            method: "POST",
+            room: `user-${sessionUser.id}`,
+            user: sessionUser,
+            serverId: serverId
+        }
+
+        socket.emit("join", { room: `user-${sessionUser.id}`, user: directPayload })
+
         return (() => {
             socket.emit("leave", { room: server.id })
+            socket.emit("leave", { room: `user-${sessionUser.id}` })
             socket.disconnect()
         })
     }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
+
 
     function handleMouseClick(e) {
         e.preventDefault();
         const profile = document.getElementById("profile-modal");
         const xBtn = document.getElementById("close-profile");
+        const directMessageBtn = document.getElementById("profile-direct-message");
+
 
         // if user clicked in profile modal (but not on "X"), we want to abort closing profile modal
-        if (profile.contains(e.target) && e.target !== xBtn) return
+        if (profile.contains(e.target) && e.target !== xBtn && e.target !== directMessageBtn) return
 
         setProfileModal2(true);
         setProfileModal(false);
@@ -229,8 +244,8 @@ export default function ServerPage({ type }) {
 
     return (
         <div className="main-page-wrapper">
-            {profileModal && <ProfileModal animation={false} userId={userPopupID} />}
-            {profileModal2 && <ProfileModal animation={true} userId={userPopupID} />}
+            {profileModal && <ProfileModal animation={false} userId={userPopupID} socket={socket} />}
+            {profileModal2 && <ProfileModal animation={true} userId={userPopupID} socket={socket} />}
             <div className="top-bar-wrapper">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <ReactSearchBox

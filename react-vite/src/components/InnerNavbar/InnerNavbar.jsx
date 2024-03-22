@@ -1,4 +1,4 @@
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { unboldChannel } from "../../redux/server"
@@ -16,12 +16,9 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
     const [showMenu, setShowMenu] = useState(true);
     const [showMenu2, setShowMenu2] = useState(true);
     const [showPlusMenu, setShowPlusMenu] = useState(false);
-    const [showPlusMenu2, setShowPlusMenu2] = useState(false);
     const ulRef = useRef();
     const ulClassName = "channel-dropdown" + (showPlusMenu ? "" : " hidden");
-    const ulClassName2 = "channel-dropdown" + (showMenu2 ? "" : " hidden");
     const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark')
-    const navigate = useNavigate()
 
     useEffect(() => {
         setTheme(localStorage.getItem('theme') === 'dark')
@@ -39,12 +36,8 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
 
     const togglePlusMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-        setShowPlusMenu(!showPlusMenu);
-    };
 
-    const togglePlusMenu2 = (e) => {
-        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-        setShowMenu2(!showPlusMenu2);
+        setShowPlusMenu(!showPlusMenu);
     };
 
     useEffect(() => {
@@ -59,27 +52,10 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
         document.addEventListener("click", closePlusMenu);
 
         return () => document.removeEventListener("click", closePlusMenu);
-    }, [showMenu]);
+    }, [showMenu, showPlusMenu]);
 
 
     const closePlusMenu = () => setShowPlusMenu(false);
-
-    // useEffect(() => {
-    //     if (!showMenu2) return;
-
-    //     const closeMenu2 = (e) => {
-    //         if (!ulRef.current.contains(e.target)) {
-    //             setShowMenu2(false);
-    //         }
-    //     };
-
-    //     document.addEventListener("click", closeMenu2);
-
-    //     return () => document.removeEventListener("click", closeMenu2);
-    // }, [showMenu]);
-
-
-    // const closeMenu2 = () => setShowMenu2(false)
 
     const handleChannelUnbold = (channelId) => {
         dispatch(unboldChannel(channelId))
@@ -99,18 +75,18 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
 
     if (!server.channels) return null
     return (
-      <>
-        <div className={`inner-navbar-wrapper${showNavBar ? " do-show" : ""}`}>
-          <div className={`inner-navbar-header`}>
-            <OpenModalButton
-              modalComponent={<ServerPopupModal socket={socket} />}
-              buttonText={
-                <p>
-                  {server.name} <i className="fa-solid fa-chevron-down"></i>
-                </p>
-              }
-            />
-          </div>
+        <>
+            <div className={`inner-navbar-wrapper${showNavBar ? " do-show" : ""}`}>
+                <div className={`inner-navbar-header`}>
+                    <OpenModalButton
+                        modalComponent={<ServerPopupModal socket={socket} />}
+                        buttonText={
+                            <p>
+                                {server.name} <i className="fa-solid fa-chevron-down"></i>
+                            </p>
+                        }
+                    />
+                </div>
 
                 <ul className="inner-navbar-content">
                     <div className={`create-channel-container`}>
