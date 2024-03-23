@@ -256,7 +256,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         </>
     );
 
-    if (type === "message") return (
+    if (type === "message" && room) return (
         <>
             <button
                 className={`open-nav-bar${showNavBar ? " do-not-show" : ""}`}

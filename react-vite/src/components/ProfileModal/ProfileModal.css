@@ -107,14 +107,23 @@
 
 .profile-popup-buttons>button {
   background-color: var(--color-background);
-  border-radius: 5px;
+  border-radius: 4px;
   display: flex;
   gap: 3px;
-  border: 1px solid gray;
+  border: 1px solid rgb(163, 163, 163);
   color: var(--color-font);
   font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 150px;
+  font-weight: 600;
 }
 
 .profile-popup-buttons>button:hover {
   background-color: var(--color-hover)
+}
+
+.profile-popup-buttons>button:active {
+  background-color: var(--color-active)
 }

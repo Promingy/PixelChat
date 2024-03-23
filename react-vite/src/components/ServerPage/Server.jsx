@@ -214,11 +214,9 @@ export default function ServerPage({ type }) {
         e.preventDefault();
         const profile = document.getElementById("profile-modal");
         const xBtn = document.getElementById("close-profile");
-        const directMessageBtn = document.getElementById("profile-direct-message");
-
 
         // if user clicked in profile modal (but not on "X"), we want to abort closing profile modal
-        if (profile.contains(e.target) && e.target !== xBtn && e.target !== directMessageBtn) return
+        if (profile.contains(e.target) && e.target !== xBtn) return
 
         setProfileModal2(true);
         setProfileModal(false);

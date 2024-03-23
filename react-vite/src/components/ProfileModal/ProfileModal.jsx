@@ -15,11 +15,9 @@ export default function Profile({ animation, userId, socket }) {
   const sessionUser = useSelector((state) => state.session.user);
   const users = useSelector(state => state.server.users)
   const user = users[userId]
-  const [errors, setErrors] = useState('')
 
   const sendMessage = async (e) => {
     e.preventDefault()
-    setErrors({})
 
     if (direct_rooms[userId]) return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
 
@@ -49,7 +47,7 @@ export default function Profile({ animation, userId, socket }) {
         socket.emit("leave", { room: `user-${userId}` })
         return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
       } else {
-        setErrors(roomData.errors)
+        console.error(roomData.errors)
       }
     }
 
@@ -76,7 +74,6 @@ export default function Profile({ animation, userId, socket }) {
         <h2>
           {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
-        <span>{errors}</span>
         <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
         <div className='profile-popup-buttons'>
           {userId !== sessionUser.id && <button id='profile-direct-message' onClick={sendMessage}><LuMessageCircle />Message</button>}
