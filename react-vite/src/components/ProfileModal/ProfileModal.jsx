@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
@@ -74,7 +73,7 @@ export default function Profile({ animation, userId, socket }) {
         <h2>
           {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
-        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
+        <div className='profile-location'><BsFillPinMapFill />{user?.location || sessionUser.location}</div>
         <div className='profile-popup-buttons'>
           {userId !== sessionUser.id && <button id='profile-direct-message' onClick={sendMessage}><LuMessageCircle />Message</button>}
         </div>
@@ -83,10 +82,10 @@ export default function Profile({ animation, userId, socket }) {
         <h4>Contact Information</h4>
         <div className="flex-container">
           <div className="flex-item">
-            <p><TfiEmail />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <div className='email-icon'><TfiEmail /></div>
           </div>
           <div className="flex-item">
-            <p>Email Address</p>
+            <div className='email-header'>Email Address</div>
             <p>{user?.email || sessionUser.email}</p>
           </div>
         </div>
