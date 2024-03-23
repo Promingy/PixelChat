@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { TfiEmail } from "react-icons/tfi";
 import { BsFillPinMapFill } from "react-icons/bs";
@@ -7,7 +6,7 @@ import { LuMessageCircle } from "react-icons/lu";
 import { initializeDirectRoom } from '../../redux/server';
 import "./ProfileModal.css"
 
-export default function Profile({ animation, userId }) {
+export default function Profile({ animation, userId, socket }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { serverId } = useParams()
@@ -15,11 +14,9 @@ export default function Profile({ animation, userId }) {
   const sessionUser = useSelector((state) => state.session.user);
   const users = useSelector(state => state.server.users)
   const user = users[userId]
-  const [errors, setErrors] = useState('')
 
   const sendMessage = async (e) => {
     e.preventDefault()
-    setErrors({})
 
     if (direct_rooms[userId]) return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
 
@@ -31,9 +28,25 @@ export default function Profile({ animation, userId }) {
 
       const roomData = await dispatch(initializeDirectRoom(serverId, room, userId))
       if (!roomData.errors) {
+        const joinPayload = {
+          room: `user-${userId}`,
+          user: sessionUser,
+          serverId: serverId
+        }
+
+        socket.emit("join", { room: `user-${userId}`, user: joinPayload })
+
+        const messagePayload = {
+          type: 'creation',
+          user: sessionUser.id
+        }
+
+        socket.emit("server", messagePayload)
+
+        socket.emit("leave", { room: `user-${userId}` })
         return navigate(`/main/servers/${serverId}/direct-messages/${userId}`)
       } else {
-        setErrors(roomData.errors)
+        console.error(roomData.errors)
       }
     }
 
@@ -60,20 +73,19 @@ export default function Profile({ animation, userId }) {
         <h2>
           {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
-
-        <p><BsFillPinMapFill />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user?.location || sessionUser.location}</p>
+        <div className='profile-location'><BsFillPinMapFill />{user?.location || sessionUser.location}</div>
         <div className='profile-popup-buttons'>
-          {userId !== sessionUser.id && <button onClick={sendMessage}><LuMessageCircle />Message</button>}
+          {userId !== sessionUser.id && <button id='profile-direct-message' onClick={sendMessage}><LuMessageCircle />Message</button>}
         </div>
       </div>
       <div className="profile-middle">
         <h4>Contact Information</h4>
         <div className="flex-container">
           <div className="flex-item">
-            <p><TfiEmail />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <div className='email-icon'><TfiEmail /></div>
           </div>
           <div className="flex-item">
-            <p>Email Address</p>
+            <div className='email-header'>Email Address</div>
             <p>{user?.email || sessionUser.email}</p>
           </div>
         </div>

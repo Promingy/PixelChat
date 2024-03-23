@@ -12,6 +12,7 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
   const dispatch = useDispatch()
   const [message, setMessage] = useState('')
   const theme = useSelector((state) => state.session.user.theme);
+  const sessionUser = useSelector((state) => state.session.user);
   const [setShowPicker] = useState(false);
   const closeMenu = () => setShowPicker(false);
 
@@ -95,6 +96,31 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
       })
 
     if (type === "message") dispatch(initializeDirectMessage(channelId, newMessage, otherUserId))
+      .then(res => {
+        const joinPayload = {
+          room: `user-${otherUserId}`,
+          user: sessionUser,
+          serverId: serverId
+        }
+
+        socket.emit("join", { room: `user-${otherUserId}`, user: joinPayload })
+
+        const messagePayload = {
+          type: 'message',
+          method: 'POST',
+          user: sessionUser.id,
+          room: `user-${otherUserId}`,
+          message: res
+        }
+
+        socket.emit("server", messagePayload)
+
+        socket.emit("leave", { room: `user-${otherUserId}` })
+      }
+
+      )
+
+
 
 
   }
@@ -134,7 +160,7 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
             <OpenModalButton
               buttonText={<i className="far fa-grin-alt"></i>}
               onItemClick={closeMenu}
-              modalComponent={<Picker onEmojiClick={onEmojiClick}  theme={theme}/> }
+              modalComponent={<Picker onEmojiClick={onEmojiClick} theme={theme} />}
             />
           </div>
           <div className="char-count-and-submit">

@@ -4,7 +4,6 @@ import ReactionTile from './ReactionTile'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeReaction, removeReaction, removeMessage, initializeDirectReaction, removeDirectReaction, removeDirectMessage } from '../../redux/server'
 import { thunkPinMessage, thunkPinDirectMessage } from '../../redux/server'
-import ProfileModal from "../ProfileModal";
 import EmojiPicker from 'emoji-picker-react'
 import parse from "html-react-parser";
 
@@ -144,7 +143,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
 
                     <div className='message-reactions-container'>
                         {Object.keys(reactions).map(key => {
-                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} type={type} />
                         })}
                     </div>
 
@@ -220,12 +219,55 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             for (let reaction of Object.values(message.reactions)) {
                                 if (reaction.user_id == sessionUser.id && reaction.emoji == e.emoji) {
                                     return dispatch(removeDirectReaction(channelId, message.id, reaction.id, otherUserId))
-                                    // add socket
+                                        .then(() => {
+                                            const joinPayload = {
+                                                room: `user-${channelId}`,
+                                                user: sessionUser,
+                                                serverId: server.id
+                                            }
+
+                                            socket.emit("join", { room: `user-${channelId}`, user: joinPayload })
+
+                                            const messagePayload = {
+                                                type: 'reaction',
+                                                method: 'DELETE',
+                                                room: `user-${channelId}`,
+                                                user: sessionUser.id,
+                                                messageId: message.id,
+                                                reactionId: reaction.id
+                                            }
+
+                                            socket.emit("server", messagePayload)
+
+                                            socket.emit("leave", { room: `user-${channelId}` })
+                                            return
+                                        })
                                 }
                             }
                             // if user hasn't used this reaction already, add reaction
-                            return dispatch(initializeDirectReaction(channelId, message.id, { emoji: e.emoji }, otherUserId))
-                            // add socket
+                            return dispatch(initializeDirectReaction(server.direct_rooms[channelId].id, message.id, { emoji: e.emoji }, otherUserId))
+                                .then((data) => {
+                                    const joinPayload = {
+                                        room: `user-${channelId}`,
+                                        user: sessionUser,
+                                        serverId: server.id
+                                    }
+
+                                    socket.emit("join", { room: `user-${channelId}`, user: joinPayload })
+
+                                    const messagePayload = {
+                                        type: 'reaction',
+                                        method: 'POST',
+                                        room: `user-${channelId}`,
+                                        user: sessionUser.id,
+                                        messageId: message.id,
+                                        reactionId: data
+                                    }
+
+                                    socket.emit("server", messagePayload)
+
+                                    socket.emit("leave", { room: `user-${channelId}` })
+                                })
                         }} />
                 </div>}
 
@@ -265,7 +307,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
 
                     <div className='message-reactions-container'>
                         {Object.keys(reactions).map(key => {
-                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} />
+                            return <ReactionTile key={key} socket={socket} serverId={server?.id} allReactions={message.reactions} channelId={channelId} reaction={key} count={reactions[key]} messageId={message.id} type={type} />
                         })}
                     </div>
 
@@ -295,14 +337,34 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                             onMouseLeave={() => setConfirmMsgDel(false)}
                             onClick={() => {
                                 setConfirmMsgDel(false)
-                                dispatch(removeDirectMessage(channelId, message.id, otherUserId))
-                                // add socket
+                                dispatch(removeDirectMessage(server.direct_rooms[channelId].id, message.id, otherUserId))
+                                    .then(() => {
+                                        const joinPayload = {
+                                            room: `user-${otherUserId}`,
+                                            user: sessionUser,
+                                            serverId: server.id
+                                        }
+
+                                        socket.emit("join", { room: `user-${otherUserId}`, user: joinPayload })
+
+                                        const messagePayload = {
+                                            type: 'message',
+                                            method: 'DELETE',
+                                            user: sessionUser.id,
+                                            room: `user-${otherUserId}`,
+                                            messageId: message.id
+                                        }
+
+                                        socket.emit("server", messagePayload)
+
+                                        socket.emit("leave", { room: `user-${otherUserId}` })
+                                    })
                             }}
                         >Confirm Delete</div>}
                     </div>}
                 </div>}
 
-            </div>
+            </div >
 
         </>
 
