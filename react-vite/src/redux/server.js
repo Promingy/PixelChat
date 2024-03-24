@@ -471,7 +471,7 @@ export const removeDirectReaction = (roomId, messageId, reactionId, otherUserId)
         method: "DELETE"
     })
     if (res.ok) {
-        dispatch(deleteReaction(roomId, messageId, reactionId, otherUserId))
+        dispatch(deleteDirectReaction(roomId, messageId, reactionId, otherUserId))
     }
     return res
 }

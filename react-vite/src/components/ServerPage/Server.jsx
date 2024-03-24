@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage, createDirectReaction, deleteDirectReaction } from "../../redux/server"
 import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
@@ -144,12 +144,18 @@ export default function ServerPage({ type }) {
                     switch (obj.method) {
                         case "POST": {
                             // Handle reaction post
-                            dispatch(createReaction(obj.channelId, obj.reaction))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectReaction(parseInt(obj.room.slice(5)) === sessionUser.id ? parseInt(obj.room.slice(5)): obj.user, obj.reaction, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5))))
+                            }
+                            else dispatch(createReaction(obj.channelId, obj.reaction))
                             break
                         }
                         case "DELETE": {
                             // Handle reaction delete
-                            dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectReaction(parseInt(obj.room.slice(5)) === sessionUser.id ? parseInt(obj.room.slice(5)): obj.user, obj.messageId, obj.reactionId, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5))))
+                            }
+                            else dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
                             break
                         }
                     }

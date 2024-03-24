@@ -262,7 +262,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         room: `user-${channelId}`,
                                         user: sessionUser.id,
                                         messageId: message.id,
-                                        reactionId: data
+                                        reaction: data
                                     }
 
                                     socket.emit("server", messagePayload)

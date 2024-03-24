@@ -98,7 +98,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
                     room: `user-${channelId}`,
                     user: sessionUser.id,
                     messageId,
-                    reactionId: data
+                    reaction: data
                 }
 
                 socket.emit("server", messagePayload)
