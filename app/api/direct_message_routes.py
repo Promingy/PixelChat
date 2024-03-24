@@ -46,7 +46,7 @@ def pin_message(messageId):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit() and int(server.owner_id) == int(session['_user_id']):
+    if form.validate_on_submit() and (int(direct_room.owner_1_id) == int(session['_user_id']) or int(direct_room.owner_2_id) == int(session['_user_id'])):
         data = form.data
 
         direct_message.pinned = data['pinned']

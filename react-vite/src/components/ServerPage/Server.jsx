@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage } from "../../redux/server"
 import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
@@ -91,7 +91,7 @@ export default function ServerPage({ type }) {
         const payload = {
             type: "newUser",
             method: "POST",
-            room: +serverId,
+            room: serverId,
             user: sessionUser,
             serverId: serverId
         }
@@ -103,28 +103,38 @@ export default function ServerPage({ type }) {
                     switch (obj.method) {
                         case "POST": {
                             // Handle message post
-                            dispatch(createMessage(obj.message))
-                            if (!checkChannelIfSelected(obj.message.channel_id)) {
-                                dispatch(boldChannel(obj.message.channel_id))
-                                const storedBoldValues = localStorage.getItem("boldValues")
-                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
-                                if (storedBoldValuesObj[obj.message.channel_id]) {
-                                    storedBoldValuesObj[obj.message.channel_id]++
-                                } else {
-                                    storedBoldValuesObj[obj.message.channel_id] = 1
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectMessage(obj.message, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5)))) // Dispatch CreateDirectMessage action
+                            } else {
+                                dispatch(createMessage(obj.message)) // Dispatch createMessage action for other rooms
+                                if (!checkChannelIfSelected(obj.message.channel_id)) {
+                                    dispatch(boldChannel(obj.message.channel_id))
+                                    const storedBoldValues = localStorage.getItem("boldValues")
+                                    const storedBoldValuesObj = JSON.parse(storedBoldValues)
+                                    if (storedBoldValuesObj[obj.message.channel_id]) {
+                                        storedBoldValuesObj[obj.message.channel_id]++
+                                    } else {
+                                        storedBoldValuesObj[obj.message.channel_id] = 1
+                                    }
+                                    const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                    localStorage.setItem("boldValues", storedBoldValuesJSON)
                                 }
-                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-                                localStorage.setItem("boldValues", storedBoldValuesJSON)
                             }
                             break
                         }
                         case "DELETE": {
                             // Handle message delete
-                            dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectMessage(parseInt(obj.room.slice(5)) === sessionUser.id ? parseInt(obj.room.slice(5)): obj.user, obj.messageId, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5))))
+                            }
+                            else dispatch(deleteMessage(obj.channelId, obj.messageId))
                             break
                         }
                         case "PUT": {
-                            dispatch(pinMessage(obj.message))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(pinDirectMessage(obj.message, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5))))
+                            }
+                            else dispatch(pinMessage(obj.message))
                             break
                         }
                     }
