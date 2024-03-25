@@ -26,10 +26,8 @@ function checkChannelIfSelected(channelId) {
 }
 
 function checkRoomIfSelected(roomId) {
-    console.log("roomId", roomId)
     const fullId = `room${roomId}`
     let roomToBold = document.getElementById(fullId)
-    console.log("roomToBold", roomToBold)
     if (roomToBold.classList.contains("not-selected-channel")) {
         return false
     }
@@ -109,7 +107,6 @@ export default function ServerPage({ type }) {
 
         socket.on("server", obj => {
             if (obj.userId == sessionUser.id) return
-            console.log('Incoming websocket: ', obj)
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
@@ -120,9 +117,7 @@ export default function ServerPage({ type }) {
                                 if (!checkRoomIfSelected(obj.userId)) {
                                     dispatch(boldDirectRoom(obj.userId))
                                     const storedBoldValues = localStorage.getItem("boldRoomValues")
-                                    console.log("storedBoldValues", storedBoldValues)
                                     const storedBoldValuesObj = JSON.parse(storedBoldValues) || {}
-                                    console.log("storedBoldValuesObj", storedBoldValuesObj)
                                     if (storedBoldValuesObj[obj.userId]) {
                                         storedBoldValuesObj[obj.userId]++
                                     } else {
