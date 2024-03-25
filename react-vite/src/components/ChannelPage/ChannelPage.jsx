@@ -77,8 +77,11 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                 socket.emit("join", { room: `user-${otherUserId}`, user: joinPayload })
 
                 const messagePayload = {
-                    type: 'creation',
-                    user: sessionUser.id
+                    type: 'room',
+                    method: 'POST',
+                    user: sessionUser.id,
+                    room: `user-${otherUserId}`,
+                    data: roomData
                 }
 
                 socket.emit("server", messagePayload)

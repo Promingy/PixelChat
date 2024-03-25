@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage, createDirectReaction, deleteDirectReaction } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage, createDirectReaction, deleteDirectReaction, createDirectRoom } from "../../redux/server"
 import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
@@ -188,6 +188,15 @@ export default function ServerPage({ type }) {
                             dispatch(deleteServer())
                             dispatch(removeUserServer(obj.serverId))
                             navigate('/redirect')
+                            break
+                        }
+                    }
+                    break
+                }
+                case "room": {
+                    switch (obj.method) {
+                        case "POST": {
+                            dispatch(createDirectRoom(obj.data, parseInt(obj.room.slice(5)) === sessionUser.id ? obj.user : parseInt(obj.room.slice(5))))
                             break
                         }
                     }
