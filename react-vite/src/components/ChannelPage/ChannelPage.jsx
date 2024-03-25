@@ -184,79 +184,91 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
 
 
     if (type === "channel") return (
-        <>
-            <button className={`open-nav-bar${showNavBar ? ' do-not-show' : ''}`} onClick={() => { setShowNavBar(true) }}>
-                <i className="fa-solid fa-arrow-right-to-bracket"></i>
-            </button>
-            <div className={`close-nav-bar${showNavBar ? ' do-show' : ''}`} onClick={() => { setShowNavBar(false) }}></div>
-            <div className="channel-page-wrapper">
-                <div
-                    className='channel-page-button-container'
-                >
-                    <OpenModalButton
-                        buttonText={
-                            <div className="channel-page-first-button">
-                                <i className="fa-solid fa-hashtag"></i>
-                                {channel?.name}
-                                <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
-                            </div>
-                        }
-                        modalComponent={
-                            <ChannelPopupModal activeProp={1} socket={socket} />
-                        }
-                    />
-                    {users && (
-                        <OpenModalButton
-                            buttonText={
-                                <div className="channel-members-button-wrapper">
-                                    {Object.values(server.users)
-                                        .slice(0, 3)
-                                        .map((user) => (
-                                            <div
-                                                className="member-button-image-wrapper"
-                                                key={user.id}
-                                            >
-                                                <img src={user.image_url} />
-                                            </div>
-                                        ))}
-
-                                    {`${Object.keys(users).length}`}
-                                </div>
-                            }
-                            modalComponent={
-                                <ChannelPopupModal activeProp={2} socket={socket} />
-                            }
-                        />
-                    )}
+      <>
+        <button
+          className={`open-nav-bar${showNavBar ? " do-not-show" : ""}`}
+          onClick={() => {
+            setShowNavBar(true);
+          }}
+        >
+          <i className="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+        <div
+          className={`close-nav-bar${showNavBar ? " do-show" : ""}`}
+          onClick={() => {
+            setShowNavBar(false);
+          }}
+        ></div>
+        <div className="channel-page-wrapper">
+          <div className="channel-page-button-container">
+            <OpenModalButton
+              buttonText={
+                <div className="channel-page-first-button">
+                  <i className="fa-solid fa-hashtag"></i>
+                  {channel?.name}
+                  <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
                 </div>
-                <div className="all-messages-container" id="all-messages-container">
-                    {generate_message_layout()}
+              }
+              modalComponent={
+                <ChannelPopupModal activeProp={1} socket={socket} />
+              }
+            />
+            {users && (
+              <OpenModalButton
+                buttonText={
+                  <div className="channel-members-button-wrapper">
+                    {Object.values(server.users)
+                      .slice(0, 3)
+                      .map((user) => (
+                        <div
+                          className="member-button-image-wrapper"
+                          key={user.id}
+                        >
+                          <img src={user.image_url} />
+                        </div>
+                      ))}
 
-                    {messages && (
-                        <InfiniteScroll
-                            dataLength={Object.values(messages).length}
-                            hasMore={!(Object.values(messages).length % 15)}
-                            next={() => {
-                                dispatch(getMessages(channelId, `offset=${offset}`));
-                                setOffset((prevOffset) => (prevOffset += 15));
-                            }}
-                            inverse={true}
-                            scrollableTarget="all-messages-container"
-                            endMessage={
-                                <h3 style={{ textAlign: "center" }}>No more messages.</h3>
-                            }
-                        />
-                    )}
-                </div>
-                <MessageBox
-                    socket={socket}
-                    serverId={server.id}
-                    channelName={channel?.name}
-                    channelId={channelId}
-                    type={type}
-                />
+                    {`${Object.keys(users).length}`}
+                  </div>
+                }
+                modalComponent={
+                  <ChannelPopupModal activeProp={2} socket={socket} />
+                }
+              />
+            )}
+          </div>
+          <div className="all-messages-container" id="all-messages-container">
+            {generate_message_layout()}
+            <div className="intro-profile-container">
+              <p style={{fontSize:"28px", fontWeight:"900", marginBottom:"0"}}>
+              <i className="fa-solid fa-hashtag"></i> {" "}
+              {channel?.name} channel</p>
+              <p style={{marginTop:"5px"}}>
+               {channel?.description? channel.description:`This is the very beginning of # ${channel.name}`}
+              </p>
             </div>
-        </>
+            {messages && (
+              <InfiniteScroll
+                dataLength={Object.values(messages).length}
+                hasMore={!(Object.values(messages).length % 15)}
+                next={() => {
+                  dispatch(getMessages(channelId, `offset=${offset}`));
+                  setOffset((prevOffset) => (prevOffset += 15));
+                }}
+                inverse={true}
+                scrollableTarget="all-messages-container"
+              />
+            )}
+          </div>
+          <MessageBox
+            socket={socket}
+            serverId={server.id}
+            channelName={channel?.name}
+            channelId={channelId}
+            type={type}
+          />
+        </div>
+      </>
     );
 
     if (type === "message" && room) return (
@@ -433,9 +445,9 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                             }}
                             inverse={true}
                             scrollableTarget="all-messages-container"
-                            endMessage={
-                                <h3 style={{ textAlign: "center" }}>No more messages.</h3>
-                            }
+                            // endMessage={
+                            //     <h3 style={{ textAlign: "center" }}>No more messages.</h3>
+                            // }
                         />
                     )}
                 </div>
