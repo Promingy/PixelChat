@@ -79,7 +79,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                 const messagePayload = {
                     type: 'room',
                     method: 'POST',
-                    user: sessionUser.id,
+                    userId: sessionUser.id,
                     room: `user-${otherUserId}`,
                     data: roomData
                 }
@@ -183,7 +183,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
     // create direct rooms version of above???
 
 
-    if (type === "channel") return (
+    if (type === "channel" && channel) return (
       <>
         <button
           className={`open-nav-bar${showNavBar ? " do-not-show" : ""}`}
@@ -244,7 +244,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
               <i className="fa-solid fa-hashtag"></i> {" "}
               {channel?.name} channel</p>
               <p style={{marginTop:"5px"}}>
-               {channel?.description? channel.description:`This is the very beginning of # ${channel.name}`}
+               {channel?.description? channel?.description:`This is the very beginning of # ${channel?.name}`}
               </p>
             </div>
             {messages && (
@@ -463,5 +463,5 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
         </>
     );
 
-    else return (<h1>Hi from Messages</h1>)
+    else return (null)
 }

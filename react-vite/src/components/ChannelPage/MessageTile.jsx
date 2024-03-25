@@ -87,7 +87,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                             room: +server?.id,
                                             channelId,
                                             messageId: message.id,
-                                            reactionId: reaction.id
+                                            reactionId: reaction.id,
+                                            userId: sessionUser.id
                                         }
 
                                         socket.emit("server", payload)
@@ -101,7 +102,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                     method: 'POST',
                                     room: +server?.id,
                                     channelId,
-                                    reaction: res
+                                    reaction: res,
+                                    userId: sessionUser.id
                                 }
                                 socket.emit("server", payload)
                             })
@@ -167,7 +169,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         method: 'PUT',
                                         room: +server?.id,
                                         channelId,
-                                        message: res
+                                        message: res,
+                                        userId: sessionUser.id
                                     }
                                     socket.emit("server", payload)
                                 })
@@ -232,7 +235,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                                 type: 'reaction',
                                                 method: 'DELETE',
                                                 room: `user-${channelId}`,
-                                                user: sessionUser.id,
+                                                userId: sessionUser.id,
                                                 messageId: message.id,
                                                 reactionId: reaction.id
                                             }
@@ -259,7 +262,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         type: 'reaction',
                                         method: 'POST',
                                         room: `user-${channelId}`,
-                                        user: sessionUser.id,
+                                        userId: sessionUser.id,
                                         messageId: message.id,
                                         reaction: data
                                     }
@@ -339,7 +342,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         room: `user-${otherUserId}`,
                                         channelId,
                                         message: res,
-                                        user: sessionUser.id
+                                        userId: sessionUser.id
                                     }
                                     socket.emit("server", payload)
 
@@ -370,7 +373,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         const messagePayload = {
                                             type: 'message',
                                             method: 'DELETE',
-                                            user: sessionUser.id,
+                                            userId: sessionUser.id,
                                             room: `user-${otherUserId}`,
                                             messageId: message.id
                                         }

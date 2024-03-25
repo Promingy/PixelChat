@@ -155,19 +155,17 @@ export const createDirectRoom = (direct_room, otherUserId) => {
     }
 }
 
-export const boldDirectRoom = (roomId, boldValue = false, otherUserId) => {
+export const boldDirectRoom = (otherUserId, boldValue = false) => {
     return {
         type: BOLD_DIRECT_ROOM,
-        roomId,
         boldValue,
         otherUserId
     }
 }
 
-export const unboldDirectRoom = (roomId, otherUserId) => {
+export const unboldDirectRoom = (otherUserId) => {
     return {
         type: UNBOLD_DIRECT_ROOM,
-        roomId,
         otherUserId
     }
 }
@@ -508,12 +506,9 @@ const serverReducer = (state = initialState, action) => {
         case GET_SERVER: {
             const newState = {}
             const storedBoldValues = localStorage.getItem("boldValues")
-            let storedBoldValuesObj
-            if (storedBoldValues) {
-                storedBoldValuesObj = JSON.parse(storedBoldValues)
-            } else {
-                storedBoldValuesObj = {}
-            }
+            let storedBoldValuesObj = (storedBoldValues ? JSON.parse(storedBoldValues) : {})
+            const storedBoldRoomValues = localStorage.getItem("boldRoomValues")
+            let storedBoldRoomValuesObj = (storedBoldRoomValues ? JSON.parse(storedBoldRoomValues) : {})
             newState.description = action.server.description
             newState.id = action.server.id
             newState.image_url = action.server.image_url
@@ -537,7 +532,7 @@ const serverReducer = (state = initialState, action) => {
             }
             for (let direct_room of action.server.direct_rooms) {
                 const userId = (action.currentUserId === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id)
-                newState.direct_rooms[userId] = { ...direct_room, messages: {}, bold: (storedBoldValuesObj[userId] ? storedBoldValuesObj[userId] : 0) }
+                newState.direct_rooms[userId] = { ...direct_room, messages: {}, bold: (storedBoldRoomValuesObj[userId] ? storedBoldRoomValuesObj[userId] : 0) }
                 for (let message of direct_room.messages) {
                     newState.direct_rooms[userId].messages[message.id] = { ...message, reactions: {} }
                     for (let reaction of message.reactions) {

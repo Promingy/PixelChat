@@ -1,7 +1,7 @@
 import { Link, useParams, useNavigate  } from "react-router-dom"
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { unboldChannel } from "../../redux/server"
+import { unboldChannel, unboldDirectRoom } from "../../redux/server"
 import { useState, useEffect, useRef } from "react";
 import ChannelCreationForm from '../ChannelCreationForm'
 import ServerPopupModal from "../ServerPopupModal/ServerPopupModal"
@@ -72,6 +72,20 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
         localStorage.setItem("boldValues", storedBoldValuesJSON)
     }
 
+    const handleRoomUnbold = (channelId) => {
+        dispatch(unboldDirectRoom(channelId))
+        const storedBoldValues = localStorage.getItem("boldRoomValues")
+        let storedBoldValuesObj
+        if (storedBoldValues) {
+            storedBoldValuesObj = JSON.parse(storedBoldValues)
+        } else {
+            storedBoldValuesObj = {}
+        }
+        storedBoldValuesObj[channelId] = 0
+        const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+        localStorage.setItem("boldRoomValues", storedBoldValuesJSON)
+    }
+
     document.documentElement.className = `theme-${localStorage.getItem('theme') || 'light'}`;
 
     if (!server.channels) return null
@@ -121,7 +135,7 @@ export default function InnerNavbar({ socket, showNavBar, type }) {
                     </div>
                     {/* Create Direct Message Popup Modal */}
                     {showMenu2 && Object.values(server.direct_rooms).map((direct_room) => (
-                        <li id={`channel${direct_room.id}`} key={direct_room.id} onClick={() => handleChannelUnbold(direct_room.id)} className={`${type === 'message' && (direct_room.owner_1_id == channelId || direct_room.owner_2_id == channelId) ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
+                        <li id={`room${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} key={direct_room.id} onClick={() => handleRoomUnbold(sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id)} className={`${type === 'message' && (direct_room.owner_1_id == channelId || direct_room.owner_2_id == channelId) ? ' selected-channel' : 'not-selected-channel'}${direct_room?.bold ? " bold-channel" : ""}`}>
                             <Link to={`/main/servers/${server.id}/direct-messages/${sessionUser.id === direct_room.owner_1_id ? direct_room.owner_2_id : direct_room.owner_1_id}`} className="inner-navbar-link">
                                 <div className="navbar-content">
                                     <div className="navbar-content-left">

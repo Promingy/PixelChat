@@ -39,7 +39,7 @@ export default function Profile({ animation, userId, socket }) {
         const messagePayload = {
           type: 'room',
           method: 'POST',
-          user: sessionUser.id,
+          userId: sessionUser.id,
           room: `user-${userId}`,
           data: roomData
         }

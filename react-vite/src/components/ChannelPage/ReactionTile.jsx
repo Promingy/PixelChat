@@ -69,7 +69,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
                         type: 'reaction',
                         method: 'DELETE',
                         room: `user-${channelId}`,
-                        user: sessionUser.id,
+                        userId: sessionUser.id,
                         messageId,
                         reactionId: reaction.id
                     }
@@ -96,7 +96,7 @@ export default function ReactionTile({ allReactions, reaction, count, messageId,
                     type: 'reaction',
                     method: 'POST',
                     room: `user-${channelId}`,
-                    user: sessionUser.id,
+                    userId: sessionUser.id,
                     messageId,
                     reaction: data
                 }

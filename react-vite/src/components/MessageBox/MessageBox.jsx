@@ -108,7 +108,7 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
         const messagePayload = {
           type: 'message',
           method: 'POST',
-          user: sessionUser.id,
+          userId: sessionUser.id,
           room: `user-${otherUserId}`,
           message: res
         }
