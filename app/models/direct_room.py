@@ -33,7 +33,7 @@ class DirectRoom(db.Model, UserMixin):
         # if messages=True, add amount of messages equal to 'limit' to dictionary.
         if direct_messages:
             # runs sorting lambda that sorts by Year, Month, Day, Hour, Minute, Second and adds list of messages to the dictionary
-            dictionary['direct_messages'] = sorted([direct_message.to_dict() for direct_message in self.direct_messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[offset : offset + 15]
+            dictionary['messages'] = sorted([direct_message.to_dict() for direct_message in self.direct_messages], key=lambda msg: datetime(msg['created_at'].year, msg['created_at'].month, msg['created_at'].day, msg['created_at'].hour, msg['created_at'].minute, msg['created_at'].second), reverse=True)[offset : offset + 15]
         if server:
             dictionary['server'] = self.server
         return dictionary

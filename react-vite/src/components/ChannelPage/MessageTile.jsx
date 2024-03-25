@@ -15,6 +15,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
     const [confirmMsgDel, setConfirmMsgDel] = useState(false)
     const [emojiBox, setEmojiBox] = useState(false)
     const [emojiBoxHeight, setEmojiBoxHeight] = useState(0)
+    const room = server?.direct_rooms?.[+channelId]
 
     //helper function to parse html
     const replaceClass = function (htmlString) {
@@ -86,7 +87,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                             room: +server?.id,
                                             channelId,
                                             messageId: message.id,
-                                            reactionId: reaction.id
+                                            reactionId: reaction.id,
+                                            userId: sessionUser.id
                                         }
 
                                         socket.emit("server", payload)
@@ -100,7 +102,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                     method: 'POST',
                                     room: +server?.id,
                                     channelId,
-                                    reaction: res
+                                    reaction: res,
+                                    userId: sessionUser.id
                                 }
                                 socket.emit("server", payload)
                             })
@@ -166,7 +169,8 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         method: 'PUT',
                                         room: +server?.id,
                                         channelId,
-                                        message: res
+                                        message: res,
+                                        userId: sessionUser.id
                                     }
                                     socket.emit("server", payload)
                                 })
@@ -231,7 +235,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                                 type: 'reaction',
                                                 method: 'DELETE',
                                                 room: `user-${channelId}`,
-                                                user: sessionUser.id,
+                                                userId: sessionUser.id,
                                                 messageId: message.id,
                                                 reactionId: reaction.id
                                             }
@@ -258,9 +262,9 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         type: 'reaction',
                                         method: 'POST',
                                         room: `user-${channelId}`,
-                                        user: sessionUser.id,
+                                        userId: sessionUser.id,
                                         messageId: message.id,
-                                        reactionId: data
+                                        reaction: data
                                     }
 
                                     socket.emit("server", messagePayload)
@@ -317,13 +321,33 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                     <i className='fa-solid fa-face-laugh-wink fa-lg reaction-icon'
                         onClick={(e) => handleEmojiBox(e)} />
 
-                    {server.owner_id === sessionUser.id &&
+                    {(room.owner_1_id === sessionUser.id || room.owner_2_id === sessionUser.id) &&
                         <i
                             className='fa-sharp fa-solid fa-thumbtack pin-message'
                             onClick={() => {
                                 const updatedMessage = { ...message }
                                 updatedMessage.pinned = !updatedMessage.pinned
-                                dispatch(thunkPinDirectMessage(updatedMessage, otherUserId))
+                                dispatch(thunkPinDirectMessage(updatedMessage, otherUserId)).then(res => {
+                                    const joinPayload = {
+                                        room: `user-${otherUserId}`,
+                                        user: sessionUser,
+                                        serverId: server.id
+                                    }
+
+                                    socket.emit("join", { room: `user-${otherUserId}`, user: joinPayload })
+
+                                    const payload = {
+                                        type: 'message',
+                                        method: 'PUT',
+                                        room: `user-${otherUserId}`,
+                                        channelId,
+                                        message: res,
+                                        userId: sessionUser.id
+                                    }
+                                    socket.emit("server", payload)
+
+                                    socket.emit("leave", { room: `user-${otherUserId}` })
+                                })
                                 // add socket
                             }} />
                     }
@@ -349,7 +373,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                         const messagePayload = {
                                             type: 'message',
                                             method: 'DELETE',
-                                            user: sessionUser.id,
+                                            userId: sessionUser.id,
                                             room: `user-${otherUserId}`,
                                             messageId: message.id
                                         }

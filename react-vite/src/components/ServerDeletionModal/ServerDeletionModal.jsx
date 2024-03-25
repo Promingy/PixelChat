@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal"
 import { removeServer } from "../../redux/server"
 import { useState } from "react"
@@ -9,6 +9,8 @@ export default function ServerDeletionModal({ server, socket }) {
     const [errors] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const sessionUser = useSelector(state => state.session.user)
+
 
     const { closeModal } = useModal()
 
@@ -18,7 +20,8 @@ export default function ServerDeletionModal({ server, socket }) {
             type: "server",
             method: "DELETE",
             room: +server.id,
-            serverId: server.id
+            serverId: server.id,
+            userId: sessionUser.id
         }
 
         const handleServerDelete = async (serverId) => {

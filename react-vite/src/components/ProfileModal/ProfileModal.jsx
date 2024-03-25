@@ -37,8 +37,11 @@ export default function Profile({ animation, userId, socket }) {
         socket.emit("join", { room: `user-${userId}`, user: joinPayload })
 
         const messagePayload = {
-          type: 'creation',
-          user: sessionUser.id
+          type: 'room',
+          method: 'POST',
+          userId: sessionUser.id,
+          room: `user-${userId}`,
+          data: roomData
         }
 
         socket.emit("server", messagePayload)

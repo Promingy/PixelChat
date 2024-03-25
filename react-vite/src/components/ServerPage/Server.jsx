@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage, createDirectReaction, deleteDirectReaction, createDirectRoom, boldDirectRoom } from "../../redux/server"
 import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
@@ -20,6 +20,17 @@ function checkChannelIfSelected(channelId) {
     const fullId = `channel${channelId}`
     let channelToBold = document.getElementById(fullId)
     if (channelToBold.classList.contains("not-selected-channel")) {
+        return false
+    }
+    return true
+}
+
+function checkRoomIfSelected(roomId) {
+    console.log("roomId", roomId)
+    const fullId = `room${roomId}`
+    let roomToBold = document.getElementById(fullId)
+    console.log("roomToBold", roomToBold)
+    if (roomToBold.classList.contains("not-selected-channel")) {
         return false
     }
     return true
@@ -91,40 +102,65 @@ export default function ServerPage({ type }) {
         const payload = {
             type: "newUser",
             method: "POST",
-            room: +serverId,
+            room: serverId,
             user: sessionUser,
             serverId: serverId
         }
 
         socket.on("server", obj => {
+            if (obj.userId == sessionUser.id) return
             console.log('Incoming websocket: ', obj)
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
                         case "POST": {
                             // Handle message post
-                            dispatch(createMessage(obj.message))
-                            if (!checkChannelIfSelected(obj.message.channel_id)) {
-                                dispatch(boldChannel(obj.message.channel_id))
-                                const storedBoldValues = localStorage.getItem("boldValues")
-                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
-                                if (storedBoldValuesObj[obj.message.channel_id]) {
-                                    storedBoldValuesObj[obj.message.channel_id]++
-                                } else {
-                                    storedBoldValuesObj[obj.message.channel_id] = 1
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectMessage(obj.message, obj.userId)) // Dispatch CreateDirectMessage action
+                                if (!checkRoomIfSelected(obj.userId)) {
+                                    dispatch(boldDirectRoom(obj.userId))
+                                    const storedBoldValues = localStorage.getItem("boldRoomValues")
+                                    console.log("storedBoldValues", storedBoldValues)
+                                    const storedBoldValuesObj = JSON.parse(storedBoldValues) || {}
+                                    console.log("storedBoldValuesObj", storedBoldValuesObj)
+                                    if (storedBoldValuesObj[obj.userId]) {
+                                        storedBoldValuesObj[obj.userId]++
+                                    } else {
+                                        storedBoldValuesObj[obj.userId] = 1
+                                    }
+                                    const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                    localStorage.setItem("boldRoomValues", storedBoldValuesJSON)
                                 }
-                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-                                localStorage.setItem("boldValues", storedBoldValuesJSON)
+                            } else {
+                                dispatch(createMessage(obj.message)) // Dispatch createMessage action for other rooms
+                                if (!checkChannelIfSelected(obj.message.channel_id)) {
+                                    dispatch(boldChannel(obj.message.channel_id))
+                                    const storedBoldValues = localStorage.getItem("boldValues")
+                                    const storedBoldValuesObj = JSON.parse(storedBoldValues) || {}
+                                    if (storedBoldValuesObj[obj.message.channel_id]) {
+                                        storedBoldValuesObj[obj.message.channel_id]++
+                                    } else {
+                                        storedBoldValuesObj[obj.message.channel_id] = 1
+                                    }
+                                    const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                    localStorage.setItem("boldValues", storedBoldValuesJSON)
+                                }
                             }
                             break
                         }
                         case "DELETE": {
                             // Handle message delete
-                            dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectMessage(parseInt(obj.room.slice(5)), obj.messageId, obj.userId))
+                            }
+                            else dispatch(deleteMessage(obj.channelId, obj.messageId))
                             break
                         }
                         case "PUT": {
-                            dispatch(pinMessage(obj.message))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(pinDirectMessage(obj.message, obj.userId))
+                            }
+                            else dispatch(pinMessage(obj.message))
                             break
                         }
                     }
@@ -134,12 +170,18 @@ export default function ServerPage({ type }) {
                     switch (obj.method) {
                         case "POST": {
                             // Handle reaction post
-                            dispatch(createReaction(obj.channelId, obj.reaction))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectReaction(parseInt(obj.room.slice(5)), obj.reaction, obj.userId))
+                            }
+                            else dispatch(createReaction(obj.channelId, obj.reaction))
                             break
                         }
                         case "DELETE": {
                             // Handle reaction delete
-                            dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectReaction(parseInt(obj.room.slice(5)), obj.messageId, obj.reactionId, obj.userId))
+                            }
+                            else dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
                             break
                         }
                     }
@@ -155,7 +197,7 @@ export default function ServerPage({ type }) {
                         case "DELETE": {
                             // Handle channel delete
                             dispatch(deleteChannel(obj.channelId))
-                            navigate(obj.newChannel)
+                            if (checkChannelIfSelected(obj.channelId)) navigate(obj.newChannel)
                             break
                         }
                         case "PUT": {
@@ -177,10 +219,19 @@ export default function ServerPage({ type }) {
                     }
                     break
                 }
+                case "room": {
+                    switch (obj.method) {
+                        case "POST": {
+                            dispatch(createDirectRoom(obj.data, obj.userId))
+                            break
+                        }
+                    }
+                    break
+                }
                 case "newUser": {
                     switch (obj.method) {
                         case "POST": {
-                            dispatch(addUserToServer(obj.serverId, obj.user))
+                            dispatch(addUserToServer(obj.serverId, obj.user.id))
                             break
                         }
                     }
