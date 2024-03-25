@@ -160,7 +160,9 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
             <OpenModalButton
               buttonText={<i className="far fa-grin-alt"></i>}
               onItemClick={closeMenu}
-              modalComponent={<Picker onEmojiClick={onEmojiClick} theme={theme} />}
+              modalComponent={
+                <Picker onEmojiClick={onEmojiClick} theme={theme}/>
+              }
             />
           </div>
           <div className="char-count-and-submit">

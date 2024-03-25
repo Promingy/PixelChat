@@ -69,10 +69,10 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
     if (type === "channel") return (
         <>
             {emojiBox &&
-                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
+                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${Math.max(emojiBoxHeight, 60)}px` }}>
                     <EmojiPicker
                         theme={localStorage.getItem('theme') || 'light'}
-
+                        width={"300px"}
                         // if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
                             // remove the reaction if user has already used it
@@ -208,10 +208,9 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
     if (type === "message") return (
         <>
             {emojiBox &&
-                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${emojiBoxHeight}px` }}>
+                <div className={'emoji-box'} id="emojiBox" style={{ 'top': `${Math.max(emojiBoxHeight, 60)}px` }}>
                     <EmojiPicker
                         theme={localStorage.getItem('theme') || 'light'}
-
                         // if an emoji is selected through the picker, add it to the database!
                         onEmojiClick={(e) => {
                             // remove the reaction if user has already used it
