@@ -24,17 +24,30 @@
 .channel-page-button-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   min-height: 49px;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid var(--header-bottom-border);
   padding: 10px;
+  z-index: 3;
+  padding-left: 20px;
 }
 
 .channel-page-button-container>button {
   background: none;
   border-radius: 5px;
   padding: none;
+  border: none;
+}
+
+.channel-page-button-container>button:last-child {
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  padding: 0;
+  color: var(--color-font);
+  display: flex;
+  align-items: center;
 }
 
 .channel-page-button-container>button:first-child {
@@ -58,18 +71,25 @@
   color: var(--color-font);
 }
 
+.first-button-wrapper{
+  display: flex;
+  align-items: center;
+  gap:5px;
+}
+
 .channel-page-button-arrow {
   font-size: 12px;
 }
 
 .channel-page-button-container>button:last-child {
   border-radius: 5px;
-  border: 1px solid #eaeaea;
+  /* border: 1px solid #eaeaea; */
   padding: 0;
-  height: 26px;
+  height: 30px;
   color: var(--color-font);
   display: flex;
   align-items: center;
+  padding: 3px 8px 3px 3px;
 }
 
 .channel-page-button-container>button:last-child:hover {
@@ -80,6 +100,28 @@
   border: 3px solid var(--channel-header-hover);
 }
 
+.new-message-to-wrapper {
+  display: flex;
+  align-items: start;
+  height: 40px;
+  padding-top: 11px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #757575;
+}
+
+.new-message-to-wrapper>div {
+  margin-top: -11px;
+}
+
+.new-message-to-wrapper>div>div>span>input {
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  font-family: inherit;
+  padding-left: 12px;
+}
+
 .channel-members-button-wrapper {
   display: flex;
   flex-wrap: nowrap;
@@ -88,6 +130,7 @@
   margin-left: 15px;
   margin-right: 8px;
   padding: 0;
+  height: 26px;
 }
 
 .member-button-image-wrapper {
@@ -106,7 +149,7 @@
 }
 
 .member-button-image-wrapper>img {
-  height: 100%
+  height: 100%;
 }
 
 .all-messages-container {
@@ -115,6 +158,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  
 }
 
 .no-scroll {
@@ -123,7 +167,7 @@
 
 .emoji-box {
   position: absolute;
-  right: 120px;
+  right: 80px;
   z-index: 200;
 }
 
@@ -158,6 +202,30 @@
   object-fit: cover;
   width: 40px;
   height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.top-profile-pic {
+  object-fit: cover;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.intro-profile-container{
+  margin:48px 20px 16px
+}
+.intro-profile-wrapper{
+  display: flex;
+  align-items: center;
+  gap:12px
+}
+.intro-profile-pic{
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -214,6 +282,19 @@
   overflow-wrap: break-word;
 }
 
+.message-body>p,
+.message-body>ol,
+.message-body>ul {
+  margin: 0;
+}
+
+.ql-syntax {
+  background-color: var(--code-background);
+  color: var(--color-font);
+  padding: 10px;
+  margin: 5px 0;
+}
+
 .message-reactions-container {
   display: flex;
   margin-left: 60px;
@@ -245,7 +326,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20px;
+  height: 30px;
   gap: 5px;
   border: 1px solid var(--date-divider);
   border-radius: 10px;
@@ -257,11 +338,6 @@
   z-index: 0;
   position: sticky;
   right: 30px;
-}
-
-.profile-modal-messages {
-  position: relative;
-  z-index: 1;
 }
 
 .react-bar>* {
@@ -339,7 +415,6 @@
 }
 
 .date-divider {
-  position: relative;
   border-bottom: 1px solid var(--date-divider);
   margin-top: 0px;
   z-index: -1;
@@ -356,7 +431,6 @@
 }
 
 .date-separator-bar {
-  position: relative;
   border-bottom: 1px solid lightgrey;
   bottom: 21px;
   z-index: 0;
@@ -390,22 +464,50 @@
   z-index: 15;
   background-color: rgba(0, 0, 0, 0.2);
   visibility: hidden;
+}
 
+.hyper-link-button {
+  background-color: var(--profile-link-background);
+  border: none;
+  font-size: 16px;
+  color:#1264a3;
+  padding:0 2px 1px 2px;
+  border-radius: 3px;
+}
+
+.hyper-link-button:hover {
+  background-color: var(--profile-link-bg-hover)
+}
+
+.view-profile-button{
+  background-color:var(--color-background) ;
+  border:1px solid var(--header-bottom-border);
+  height: 36px;
+  padding: 0 12px 1px;
+  font-size: 15px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  color:var(--color-font)
+}
+
+.view-profile-button:hover{
+  background-color: var(--color-hover);
 }
 
 .theme-light {
   --color-background: white;
-  --color-font: #1D1C1D;
+  --color-font: #1d1c1d;
   --color-hover: #f6f6f6;
   --color-active: #f1f1f1;
-  --inner-nav-header-hover: #C9AECB;
+  --inner-nav-header-hover: #c9aecb;
   --inner-nav-header-active: #bda5bf;
-  --inner-nav-hover: #C7ACC8;
+  --inner-nav-hover: #c7acc8;
   --inner-nav-active: #bda5bf;
   --channel-header-hover: #f6f6f6;
   --channel-header-active: #f1f1f1;
   --inner-nav-channel-font: #454447;
-  --inner-nav-wrapper-border: #C0AEC4;
+  --inner-nav-wrapper-border: #c0aec4;
   --inner-background: #dac3da;
   --message-date-seperator: #f6f6f6;
   --date-divider: #dddddd;
@@ -413,9 +515,12 @@
   --react-bar-hover: lightgray;
   --react-bar-active: rgb(193, 193, 193);
   --reaction: #efefef;
-  --reaction-hover: #F6F6F6;
+  --reaction-hover: #f6f6f6;
   --reaction-active: white;
   --header-bottom-border: #e2e2e2;
+  --code-background: #f0f0f0;
+  --profile-link-background:#f0f4fc;
+  --profile-link-bg-hover:#d8ecf4;
 }
 
 .theme-dark {
@@ -423,13 +528,13 @@
   --color-font: #d0d1d2;
   --color-hover: #424242;
   --color-active: #525252;
-  --inner-nav-header-hover: #562C56;
+  --inner-nav-header-hover: #562c56;
   --inner-nav-header-active: #653565;
-  --inner-nav-hover: #562C56;
+  --inner-nav-hover: #562c56;
   --inner-nav-active: #653565;
   --channel-header-hover: #353739;
   --channel-header-active: #454749;
-  --inner-nav-channel-font: #B9BABE;
+  --inner-nav-channel-font: #b9babe;
   --inner-nav-wrapper-border: #747474;
   --inner-background: #350d36;
   --react-bar-shadow: #35373a;
@@ -441,4 +546,7 @@
   --reaction-hover: #2d3137;
   --reaction-active: #40464e;
   --header-bottom-border: #747474;
+  --code-background: #1b1d21;
+  --profile-link-background:#202c34;
+  --profile-link-bg-hover:#203c4c;
 }

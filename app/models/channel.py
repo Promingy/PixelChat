@@ -30,7 +30,6 @@ class Channel(db.Model, UserMixin):
     )
 
 
-
     def to_dict(self, offset=0, messages=False, server=False):
         dictionary = {
             'id': self.id,

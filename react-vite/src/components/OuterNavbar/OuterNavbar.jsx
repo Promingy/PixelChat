@@ -5,20 +5,17 @@ import { useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import * as sessionActions from "../../redux/session";
 import { NavLink } from "react-router-dom";
-import ProfileModal from "../ProfileModal";
 import PreferenceFormModal from "../PreferenceFormModal/PreferenceFormModal";
 import ChannelCreationForm from "../ChannelCreationForm";
 import "./OuterNavbar.css";
 import { loadServer } from "../../redux/server";
 
-export default function OuterNavbar({ socket, showNavBar }) {
+export default function OuterNavbar({ socket, showNavBar, openUserModal }) {
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
-  const [profileModal, setProfileModal] = useState(false);
-  const [profileModal2, setProfileModal2] = useState(false);
   const ulClassName1 = showMenu1 ? "" : " hidden";
   const ulClassName2 = showMenu2 ? "" : " hidden";
   const ulRef = useRef();
@@ -124,32 +121,10 @@ export default function OuterNavbar({ socket, showNavBar }) {
             <img className="profile-button-img" src={sessionUser.image_url} />
           </button>
         </div>
-        {profileModal && <ProfileModal animation={false} />}
-        {profileModal2 && <ProfileModal animation={true} />}
         <div className={`profile-dropdown ${ulClassName2} `} ref={ulRef}>
           <button
             onClick={() => {
-              setProfileModal(true);
-              closeMenu2();
-
-              function handleMouseClick(e) {
-                e.preventDefault();
-                const profile =
-                  document.getElementsByClassName("profile-modal");
-                const xBtn = document.getElementsByClassName("close-profile");
-                let node = e.target;
-
-                for (let i = 0; i <= 6; i++) {
-                  if (node === profile[0]) return;
-                  else if (node === xBtn[0]) break;
-                  else node = node.parentNode;
-                }
-                setProfileModal2(true);
-                setProfileModal(false);
-                setTimeout(() => setProfileModal2(false), 350);
-                window.removeEventListener("mousedown", handleMouseClick);
-              }
-              window.addEventListener("mousedown", handleMouseClick);
+              openUserModal(sessionUser.id)
             }}
           >
             Profile

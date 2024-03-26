@@ -1,6 +1,7 @@
 /* TODO: Add sitewide styles */
 
 @media screen and (max-width: 500px) {
+
   .outer-navbar-wrapper,
   .inner-navbar-wrapper {
     visibility: hidden;
@@ -11,16 +12,21 @@
     left: 75px;
     border-radius: 0px;
     min-width: 190px;
-    z-index: 19;
+    z-index: 54;
   }
 
   /* ensure profile dropdown and server dropdown always on top*/
   .outer-navbar-wrapper {
-    z-index: 20;
+    z-index: 55;
+    background-color: #5e2262;
   }
 
-  .profile-modal {
-    max-width: 70%;
+  .top-bar-wrapper {
+    display: none;
+  }
+
+  .main-content-wrapper {
+    height: 100%;
   }
 }
 

@@ -1,8 +1,9 @@
 from flask import Blueprint, session, request
-from ..models import db, Server, Channel, User
+from ..models import db, Server, Channel, User, DirectRoom
 from flask_login import login_required
-from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm
+from ..forms import ServerForm, ChannelForm, UserServerForm, ImageForm, DirectRoomForm
 from ..aws import (upload_file_to_s3, get_unique_filename, remove_file_from_s3)
+from sqlalchemy import and_
 
 server = Blueprint('server', __name__)
 
@@ -24,9 +25,8 @@ def get_all_server_info(serverId):
 
     # Grab the correct server
     server = Server.query.get(serverId)
-
     if server:
-        return server.to_dict(channels=True)
+        return server.to_dict(channels=True, direct_rooms=int(session['_user_id']))
 
     return  {"message": "Server Not Found"}, 404
 
@@ -119,6 +119,25 @@ def create_channel(serverId):
         db.session.add(new_channel)
         db.session.commit()
         return new_channel.to_dict()
+    return {'errors': form.errors}, 401
+
+@server.route('/<int:serverId>/direct_rooms', methods=["POST"])
+@login_required
+def create_direct_room(serverId):
+    form = DirectRoomForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        if data["owner_2_id"] == int(session['_user_id']):
+            return {'errors': "Owner1 and Owner 2 must be different"}
+        new_direct_room = DirectRoom(
+            owner_1_id = int(session['_user_id']),
+            owner_2_id = data["owner_2_id"],
+            server_id = int(serverId)
+        )
+        db.session.add(new_direct_room)
+        db.session.commit()
+        return new_direct_room.to_dict()
     return {'errors': form.errors}, 401
 
 @server.route('/<int:serverId>/users/add', methods=["POST"])

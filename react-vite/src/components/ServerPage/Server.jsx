@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Navigate } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams, Navigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { loadAllServers } from "../../redux/all_servers"
 import { io } from 'socket.io-client';
-import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage } from "../../redux/server"
+import { loadServer, deleteChannel, createChannel, updateChannel, deleteMessage, createMessage, deleteReaction, createReaction, boldChannel, pinMessage, createDirectMessage, deleteDirectMessage, pinDirectMessage, createDirectReaction, deleteDirectReaction, createDirectRoom, boldDirectRoom } from "../../redux/server"
 import { setTheme } from "../../redux/session";
 import ChannelPage from "../ChannelPage"
 import InnerNavbar from "../InnerNavbar/InnerNavbar"
@@ -11,6 +11,8 @@ import OuterNavbar from "../OuterNavbar"
 import "./Server.css"
 import { addUserToServer, deleteServer } from "../../redux/server";
 import { removeUserServer } from "../../redux/session";
+import ReactSearchBox from 'react-search-box'
+import ProfileModal from "../ProfileModal";
 
 let socket
 
@@ -23,13 +25,24 @@ function checkChannelIfSelected(channelId) {
     return true
 }
 
-export default function ServerPage() {
+function checkRoomIfSelected(roomId) {
+    const fullId = `room${roomId}`
+    let roomToBold = document.getElementById(fullId)
+    if (roomToBold.classList.contains("not-selected-channel")) {
+        return false
+    }
+    return true
+}
+
+export default function ServerPage({ type }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { serverId } = useParams()
     const [showNavBar, setShowNavBar] = useState(false);
-    // const [boldObj, setBoldObj] = useState({})
-
+    const [searchData, setSearchData] = useState({});
+    const [profileModal, setProfileModal] = useState(false);
+    const [profileModal2, setProfileModal2] = useState(false);
+    const [userPopupID, setUserPopupID] = useState(null)
 
     const server = useSelector(state => state.server)
     const sessionUser = useSelector(state => state.session.user)
@@ -38,11 +51,36 @@ export default function ServerPage() {
         if (!sessionUser) { navigate("/") }
     }, [sessionUser, navigate]);
 
+    useEffect(() => {
+        let data = []
+        if (server.channels) {
+            for (let channel of Object.values(server.channels)) {
+                data.push({
+                    key: channel.name,
+                    value: "# " + channel.name,
+                    id: channel.id,
+                    type: 'channel'
+                })
+            }
+        }
+        if (server.users) {
+            for (let user of Object.values(server.users)) {
+                data.push({
+                    key: `${user.first_name} ${user.last_name}`,
+                    value: `${user.first_name} ${user.last_name}`,
+                    type: 'user',
+                    id: user.id
+                })
+            }
+        }
+        setSearchData(data)
+    }, [server])
+
     // Eager load all data for the server
     useEffect(() => {
-        dispatch(loadServer(serverId))
+        dispatch(loadServer(serverId, sessionUser.id))
         dispatch(loadAllServers())
-    }, [dispatch, serverId])
+    }, [dispatch, serverId, sessionUser])
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -62,39 +100,62 @@ export default function ServerPage() {
         const payload = {
             type: "newUser",
             method: "POST",
-            room: +serverId,
+            room: serverId,
             user: sessionUser,
             serverId: serverId
         }
 
         socket.on("server", obj => {
+            if (obj.userId == sessionUser.id) return
             switch (obj.type) {
                 case "message": {
                     switch (obj.method) {
                         case "POST": {
                             // Handle message post
-                            dispatch(createMessage(obj.message))
-                            if (!checkChannelIfSelected(obj.message.channel_id)) {
-                                dispatch(boldChannel(obj.message.channel_id))
-                                const storedBoldValues = localStorage.getItem("boldValues")
-                                const storedBoldValuesObj = JSON.parse(storedBoldValues)
-                                if (storedBoldValuesObj[obj.message.channel_id]) {
-                                    storedBoldValuesObj[obj.message.channel_id]++
-                                } else {
-                                    storedBoldValuesObj[obj.message.channel_id] = 1
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectMessage(obj.message, obj.userId)) // Dispatch CreateDirectMessage action
+                                if (!checkRoomIfSelected(obj.userId)) {
+                                    dispatch(boldDirectRoom(obj.userId))
+                                    const storedBoldValues = localStorage.getItem("boldRoomValues")
+                                    const storedBoldValuesObj = JSON.parse(storedBoldValues) || {}
+                                    if (storedBoldValuesObj[obj.userId]) {
+                                        storedBoldValuesObj[obj.userId]++
+                                    } else {
+                                        storedBoldValuesObj[obj.userId] = 1
+                                    }
+                                    const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                    localStorage.setItem("boldRoomValues", storedBoldValuesJSON)
                                 }
-                                const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
-                                localStorage.setItem("boldValues", storedBoldValuesJSON)
+                            } else {
+                                dispatch(createMessage(obj.message)) // Dispatch createMessage action for other rooms
+                                if (!checkChannelIfSelected(obj.message.channel_id)) {
+                                    dispatch(boldChannel(obj.message.channel_id))
+                                    const storedBoldValues = localStorage.getItem("boldValues")
+                                    const storedBoldValuesObj = JSON.parse(storedBoldValues) || {}
+                                    if (storedBoldValuesObj[obj.message.channel_id]) {
+                                        storedBoldValuesObj[obj.message.channel_id]++
+                                    } else {
+                                        storedBoldValuesObj[obj.message.channel_id] = 1
+                                    }
+                                    const storedBoldValuesJSON = JSON.stringify(storedBoldValuesObj)
+                                    localStorage.setItem("boldValues", storedBoldValuesJSON)
+                                }
                             }
                             break
                         }
                         case "DELETE": {
                             // Handle message delete
-                            dispatch(deleteMessage(obj.channelId, obj.messageId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectMessage(parseInt(obj.room.slice(5)), obj.messageId, obj.userId))
+                            }
+                            else dispatch(deleteMessage(obj.channelId, obj.messageId))
                             break
                         }
                         case "PUT": {
-                            dispatch(pinMessage(obj.message))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(pinDirectMessage(obj.message, obj.userId))
+                            }
+                            else dispatch(pinMessage(obj.message))
                             break
                         }
                     }
@@ -104,12 +165,18 @@ export default function ServerPage() {
                     switch (obj.method) {
                         case "POST": {
                             // Handle reaction post
-                            dispatch(createReaction(obj.channelId, obj.reaction))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(createDirectReaction(parseInt(obj.room.slice(5)), obj.reaction, obj.userId))
+                            }
+                            else dispatch(createReaction(obj.channelId, obj.reaction))
                             break
                         }
                         case "DELETE": {
                             // Handle reaction delete
-                            dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
+                            if (obj.room.toString().startsWith("user-")) {
+                                dispatch(deleteDirectReaction(parseInt(obj.room.slice(5)), obj.messageId, obj.reactionId, obj.userId))
+                            }
+                            else dispatch(deleteReaction(obj.channelId, obj.messageId, obj.reactionId))
                             break
                         }
                     }
@@ -125,7 +192,7 @@ export default function ServerPage() {
                         case "DELETE": {
                             // Handle channel delete
                             dispatch(deleteChannel(obj.channelId))
-                            navigate(obj.newChannel)
+                            if (checkChannelIfSelected(obj.channelId)) navigate(obj.newChannel)
                             break
                         }
                         case "PUT": {
@@ -147,10 +214,19 @@ export default function ServerPage() {
                     }
                     break
                 }
+                case "room": {
+                    switch (obj.method) {
+                        case "POST": {
+                            dispatch(createDirectRoom(obj.data, obj.userId))
+                            break
+                        }
+                    }
+                    break
+                }
                 case "newUser": {
                     switch (obj.method) {
                         case "POST": {
-                            dispatch(addUserToServer(obj.serverId, obj.user))
+                            dispatch(addUserToServer(obj.serverId, obj.user.id))
                             break
                         }
                     }
@@ -162,19 +238,73 @@ export default function ServerPage() {
 
         socket.emit("join", { room: server.id, user: payload })
 
+        const directPayload = {
+            type: "newUser",
+            method: "POST",
+            room: `user-${sessionUser.id}`,
+            user: sessionUser,
+            serverId: serverId
+        }
+
+        socket.emit("join", { room: `user-${sessionUser.id}`, user: directPayload })
+
         return (() => {
             socket.emit("leave", { room: server.id })
+            socket.emit("leave", { room: `user-${sessionUser.id}` })
             socket.disconnect()
         })
     }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
+
+
+    function handleMouseClick(e) {
+        e.preventDefault();
+        const profile = document.getElementById("profile-modal");
+        const xBtn = document.getElementById("close-profile");
+
+        // if user clicked in profile modal (but not on "X"), we want to abort closing profile modal
+        if (profile.contains(e.target) && e.target !== xBtn) return
+
+        setProfileModal2(true);
+        setProfileModal(false);
+        setTimeout(() => setProfileModal2(false), 350);
+        window.removeEventListener("mousedown", handleMouseClick);
+    }
+
+    const openUserModal = (userId) => {
+        setUserPopupID(userId)
+        setProfileModal(true);
+        window.addEventListener("mousedown", handleMouseClick);
+    }
+
+    const handleSearchSelect = (target) => {
+        if (target.item.type === 'channel') {
+            navigate(`/main/servers/${server.id}/channels/${target.item.id}`)
+        } else if (target.item.type === 'user') {
+            openUserModal(target.item.id)
+        }
+    }
 
     if (!sessionUser) return null
 
     return (
         <div className="main-page-wrapper">
-            <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
-            <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
-            <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar}/>
+            {profileModal && <ProfileModal animation={false} userId={userPopupID} socket={socket} />}
+            {profileModal2 && <ProfileModal animation={true} userId={userPopupID} socket={socket} />}
+            <div className="top-bar-wrapper">
+                <i className="fa-solid fa-magnifying-glass"></i>
+                <ReactSearchBox
+                    id='searchBox'
+                    data={searchData}
+                    placeholder={`Search ${server.name}`}
+                    onSelect={(record) => handleSearchSelect(record)}
+                    clearOnSelect={true}
+                />
+            </div>
+            <div className="main-content-wrapper">
+                <OuterNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} />
+                <InnerNavbar socket={socket} showNavBar={showNavBar} setShowNavBar={setShowNavBar} type={type} />
+                <ChannelPage socket={socket} serverId={serverId} showNavBar={showNavBar} setShowNavBar={setShowNavBar} openUserModal={openUserModal} type={type} />
+            </div>
             {!sessionUser && (
                 <Navigate to="/" replace={true} />
             )}

@@ -1,96 +1,149 @@
 .send-message-form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin: 0 10px;
-    z-index: 0;
-    align-items: flex-end;
-    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
-    box-shadow: 0px 0px 2px #ddd;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 0 20px;
+  z-index: 0;
+  align-items: flex-end;
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
 }
 
 .message-wrapper-top {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .message-wrapper-bottom {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  background-color: var(--color-background);
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+   border-bottom: 1px solid #ccc;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 0 10px 0 10px
 }
 
 .message-box {
-    resize: none;
-    width: 98%;
-    height: 20px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    z-index: 1;
-    outline: transparent;
-    background-color: var(--color-background);
-    color: var(--color-font);
-    font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
-    font-size: 15px;
-    box-sizing: border-box;
+  resize: none;
+  width: 98%;
+  border-top:  1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  z-index: 1;
+  outline: transparent;
+  background-color: var(--color-background);
+  color: var(--color-font);
+  font-family: Lato, Slack-Fractions, appleLogo, sans-serif;
+  font-size: 15px;
+  box-sizing: border-box;
 }
 
 .char-count-and-submit {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.char-count-and-submit>span {
-    font-size: 13px;
+.char-count-and-submit > span {
+  font-size: 13px;
 }
 
 .clear-message-limit {
-    color: var(--clear-message-limit);
+  color: var(--clear-message-limit);
 }
 
 .over-message-limit {
-    color: red;
+  color: red;
 }
 
 .nearing-message-limit {
-    color: orange;
+  color: orange;
 }
 
 .send-message {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #007A5A;
-    color: var(--color);
-    border: none;
-    width: 60px;
-    height: 30px;
-    border-radius: 5px;
-    margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007a5a;
+  color: var(--color);
+  border: none;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 5px;
 }
 
 .send-message:disabled {
-    background-color: var(--send-disabled);
-    cursor: default;
+  background-color: var(--send-disabled);
+  cursor: default;
 }
 
+.ql-toolbar.ql-snow {
+  display: flex;
+  justify-content: start;
+  background-color:var(--code-background);
+}
+
+.ql-toolbar.ql-snow.hidden {
+   display: none
+}
+
+.quill {
+  width: 100%;
+}
+.ql-formats {
+  width: auto;
+}
+
+.ql-editor {
+    max-height: 20em;
+}
+
+.ql-editor > p{
+  font-size: 15px;
+}
+
+.ql-editor::placeholder {
+  font-weight: bold;
+  opacity: 0.5;
+}
+
+.bottom-toolbar-wrapper {
+  align-self: center;
+  display: flex;
+  gap:2px
+}
+.bottom-toolbar-wrapper > button{
+  background-color: var(--color-background);
+  border:none;
+  font-size: 15px;
+  color: var(--bottom-tool);
+
+}
+.bottom-toolbar-wrapper > button:hover{
+   color: #06c;
+}
+ 
 .theme-light {
-    --border: #dddddd;
-    --color: white;
-    --clear-message-limit: black;
-    --send-disabled: lightgray;
+  --border: #dddddd;
+  --color: white;
+  --clear-message-limit: black;
+  --send-disabled: lightgray;
+  --bottom-tool:#1d1c1d;
 }
 
 .theme-dark {
-    --border: #35373a;
-    --color: #D0D1D2;
-    --clear-message-limit: #D0D1D2;
-    --send-disabled: transparent;
+  --border: #35373a;
+  --color: #d0d1d2;
+  --clear-message-limit: #d0d1d2;
+  --send-disabled: transparent;
+  --bottom-tool:rgb(65,65,65)
 }
