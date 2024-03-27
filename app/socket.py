@@ -1,8 +1,10 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 
+BASE_URL = os.getenv('BASE_URL')
+
 if os.environ.get("FLASK_ENV") == "production":
-    origins = "https://slack-deploy.onrender.com"
+    origins = BASE_URL
 else:
     origins = "*"
 
@@ -16,13 +18,13 @@ def handle_socket(data):
 
 @socketio.on("join")
 def handle_join(data):
-    print("------", data)
+    # print("------", data)
     room = data["room"]
     join_room(room)
     emit("server", data['user'], room=room)
 
 @socketio.on("leave")
 def handle_leave(data):
-    print("*******", data)
+    # print("*******", data)
     room = data["room"]
     leave_room(room)
