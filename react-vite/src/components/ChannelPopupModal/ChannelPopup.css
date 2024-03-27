@@ -21,7 +21,7 @@
 }
 
 .channel-members-wrapper {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 286px;
 }
 
