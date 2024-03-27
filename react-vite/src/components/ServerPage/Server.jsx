@@ -94,7 +94,7 @@ export default function ServerPage({ type }) {
         if (import.meta.env.MODE !== "production") {
             socket = io("localhost:8000")
         } else {
-            socket = io('https://slack-deploy.onrender.com')
+            socket = io(import.meta.env.BASE_URL)
         }
 
         const payload = {

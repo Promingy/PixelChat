@@ -54,7 +54,6 @@ flow = Flow.from_client_secrets_file(
     client_secrets_file=secrets.name,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
     redirect_uri="https://slack-deploy.onrender.com/api/auth/callback"
-    # redirect_uri="http://localhost:8000/api/auth/callback"
 )
 
 secrets.close() # This method call deletes our temporary file from the /tmp folder! We no longer need it as our flow object has been configured!
