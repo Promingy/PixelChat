@@ -134,7 +134,7 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
           modules={modules}
           value={message.replace("</p><p>@#$`", "")}
           // Have to set placeholer to plain text because the Quill API does not allow to change this value dynamically
-          placeholder="Type your message..."
+          placeholder={"Type your message..."}
           className="message-box"
           onKeyUp={(e) => {
             if (
@@ -161,7 +161,7 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
               buttonText={<i className="far fa-grin-alt"></i>}
               onItemClick={closeMenu}
               modalComponent={
-                <Picker onEmojiClick={onEmojiClick} theme={theme}/>
+                <Picker onEmojiClick={onEmojiClick} theme={theme} />
               }
             />
           </div>

@@ -23,7 +23,7 @@
   background-color: var(--color-background);
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-   border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: 0 10px 0 10px
@@ -32,11 +32,11 @@
 .message-box {
   resize: none;
   width: 98%;
-  border-top:  1px solid #ccc;
+  border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  border-top-left-radius:5px;
-  border-top-right-radius:5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   z-index: 1;
   outline: transparent;
   background-color: var(--color-background);
@@ -52,7 +52,7 @@
   gap: 5px;
 }
 
-.char-count-and-submit > span {
+.char-count-and-submit>span {
   font-size: 13px;
 }
 
@@ -89,25 +89,26 @@
 .ql-toolbar.ql-snow {
   display: flex;
   justify-content: start;
-  background-color:var(--code-background);
+  background-color: var(--code-background);
 }
 
 .ql-toolbar.ql-snow.hidden {
-   display: none
+  display: none
 }
 
 .quill {
   width: 100%;
 }
+
 .ql-formats {
   width: auto;
 }
 
 .ql-editor {
-    max-height: 20em;
+  max-height: 20em;
 }
 
-.ql-editor > p{
+.ql-editor>p {
   font-size: 15px;
 }
 
@@ -119,25 +120,27 @@
 .bottom-toolbar-wrapper {
   align-self: center;
   display: flex;
-  gap:2px
+  gap: 2px
 }
-.bottom-toolbar-wrapper > button{
+
+.bottom-toolbar-wrapper>button {
   background-color: var(--color-background);
-  border:none;
+  border: none;
   font-size: 15px;
   color: var(--bottom-tool);
 
 }
-.bottom-toolbar-wrapper > button:hover{
-   color: #06c;
+
+.bottom-toolbar-wrapper>button:hover {
+  color: #06c;
 }
- 
+
 .theme-light {
   --border: #dddddd;
   --color: white;
   --clear-message-limit: black;
   --send-disabled: lightgray;
-  --bottom-tool:#1d1c1d;
+  --bottom-tool: #1d1c1d;
 }
 
 .theme-dark {
@@ -145,5 +148,5 @@
   --color: #d0d1d2;
   --clear-message-limit: #d0d1d2;
   --send-disabled: transparent;
-  --bottom-tool:rgb(65,65,65)
+  --bottom-tool: rgb(65, 65, 65)
 }

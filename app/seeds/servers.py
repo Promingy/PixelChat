@@ -5,6 +5,7 @@ servers = [
     Server(
         owner_id = '1',
         name = "OmniPlay",
+        image_url = 'https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/OmniPlay.webp',
         description = "Step into OmniPlay, where gaming universes collide in a magnificent mess of pixels and power-ups!",
     ),
     Server(
