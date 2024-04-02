@@ -139,7 +139,7 @@ function SignupFormPage() {
         className="signup-form"
         encType="multipart/form-data"
       >
-        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" />
+        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" href='/' />
         <h1>Sign Up</h1>
         <p>
           We suggest using the email address you <b>use at work</b>.
