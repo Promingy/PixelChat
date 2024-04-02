@@ -54,7 +54,7 @@ export default function HomePage() {
   return (
     <>
       <div className="home-header">
-        <img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' />
+        <Link to='/' className="home-link"><img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' /></Link>
         <div className="signin-header">
           <h1>Sign in to PixelChat</h1>
         </div>
@@ -67,7 +67,7 @@ export default function HomePage() {
           <Link to="/login">
             <button className="large-purple-button">Sign In With Email</button>
           </Link>
-          <a href={`${import.meta.env.BASE_URL}/api/auth/oauth_login`} className="demo-user-wrapper">
+          <a href={`/api/auth/oauth_login`} className="demo-user-wrapper">
             <button className="large-white-button">
               <img className="google-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" />
               <p>Continue with Google</p>
