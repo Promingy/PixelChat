@@ -45,3 +45,8 @@
   /* display: block; */
   visibility: visible;
 }
+
+.home-link {
+  margin: 0;
+  padding: 0;
+}

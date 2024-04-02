@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./LoginFormPage.css";
 
 function LoginFormPage() {
@@ -72,7 +72,7 @@ function LoginFormPage() {
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit} className="login-form">
-        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" href='/' />
+        <Link to='/' className="home-link"><img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' /></Link>
         <h1>Sign in to PixelChat</h1>
 
         <label>
