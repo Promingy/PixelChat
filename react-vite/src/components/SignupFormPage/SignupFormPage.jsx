@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
 import { uploadImage } from "../../redux/server";
 import TextareaAutosize from "react-textarea-autosize";
@@ -139,7 +139,7 @@ function SignupFormPage() {
         className="signup-form"
         encType="multipart/form-data"
       >
-        <img className="home-logo" src="https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png" />
+        <Link to='/' className="home-link"><img className="home-logo" src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/Slack-Clone-Logo.png' /></Link>
         <h1>Sign Up</h1>
         <p>
           We suggest using the email address you <b>use at work</b>.

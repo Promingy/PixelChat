@@ -226,7 +226,7 @@ export default function ServerPage({ type }) {
                 case "newUser": {
                     switch (obj.method) {
                         case "POST": {
-                            dispatch(addUserToServer(obj.serverId, obj.user.id))
+                            dispatch(addUserToServer(obj.serverId, obj.user))
                             break
                         }
                     }
