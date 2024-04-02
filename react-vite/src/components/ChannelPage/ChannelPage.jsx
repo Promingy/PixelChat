@@ -289,22 +289,23 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
             ></div>
             <div className="channel-page-wrapper">
                 <div className="channel-page-button-container">
-                    <OpenModalButton
-                        buttonText={
-                            <div className="channel-page-first-button">
-                                {room ? (
-                                    sessionUser.id === room.owner_1_id ? (
-                                        <div className="first-button-wrapper">
-                                            <img
-                                                className="top-profile-pic"
-                                                src={users[room.owner_2_id].image_url}
-                                                alt="User Icon"
-                                            ></img>
-                                            <p>
-                                                {users[room.owner_2_id].first_name}{" "}
-                                                {users[room.owner_2_id].last_name}
-                                            </p>
-                                        </div>
+                    <button onClick={() => {
+                                    openUserModal(sessionUser?.id === room?.owner_1_id ? room?.owner_2_id : room?.owner_1_id);
+                                }}>
+                        <div className="channel-page-first-button">
+                            {room ? (
+                                sessionUser.id === room.owner_1_id ? (
+                                    <div className="first-button-wrapper">
+                                        <img
+                                            className="top-profile-pic"
+                                            src={users[room.owner_2_id].image_url}
+                                            alt="User Icon"
+                                        ></img>
+                                        <p>
+                                            {users[room.owner_2_id].first_name}{" "}
+                                            {users[room.owner_2_id].last_name}
+                                        </p>
+                                    </div>
                                     ) : (
                                         <div className="first-button-wrapper">
                                             <img
@@ -321,13 +322,9 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                                 ) : (
                                     <p>No Room</p>
                                 )}
-                                <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
-                            </div>
-                        }
-                    // modalComponent={
-                    //   <ChannelPopupModal activeProp={1} socket={socket} />
-                    // }
-                    />
+                            <i className="fa-solid fa-angle-down channel-page-button-arrow"></i>
+                        </div>
+                    </button>
                 </div>
                 <div className="all-messages-container" id="all-messages-container">
                     {generate_message_layout()}
