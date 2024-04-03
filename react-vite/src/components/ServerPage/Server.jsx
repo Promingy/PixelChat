@@ -78,7 +78,11 @@ export default function ServerPage({ type }) {
 
     // Eager load all data for the server
     useEffect(() => {
-        if (!server.channels) dispatch(loadServer(serverId, sessionUser.id))
+        if (!server.channels) {
+            dispatch(loadServer(serverId, sessionUser.id)).then(data => {
+                if (data.message) return navigate('/redirect')
+            })
+        }
         dispatch(loadAllServers())
     }, [dispatch, serverId, sessionUser, server?.channels])
 
@@ -87,7 +91,7 @@ export default function ServerPage({ type }) {
         if (storedTheme) {
             dispatch(setTheme(storedTheme))
         }
-    }, [dispatch]); //possibly remove the dependency if it causes breaking issues
+    }, [dispatch]);
 
 
     useEffect(() => {
