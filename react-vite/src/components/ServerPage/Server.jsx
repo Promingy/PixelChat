@@ -78,9 +78,9 @@ export default function ServerPage({ type }) {
 
     // Eager load all data for the server
     useEffect(() => {
-        dispatch(loadServer(serverId, sessionUser.id))
+        if (!server.channels) dispatch(loadServer(serverId, sessionUser.id))
         dispatch(loadAllServers())
-    }, [dispatch, serverId, sessionUser])
+    }, [dispatch, serverId, sessionUser, server?.channels])
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -226,7 +226,9 @@ export default function ServerPage({ type }) {
                 case "newUser": {
                     switch (obj.method) {
                         case "POST": {
-                            dispatch(addUserToServer(obj.serverId, obj.user))
+                            if (!server.users[obj.user.id]) {
+                                dispatch(addUserToServer(obj.serverId, obj.user))
+                            }
                             break
                         }
                     }
@@ -239,8 +241,6 @@ export default function ServerPage({ type }) {
         socket.emit("join", { room: server.id, user: payload })
 
         const directPayload = {
-            type: "newUser",
-            method: "POST",
             room: `user-${sessionUser.id}`,
             user: sessionUser,
             serverId: serverId
@@ -253,7 +253,7 @@ export default function ServerPage({ type }) {
             socket.emit("leave", { room: `user-${sessionUser.id}` })
             socket.disconnect()
         })
-    }, [server?.id, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
+    }, [server?.id, server?.users, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
 
 
     function handleMouseClick(e) {
