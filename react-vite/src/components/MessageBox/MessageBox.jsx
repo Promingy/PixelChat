@@ -35,9 +35,9 @@ export default function MessageBox({ socket, channelId, serverId, type, otherUse
     toolbar: {
       container: [
         ["bold", "italic", "strike"],
-        ["link"],
-        [{ list: "ordered" }, { list: "bullet" }],
+        // [{ list: "ordered" }, { list: "bullet" }],
         ["code-block"],
+        ["link"],
       ],
     },
   };
