@@ -74,13 +74,9 @@ export default function OuterNavbar({ socket, showNavBar, openUserModal }) {
   };
 
   const navigateToServer = async (serverId) => {
-    const preloadServer = async (servId) => {
-      const serv = await dispatch(loadServer(servId));
-      return serv;
-    };
-    const server = await preloadServer(serverId);
+    const server = await dispatch(loadServer(serverId, sessionUser.id));
     const channelId = Object.values(server.channels)[0].id;
-    return navigate(`/main/servers/${server.id}/channels/${channelId}`);
+    return navigate(`/main/servers/${serverId}/channels/${channelId}`);
   };
 
   return (

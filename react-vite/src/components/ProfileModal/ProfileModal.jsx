@@ -76,7 +76,7 @@ export default function Profile({ animation, userId, socket }) {
         <h2>
           {user?.first_name || sessionUser.first_name}&nbsp;{user?.last_name || sessionUser.last_name}
         </h2>
-        <div className='profile-location'><BsFillPinMapFill />{user?.location || sessionUser.location}</div>
+        <div className='profile-location'><BsFillPinMapFill />{user?.location || 'N/A'}</div>
         <div className='profile-popup-buttons'>
           {userId !== sessionUser.id && <button id='profile-direct-message' onClick={sendMessage}><LuMessageCircle />Message</button>}
         </div>
@@ -89,13 +89,13 @@ export default function Profile({ animation, userId, socket }) {
           </div>
           <div className="flex-item">
             <div className='email-header'>Email Address</div>
-            <p>{user?.email || sessionUser.email}</p>
+            <p>{user?.email || "N/A"}</p>
           </div>
         </div>
       </div>
       <div className="profile-bottom">
         <h4>About Me</h4>
-        <p>{user?.bio || sessionUser.bio}</p>
+        <p>{user?.bio || "This user has not set a bio"}</p>
       </div>
     </div>
   );
