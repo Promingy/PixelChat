@@ -159,3 +159,11 @@
 .server-popup-delete-button>button:active {
     background-color: #F1F1F1
 }
+
+.server-popup-image {
+    border-bottom: none;
+}
+
+.server-popup-image>button {
+    border-radius: 0px 0px 10px 10px;
+}
