@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ export default function OuterNavbar({ socket, showNavBar, openUserModal }) {
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
+  const { serverId } = useParams()
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
   const ulClassName1 = showMenu1 ? "" : " hidden";
@@ -84,7 +85,7 @@ export default function OuterNavbar({ socket, showNavBar, openUserModal }) {
       <div className="outer-navbar-top">
         {Object.values(sessionUser.servers).map((server) => (
           <div onClick={() => navigateToServer(server.id)} key={server.id}>
-            <div className="server-img-wrapper">
+            <div className={`server-img-wrapper${server.id == serverId ? ' selected-server' : ''}`}>
               <img src={server.image_url} title={server?.name} />
             </div>
           </div>
