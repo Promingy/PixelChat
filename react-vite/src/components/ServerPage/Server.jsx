@@ -84,7 +84,7 @@ export default function ServerPage({ type }) {
             })
         }
         dispatch(loadAllServers())
-    }, [dispatch, serverId, sessionUser, server?.channels])
+    }, [dispatch, serverId, sessionUser, server?.channels, navigate])
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
