@@ -1,6 +1,6 @@
 # <img src='https://pixel-chat-image-bucket.s3.us-west-1.amazonaws.com/pixelchat-logo.png' width="150" height="40" />
 
-PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://slack-deploy.onrender.com/)
+PixelChat is a website clone of [Slack](https://www.slack.com/) populated with content inspired by famous video game characters like Mario, Minecraft Steve, Kirby, and Zelda. PixelChat allows users to create and join unique servers and channels designed to host fun conversations between server members. To help express themselves, users can customize their profile and add emoji reactions to any message they like! [Click here to view the PixelChat Live Site](https://pixelchat-xrvx.onrender.com/)
 
 ## 🌐 Wiki Links
 
@@ -51,12 +51,17 @@ This is a concise list of technologies utilized to develop this project.
    2. Create a new S3 bucket for your application (to store your files). Refer to [Getting started with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html) for more details.
    3. Create a user to access the S3 bucket (this user has the necessary credentials) If you accidentally expose these credentials, you should delete the user's credentials and create new credentials. Refer to [Creating an IAM user in your AWS account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) for more details.
 
-6. This project organizes all tables inside the `flask_schema` schema, defined
+6. Make sure the Google OAuth credentials (client id and client secret) are in the __.env__ file. If you don't have Google OAuth credentials,
+   1. Set up an account on [Google Cloud](https://cloud.google.com/)
+   2. Create a new Google Cloud project for your application. Refer to [Create a Google Cloud project](https://developers.google.com/workspace/guides/create-project) for more details.
+   3. Register your app and create credentials. If you accidentally expose these credentials, you should delete the user's credentials and create new credentials. Refer to the instructions listed under the "Register your app" bullet point in the following [Oauth Walkthrough](https://github.com/bkieselEducational/Oauth) for more details.
+
+7. This project organizes all tables inside the `flask_schema` schema, defined
    by the `SCHEMA` environment variable.  Replace the value for
    `SCHEMA` with a unique name, **making sure you use the snake_case
    convention.**
 
-7. Get into your pipenv, migrate your database, seed your database, and run your
+8. Get into your pipenv, migrate your database, seed your database, and run your
    Flask app:
 
    ```bash
@@ -75,7 +80,7 @@ This is a concise list of technologies utilized to develop this project.
    flask run
    ```
 
-8. To run the React frontend in development, `cd` into the __react-vite__
+9. To run the React frontend in development, `cd` into the __react-vite__
    directory and run `npm i` to install dependencies. Finally, run `npm run dev` to open the application on the local browser.
 
 ## 📷 Application screenshots:
@@ -346,9 +351,3 @@ You will be able to test the features without signing up by clicking on one of t
          <>
     )
   ```
-
-## ⏩ Future Features
-* Direct Messages
-* Text toolbar
-* Search
-* Oauth
