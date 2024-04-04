@@ -299,7 +299,7 @@ export default function MessageTile({ message, user, channelId, socket, type, ot
                                 onClick={() => {
                                     openUserModal(message.user_id)
                                 }}>
-                                <p className="message-owner" id={message.id}>{user?.username}</p>
+                                <p className="message-owner" id={message.id}>{`${user?.first_name} ${user?.last_name}`}</p>
                                 <p className="message-post-time" id={message.id}>{hours}:{minutes}</p>
                                 <p className="message-post-time" id={message.id}>{amPm}</p>
                             </div>
