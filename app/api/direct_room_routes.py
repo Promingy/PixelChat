@@ -25,7 +25,7 @@ def inf_scroll_get_messages(roomId):
         except:
             offset = 15
 
-        return direct_room.to_dict(messages=True, offset=offset)
+        return direct_room.to_dict(direct_messages=True, offset=offset)
 
     return {"message": "Channel Not Found"}, 404
 
