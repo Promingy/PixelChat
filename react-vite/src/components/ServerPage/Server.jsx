@@ -257,7 +257,7 @@ export default function ServerPage({ type }) {
             socket.emit("leave", { room: `user-${sessionUser.id}` })
             socket.disconnect()
         })
-    }, [server?.id, server?.users, dispatch, sessionUser, navigate, serverId]) // possibly remove navigate and serverId IF it causes issues
+    }, [server?.id, server?.users, dispatch, sessionUser, serverId]) // possibly remove serverId if it causes issues
 
 
     function handleMouseClick(e) {
