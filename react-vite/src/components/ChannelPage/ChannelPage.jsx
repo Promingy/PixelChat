@@ -371,7 +371,7 @@ export default function ChannelPage({ socket, serverId, setShowNavBar, showNavBa
                             hasMore={!(Object.values(directMessages).length % 15)}
                             next={() => {
                                 dispatch(
-                                    getDirectMessages(channelId, `offset=${offset}`, channelId)
+                                    getDirectMessages(room.id, `offset=${offset}`, channelId)
                                 );
                                 setOffset((prevOffset) => (prevOffset += 15));
                             }}
