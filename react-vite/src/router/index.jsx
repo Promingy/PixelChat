@@ -22,13 +22,11 @@ export const router = createBrowserRouter(
       <Route path="/join-server" element={<JoinServer />} />
       <Route path='/redirect' element={<Redirect />} />
       <Route path="/main" element={<MainPage />}>
-        <Route path="servers/:serverId/channels/:channelId" element={<ServerPage type={"channel"} />}>
-        </Route>
-        <Route path="servers/:serverId/direct-messages/:channelId" element={<ServerPage type={"message"} />}>
-        </Route>
-        <Route path="servers/:serverId/direct-messages/new" element={<ServerPage type={"new"} />}>
-        </Route>
+        <Route path="servers/:serverId/channels/:channelId" element={<ServerPage type={"channel"} />} />
+        <Route path="servers/:serverId/direct-messages/:channelId" element={<ServerPage type={"message"} />} />
+        <Route path="servers/:serverId/direct-messages/new" element={<ServerPage type={"new"} />} />
       </Route>
+      <Route path="/oauth-popup-handler" element={<OAuthPopup />} />
       <Route path="*" element={<Redirect />} />
     </Route>
   )

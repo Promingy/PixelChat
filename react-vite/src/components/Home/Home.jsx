@@ -16,6 +16,29 @@ export default function HomePage() {
     }
   }, [sessionUser, navigate]);
 
+  useEffect(() => {
+    const messageHandler = msg => {
+      if (msg.data == 'oauth-success'){
+        window.href.reload()
+        navigate('/landing')
+      }
+    }
+
+    window.addEventListener('message', messageHandler)
+
+    return () => window.removeEventListener('message', messageHandler)
+  }, []);
+
+  const handleOAuthClick = (e) => {
+    e.preventDefault();
+
+    const url = "https://pixelchat.corbinainsworth.com/api/auth/oauth_login";
+    const title = "OAuth";
+    const params = "popup=yes,scrollbars=yes,resizable=yes,width=400,height=400,toolbar=no,location=no";
+
+    window.open(url, title, params);
+  }
+
   const demoUserLogin = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
@@ -67,7 +90,8 @@ export default function HomePage() {
           <Link to="/login">
             <button className="large-purple-button">Sign In With Email</button>
           </Link>
-          <a href={`/api/auth/oauth_login`} className="demo-user-wrapper">
+          {/* <a href={`/api/auth/oauth_login`} className="demo-user-wrapper"> */}
+          <a href="#" onClick={handleOAuthClick} className="demo-user-wrapper">
             <button className="large-white-button">
               <img className="google-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" />
               <p>Continue with Google</p>
