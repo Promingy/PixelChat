@@ -10,6 +10,7 @@ import ServerPage from '../components/ServerPage'
 import ServerCreationForm from "../components/ServerCreationForm";
 import JoinServer from '../components/JoinServer';
 import Redirect from '../components/Redirect';
+import OAuthPopup from '../components/OAuthPopup';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
