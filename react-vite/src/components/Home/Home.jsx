@@ -19,8 +19,7 @@ export default function HomePage() {
   useEffect(() => {
     const messageHandler = msg => {
       if (msg.data == 'oauth-success'){
-        window.href.reload()
-        navigate('/landing')
+        window.location.reload()
       }
     }
 
